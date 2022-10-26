@@ -1,0 +1,1174 @@
+[2022-10-11 06:35:43] local.INFO:   
+[2022-10-11 06:35:44] local.INFO:   
+[2022-10-11 06:35:44] local.INFO:   
+[2022-10-11 06:35:46] local.INFO:   
+[2022-10-11 06:35:51] local.INFO:   
+[2022-10-11 06:35:51] local.INFO:   
+[2022-10-11 06:35:51] local.INFO:   
+[2022-10-11 06:35:51] local.INFO:   
+[2022-10-11 06:35:51] local.INFO:   
+[2022-10-11 06:35:51] local.INFO:   
+[2022-10-11 06:35:51] local.INFO:   
+[2022-10-11 06:35:51] local.INFO:   
+[2022-10-11 06:35:52] local.INFO:   
+[2022-10-11 06:35:52] local.INFO:   
+[2022-10-11 06:35:52] local.INFO:   
+[2022-10-11 06:35:52] local.INFO:   
+[2022-10-11 06:38:21] local.INFO:   
+[2022-10-11 06:38:21] local.INFO:   
+[2022-10-11 06:38:21] local.INFO:   
+[2022-10-11 06:38:21] local.INFO:   
+[2022-10-11 06:38:21] local.INFO:   
+[2022-10-11 06:38:21] local.INFO:   
+[2022-10-11 06:38:21] local.INFO:   
+[2022-10-11 06:38:22] local.INFO:   
+[2022-10-11 06:38:22] local.INFO:   
+[2022-10-11 06:38:22] local.INFO:   
+[2022-10-11 06:38:22] local.INFO:   
+[2022-10-11 06:38:22] local.INFO:   
+[2022-10-11 06:38:22] local.ERROR: Trying to access array offset on value of type null {"exception":"[object] (ErrorException(code: 0): Trying to access array offset on value of type null at C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\AuthController.php:113)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\AuthController.php(113): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to acces...', 'C:\\\\source\\\\aveca...', 113, Array)
+#1 [internal function]: App\\Http\\Controllers\\AuthController->getPermissions(Object(App\\Http\\Requests\\LoginRequest))
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#3 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getPermissions', Array)
+#4 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\AuthController), 'getPermissions')
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#7 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#50 {main}
+"} 
+[2022-10-11 06:38:22] local.INFO:   
+[2022-10-11 06:38:22] local.INFO:   
+[2022-10-11 06:38:22] local.ERROR: Trying to access array offset on value of type null {"exception":"[object] (ErrorException(code: 0): Trying to access array offset on value of type null at C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\AuthController.php:113)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\AuthController.php(113): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to acces...', 'C:\\\\source\\\\aveca...', 113, Array)
+#1 [internal function]: App\\Http\\Controllers\\AuthController->getPermissions(Object(App\\Http\\Requests\\LoginRequest))
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#3 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getPermissions', Array)
+#4 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\AuthController), 'getPermissions')
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#7 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#50 {main}
+"} 
+[2022-10-11 06:38:33] local.INFO:   
+[2022-10-11 06:38:33] local.INFO:   
+[2022-10-11 06:38:33] local.INFO:   
+[2022-10-11 06:38:41] local.INFO:   
+[2022-10-11 06:38:41] local.INFO:   
+[2022-10-11 06:38:41] local.INFO:   
+[2022-10-11 06:38:41] local.INFO:   
+[2022-10-11 06:38:41] local.INFO:   
+[2022-10-11 06:38:41] local.INFO:   
+[2022-10-11 06:38:41] local.INFO:   
+[2022-10-11 06:38:42] local.INFO:   
+[2022-10-11 06:38:42] local.INFO:   
+[2022-10-11 06:38:43] local.INFO:   
+[2022-10-11 06:38:43] local.INFO:   
+[2022-10-11 06:38:44] local.INFO:   
+[2022-10-11 06:38:44] local.INFO:   
+[2022-10-11 06:38:44] local.INFO:   
+[2022-10-11 06:38:44] local.INFO:   
+[2022-10-11 06:38:44] local.INFO:   
+[2022-10-11 06:38:44] local.INFO:   
+[2022-10-11 06:38:45] local.INFO:   
+[2022-10-11 06:38:45] local.INFO:   
+[2022-10-11 06:38:45] local.INFO:   
+[2022-10-11 06:38:45] local.INFO:   
+[2022-10-11 06:38:45] local.INFO:   
+[2022-10-11 06:38:45] local.INFO:   
+[2022-10-11 06:38:45] local.INFO:   
+[2022-10-11 06:38:45] local.INFO: 3  
+[2022-10-11 06:38:45] local.INFO: arm_core  
+[2022-10-11 06:38:46] local.ERROR: SQLSTATE[HY000] [1049] Unknown database 'final' {"exception":"[object] (Doctrine\\DBAL\\Driver\\PDO\\Exception(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'final' at C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDO\\Exception.php:18, PDOException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'final' at C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDOConnection.php:40)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDOConnection.php(44): Doctrine\\DBAL\\Driver\\PDO\\Exception::new(Object(PDOException))
+#1 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(64): Doctrine\\DBAL\\Driver\\PDOConnection->__construct('mysql:host=127....', 'root', '', Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(43): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=127....', 'root', '', Array)
+#3 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=127....', Array, Array)
+#4 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(183): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(915): call_user_func(Object(Closure))
+#7 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(248): Illuminate\\Database\\Connection->getPdo()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(234): Illuminate\\Database\\DatabaseManager->refreshPdoConnections('mysql')
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(168): Illuminate\\Database\\DatabaseManager->reconnect('mysql')
+#10 [internal function]: Illuminate\\Database\\DatabaseManager->Illuminate\\Database\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(753): call_user_func(Object(Closure), Object(Illuminate\\Database\\MySqlConnection))
+#12 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\DBConnectionController.php(174): Illuminate\\Database\\Connection->reconnect()
+#13 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(25): App\\Http\\Controllers\\DBConnectionController->connectDB('3')
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#36 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#38 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#39 {main}
+"} 
+[2022-10-11 06:38:46] local.ERROR: SQLSTATE[HY000] [1049] Unknown database 'final' {"exception":"[object] (Doctrine\\DBAL\\Driver\\PDO\\Exception(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'final' at C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDO\\Exception.php:18, PDOException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'final' at C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDOConnection.php:40)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDOConnection.php(44): Doctrine\\DBAL\\Driver\\PDO\\Exception::new(Object(PDOException))
+#1 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(64): Doctrine\\DBAL\\Driver\\PDOConnection->__construct('mysql:host=127....', 'root', '', Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(43): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=127....', 'root', '', Array)
+#3 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=127....', Array, Array)
+#4 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(183): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(915): call_user_func(Object(Closure))
+#7 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(248): Illuminate\\Database\\Connection->getPdo()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(234): Illuminate\\Database\\DatabaseManager->refreshPdoConnections('mysql')
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(168): Illuminate\\Database\\DatabaseManager->reconnect('mysql')
+#10 [internal function]: Illuminate\\Database\\DatabaseManager->Illuminate\\Database\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(753): call_user_func(Object(Closure), Object(Illuminate\\Database\\MySqlConnection))
+#12 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\DBConnectionController.php(174): Illuminate\\Database\\Connection->reconnect()
+#13 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(25): App\\Http\\Controllers\\DBConnectionController->connectDB('3')
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#36 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#38 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#39 {main}
+"} 
+[2022-10-11 06:38:46] local.INFO: 3  
+[2022-10-11 06:38:46] local.INFO: arm_core  
+[2022-10-11 06:38:46] local.ERROR: SQLSTATE[HY000] [1049] Unknown database 'final' {"exception":"[object] (Doctrine\\DBAL\\Driver\\PDO\\Exception(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'final' at C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDO\\Exception.php:18, PDOException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'final' at C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDOConnection.php:40)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDOConnection.php(44): Doctrine\\DBAL\\Driver\\PDO\\Exception::new(Object(PDOException))
+#1 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(64): Doctrine\\DBAL\\Driver\\PDOConnection->__construct('mysql:host=127....', 'root', '', Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(43): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=127....', 'root', '', Array)
+#3 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=127....', Array, Array)
+#4 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(183): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(915): call_user_func(Object(Closure))
+#7 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(248): Illuminate\\Database\\Connection->getPdo()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(234): Illuminate\\Database\\DatabaseManager->refreshPdoConnections('mysql')
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(168): Illuminate\\Database\\DatabaseManager->reconnect('mysql')
+#10 [internal function]: Illuminate\\Database\\DatabaseManager->Illuminate\\Database\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(753): call_user_func(Object(Closure), Object(Illuminate\\Database\\MySqlConnection))
+#12 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\DBConnectionController.php(174): Illuminate\\Database\\Connection->reconnect()
+#13 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(25): App\\Http\\Controllers\\DBConnectionController->connectDB('3')
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#36 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#38 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#39 {main}
+"} 
+[2022-10-11 06:38:46] local.ERROR: SQLSTATE[HY000] [1049] Unknown database 'final' {"exception":"[object] (Doctrine\\DBAL\\Driver\\PDO\\Exception(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'final' at C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDO\\Exception.php:18, PDOException(code: 1049): SQLSTATE[HY000] [1049] Unknown database 'final' at C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDOConnection.php:40)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\doctrine\\dbal\\lib\\Doctrine\\DBAL\\Driver\\PDOConnection.php(44): Doctrine\\DBAL\\Driver\\PDO\\Exception::new(Object(PDOException))
+#1 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(64): Doctrine\\DBAL\\Driver\\PDOConnection->__construct('mysql:host=127....', 'root', '', Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(43): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=127....', 'root', '', Array)
+#3 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=127....', Array, Array)
+#4 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(183): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(915): call_user_func(Object(Closure))
+#7 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(248): Illuminate\\Database\\Connection->getPdo()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(234): Illuminate\\Database\\DatabaseManager->refreshPdoConnections('mysql')
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseManager.php(168): Illuminate\\Database\\DatabaseManager->reconnect('mysql')
+#10 [internal function]: Illuminate\\Database\\DatabaseManager->Illuminate\\Database\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(753): call_user_func(Object(Closure), Object(Illuminate\\Database\\MySqlConnection))
+#12 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\DBConnectionController.php(174): Illuminate\\Database\\Connection->reconnect()
+#13 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(25): App\\Http\\Controllers\\DBConnectionController->connectDB('3')
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#36 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#38 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#39 {main}
+"} 
+[2022-10-11 06:38:46] local.INFO:   
+[2022-10-11 06:38:46] local.INFO:   
+[2022-10-11 06:39:17] local.INFO:   
+[2022-10-11 06:39:18] local.INFO:   
+[2022-10-11 06:39:18] local.INFO:   
+[2022-10-11 06:39:18] local.INFO:   
+[2022-10-11 06:39:18] local.INFO:   
+[2022-10-11 06:39:18] local.INFO:   
+[2022-10-11 06:39:18] local.INFO:   
+[2022-10-11 06:39:18] local.INFO:   
+[2022-10-11 06:39:18] local.INFO:   
+[2022-10-11 06:40:26] local.INFO:   
+[2022-10-11 06:40:26] local.INFO:   
+[2022-10-11 06:40:26] local.INFO:   
+[2022-10-11 06:40:26] local.INFO:   
+[2022-10-11 06:40:26] local.INFO:   
+[2022-10-11 06:40:26] local.INFO:   
+[2022-10-11 06:40:26] local.INFO:   
+[2022-10-11 06:40:27] local.INFO:   
+[2022-10-11 06:40:27] local.INFO:   
+[2022-10-11 06:53:53] local.INFO:   
+[2022-10-11 07:31:25] local.INFO:   
+[2022-10-11 07:31:26] local.INFO:   
+[2022-10-11 07:31:26] local.INFO:   
+[2022-10-11 07:31:26] local.INFO:   
+[2022-10-11 07:31:26] local.INFO:   
+[2022-10-11 07:31:26] local.INFO:   
+[2022-10-11 07:31:26] local.INFO:   
+[2022-10-11 07:31:26] local.INFO:   
+[2022-10-11 07:31:43] local.INFO:   
+[2022-10-11 07:31:43] local.INFO:   
+[2022-10-11 07:31:43] local.INFO:   
+[2022-10-11 07:31:43] local.INFO:   
+[2022-10-11 07:31:43] local.INFO:   
+[2022-10-11 07:31:43] local.INFO:   
+[2022-10-11 07:31:43] local.INFO:   
+[2022-10-11 07:31:43] local.INFO:   
+[2022-10-11 07:31:44] local.INFO:   
+[2022-10-11 07:31:56] local.INFO:   
+[2022-10-11 07:31:56] local.INFO:   
+[2022-10-11 07:31:56] local.INFO:   
+[2022-10-11 07:33:35] local.INFO:   
+[2022-10-11 07:33:35] local.INFO:   
+[2022-10-11 07:33:35] local.INFO:   
+[2022-10-11 07:33:36] local.INFO:   
+[2022-10-11 07:33:36] local.INFO:   
+[2022-10-11 07:33:36] local.INFO:   
+[2022-10-11 07:33:36] local.INFO:   
+[2022-10-11 07:33:36] local.INFO:   
+[2022-10-11 07:33:36] local.INFO:   
+[2022-10-11 07:33:36] local.INFO:   
+[2022-10-11 07:33:36] local.INFO:   
+[2022-10-11 07:52:24] local.INFO:   
+[2022-10-11 07:52:25] local.INFO:   
+[2022-10-11 07:52:25] local.INFO:   
+[2022-10-11 07:52:27] local.INFO:   
+[2022-10-11 07:52:27] local.INFO:   
+[2022-10-11 07:52:27] local.INFO:   
+[2022-10-11 07:52:28] local.INFO:   
+[2022-10-11 07:52:28] local.INFO:   
+[2022-10-11 07:52:28] local.INFO:   
+[2022-10-11 07:52:28] local.INFO: null  
+[2022-10-11 07:52:31] local.ERROR: Trying to access array offset on value of type null {"exception":"[object] (ErrorException(code: 0): Trying to access array offset on value of type null at C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\DBConnectionController.php:160)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\DBConnectionController.php(160): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to acces...', 'C:\\\\source\\\\aveca...', 160, Array)
+#1 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(25): App\\Http\\Controllers\\DBConnectionController->connectDB('null')
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#3 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#4 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#27 {main}
+"} 
+[2022-10-11 07:52:31] local.INFO:   
+[2022-10-11 07:52:31] local.INFO:   
+[2022-10-11 07:52:31] local.INFO:   
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:32] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php:106)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php(124): Tymon\\JWTAuth\\Manager->decode(Object(Tymon\\JWTAuth\\Token))
+#1 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\JWT.php(102): Tymon\\JWTAuth\\Manager->refresh(Object(Tymon\\JWTAuth\\Token), 'eyJ0eXAiOiJKV1Q...', false)
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(221): Tymon\\JWTAuth\\JWT->refresh('eyJ0eXAiOiJKV1Q...')
+#3 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\AuthController.php(62): Illuminate\\Support\\Facades\\Facade::__callStatic('refresh', Array)
+#4 [internal function]: App\\Http\\Controllers\\AuthController->verifytoken(Object(App\\Http\\Requests\\LoginRequest))
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('verifytoken', Array)
+#7 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\AuthController), 'verifytoken')
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#11 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#27 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#50 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#51 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#52 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#53 {main}
+"} 
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:32] local.INFO:   
+[2022-10-11 07:52:33] local.ERROR: Type error: Argument 1 passed to Lcobucci\JWT\Token\Builder::relatedTo() must be of the type string, array given, called in C:\source\avecarm\backend\vendor\tymon\jwt-auth\src\Providers\JWT\Lcobucci.php on line 163 {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Type error: Argument 1 passed to Lcobucci\\JWT\\Token\\Builder::relatedTo() must be of the type string, array given, called in C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php on line 163 at C:\\source\\avecarm\\backend\\vendor\\lcobucci\\jwt\\src\\Token\\Builder.php:68)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(163): Lcobucci\\JWT\\Token\\Builder->relatedTo(Array)
+#1 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(87): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->getBuilderFromClaims(Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php(82): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->encode(Array)
+#3 [internal function]: Tymon\\JWTAuth\\Manager->encode(Object(Tymon\\JWTAuth\\Payload))
+#4 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\JWT.php(400): call_user_func_array(Array, Array)
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(221): Tymon\\JWTAuth\\JWT->__call('encode', Array)
+#6 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\Userregister.php(37): Illuminate\\Support\\Facades\\Facade::__callStatic('encode', Array)
+#7 [internal function]: App\\Http\\Controllers\\Userregister->getroles()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getroles', Array)
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Userregister), 'getroles')
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#53 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#54 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#55 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#56 {main}
+"} 
+[2022-10-11 07:52:39] local.INFO:   
+[2022-10-11 07:52:39] local.INFO:   
+[2022-10-11 07:52:39] local.INFO:   
+[2022-10-11 07:52:39] local.INFO: null  
+[2022-10-11 07:52:40] local.ERROR: Trying to access array offset on value of type null {"exception":"[object] (ErrorException(code: 0): Trying to access array offset on value of type null at C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\DBConnectionController.php:160)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\DBConnectionController.php(160): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to acces...', 'C:\\\\source\\\\aveca...', 160, Array)
+#1 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(25): App\\Http\\Controllers\\DBConnectionController->connectDB('null')
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#3 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#4 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#27 {main}
+"} 
+[2022-10-11 07:52:40] local.INFO:   
+[2022-10-11 07:52:40] local.INFO:   
+[2022-10-11 07:52:40] local.INFO:   
+[2022-10-11 07:52:40] local.INFO:   
+[2022-10-11 07:52:40] local.INFO:   
+[2022-10-11 07:52:40] local.INFO:   
+[2022-10-11 07:52:40] local.INFO:   
+[2022-10-11 07:52:40] local.INFO:   
+[2022-10-11 07:52:44] local.INFO:   
+[2022-10-11 07:52:44] local.INFO:   
+[2022-10-11 07:52:44] local.INFO:   
+[2022-10-11 07:52:44] local.INFO:   
+[2022-10-11 07:52:44] local.INFO:   
+[2022-10-11 07:52:44] local.INFO:   
+[2022-10-11 07:52:44] local.INFO:   
+[2022-10-11 07:52:44] local.ERROR: Type error: Argument 1 passed to Lcobucci\JWT\Token\Builder::relatedTo() must be of the type string, array given, called in C:\source\avecarm\backend\vendor\tymon\jwt-auth\src\Providers\JWT\Lcobucci.php on line 163 {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Type error: Argument 1 passed to Lcobucci\\JWT\\Token\\Builder::relatedTo() must be of the type string, array given, called in C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php on line 163 at C:\\source\\avecarm\\backend\\vendor\\lcobucci\\jwt\\src\\Token\\Builder.php:68)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(163): Lcobucci\\JWT\\Token\\Builder->relatedTo(Array)
+#1 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(87): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->getBuilderFromClaims(Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php(82): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->encode(Array)
+#3 [internal function]: Tymon\\JWTAuth\\Manager->encode(Object(Tymon\\JWTAuth\\Payload))
+#4 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\JWT.php(400): call_user_func_array(Array, Array)
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(221): Tymon\\JWTAuth\\JWT->__call('encode', Array)
+#6 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\Userregister.php(37): Illuminate\\Support\\Facades\\Facade::__callStatic('encode', Array)
+#7 [internal function]: App\\Http\\Controllers\\Userregister->getroles()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getroles', Array)
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Userregister), 'getroles')
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#53 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#54 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#55 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#56 {main}
+"} 
+[2022-10-11 07:52:44] local.INFO:   
+[2022-10-11 07:52:45] local.INFO:   
+[2022-10-11 07:52:45] local.INFO:   
+[2022-10-11 07:52:45] local.INFO:   
+[2022-10-11 07:54:20] local.INFO:   
+[2022-10-11 07:54:20] local.INFO:   
+[2022-10-11 07:54:20] local.INFO:   
+[2022-10-11 07:54:20] local.INFO:   
+[2022-10-11 07:54:20] local.INFO:   
+[2022-10-11 07:54:20] local.INFO:   
+[2022-10-11 07:54:20] local.INFO:   
+[2022-10-11 07:54:20] local.INFO:   
+[2022-10-11 07:54:21] local.INFO:   
+[2022-10-11 07:54:21] local.INFO:   
+[2022-10-11 07:54:21] local.ERROR: Type error: Argument 1 passed to Lcobucci\JWT\Token\Builder::relatedTo() must be of the type string, array given, called in C:\source\avecarm\backend\vendor\tymon\jwt-auth\src\Providers\JWT\Lcobucci.php on line 163 {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Type error: Argument 1 passed to Lcobucci\\JWT\\Token\\Builder::relatedTo() must be of the type string, array given, called in C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php on line 163 at C:\\source\\avecarm\\backend\\vendor\\lcobucci\\jwt\\src\\Token\\Builder.php:68)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(163): Lcobucci\\JWT\\Token\\Builder->relatedTo(Array)
+#1 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(87): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->getBuilderFromClaims(Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php(82): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->encode(Array)
+#3 [internal function]: Tymon\\JWTAuth\\Manager->encode(Object(Tymon\\JWTAuth\\Payload))
+#4 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\JWT.php(400): call_user_func_array(Array, Array)
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(221): Tymon\\JWTAuth\\JWT->__call('encode', Array)
+#6 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\Userregister.php(37): Illuminate\\Support\\Facades\\Facade::__callStatic('encode', Array)
+#7 [internal function]: App\\Http\\Controllers\\Userregister->getroles()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getroles', Array)
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Userregister), 'getroles')
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#53 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#54 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#55 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#56 {main}
+"} 
+[2022-10-11 07:54:21] local.INFO:   
+[2022-10-11 07:54:21] local.INFO:   
+[2022-10-11 07:54:21] local.INFO:   
+[2022-10-11 07:54:21] local.INFO:   
+[2022-10-11 07:54:21] local.INFO:   
+[2022-10-11 07:54:21] local.INFO:   
+[2022-10-11 07:54:22] local.INFO:   
+[2022-10-11 07:54:22] local.INFO:   
+[2022-10-11 08:14:56] local.INFO:   
+[2022-10-11 08:14:56] local.INFO:   
+[2022-10-11 08:14:57] local.INFO:   
+[2022-10-11 08:14:57] local.INFO:   
+[2022-10-11 08:14:57] local.INFO:   
+[2022-10-11 08:14:57] local.INFO:   
+[2022-10-11 08:14:57] local.INFO:   
+[2022-10-11 08:14:57] local.INFO:   
+[2022-10-11 08:14:57] local.INFO:   
+[2022-10-11 08:14:58] local.INFO:   
+[2022-10-11 08:14:58] local.INFO:   
+[2022-10-11 08:14:58] local.INFO:   
+[2022-10-11 08:14:58] local.ERROR: Type error: Argument 1 passed to Lcobucci\JWT\Token\Builder::relatedTo() must be of the type string, array given, called in C:\source\avecarm\backend\vendor\tymon\jwt-auth\src\Providers\JWT\Lcobucci.php on line 163 {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Type error: Argument 1 passed to Lcobucci\\JWT\\Token\\Builder::relatedTo() must be of the type string, array given, called in C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php on line 163 at C:\\source\\avecarm\\backend\\vendor\\lcobucci\\jwt\\src\\Token\\Builder.php:68)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(163): Lcobucci\\JWT\\Token\\Builder->relatedTo(Array)
+#1 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(87): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->getBuilderFromClaims(Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php(82): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->encode(Array)
+#3 [internal function]: Tymon\\JWTAuth\\Manager->encode(Object(Tymon\\JWTAuth\\Payload))
+#4 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\JWT.php(400): call_user_func_array(Array, Array)
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(221): Tymon\\JWTAuth\\JWT->__call('encode', Array)
+#6 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\Userregister.php(37): Illuminate\\Support\\Facades\\Facade::__callStatic('encode', Array)
+#7 [internal function]: App\\Http\\Controllers\\Userregister->getroles()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getroles', Array)
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Userregister), 'getroles')
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#53 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#54 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#55 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#56 {main}
+"} 
+[2022-10-11 08:14:58] local.INFO:   
+[2022-10-11 08:14:58] local.INFO:   
+[2022-10-11 08:14:58] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.INFO:   
+[2022-10-11 08:15:11] local.ERROR: Type error: Argument 1 passed to Lcobucci\JWT\Token\Builder::relatedTo() must be of the type string, array given, called in C:\source\avecarm\backend\vendor\tymon\jwt-auth\src\Providers\JWT\Lcobucci.php on line 163 {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Type error: Argument 1 passed to Lcobucci\\JWT\\Token\\Builder::relatedTo() must be of the type string, array given, called in C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php on line 163 at C:\\source\\avecarm\\backend\\vendor\\lcobucci\\jwt\\src\\Token\\Builder.php:68)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(163): Lcobucci\\JWT\\Token\\Builder->relatedTo(Array)
+#1 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(87): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->getBuilderFromClaims(Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php(82): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->encode(Array)
+#3 [internal function]: Tymon\\JWTAuth\\Manager->encode(Object(Tymon\\JWTAuth\\Payload))
+#4 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\JWT.php(400): call_user_func_array(Array, Array)
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(221): Tymon\\JWTAuth\\JWT->__call('encode', Array)
+#6 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\Userregister.php(37): Illuminate\\Support\\Facades\\Facade::__callStatic('encode', Array)
+#7 [internal function]: App\\Http\\Controllers\\Userregister->getroles()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getroles', Array)
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Userregister), 'getroles')
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#53 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#54 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#55 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#56 {main}
+"} 
+[2022-10-11 08:15:12] local.INFO:   
+[2022-10-11 08:15:12] local.INFO:   
+[2022-10-11 08:15:12] local.INFO:   
+[2022-10-11 08:15:12] local.INFO:   
+[2022-10-11 08:15:12] local.INFO:   
+[2022-10-11 08:29:09] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:37] local.ERROR: Type error: Argument 1 passed to Lcobucci\JWT\Token\Builder::relatedTo() must be of the type string, array given, called in C:\source\avecarm\backend\vendor\tymon\jwt-auth\src\Providers\JWT\Lcobucci.php on line 163 {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Type error: Argument 1 passed to Lcobucci\\JWT\\Token\\Builder::relatedTo() must be of the type string, array given, called in C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php on line 163 at C:\\source\\avecarm\\backend\\vendor\\lcobucci\\jwt\\src\\Token\\Builder.php:68)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(163): Lcobucci\\JWT\\Token\\Builder->relatedTo(Array)
+#1 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(87): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->getBuilderFromClaims(Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php(82): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->encode(Array)
+#3 [internal function]: Tymon\\JWTAuth\\Manager->encode(Object(Tymon\\JWTAuth\\Payload))
+#4 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\JWT.php(400): call_user_func_array(Array, Array)
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(221): Tymon\\JWTAuth\\JWT->__call('encode', Array)
+#6 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\Userregister.php(37): Illuminate\\Support\\Facades\\Facade::__callStatic('encode', Array)
+#7 [internal function]: App\\Http\\Controllers\\Userregister->getroles()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getroles', Array)
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Userregister), 'getroles')
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#53 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#54 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#55 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#56 {main}
+"} 
+[2022-10-11 08:29:37] local.INFO:   
+[2022-10-11 08:29:38] local.INFO:   
+[2022-10-11 08:29:38] local.INFO:   
+[2022-10-11 08:29:38] local.INFO:   
+[2022-10-11 08:29:38] local.INFO:   
+[2022-10-11 08:29:42] local.INFO:   
+[2022-10-11 08:29:42] local.INFO:   
+[2022-10-11 08:29:43] local.ERROR: Undefined offset: 1 {"exception":"[object] (ErrorException(code: 0): Undefined offset: 1 at C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\AdminController.php:74)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\AdminController.php(74): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Undefined offse...', 'C:\\\\source\\\\aveca...', 74, Array)
+#1 [internal function]: App\\Http\\Controllers\\AdminController->getLogs()
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#3 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getLogs', Array)
+#4 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\AdminController), 'getLogs')
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#7 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#50 {main}
+"} 
+[2022-10-11 08:29:43] local.INFO:   
+[2022-10-11 08:29:43] local.INFO:   
+[2022-10-11 08:29:43] local.INFO:   
+[2022-10-11 08:29:43] local.INFO:   
+[2022-10-11 08:29:43] local.INFO:   
+[2022-10-11 08:29:45] local.INFO:   
+[2022-10-11 08:29:45] local.INFO:   
+[2022-10-11 08:29:45] local.INFO:   
+[2022-10-11 08:29:45] local.INFO:   
+[2022-10-11 08:29:45] local.INFO:   
+[2022-10-11 08:29:45] local.ERROR: Type error: Argument 1 passed to Lcobucci\JWT\Token\Builder::relatedTo() must be of the type string, array given, called in C:\source\avecarm\backend\vendor\tymon\jwt-auth\src\Providers\JWT\Lcobucci.php on line 163 {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Type error: Argument 1 passed to Lcobucci\\JWT\\Token\\Builder::relatedTo() must be of the type string, array given, called in C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php on line 163 at C:\\source\\avecarm\\backend\\vendor\\lcobucci\\jwt\\src\\Token\\Builder.php:68)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(163): Lcobucci\\JWT\\Token\\Builder->relatedTo(Array)
+#1 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Providers\\JWT\\Lcobucci.php(87): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->getBuilderFromClaims(Array)
+#2 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php(82): Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci->encode(Array)
+#3 [internal function]: Tymon\\JWTAuth\\Manager->encode(Object(Tymon\\JWTAuth\\Payload))
+#4 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\JWT.php(400): call_user_func_array(Array, Array)
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(221): Tymon\\JWTAuth\\JWT->__call('encode', Array)
+#6 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\Userregister.php(37): Illuminate\\Support\\Facades\\Facade::__callStatic('encode', Array)
+#7 [internal function]: App\\Http\\Controllers\\Userregister->getroles()
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getroles', Array)
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Userregister), 'getroles')
+#11 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#27 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#53 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#54 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#55 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#56 {main}
+"} 
+[2022-10-11 08:29:45] local.INFO:   
+[2022-10-11 08:29:45] local.INFO:   
+[2022-10-11 08:29:45] local.INFO:   
+[2022-10-11 08:29:46] local.INFO:   
+[2022-10-11 08:29:46] local.INFO:   
+[2022-10-11 08:29:46] local.INFO:   
+[2022-10-11 08:29:46] local.INFO:   
+[2022-10-11 08:29:46] local.ERROR: The token has been blacklisted {"exception":"[object] (Tymon\\JWTAuth\\Exceptions\\TokenBlacklistedException(code: 0): The token has been blacklisted at C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php:106)
+[stacktrace]
+#0 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\Manager.php(124): Tymon\\JWTAuth\\Manager->decode(Object(Tymon\\JWTAuth\\Token))
+#1 C:\\source\\avecarm\\backend\\vendor\\tymon\\jwt-auth\\src\\JWT.php(102): Tymon\\JWTAuth\\Manager->refresh(Object(Tymon\\JWTAuth\\Token), 'eyJ0eXAiOiJKV1Q...', false)
+#2 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(221): Tymon\\JWTAuth\\JWT->refresh('eyJ0eXAiOiJKV1Q...')
+#3 C:\\source\\avecarm\\backend\\app\\Http\\Controllers\\AuthController.php(62): Illuminate\\Support\\Facades\\Facade::__callStatic('refresh', Array)
+#4 [internal function]: App\\Http\\Controllers\\AuthController->verifytoken(Object(App\\Http\\Requests\\LoginRequest))
+#5 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#6 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('verifytoken', Array)
+#7 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\AuthController), 'verifytoken')
+#8 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(169): Illuminate\\Routing\\Route->runController()
+#9 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(658): Illuminate\\Routing\\Route->run()
+#10 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#11 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 100, '1')
+#19 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#22 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#23 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#24 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#25 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#26 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#27 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\SessionHandler.php(29): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\SessionHandler->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 C:\\source\\avecarm\\backend\\app\\Http\\Middleware\\CORS.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): App\\Http\\Middleware\\CORS->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\source\\avecarm\\backend\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#50 C:\\source\\avecarm\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#51 C:\\source\\avecarm\\backend\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#52 C:\\source\\avecarm\\backend\\server.php(21): require_once('C:\\\\source\\\\aveca...')
+#53 {main}
+"} 
+[2022-10-11 08:29:47] local.INFO:   
+[2022-10-11 08:29:47] local.INFO:   

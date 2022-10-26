@@ -1,0 +1,174 @@
+<button class="btn btn-info btn-xs pull-right btn-flat" style="margin-top: -1px;"  (click)="open(page1)"><i class="fa fa-upload"></i> Import</button>
+
+
+<ng-template #page1 let-modal >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Import</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+   <!--   <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+   --> 
+  
+   <div class="col-lg-12 no-padding">
+
+
+    <div class="form-group">
+        <label>User - <span class="ar-blue">Admin</span> </label>          <span class="pull-right ar-blue font600">09/13/18</span>                          
+    </div>
+
+
+
+    <div class="col-lg-12 no-padding">
+        <div class="form-group col-lg-6 no-padding">
+            <label>Report Date</label>
+            <input type="text" class="form-control">
+        </div>
+    </div>                                                          
+
+    <div class="form-group " style="margin-top:10px;">
+        <label>File Import</label>
+        <input type="file" class="form-control">
+    </div>
+
+    <div class="form-group " style="margin-top:10px;">
+        <label>Notes</label>
+        <textarea class="form-control" style="height: 90px;"></textarea>
+    </div>
+
+
+</div>
+  
+  
+  
+  
+  </form>
+  </div>
+  <div class="modal-footer">
+   <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> --> 
+    <button type="button" class="btn btn-default btn-flat btn-sm pull-left" style="margin-top:20px;"(click)="modal.dismiss()">Close</button>
+    <button type="button" class="btn btn-info btn-flat btn-sm"(click)="open(page2)"  style="margin-top:20px;">Process</button>
+  </div>
+</ng-template>
+
+
+
+<ng-template #page2 let-modal >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Import Processing</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="col-lg-12 no-padding listing-table">
+
+
+        <table class="table table-striped1 table-bordered" style="border-color: #edf0f7">
+            <thead>
+                <tr>
+                    <th class="text-center" style="border-bottom: 1px solid #fff !important">Total Claims</th>
+                    <th class="text-center" style="border-bottom: 1px solid #fff !important">User</th>
+                    <th class="text-center" style="border-bottom: 1px solid #fff !important">Report Date</th>
+                    <th class="text-center" style="border-bottom: 1px solid #fff !important">Import Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center ar-blue">641</td>
+                    <td class="text-center ar-blue">Admin</td>
+                    <td class="text-center ar-blue">09/12/18</td>
+                    <td class="text-center ar-blue">08/16/18</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <table class="table table-striped-nb no-border">
+            
+            <tbody>
+                <tr>                                            
+                    <td class="">New Claims</td>
+                    <td class=""> : 341</td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-info">Replace</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-success">Ignore</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-default">View</button></td>
+                </tr>
+
+                <tr>                                            
+                    <td class="">Duplicate Claims</td>
+                    <td class=""> : 99</td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-info">Replace</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-success">Ignore</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-default">View</button></td>                                    
+                </tr>
+                
+                <tr>                                            
+                    <td class="">Assigned Claims</td>
+                    <td class=""> : 101</td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-info">Replace</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-success">Ignore</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-default">View</button></td>                                  
+                </tr>
+                
+                <tr>                                            
+                    <td class="">Unassigned Claims</td>
+                    <td class=""> : 49</td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-info">Replace</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-success">Ignore</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-default">View</button></td>                                         
+                </tr>
+                
+                <tr>                                            
+                    <td class="">Mismatch Records</td>
+                    <td class=""> : 51</td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-info">Replace</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-success">Ignore</button></td>
+                    <td class=""><button class="btn btn-flat btn-xs btn-default">View</button></td>                                    
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+    </div>
+  
+  
+  </form>
+  </div>
+  <div class="modal-footer">
+   <!--  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> --> 
+    <button type="button" class="btn btn-default btn-flat btn-sm pull-left" style="margin-top:20px;"(click)="modal.dismiss()">Close</button>
+   
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+<!--
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
+
+
+<!--
+<hr>
+
+<pre>{{closeResult}}</pre>
+-->

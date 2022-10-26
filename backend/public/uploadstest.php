@@ -1,0 +1,1 @@
+{"dos":true,"dos_option":"ignore","claim_note":true,"claim_note_option":"ignore"}

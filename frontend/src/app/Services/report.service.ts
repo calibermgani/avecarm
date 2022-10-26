@@ -1,0 +1,22 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ReportService {
+  public id:number;
+   private api = "http://127.0.0.1:8000/api";
+   
+  //private api = 'http://35.226.72.203/avecarm/backend/public/index.php/api';
+  constructor(private http: HttpClient) { }
+
+  
+
+  public getdata(id) {
+    id = localStorage.getItem('practice_id');
+    return this.http.get(`${this.api}/dashboard?practice_dbid=`+id);
+    
+  }
+}

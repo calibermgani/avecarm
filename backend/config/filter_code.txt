@@ -1,0 +1,17 @@
+  <option value="1" >All Claims</option>
+                                            <option value="2">Assigned Claims</option>
+                                            <option value="3">New Claims</option>
+                                            <option value="4">Pending Claims</option>                                                                                        
+                                            <option value="5">Audit Claims</option>
+                                            <option value="6">Account Type</option>
+                                            <option value="7">Insurance Group</option>
+                                            <option value="8">Insurance Name</option>
+                                            <option value="9">Aging Days</option>
+                                            <option value="10">DOS</option>
+                                            <option value="11">Associates</option>
+                                            <option value="12">Status Code</option>
+                                            <option value="13">Total AR</option>
+                                            <option value="14">Status Summary</option>
+                                            <option value="15">Aging Summary</option>
+
+{"1":["all_claims"],"2":["assigned"],"3":["new_claims"],"4":["pending"],"5":["audit"],"6":["account_type"],"7":["insurance_group"],"8":["insurance_name"],"9":["ageing_days"],"10":["dos"],"11":["associates"],"12":["status_code"],"13":["total_ar"],"14":["status_summary"],"15":["ageing_summary"]}

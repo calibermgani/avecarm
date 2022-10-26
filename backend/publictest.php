@@ -1,0 +1,1 @@
+{"patient_name":true,"patient_name_option":"notify","total_ar_due":true,"ins_ar":true,"ins_ar_option":"notify","total_ar_due_option":"ignore"}

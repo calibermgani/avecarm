@@ -1,0 +1,1 @@
+{"ins_ar":["true","ignore"],"modifier":["true","ignore"],"secondary_insurance_address_line_1":["true","ignore"],"dob":["true","ignore"],"acct_no":["true","ignore"],"discharge_date":[true,"notify"],"tertiary_policy_id":[true,"ignore"]}
