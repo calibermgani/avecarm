@@ -39,7 +39,7 @@ class CreateworkorderController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['getclaim_details','process_note','getnotes','claim_note','qc_note','create_followup','get_followup','get_associates','create_workorder','check_claims','get_workorder','get_workorder_details','client_note','get_client_notes','fetch_wo_export_data','fetch_export_data', 'followup_process_notes_delete', 'audit_process_notes_delete', 'closed_followup_process_notes_delete', 'reasigned_followup_process_notes_delete', 'closed_audit_process_notes_delete', 'getclaim_details_order_list']]);
+        $this->middleware('auth:api', ['except' => ['getclaim_details','process_note','getnotes','claim_note','qc_note','create_followup','get_followup','get_associates','create_workorder','check_claims','get_workorder','get_workorder_details','client_note','get_client_notes','fetch_wo_export_data','fetch_export_data', 'followup_process_notes_delete', 'audit_process_notes_delete', 'closed_followup_process_notes_delete', 'reasigned_followup_process_notes_delete', 'closed_audit_process_notes_delete', 'getclaim_details_order_list','team_claims']]);
     }
 
     public function getclaim_details(LoginRequest $request)
@@ -4045,7 +4045,7 @@ public function check_claims(LoginRequest $request)
 {
     $claim_nos=$request->get('claim'); 
     $users=[];
-    //dd($claim_nos);
+   // dd($claim_nos);
     
     foreach($claim_nos as $value)
     {
@@ -4053,12 +4053,16 @@ public function check_claims(LoginRequest $request)
 
         $import_det=Import_field::where('claim_no',$value)->get()->toArray();
 
-        $import_data=Import_field::where('claim_no',$value)->first();
+        $import_data=Import_field::where('claim_no',$value)->first()->toArray();
 
+     // echo '<pre>'; print_r($import_data['followup_work_order']);die;
 
-        if($import_data[0]['followup_work_order'] != 0 || $import_data[0]['followup_work_order'] != NULL )
+        //if($import_data[0]['followup_work_order'] != 0 || $import_data[0]['followup_work_order'] != NULL )
+        if($import_data['followup_work_order'] != 0 || $import_data['followup_work_order'] != NULL )
         {
-            $user_details=Workorder_user_field::where('work_order_id',$import_data[0]['followup_work_order'])->get();       
+            $user_details=Workorder_user_field::where('work_order_id',$import_data['followup_work_order'])->get();    
+            
+           
             
             $users[$value]['assigned_to']= $user_details[0]['user_id'];    
             $users[$value]['claim_id']= $value; 
@@ -4067,6 +4071,7 @@ public function check_claims(LoginRequest $request)
     }
 
 
+    //dd($import_det);die;
 
     return response()->json([
         'data' => $users,
@@ -6371,6 +6376,22 @@ return response()->json([
             'current_total' => $current_total,
             'skip' => $skip,
             ]);
+
+    }
+
+
+    public function team_claims(LoginRequest $request){
+
+   
+
+
+      return response()->json([
+        'value_return' => "Get All claim response",
+       
+        ]);
+
+
+
 
     }
 
