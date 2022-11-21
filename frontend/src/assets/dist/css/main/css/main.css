@@ -249,7 +249,7 @@ iframe {
 .login100-form-title {
   font-family: 'Oswald', sans-serif;
   font-size: 30px;
-  color: #fff;
+  color: #000000;
   line-height: 1.2;
   text-align: center;
   text-transform: uppercase;
@@ -266,7 +266,7 @@ iframe {
 .wrap-input100 {
   width: 100%;
   position: relative;
-  border-bottom: 2px solid rgba(255,255,255,0.24);
+  border-bottom: 2px solid #ccc;
   margin-bottom: 30px;
 }
 
@@ -308,13 +308,13 @@ iframe {
   -moz-transition: all 0.4s;
   transition: all 0.4s;
 
-  background: #fff;
+  background: #999;
 }
 
 .focus-input100::after {
   font-family: Material-Design-Iconic-Font;
   font-size: 22px;
-  color: #fff;
+  color: #000;
 
   content: attr(data-placeholder);
   display: block;
@@ -392,7 +392,7 @@ iframe {
 .label-checkbox100 {
   font-family:'Poppins', sans-serif; 
   font-size: 13px;
-  color: #fff;
+  color: #000;
   line-height: 1.2;
 
   display: block;
@@ -418,7 +418,7 @@ iframe {
   width: 16px;
   height: 16px;
   border-radius: 2px;
-  background: #fff;
+  border: 2px solid #333333;
   left: 0;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -429,7 +429,7 @@ iframe {
 }
 
 .input-checkbox100:checked + .label-checkbox100::before {
-  color: #555555;
+  color: #000000;
 }
 
 
@@ -649,4 +649,17 @@ a:hover > .ico {
 }
 .carousel-caption{position:relative; text-align:right;left:0%;right:5%}
 
-
+/*------------------------------------------------------------------
+[ Social icons]*/
+.social-icons i{
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  border-radius: 36px;
+  background-color: #333333;
+  color: #fff;
+  margin: 0 3px 3px 0;
+}

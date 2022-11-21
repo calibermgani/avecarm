@@ -1,6 +1,6 @@
 .x1{
     /* background-image: url('../../../assets/dist/css/main/images/bg-n1.jpg'); */
-    background-color: #a5a5a5;
+    background-color: #e5e5e5;
 }
 input::-webkit-input-placeholder { color: #e2d7ca !important;}
 input:-moz-placeholder { color: #1c1104;}
@@ -140,7 +140,7 @@ input:focus::placeholder{
  width: 100%;
 }
 .login-form{
-  padding-top: 48%;
+  padding-top: 35%;
 }
 .main-text{
   padding-top: 25%;
@@ -187,7 +187,7 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: #fff !important;
+    -webkit-text-fill-color: #000 !important;
 }
 input:-webkit-autofill::first-line {font-size: 16px}
 input:-webkit-autofill::first-line {font-family: 'Poppins', sans-serif}
