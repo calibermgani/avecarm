@@ -273,7 +273,7 @@ iframe {
 .input100 {
   font-family:'Poppins', sans-serif; 
   font-size: 16px;
-  color: #fff;
+  color: #000000;
   line-height: 1.2;
 
   display: block;
@@ -282,6 +282,7 @@ iframe {
   background: transparent;
   padding: 0 5px 0 38px;
 }
+
 
 /*---------------------------------------------*/ 
 .focus-input100 {
