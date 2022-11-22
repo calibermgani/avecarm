@@ -144,8 +144,12 @@ iframe {
 .txt1 {
   font-family:'Poppins', sans-serif;
   font-size: 13px;
-  color: #e5e5e5;
+  color: #6c6c6c;
   line-height: 1.5;
+}
+
+.txt1:hover {
+  color: #2b2b2b;
 }
 
 
