@@ -84,6 +84,7 @@ public function createclaim(LoginRequest $request)
     $claim =$request->get('claim');
     $file_det =$request->get('file');
 
+    //echo '<pre>'; print_r($claim); die;
 
 
     $i=0;
@@ -672,7 +673,9 @@ public function get_table_page(LoginRequest $request)
     $sorting_method = $request->get('sorting_method');
     $searchValue = $request->get('createsearch');
 
-    if($searchValue != null ){
+   
+
+   /*  if($searchValue != null ){
         $search_acc_no = $searchValue['acc_no'];
         $search_claim_no = $searchValue['claim_no'];
         $search_claim_note = $searchValue['claim_note'];
@@ -687,7 +690,7 @@ public function get_table_page(LoginRequest $request)
         $search_ter_pol_id = $searchValue['ter_pol_id'];
         $search_total_ar = $searchValue['total_ar'];
         $search_total_charge = $searchValue['total_charge'];
-    }
+    } */
 
     $search = $request->get('search');
 
@@ -4356,8 +4359,11 @@ protected function file_processors($filename,$report_date,$notes,$user,$unique_n
         $upd_line_items=[];
 
 
-        $path ="uploads/".$unique_name;
-        $data = Excel::load($path, function($reader) {})->get();
+         $path ="uploads/".$unique_name; 
+         $data = Excel::load($path, function($reader) {})->get();
+
+
+
           $count=$data->count();
           $array=$data->toArray();
       
@@ -4942,7 +4948,7 @@ protected function file_processors($filename,$report_date,$notes,$user,$unique_n
 											}
                                         }
 
-                                        if($key == 'total_charges'){
+                      if($key == 'total_charges'){
 											if(!empty($value)){
 												$values = trim($value);
 												$op_array['total_charges'] = number_format($values, 2);
@@ -5211,7 +5217,22 @@ return $display_data;
     }
 
 
+/** 
+ * Purpose : Get unassigned files claims count with file name
+ */
+public function get_file_ready_count(){
 
+  $response_data = Import_field::with(['FileName_details'])->where('claim_Status','Ready')->get();
+  return response()->json([
+    'file_datas'=>  $response_data,
+    'display_msg'  => "Success"
+    ]);
+
+
+
+
+}
+    
 
 
 }
@@ -5222,64 +5243,4 @@ return $display_data;
 
 
 
-                                                      /*    
-                $present_data=[
-                    "acct_no" => "acct_no",
-                    "claim_no" => "claim_no",
-                    "patient_name" => "patient_name",
-                    "dos" => "dos",
-                    "dob" => "dob",
-                    "ssn" => "ssn",
-                    "gender" => "gender",
-                    "phone_no" => "phone_no",
-                    "address_line_1" => "address_1",
-                    "address_line_2" => "address_2",
-                    "city" => "city",
-                    "state" => "state",
-                    "zipcode" => "zipcode",
-                    "gurantor_name" => "guarantor",
-                    "employer_name" => "employer",
-                    "responsibility" => "responsibility",
-                    "insurance_type" => "insurance_type",
-                    "primary_insurance_name" => "prim_ins_name",
-                    "primary_policy_id" => "prim_pol_id",
-                    "primary_group_id" => "prim_group_id",
-                    "primary_insurance_address_line_1" => "prim_address_1",
-                    "primary_insurance_address_line_2" => "prim_address_2",
-                    "primary_insurance_city" => "prim_city",
-                    "primary_insurance_state" => "prim_state",
-                    "primary_insurance_zipcode" => "prim_zipcode",
-                    "secondary_insurance_name" => "sec_ins_name",
-                    "secondary_policy_id" => "sec_pol_id",
-                    "secondary_group_id" => "sec_group_id",
-                    "secondary_insurance_address_line_1" => "sec_address_1",
-                    "secondary_insurance_address_line_2" => "sec_address_2",
-                    "secondary_insurance_city" => "sec_city",
-                    "secondary_insurance_state" => "sec_state",
-                    "secondary_insurance_zipcode" => "sec_zipcode",
-                    "tertiary_insurance_name" => "ter_ins_name",
-                    "tertiary_policy_id" => "ter_pol_id",
-                    "tertiary_group_id" => "ter_group_id",
-                    "tertiary_insurance_address_line_1" => "ter_address_1",
-                    "tertiary_insurance_address_line_2" => "ter_address_2",
-                    "tertiary_insurance_city" => "ter_city",
-                    "tertiary_insurance_state" => "ter_state",
-                    "tertiary_insurance_zipcode" => "ter_zipcode",
-                    "authorization" => "auth_no",
-                    "rendering_provider" => "rendering_prov",
-                    "billing_provider" => "billing_prov",
-                    "facility" => "facility",
-                    "admit_date" => "admit_date",
-                    "discharge_date" => "discharge_date",
-                    "cpt" => "cpt",
-                    "icd" => "icd",
-                    "modifier" => "modifiers",
-                    "units" => "units",
-                    "total_charges" => "total_charges",
-                    "pat_ar" => "pat_ar",
-                    "ins_ar" => "ins_ar",
-                    "total_ar_due" => "total_ar",
-                    "claim_status" => "claim_Status",
-                    "claim_note" => "claim_note"
-                    ];
-              */
+                                                      

@@ -37,4 +37,9 @@ class Import_field extends Model
     public function Claim_history_asc(){
         return $this->belongsTo('App\Claim_history', 'claim_no', 'claim_id')->orderBy('id','asc');
     }
+
+    public function FileName_details(){
+
+        return $this->belongsTo('App\File_upload', 'file_upload_id', 'id');
+    }
 }
