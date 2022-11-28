@@ -33,6 +33,10 @@ Route::group([
     Route::post('overwrite', 'ImportController@overwrite');
     Route::post('overwrite_all', 'ImportController@overwrite_all');
     Route::post('getclaim_details', 'CreateworkorderController@getclaim_details');
+
+    //my seting by muhammed
+    Route::post('team_claims', 'CreateworkorderController@team_claims');
+
     Route::post('process_note', 'CreateworkorderController@process_note');
     Route::post('getnotes', 'CreateworkorderController@getnotes');
     Route::post('claim_note', 'CreateworkorderController@claim_note');
@@ -121,6 +125,8 @@ Route::group([
     Route::POST('get_audit_graph', 'GraphController@get_audit_graph');
 	
 	Route::post('getSummaryDetails', 'DashboardController@getSummaryDetails');
+
+    Route::get('get_file_ready_count','ImportController@get_file_ready_count');
 	
 	/* 
 	Author : selvakumar
