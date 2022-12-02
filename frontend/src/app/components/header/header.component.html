@@ -6,7 +6,7 @@
     <nav class="navbar navbar-static-top" *ngIf="loggedIn">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a routerLink="dashboard"  class="navbar-brand"><img src="assets/dist/img/logo.png" class="" alt="User Image" style="margin: -1px 10px;"></a>
+                <a routerLink="dashboard"  class="navbar-brand"><img src="assets/dist/img/logo.png" class="" alt="User Image" style="margin: -1px 10px;width:20%;"></a>
                 <!-- <a *ngIf="!loggedIn" class="navbar-brand"><img src="assets/dist/img/logo.png" class="" alt="User Image" style="margin: -1px 10px;"></a> -->
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
@@ -161,6 +161,7 @@
                     <li routerLinkActive="active" *ngIf="user_type.includes('errorlog')"><a routerLink ="errorlog" class=""><i class="fa fa-gears p-r-5 text-gray"></i> Error Log <span>&nbsp;</span></a></li>
                     <li routerLinkActive="active" *ngIf="user_type.includes('medcubics')"><a routerLink ="medcubics" class=""><i class="fa fa-gears p-r-5 text-gray"></i> Medcubics <span>&nbsp;</span></a></li>
                     <li routerLinkActive="active" *ngIf="user_type.includes('roles')"><a routerLink ="roles" class=""><i class="fa fa-gears p-r-5 text-gray"></i> Roles <span>&nbsp;</span></a></li>
+                    <!-- <li routerLinkActive="active"><a routerLink ="testUsers" class=""><i class="fa fa-gears p-r-5 text-gray"></i> TestUsers <span>&nbsp;</span></a></li> -->
                 </ul>
 
             </div>

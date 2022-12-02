@@ -24,7 +24,7 @@ body {
 body {
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 400;
-    color: #646464;
+    color: #333333;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -5046,7 +5046,7 @@ table.text-center th {
 .p-t-0{padding-top:0px;}
 .p-b-0{padding-bottom: 0px;}
 .p-l-0{padding-left: 0px;}
-.listing-table .table > tbody > tr > td{border-top: none; padding: 5px 7px !important;color:#868686;}
+.listing-table .table > tbody > tr > td{border-top: none; padding: 5px 7px !important;color:#363636;}
 .listing-table .table > thead > tr > th{background: #edf0f7; border-bottom: none;line-height: 12px;font-weight:600}
 .cur-pointer{cursor: pointer}
 .text-dark{color:#88919a;}

@@ -145,7 +145,7 @@ input:focus::placeholder{
  width: 100%;
 }
 .login-form{
-  padding-top: 35%;
+  box-shadow: 1px 1px 10px 1px #eaeaea;
 }
 .main-text{
   padding-top: 25%;

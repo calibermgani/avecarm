@@ -43,6 +43,7 @@ export class ClaimsComponent implements OnInit {
   isDesc: boolean = false;
   column: string = "dos";
   associateCount : any ='';
+  filter = '';
 
 @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -51,7 +52,7 @@ export class ClaimsComponent implements OnInit {
 
 
 
-
+public file_name = [];
 public data = null;
 public error = null;
 public fileupload = null;
@@ -3561,6 +3562,7 @@ ngOnInit() {
     // });
 
     this.closedClaimsFind = this.formBuilder.group({
+      filename:[],
       dos: [],
       claim_no: [],
       acc_no: [],
@@ -3578,6 +3580,7 @@ ngOnInit() {
     });
 
     this.createClaimsFind = this.formBuilder.group({
+      filename: [],
       dos: [],
       claim_no: [],
       acc_no: [],
@@ -3678,7 +3681,19 @@ this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
 
   this.get_graph_stats();
 
+  this.file_count();
 
+}
+
+file_count(){
+  this.Jarwis.get_file_ready_count().subscribe(res => {
+    console.log(res);
+    let fileCount = res;
+    console.log(fileCount);
+    this.file_name.push(fileCount);
+    console.log(this.file_name);
+  return fileCount;
+  })
 }
 
 get f() { return this.formGroup.controls; }
@@ -3723,6 +3738,8 @@ ngAfterViewInit()
     console.log(this.touch_count);
   }
 }
+
+
 
 ngOnDestroy(){
   // prevent memory leak when component destroyed

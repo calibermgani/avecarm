@@ -144,14 +144,15 @@ iframe {
 .txt1 {
   font-family:'Poppins', sans-serif;
   font-size: 13px;
-  color: #6c6c6c;
+  color: #696969;
   line-height: 1.5;
 }
 
 .txt1:hover {
-  color: #2b2b2b;
+  color: #222222;
 }
 
+a.txt1 {display:block;line-height: 1.2;}
 
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/
@@ -399,7 +400,8 @@ iframe {
   font-size: 13px;
   color: #000;
   line-height: 1.2;
-
+  width: 50%;
+  float: left;
   display: block;
   position: relative;
   padding-left: 26px;
