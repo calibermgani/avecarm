@@ -1,6 +1,5 @@
 <div class="row" style="padding-top:20px">
-   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <app-summary></app-summary>
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">      
       <div class="box no-shadow no-border no-bottom">
          <!-- /.box-header -->
          <div class="no-padding">
@@ -8,9 +7,9 @@
             <div class="tabs nav-tabs-custom">
                <ul class="tabs nav nav-tabs">
                   <li *ngIf="(user_role == 1 || user_role == 2)" [ngClass]="class_change.tab1" (click)="get_month_details()"><a href="#tab_4" data-toggle="tab"><i class="fa fa-dashboard"></i> Dashboard <span class="tab-divider">|</span></a> </li>
-                  <li *ngIf="(user_role == 1 || user_role == 2)" ><a href="#tab_5" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null','null','null');" ><i class="fa fa-share"></i> Assigned Claims <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 2 || user_role == 1)"><a href="#tab_6" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'reallocated','null','null','null','null');"><i class="fa fa-retweet"></i>Reassigned Claims <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 1 || user_role == 2)"><a href="#tab_3" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'completed','null','null','null','null');"><i class="fa fa-drivers-license"></i>Closed Claims<span class="tab-divider">|</span></a></li>
+                  <li *ngIf="!(user_role == 1 || user_role == 2)" ><a href="#tab_5" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null','null','null');" ><i class="fa fa-share"></i> Assigned Claims <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="!(user_role == 2 || user_role == 1)"><a href="#tab_6" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'reallocated','null','null','null','null');"><i class="fa fa-retweet"></i>Reassigned Claims <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="!(user_role == 1 || user_role == 2)"><a href="#tab_3" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'completed','null','null','null','null');"><i class="fa fa-drivers-license"></i>Closed Claims<span class="tab-divider">|</span></a></li>
                   <!--<li *ngIf="user_role == 2" [ngClass]="class_change.tab2"><a href="#tab_2" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'wo','null','null');"><i class="fa fa-file-text"></i> Claim Status <span class="tab-divider">|</span></a></li>
                      <li *ngIf="user_role == 2"><a href="#tab_5" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null');"><i class="fa fa-retweet"></i>Assigned Claims <span class="tab-divider">|</span></a></li>
 
@@ -18,255 +17,278 @@
                </ul>
                <div class="tab-content no-padding">
                   <div [ngClass]="class_change_tab['tab1']" id="tab_4">
-                     <div class="box no-shadow no-border">
-                        <!-- /.box-header -->
-                        <div class="box-body no-padding">
+                     <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6">
+                           <app-summary></app-summary>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6">
                            <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                              <!-- /.box-header -->
                               <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> My Production and Quality</h3>
-                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" style="margin-left:10px;" data-widget="collapse" data-toggle="collapse" data-target="#dashboard">
-                                    <i class="fa fa-plus"></i>
-                                    </button>
-                                 </div>
+                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Todo List</h3>
                               </div>
-                              <div class="box-body no-padding collapse in" style="margin-top:20px;" id="dashboard">
-                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 production-table no-padding">
-                                    <div class="table-responsive">
-                                       <table class="table-striped1 table">
-                                          <thead>
-                                             <tr>
-                                                <th class="font600  line-height-24"></th>
-                                                <th *ngFor="let wnos of weeks ; let i=index " class="font600 text-center line-height-24" style="border-right: 1px solid #fff;" [attr.colspan]="col_span[i]">Week {{i+1}}</th>
-                                                <!-- <th class="font600 text-center line-height-24" style="border-right: 1px solid #fff;" colspan="5">Week 2</th>
-                                                   <th class="font600 text-center line-height-24" style="border-right: 1px solid #fff;" colspan="5">Week 3</th>
-                                                   <th class="font600 text-center line-height-24" colspan="5">Week 4</th>
-                                                   <th class="font600 text-center line-height-24" colspan="5">Week 4</th>                                                                                             -->
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                             <tr>
-                                                <td></td>
-                                                <!-- <span > -->
-                                                <td class="text-center" *ngFor="let datee of days" >{{datee.date | date:'MM/dd' }}</td>
-                                                <!-- <td class="text-center">09/08</td>
-                                                   <td class="text-center">09/02</td>
-                                                   <td class="text-center">09/03</td>
-                                                   <td class="text-center">09/04</td>
-                                                   <td class="text-center">09/05</td>
-
-                                                   <td class="text-center">09/08</td>
-                                                   <td class="text-center">09/09</td>
-                                                   <td class="text-center">09/10</td>
-                                                   <td class="text-center">09/11</td>
-                                                   <td class="text-center">09/12</td>
-
-                                                   <td class="text-center">09/15</td>
-                                                   <td class="text-center">09/16</td>
-                                                   <td class="text-center">09/17</td>
-                                                   <td class="text-center">09/18</td>
-                                                   <td class="text-center">09/19</td>
-
-                                                   <td class="text-center">09/22</td>
-                                                   <td class="text-center">09/23</td>
-                                                   <td class="text-center">09/24</td>
-                                                   <td class="text-center">09/25</td>
-                                                   <td class="text-center">09/26</td>    -->
-                                                <!-- </span>                                                                                                                                                                                     -->
-                                             </tr>
-                                             <tr>
-                                                <td class="ar-blue font600">Target</td>
-                                                <td class="text-center" *ngFor="let target of assigned_target">{{target}}</td>
-                                                <!-- <td>35</td>
-                                                   <td>79</td>
-                                                   <td>96</td>
-                                                   <td>78</td>
-
-                                                   <td>56</td>
-                                                   <td>34</td>
-                                                   <td>90</td>
-                                                   <td>64</td>
-                                                   <td>50</td>
-
-                                                   <td>45</td>
-                                                   <td>60</td>
-                                                   <td>50</td>
-                                                   <td>45</td>
-                                                   <td>53</td>
-
-                                                   <td>43</td>
-                                                   <td>87</td>
-                                                   <td>55</td>
-                                                   <td>80</td>
-                                                   <td>70</td> -->
-                                             </tr>
-                                             <tr>
-                                                <td class="ar-blue font600">Achieved</td>
-                                                <td class="text-center" *ngFor="let achieve of achieved_target">{{achieve}}</td>
-                                                <!-- <td>25</td>
-                                                   <td>79</td>
-                                                   <td>56</td>
-                                                   <td>18</td>
-
-                                                   <td>36</td>
-                                                   <td>34</td>
-                                                   <td>70</td>
-                                                   <td>60</td>
-                                                   <td>48</td>
-
-                                                   <td>44</td>
-                                                   <td>60</td>
-                                                   <td>40</td>
-                                                   <td>35</td>
-                                                   <td>53</td>
-
-                                                   <td>43</td>
-                                                   <td>80</td>
-                                                   <td>53</td>
-                                                   <td>78</td>
-                                                   <td>60</td> -->
-                                             </tr>
-                                             <tr style="background: #f5f5f5">
-                                                <td class="ar-blue font600">Achieved %</td>
-                                                <td class="text-center" *ngFor="let ach_per of achi_targ_per">
-                                                   <span class="text-red font600" *ngIf="ach_per <= 70">{{ach_per}}</span><span *ngIf="ach_per > 70">{{ach_per}}</span>
-                                                </td>
-                                                <!-- <td>80</td>
-                                                   <td>100</td>
-                                                   <td class="text-red font600">
-                                                       <span class="spnDetails">75</span> -->
-                                                <!-- <span class="spnTooltip">
-                                                   <strong class="ar-blue">09/04 : 75% Achieved</strong><br>
-                                                   This is the alert message for the accuracy below 70% in the target achieved
-                                                   </span> -->
-                                                <!-- </td>
-                                                   <td class="text-red font600">
-                                                       <span class="spnDetails">23</span> -->
-                                                <!-- <span class="spnTooltip">
-                                                   <strong class="ar-blue">09/05 : 23% Achieved</strong><br>
-                                                   This is the alert message for the accuracy below 70% in the target achieved
-                                                   </span> -->
-                                                <!-- </td>
-                                                   <td class="text-red font600">
-                                                       <span class="spnDetails">70</span> -->
-                                                <!-- <span class="spnTooltip">
-                                                   <strong class="ar-blue">09/06 : 70% Achieved</strong><br>
-                                                   This is the alert message for the accuracy below 70% in the target achieved
-                                                   </span> -->
-                                                <!--      </td>
-                                                   <td>100</td>
-                                                   <td>80</td>
-                                                   <td>94</td>
-                                                   <td>96</td>
-
-                                                   <td>99</td>
-                                                   <td>100</td>
-                                                   <td>80</td>
-                                                   <td class="text-red font600">
-                                                       <span class="spnDetails">72</span>
-                                                       <!-- <span class="spnTooltip">
-                                                           <strong class="ar-blue">09/06 : 72% Achieved</strong><br>
-                                                           This is the alert message for the accuracy below 70% in the target achieved
-                                                       </span> -->
-                                                <!--  </td>
-                                                   <td>100</td>
-
-                                                   <td>100</td>
-                                                   <td>92</td>
-                                                   <td>98</td>
-                                                   <td>98</td>
-                                                   <td>100</td> -->
-                                             </tr>
-                                             <tr>
-                                                <td class="ar-blue font600">Error</td>
-                                                <td>1</td>
-                                                <td>0</td>
-                                                <td>3</td>
-                                                <td>12</td>
-                                                <td>15</td>
-                                                <td>19</td>
-                                                <td>10</td>
-                                                <td>20</td>
-                                                <td>12</td>
-                                                <td>27</td>
-                                                <td>31</td>
-                                                <td>0</td>
-                                                <td>11</td>
-                                                <td>17</td>
-                                                <td>7</td>
-                                                <td>15</td>
-                                                <td>0</td>
-                                                <td>13</td>
-                                                <td>14</td>
-                                                <td>9</td>
-                                             </tr>
-                                             <tr style="background: #f7f7f7">
-                                                <td class="ar-blue font600">Error %</td>
-                                                <td>1.5</td>
-                                                <td>0</td>
-                                                <td>10</td>
-                                                <td>28</td>
-                                                <td class="text-red font600">
-                                                   <span class="spnDetails">70</span>
-                                                   <!-- <span class="spnTooltip">
-                                                      <strong class="text-red">09/05 : 70% Error Rate</strong><br>
-                                                      This is the alert message for the Error rate below 70%.
-                                                      </span> -->
-                                                </td>
-                                                <td class="text-red font600">
-                                                   <span class="spnDetails">80</span>
-                                                   <!-- <span class="spnTooltip">
-                                                      <strong class="text-red">09/08 : 80% Error Rate</strong><br>
-                                                      This is the alert message for the Error rate below 70%.
-                                                      </span> -->
-                                                </td>
-                                                <td>20%</td>
-                                                <td class="text-red font600">
-                                                   <span class="spnDetails">70</span>
-                                                   <!-- <span class="spnTooltip">
-                                                      <strong class="text-red">09/10 : 70% Error Rate</strong><br>
-                                                      This is the alert message for the Error rate below 70%.
-                                                      </span> -->
-                                                </td>
-                                                <td class="text-red font600">
-                                                   <span class="spnDetails">66</span>
-                                                   <!-- <span class="spnTooltip">
-                                                      <strong class="text-red">09/11 : 66% Error Rate</strong><br>
-                                                      This is the alert message for the Error rate below 70%.
-                                                      </span> -->
-                                                </td>
-                                                <td class="">18</td>
-                                                <td class="text-red font600">
-                                                   <span class="spnDetails">87</span>
-                                                   <!-- <span class="spnTooltip">
-                                                      <strong class="text-red">09/15 : 87% Error Rate</strong><br>
-                                                      This is the alert message for the Error rate below 70%.
-                                                      </span> -->
-                                                </td>
-                                                <td>0</td>
-                                                <td>22</td>
-                                                <td class="text-red font600">
-                                                   <span class="spnDetails">77</span>
-                                                   <!-- <span class="spnTooltip">
-                                                      <strong class="text-red">09/18 : 77% Error Rate</strong><br>
-                                                      This is the alert message for the Error rate below 70%.
-                                                      </span> -->
-                                                </td>
-                                                <td>18</td>
-                                                <td>17</td>
-                                                <td>0</td>
-                                                <td>14</td>
-                                                <td>11</td>
-                                                <td>16</td>
-                                             </tr>
-                                          </tbody>
-                                       </table>
+                           </div>                           
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6">
+                           <div class="box no-shadow no-border">
+                              <!-- /.box-header -->
+                              <div class="box-body no-padding">
+                                 <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                                    <!-- /.box-header -->
+                                    <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                       <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> My Production and Quality</h3>
+                                       <div class="box-tools pull-right">
+                                          <button type="button" class="btn btn-box-tool" style="margin-left:10px;" data-widget="collapse" data-toggle="collapse" data-target="#dashboard">
+                                          <i class="fa fa-plus"></i>
+                                          </button>
+                                       </div>
+                                    </div>
+                                    <div class="box-body no-padding" style="margin-top:20px;" id="dashboard">
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 production-table no-padding">
+                                          <div class="table-responsive" style="padding:0 5px">
+                                             <table class="table-striped1 table">
+                                                <thead>
+                                                   <tr>
+                                                      <th class="font600  line-height-24"></th>
+                                                      <!-- <th *ngFor="let wnos of weeks ; let i=index " class="font600 text-center line-height-24" style="border-right: 1px solid #fff;" [attr.colspan]="col_span[i]">Week {{i+1}}</th> -->
+                                                      <th class="font600 text-center line-height-24" style="border-right: 1px solid #fff;" colspan="5">Week 1</th>
+                                                         <th class="font600 text-center line-height-24" style="border-right: 1px solid #fff;" colspan="5">Week 2</th>
+                                                         <th class="font600 text-center line-height-24" style="border-right: 1px solid #fff;" colspan="5">Week 3</th>
+                                                         <th class="font600 text-center line-height-24" colspan="5">Week 4</th>
+                                                   </tr>
+                                                </thead>
+                                                <tbody>
+                                                   <tr>
+                                                      <td></td>
+                                                      <!-- <span > -->
+                                                      <td class="text-center" *ngFor="let datee of days" >{{datee.date | date:'MM/dd' }}</td>
+                                                      <!-- <td class="text-center">09/08</td>
+                                                         <td class="text-center">09/02</td>
+                                                         <td class="text-center">09/03</td>
+                                                         <td class="text-center">09/04</td>
+                                                         <td class="text-center">09/05</td>
+      
+                                                         <td class="text-center">09/08</td>
+                                                         <td class="text-center">09/09</td>
+                                                         <td class="text-center">09/10</td>
+                                                         <td class="text-center">09/11</td>
+                                                         <td class="text-center">09/12</td>
+      
+                                                         <td class="text-center">09/15</td>
+                                                         <td class="text-center">09/16</td>
+                                                         <td class="text-center">09/17</td>
+                                                         <td class="text-center">09/18</td>
+                                                         <td class="text-center">09/19</td>
+      
+                                                         <td class="text-center">09/22</td>
+                                                         <td class="text-center">09/23</td>
+                                                         <td class="text-center">09/24</td>
+                                                         <td class="text-center">09/25</td>
+                                                         <td class="text-center">09/26</td>    -->
+                                                      <!-- </span>                                                                                                                                                                                     -->
+                                                   </tr>
+                                                   <tr>
+                                                      <td class="ar-blue font600">Target</td>
+                                                      <td class="text-center" *ngFor="let target of assigned_target">{{target}}</td>
+                                                      <!-- <td>35</td>
+                                                         <td>79</td>
+                                                         <td>96</td>
+                                                         <td>78</td>
+      
+                                                         <td>56</td>
+                                                         <td>34</td>
+                                                         <td>90</td>
+                                                         <td>64</td>
+                                                         <td>50</td>
+      
+                                                         <td>45</td>
+                                                         <td>60</td>
+                                                         <td>50</td>
+                                                         <td>45</td>
+                                                         <td>53</td>
+      
+                                                         <td>43</td>
+                                                         <td>87</td>
+                                                         <td>55</td>
+                                                         <td>80</td>
+                                                         <td>70</td> -->
+                                                   </tr>
+                                                   <tr>
+                                                      <td class="ar-blue font600">Achieved</td>
+                                                      <td class="text-center" *ngFor="let achieve of achieved_target">{{achieve}}</td>
+                                                      <!-- <td>25</td>
+                                                         <td>79</td>
+                                                         <td>56</td>
+                                                         <td>18</td>
+      
+                                                         <td>36</td>
+                                                         <td>34</td>
+                                                         <td>70</td>
+                                                         <td>60</td>
+                                                         <td>48</td>
+      
+                                                         <td>44</td>
+                                                         <td>60</td>
+                                                         <td>40</td>
+                                                         <td>35</td>
+                                                         <td>53</td>
+      
+                                                         <td>43</td>
+                                                         <td>80</td>
+                                                         <td>53</td>
+                                                         <td>78</td>
+                                                         <td>60</td> -->
+                                                   </tr>
+                                                   <tr style="background: #f5f5f5">
+                                                      <td class="ar-blue font600">Achieved %</td>
+                                                      <td class="text-center" *ngFor="let ach_per of achi_targ_per">
+                                                         <span class="text-red font600" *ngIf="ach_per <= 70">{{ach_per}}</span><span *ngIf="ach_per > 70">{{ach_per}}</span>
+                                                      </td>
+                                                      <!-- <td>80</td>
+                                                         <td>100</td>
+                                                         <td class="text-red font600">
+                                                               <span class="spnDetails">75</span> -->
+                                                      <!-- <span class="spnTooltip">
+                                                         <strong class="ar-blue">09/04 : 75% Achieved</strong><br>
+                                                         This is the alert message for the accuracy below 70% in the target achieved
+                                                         </span> -->
+                                                      <!-- </td>
+                                                         <td class="text-red font600">
+                                                               <span class="spnDetails">23</span> -->
+                                                      <!-- <span class="spnTooltip">
+                                                         <strong class="ar-blue">09/05 : 23% Achieved</strong><br>
+                                                         This is the alert message for the accuracy below 70% in the target achieved
+                                                         </span> -->
+                                                      <!-- </td>
+                                                         <td class="text-red font600">
+                                                               <span class="spnDetails">70</span> -->
+                                                      <!-- <span class="spnTooltip">
+                                                         <strong class="ar-blue">09/06 : 70% Achieved</strong><br>
+                                                         This is the alert message for the accuracy below 70% in the target achieved
+                                                         </span> -->
+                                                      <!--      </td>
+                                                         <td>100</td>
+                                                         <td>80</td>
+                                                         <td>94</td>
+                                                         <td>96</td>
+      
+                                                         <td>99</td>
+                                                         <td>100</td>
+                                                         <td>80</td>
+                                                         <td class="text-red font600">
+                                                               <span class="spnDetails">72</span>
+                                                               <!-- <span class="spnTooltip">
+                                                                  <strong class="ar-blue">09/06 : 72% Achieved</strong><br>
+                                                                  This is the alert message for the accuracy below 70% in the target achieved
+                                                               </span> -->
+                                                      <!--  </td>
+                                                         <td>100</td>
+      
+                                                         <td>100</td>
+                                                         <td>92</td>
+                                                         <td>98</td>
+                                                         <td>98</td>
+                                                         <td>100</td> -->
+                                                   </tr>
+                                                   <tr>
+                                                      <td class="ar-blue font600">Error</td>
+                                                      <td>1</td>
+                                                      <td>0</td>
+                                                      <td>3</td>
+                                                      <td>12</td>
+                                                      <td>15</td>
+                                                      <td>19</td>
+                                                      <td>10</td>
+                                                      <td>20</td>
+                                                      <td>12</td>
+                                                      <td>27</td>
+                                                      <td>31</td>
+                                                      <td>0</td>
+                                                      <td>11</td>
+                                                      <td>17</td>
+                                                      <td>7</td>
+                                                      <td>15</td>
+                                                      <td>0</td>
+                                                      <td>13</td>
+                                                      <td>14</td>
+                                                      <td>9</td>
+                                                   </tr>
+                                                   <tr style="background: #f7f7f7">
+                                                      <td class="ar-blue font600">Error %</td>
+                                                      <td>1.5</td>
+                                                      <td>0</td>
+                                                      <td>10</td>
+                                                      <td>28</td>
+                                                      <td class="text-red font600">
+                                                         <span class="spnDetails">70</span>
+                                                         <!-- <span class="spnTooltip">
+                                                            <strong class="text-red">09/05 : 70% Error Rate</strong><br>
+                                                            This is the alert message for the Error rate below 70%.
+                                                            </span> -->
+                                                      </td>
+                                                      <td class="text-red font600">
+                                                         <span class="spnDetails">80</span>
+                                                         <!-- <span class="spnTooltip">
+                                                            <strong class="text-red">09/08 : 80% Error Rate</strong><br>
+                                                            This is the alert message for the Error rate below 70%.
+                                                            </span> -->
+                                                      </td>
+                                                      <td>20%</td>
+                                                      <td class="text-red font600">
+                                                         <span class="spnDetails">70</span>
+                                                         <!-- <span class="spnTooltip">
+                                                            <strong class="text-red">09/10 : 70% Error Rate</strong><br>
+                                                            This is the alert message for the Error rate below 70%.
+                                                            </span> -->
+                                                      </td>
+                                                      <td class="text-red font600">
+                                                         <span class="spnDetails">66</span>
+                                                         <!-- <span class="spnTooltip">
+                                                            <strong class="text-red">09/11 : 66% Error Rate</strong><br>
+                                                            This is the alert message for the Error rate below 70%.
+                                                            </span> -->
+                                                      </td>
+                                                      <td class="">18</td>
+                                                      <td class="text-red font600">
+                                                         <span class="spnDetails">87</span>
+                                                         <!-- <span class="spnTooltip">
+                                                            <strong class="text-red">09/15 : 87% Error Rate</strong><br>
+                                                            This is the alert message for the Error rate below 70%.
+                                                            </span> -->
+                                                      </td>
+                                                      <td>0</td>
+                                                      <td>22</td>
+                                                      <td class="text-red font600">
+                                                         <span class="spnDetails">77</span>
+                                                         <!-- <span class="spnTooltip">
+                                                            <strong class="text-red">09/18 : 77% Error Rate</strong><br>
+                                                            This is the alert message for the Error rate below 70%.
+                                                            </span> -->
+                                                      </td>
+                                                      <td>18</td>
+                                                      <td>17</td>
+                                                      <td>0</td>
+                                                      <td>14</td>
+                                                      <td>11</td>
+                                                      <td>16</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </div>
+                                       </div>
                                     </div>
                                  </div>
                               </div>
-                           </div>
+                           </div>                       
                         </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6">
+                           <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                              <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Recent Activities</h3>
+                              </div>
+                           </div>                           
+                        </div>                        
                      </div>
                      <div class="row">
                         <div class="col-lg-6">
@@ -448,7 +470,7 @@
                               </div>
                               <div class="box-body no-padding" style="margin-top:20px;">
                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 production-table no-padding">
-                                    <div class=" table-responsive">
+                                    <div class=" table-responsive"  style="padding:0 5px">
                                        <table class="table-striped1 table table-responsive size_chart" id="option1">
                                           <thead>
                                              <tr>

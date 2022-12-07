@@ -4,6 +4,7 @@ import 'rxjs/add/observable/forkJoin';
 import {Observable} from "rxjs/Observable";
 import { map, filter, switchMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs'; 
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { forkJoin } from 'rxjs';
 export class JarwisService {
   // private baseUrl = 'http://:8000/api';
  // private baseUrl = 'http://localhost:8000/api';
-  private baseUrl = 'http://127.0.0.1:8000/api';
+  //private baseUrl = 'http://127.0.0.1:8000/api';
+  private baseUrl = `${environment.apiUrl}`;
   //private baseUrl = 'http://35.226.72.203/avecarm/backend/public/index.php/api';
   constructor(private http: HttpClient) { 
   }
@@ -72,7 +74,7 @@ validateUsername(data,data2)
 
 upload(formdata)
 {
-	//console.log(formdata);
+	console.log(formdata);
   // let data = {formData:formdata, practice_dbid : localStorage.getItem('practice_id')};
   
 
@@ -665,6 +667,21 @@ get_users_list(user)
   return response;
 }
 
+// getting user list from aims database //
+get_aimsusers_list(user)
+{
+  let data={token:'1a32e71a46317b9cc6feb7388238c95d', 
+    department_id:1};
+  // console.log(data);
+  let response = this.http.post('http://127.0.0.1:8080/api/product_api_v1/get_user_list', data, {headers: {'Content-Type': 'application/json', 
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST'}});
+  console.log(response);
+  //let response= this.common_url('get_users_list', data);
+  return response;
+}
+
+
 update_user_details(data,dataid,user_id)
 {
  data={data,id: dataid,update_id:user_id};
@@ -1149,6 +1166,12 @@ auto_assigned(user_id, claim_id, work, claim, type){
 view_doc_file(id){
   let data={id:id};
   let response = this.common_url('view_doc_file', data);
+  return response;
+}
+
+get_file_ready_count(){
+  let response = this.http.get(`${this.baseUrl}/get_file_ready_count`);
+  console.log(response);
   return response;
 }
 

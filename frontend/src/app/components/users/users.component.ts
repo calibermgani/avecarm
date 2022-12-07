@@ -15,6 +15,7 @@ export class UsersComponent implements OnInit {
   submitted = false;
   
   closeResult:any;
+  aims_list = [];
   user_details_list=[];
   user_profile_det=[];
   user_address_det=[];
@@ -55,10 +56,23 @@ get_users_list()
   this.modal.dismiss();
 }
 
+get_aimsusers_list()
+{
+  let data={token:'1a32e71a46317b9cc6feb7388238c95d', 
+    department_id:1};
+  this.Jarwis.get_aimsusers_list(data).subscribe(
+    res => {
+      console.log(res);
+;      this.set_user_list(res);}
+    );
+  this.modal.dismiss();
+}
+
 set_user_list(data)
 {
   //console.log(data);
   this.user_details_list = data.data;
+  this.aims_list = data.data;
   this.user_profile_det = data.profile;
   this.user_address_det = data.address;
   this.user_work_profiles = data.work_profile;

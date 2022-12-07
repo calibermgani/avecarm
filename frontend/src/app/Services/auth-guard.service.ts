@@ -29,8 +29,8 @@ export class AuthGuard implements CanActivate {
               let data=localStorage.getItem('token');
               this.auth.login(data);
 
-              // console.log("Auth",this.auth.loggedIn);
-              if(this.auth.loggedIn ){
+              console.log("Auth",this.auth.loggedIn);
+              if(this.auth.loggedIn.value == true ){
                 return true;
                 }else
                 {

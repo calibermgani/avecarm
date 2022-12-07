@@ -73,6 +73,8 @@ import { SortableDirective } from './sortable.directive';
 import { SidebarModule } from 'ng-sidebar';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ReportComponent } from './components/report/report.component';
+import { TestUsersComponent } from './components/test-users/test-users.component';
+
 
 
 // FusionChartsModule.fcRoot(FusionCharts,PowerCharts, Charts,Widgets,FusionTheme,TimeSeries,overlappedcolumn2d)
@@ -99,6 +101,7 @@ import { ReportComponent } from './components/report/report.component';
      MedcubicsIntegComponent,
      SortableDirective,
      ReportComponent,
+     TestUsersComponent,
      
     //  PracticeComponent,
     //  ModelBasicComponent,

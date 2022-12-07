@@ -44,6 +44,8 @@ export class ClaimsComponent implements OnInit {
   column: string = "dos";
   associateCount : any ='';
   filter = '';
+  assigned = "";
+  reAssigned = "";
 
 @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -220,6 +222,7 @@ if(this.data.length!=0 && target.files[0].type =="application/vnd.openxmlformats
   this.formdata.append('file_name', target.files[0]);
 
   this.formdata.append('user_id',this.setus.getId());
+  console.log(this.formdata);
 
   this.filenote="";
 }
@@ -425,13 +428,14 @@ this.clear_notes();
 
 public processdata()
 {
-  // console.log(this.formGroup.value)
+  console.log(this.formGroup.value)
   // this.loadingBar.start();
 
   let report_date=this.formGroup.value.report_date;
   this.formdata.append('report_date',report_date.day+'-'+report_date.month+'-'+report_date.year );
   this.formdata.append('notes', this.formGroup.value.notes);
   this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));
+  console.log(this.formdata);
   this.Jarwis.upload(this.formdata).subscribe(
     message=> {this.handlemessage(message);  this.toastr.successToastr('Uploaded');},
     error => this.notify(error)
@@ -466,10 +470,6 @@ public updatelog(data)
   // let compare = data.message.filter(item => this.new_claims.indexOf(item) < 0);
   // this.new_claims = compare;
   // this.newclaim = this.new_claims.length;
-
-
-
-
 
 }
 
@@ -3546,6 +3546,7 @@ user_name:string;
 ngOnInit() {
 
      // this.getclaims();
+     this.user_role_maintainer();
      this.formValidators();
      this.claimValidators();
      this.pageChange(1,'all',null,null,'null','null','null','null');
@@ -3683,6 +3684,20 @@ this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
 
   this.file_count();
 
+}
+
+user_role:Number=0;
+user_role_maintainer()
+{
+let role_id=Number(this.setus.get_role_id());
+  if(role_id == 5 || role_id == 3 || role_id == 2)
+  {
+    this.user_role=2;
+  }
+  else if(role_id == 1)
+  {
+    this.user_role=1;
+  }
 }
 
 file_count(){

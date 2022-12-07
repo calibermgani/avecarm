@@ -128,7 +128,8 @@ export class PracticeComponent implements OnInit {
         Validators.required
       ]),
       mail_zip: new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.pattern(/^\d{5}$|^\d{5}-\d{4}$/)
       ]),
 
 

@@ -14,6 +14,11 @@ export class FooterComponent implements OnInit {
 
   ngOnInit() {
     this.loadingBar.stop();
+    this.copyrightYear();
+  }
+
+  copyrightYear(): number {
+    return new Date().getFullYear();
   }
 
 }

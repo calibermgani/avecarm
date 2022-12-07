@@ -49,15 +49,12 @@ export class LoginComponent implements OnInit {
       this.router.navigateByUrl('/dashboard');
       this.auth.practicePermission();
       this.setus.set_type(data.role);
-
     }
     else{
       this.router.navigateByUrl('/practiceList');
     }
     //console.log("Dat Per",data.permission); 
     // this.setus.set_type(data.permission);
-
-
   }
 
   handleError(error){

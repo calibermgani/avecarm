@@ -22,7 +22,6 @@ import { ErrorLogComponent } from './components/error-log/error-log.component';
 import { RolesComponent } from './components/roles/roles.component';
 import { MedcubicsIntegComponent } from './components/medcubics-integ/medcubics-integ.component';
 import { ReportComponent } from './components/report/report.component';
-//import { DocumentViewComponent } from './components/document-view/document-view.component';
 
 const appRoutes: Routes = [
   {
@@ -90,11 +89,6 @@ const appRoutes: Routes = [
     component: ReportComponent,
     canActivate: [AuthGuard]
   },
-  // {
-  //   path: 'documents-view',
-  //   component: DocumentViewComponent,
-  //   canActivate: [AuthGuard]
-  // },
   
   // {
   //   path: 'practice',

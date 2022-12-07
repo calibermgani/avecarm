@@ -321,3 +321,35 @@ input[type=radio]:focus {
   border: 2px solid #1fa5be;
   border-radius: 50px;
 }
+
+.searchbox input[type=text] {
+  padding: 9px;
+  font-size: 14px;
+  border: 1px solid #e9ecf3;
+  float: left;
+  width: 90%;
+}
+
+.searchbox button {
+  float: left;
+  width: 10%;
+  padding: 10px;
+  border: 0.5px solid #e9ecf3;
+  background: #c9c9c9;
+  color: #333333;
+  font-size: 14px;
+  border: none;
+  border-left: none;
+  cursor: pointer;
+}
+
+.searchbox button:hover {
+  background: #9e9e9e;
+  color: white;
+}
+
+.searchbox::after {
+  content: "";
+  clear: both;
+  display: table;
+}

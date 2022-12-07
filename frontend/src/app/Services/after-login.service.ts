@@ -13,6 +13,7 @@ export class AfterLoginService implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean>|Promise<boolean>|boolean {
     return this.Token.loggedIn();
+  //  return true;
   }
   constructor(private Token: TokenService) { }
 }

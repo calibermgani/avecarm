@@ -39,11 +39,12 @@ import { HeaderComponent } from '../components/header/header.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { FollowupTemplateComponent } from '../components/followup-template/followup-template.component';
 import { FollowupViewComponent } from '../components/followup-view/followup-view.component';
-import { ClaimOpFooterComponent } from '../components/claim-op-footer/claim-op-footer.component';
 import { ClientNotesComponent } from '../components/client-notes/client-notes.component';
 import { NotifyPopupComponent } from '../components/notify-popup/notify-popup.component';
 import { SummaryComponent } from '../components/summary/summary.component';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClaimOpFooterComponent } from '../components/claim-op-footer/claim-op-footer.component';
+
 
 
 
@@ -83,8 +84,8 @@ FusionChartsModule.fcRoot(FusionCharts,PowerCharts, Charts,Widgets,FusionTheme,T
     providers: [JarwisService,NotifyService,DatePipe,{provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter}],
     exports:[HeaderComponent,
       FooterComponent,
-      NavbarComponent,FollowupTemplateComponent,FollowupViewComponent,ClaimOpFooterComponent,ClientNotesComponent,NotifyPopupComponent,SummaryComponent,FusionChartsModule,
+      NavbarComponent,FollowupTemplateComponent,FollowupViewComponent,ClientNotesComponent,NotifyPopupComponent,SummaryComponent,FusionChartsModule,
       LoadingBarHttpClientModule,LoadingBarHttpModule,LoadingBarRouterModule,LoadingBarHttpClientModule,TooltipModule,FormsModule,ReactiveFormsModule,NgxPaginationModule,
-      AtomSpinnerModule,NgbModule,SelectDropDownModule]
+      AtomSpinnerModule,NgbModule,SelectDropDownModule,ClaimOpFooterComponent]
 })
 export class CommonModuleModule { }
