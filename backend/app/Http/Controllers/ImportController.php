@@ -5222,11 +5222,32 @@ return $display_data;
  */
 public function get_file_ready_count(){
 
-  $response_data = Import_field::with(['FileName_details'])->where('claim_Status','Ready')->get();
-  return response()->json([
-    'file_datas'=>  $response_data,
-    'display_msg'  => "Success"
-    ]);
+  $user_details =array(
+    'code' =>204,
+    'message' =>'No Data Found'
+  );
+  try{
+
+    // $response_data = Import_field::with(['FileName_details'])->where('claim_Status','Ready')->get();
+    $response_data = File_upload::select('import_fields.file_upload_id','file_uploads.file_name')
+                  ->join('import_fields', 'file_uploads.id', '=', 'import_fields.file_upload_id')
+                  ->where('import_fields.claim_Status','Ready')->get();
+      $getcount = $response_data->count();
+
+      return response()->json([
+        'code' => 200,
+        'file_datas'=>  $response_data,
+        'file_count'=>  $getcount,
+        'message'  => "success",
+        ]);
+
+  }catch(Exception $e)
+  {
+
+  }
+
+  
+  
 
 
 
