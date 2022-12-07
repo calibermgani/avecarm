@@ -15,7 +15,7 @@ export class JarwisService {
   //private baseUrl = 'http://127.0.0.1:8000/api';
   private baseUrl = `${environment.apiUrl}`;
   //private baseUrl = 'http://35.226.72.203/avecarm/backend/public/index.php/api';
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
   }
 
 
@@ -76,7 +76,7 @@ upload(formdata)
 {
 	console.log(formdata);
   // let data = {formData:formdata, practice_dbid : localStorage.getItem('practice_id')};
-  
+
 
 
   return this.http.post(`${this.baseUrl}/upload`,formdata);
@@ -295,7 +295,7 @@ create_followup(id,questions,data,claim,category)
 update_followup_template(user_id, temp_id,questions,data,claim,category){
   data={user_id:user_id,temp_id:temp_id,question_data:questions,form_data:data,claim_no:claim,cat:category};
   let response = this.common_url('update_followup_template', data);
-  return response;  
+  return response;
 }
 
 get_followup(data)
@@ -322,7 +322,7 @@ create_workorder(id,data,claim,wo_type)
 
   return response;
 
-  
+
 }
 check_claims(data)
 {
@@ -497,7 +497,7 @@ get_rcm_claims(id,page,page_count,sort_data,sort_type,sorting_name,sorting_metho
 get_rcm_claims_sorting(id,page,page_count, type, filter){
   let data={user_id:id,page_no:page,count:page_count,type:type, filter:filter}
   let response= this.common_url('get_rcm_claims_sorting',data);
-  return response; 
+  return response;
 }
 
 get_rcm_team_list(data)
@@ -686,7 +686,7 @@ update_user_details(data,dataid,user_id)
 {
  data={data,id: dataid,update_id:user_id};
  return this.http.post(`${this.baseUrl}/update_user_details`, data);
- 
+
 
 }
 
@@ -882,18 +882,18 @@ return this.http.post(`${this.baseUrl}/selectPractice`,data);
 
 get_logs()
 {
-return this.http.get(`${this.baseUrl}/getLogs`);  
+return this.http.get(`${this.baseUrl}/getLogs`);
 }
 
 viewLog(name)
 {
   let data = {file_name:name};
-return this.http.post(`${this.baseUrl}/viewLog`,data);  
+return this.http.post(`${this.baseUrl}/viewLog`,data);
 }
 
 getPracticesList()
 {
-return this.http.get(`${this.baseUrl}/getPracticesList`);  
+return this.http.get(`${this.baseUrl}/getPracticesList`);
 }
 
 get_audit_graph(id)
@@ -914,12 +914,12 @@ createRoles(datas, id){
   let response= this.common_url('create_roles',data);
   return response;
 }
-  
+
 updateRoles(datas, id, role_id){
   let data = {form_data:datas,user_id:id, role_id:role_id};
   let response = this.common_url('update_roles', data);
   return response;
-}  
+}
 
 followup_process_notes_delete(claim_no, id){
   let data = {claim_no:claim_no, user_id:id};
@@ -943,97 +943,97 @@ closed_followup_process_notes_delete(claim_no, id){
 audit_process_notes_delete(claim_no, id){
   let data = {claim_no:claim_no, user_id:id};
   let response = this.common_url('audit_process_notes_delete', data);
-  return response; 
+  return response;
 }
 
 closed_audit_process_notes_delete(claim_no, id){
   let data = {claim_no:claim_no, user_id:id};
   let response = this.common_url('closed_audit_process_notes_delete', data);
-  return response; 
+  return response;
 }
 
 template_edit(claim_id, id){
   let data = {claim_id:claim_id, user_id:id};
   let response = this.common_url('template_edit', data);
-  return response; 
+  return response;
 }
 
 insurance_name_list(){
   let data = {all:'data'};
   let response = this.common_url('insurance_name_list', data);
-  return response;  
+  return response;
 }
 
 
 claims_order_list(type, user_id, sortByAsc){
   let data = {type:type, user_id:user_id, sortByAsc:sortByAsc};
   let response = this.common_url('claims_order_list', data);
-  return response;   
+  return response;
 }
 
 getclaim_details_order_list(user_id, page, page_count, type, sort_data, sort_type){
   let data = {claim_type:type, user_id:user_id, page_no:page,count: page_count, sort_data:sort_data, sort_type:sort_type};
   let response = this.common_url('getclaim_details_order_list', data);
-  return response;   
+  return response;
 }
 
 audit_assigned_order_list(user_id, page, page_count, type, sort_data, sort_type){
   let data = {claim_type:type, user_id:user_id, page_no:page,count: page_count, sort_data:sort_data, sort_type:sort_type};
   let response = this.common_url('audit_assigned_order_list', data);
-  return response;   
+  return response;
 }
 
 claims_tooltip(claim){
   let data = {claim_no:claim};
   let response = this.common_url('claims_tooltip', data);
-  return response;  
+  return response;
 }
 
 get_insurance(user_id){
   let data = {user_id:user_id};
   let response = this.common_url('get_insurance', data);
-  return response;   
+  return response;
 }
 
 get_claimno(claim_no, user_id, claim_type, type){
   let data = {claim_no:claim_no, user_id:user_id, claim_type:claim_type, type:type};
   console.log(data);
   let response = this.common_url('get_claimno', data);
-  return response;    
+  return response;
 }
 
 get_audit_claimno(claim_no, user_id, claim_type, type){
   let data = {claim_no:claim_no, user_id:user_id, claim_type:claim_type, type:type};
   console.log(data);
   let response = this.common_url('get_audit_claimno', data);
-  return response;    
+  return response;
 }
 
 get_rcm_claimno(claim_no, user_id, claim_type){
   let data = {claim_no:claim_no, user_id:user_id, claim_type:claim_type};
   console.log(data);
   let response = this.common_url('get_rcm_claimno', data);
-  return response;    
+  return response;
 }
 
 get_client_claimno(claim_no, user_id, claim_type){
   let data = {claim_no:claim_no, user_id:user_id, claim_type:claim_type};
   console.log(data);
   let response = this.common_url('get_client_claimno', data);
-  return response;    
+  return response;
 }
-  
+
 get_buyer(insurance_name){
   let data = {insurance_name:insurance_name};
   let response = this.common_url('get_buyer', data);
-  return response;    
+  return response;
 }
 
 get_report_claims(page,page_count,search_data,sort_type,type,startTime,endTime,trans_startDate,trans_endDate,dos_startDate,dos_endDate){
   let data = {page:page, page_count:page_count,data:search_data,sort_type:sort_type,type:type,startTime:startTime,endTime:endTime,trans_startDate:trans_startDate,trans_endDate:trans_endDate,dos_startDate:dos_startDate,dos_endDate:dos_endDate};
   console.log(data);
   let response = this.common_url('get_report_claims', data);
-  return response;    
+  return response;
 }
 
 /* Report Export  */
@@ -1042,98 +1042,98 @@ fetch_claims_report_export_data(filter,startTime,endTime,trans_startDate,trans_e
 {
   let data={filter:filter,startTime:startTime,endTime:endTime,trans_startDate:trans_startDate,trans_endDate:trans_endDate,dos_startDate:dos_startDate,dos_endDate:dos_endDate,table_name:table_name,  practice_dbid : localStorage.getItem('practice_id')};
   let response = this.common_url('report_export_claims', data);
-  return response;    
+  return response;
 }
 
 fetch_create_claims_export_data(user_id, table_name, search, searchClaims, workordersearch){
   let data={user_id:user_id, table_name:table_name, search:search, searchClaims:searchClaims, workordersearch:workordersearch};
   let response = this.common_url('fetch_create_claims_export_data', data);
-  return response;    
+  return response;
 }
 
 fetch_followup_claims_export_data(user_id, table_name, search, searchClaims){
   let data={user_id:user_id, table_name:table_name, search:search, searchClaims:searchClaims};
   let response = this.common_url('fetch_followup_claims_export_data', data);
-  return response;    
+  return response;
 }
 
 fetch_audit_claims_export_data(user_id, table_name, search, searchClaims){
   let data={user_id:user_id, table_name:table_name, search:search, searchClaims:searchClaims};
   let response = this.common_url('fetch_audit_claims_export_data', data);
-  return response;    
+  return response;
 }
 
 fetch_billing_claims_export_data(user_id, table_name, search, searchClaims){
   let data={user_id:user_id, table_name:table_name, search:search, searchClaims:searchClaims};
   let response = this.common_url('fetch_billing_claims_export_data', data);
-  return response;    
+  return response;
 }
 
 fetch_client_claims_export_data(user_id, table_name, search, searchClaims){
   let data={user_id:user_id, table_name:table_name, search:search, searchClaims:searchClaims};
   let response = this.common_url('fetch_client_claims_export_data', data);
-  return response;    
+  return response;
 }
 
 fetch_work_order_export_data(user_id, table_name, search, searchClaims){
   let data={user_id:user_id, table_name:table_name, search:search, searchClaims:searchClaims};
   let response = this.common_url('fetch_work_order_export_data', data);
-  return response;     
+  return response;
 }
 
 
 fetch_create_claims_export_data_pdf(user_id, table_name, search){
   let data={user_id:user_id, table_name:table_name};
   let response = this.common_url('fetch_create_claims_export_data_pdf', data);
-  return response;     
+  return response;
 }
 
 fetch_followup_claims_export_data_pdf(user_id, table_name){
   let data={user_id:user_id, table_name:table_name};
   let response = this.common_url('fetch_followup_claims_export_data_pdf', data);
-  return response;     
+  return response;
 }
 
 fetch_audit_claims_export_data_pdf(user_id, table_name){
   let data={user_id:user_id, table_name:table_name};
   let response = this.common_url('fetch_audit_claims_export_data_pdf', data);
-  return response;     
+  return response;
 }
 
 fetch_billing_claims_export_data_pdf(user_id, table_name){
   let data={user_id:user_id, table_name:table_name};
   let response = this.common_url('fetch_billing_claims_export_data_pdf', data);
-  return response;     
+  return response;
 }
 
 fetch_client_claims_export_data_pdf(user_id, table_name){
   let data={user_id:user_id, table_name:table_name};
   let response = this.common_url('fetch_client_claims_export_data_pdf', data);
-  return response;     
+  return response;
 }
 
 fetch_work_order_export_data_pdf(user_id, table_name){
   let data={user_id:user_id, table_name:table_name};
   let response = this.common_url('fetch_work_order_export_data_pdf', data);
-  return response;     
+  return response;
 }
 
 claims_closed_claim_search(user_id, searchValue){
   let data={user_id:user_id, searchValue:searchValue};
   let response = this.common_url('claims_closed_claim_search', data);
-  return response;     
+  return response;
 }
 
 updateingnore(upload_id){
   let data={upload_id:upload_id};
   let response = this.common_url('updateingnore', data);
-  return response;     
+  return response;
 }
 
 deletetemplate(delete_id){
   let data={delete_id:delete_id};
   let response = this.common_url('deletetemplate', data);
-  return response;     
+  return response;
 }
 
 getAlertNotification(user_id){
@@ -1141,7 +1141,7 @@ getAlertNotification(user_id){
   let response = this.common_url('getAlertNotification', data);
   //let response_touch = this.common_url('getAlertNotification', data);
   return response;
-  //return response_touch;     
+  //return response_touch;
 }
 
 get_setting_importsearch(searchValue){
@@ -1154,7 +1154,7 @@ get_user_role(data){
   let datas={data:data};
   let response = this.common_url('get_user_role', datas);
   return response;
- // return this.http.post(`${this.baseUrl}/getroles`,{});  
+ // return this.http.post(`${this.baseUrl}/getroles`,{});
 }
 
 auto_assigned(user_id, claim_id, work, claim, type){
