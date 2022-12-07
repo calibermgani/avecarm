@@ -27,8 +27,8 @@ use App\Statuscode;
 use App\Line_item;
 use App\Claim_history;
 use DateTime;
-use Log;
-
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 
 class ImportController extends Controller
@@ -5220,8 +5220,9 @@ return $display_data;
 /** 
  * Purpose : Get unassigned files claims count with file name
  */
-public function get_file_ready_count(){
-
+public function get_file_ready_count()
+{
+  dd('lsdkfjklasdjf');
   $user_details =array(
     'code' =>204,
     'message' =>'No Data Found'
@@ -5243,7 +5244,7 @@ public function get_file_ready_count(){
 
   }catch(Exception $e)
   {
-
+    Log::debug($e->getMessage());
   }
 
   
