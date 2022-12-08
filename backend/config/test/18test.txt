@@ -1,0 +1,1 @@
+{"total_ar_due":["true","notify"],"total_charges":["true","notify"],"discharge_date":["true","notify"],"admit_date":["true","notify"],"secondary_insurance_name":["true","notify"],"primary_insurance_name":["true","notify"],"insurance_type":["true","notify"],"patient_name":[true,"notify"]}
