@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group([
     'middleware' => ['api','SessionHandler']
 ], function ($router) {
@@ -126,7 +128,7 @@ Route::group([
 	
 	Route::post('getSummaryDetails', 'DashboardController@getSummaryDetails');
 
-    Route::get('get_file_ready_count','ImportController@get_file_ready_count');
+    Route::post('get_file_ready_count','ImportController@get_file_ready_count');
 	
 	/* 
 	Author : selvakumar

@@ -35,7 +35,7 @@ class ImportController extends Controller
 {  
   public function __construct()
   {
-      $this->middleware('auth:api', ['except' => ['upload','get_upload_table_page','getfile','template','createclaim','updatemismatch','overwrite','overwrite_all','get_table_page','get_related_calims','fetch_export_data','get_line_items','delete_upload_file','process_upload_file','get_audit_table_page','updateingnore']]);
+      $this->middleware('auth:api', ['except' => ['upload','get_upload_table_page','getfile','template','createclaim','updatemismatch','overwrite','overwrite_all','get_table_page','get_related_calims','fetch_export_data','get_line_items','delete_upload_file','process_upload_file','get_audit_table_page','updateingnore','get_file_ready_count']]);
   }
 
 
@@ -55,24 +55,30 @@ class ImportController extends Controller
   /*Upload Claim CSV file and Upload Data into DB*/        
   public function upload(LoginRequest $request)
   {
-		$practice_dbid = $request->get('practice_dbid');
-		$savedata =$request->file('file_name');
-		$filename = $request->file('file_name')->getClientOriginalName();
-		$user=$request->get('user_id');
-		$unique_name = md5($filename. time());
-		$filename=date('Y-m-d').'_'.$filename;
-		$path="../uploads";
-		$savedata->move($path, $unique_name);
-		$path ="../uploads/".$unique_name;
-		$report_date=$request->get('report_date');
-		$notes=$request->get('notes');
+    try{
+      $practice_dbid = $request->get('practice_dbid');
+      $savedata =$request->file('file_name');
+      $filename = $request->file('file_name')->getClientOriginalName();
+      $user=$request->get('user_id');
+      $unique_name = md5($filename. time());
+      $filename=date('Y-m-d').'_'.$filename;
+      $path="../uploads";
+      $savedata->move($path, $unique_name);
+      $path ="../uploads/".$unique_name;
+      $report_date=$request->get('report_date');
+      $notes=$request->get('notes');
 
-		$op_data = $this->file_processors($filename,$report_date,$notes,$user,$unique_name,$practice_dbid);
+      $op_data = $this->file_processors($filename,$report_date,$notes,$user,$unique_name,$practice_dbid);
+      log::debug($op_data);
+      return response()->json([
+        'message'=>  $op_data,
+        'upload_msg'  => "Upload Complete"
+        ]);
+    }catch(Exception $e)
+    {
+      Log::debug('Upload Error'.$e->getMessage());
+    }
 		
-		return response()->json([
-			'message'=>  $op_data,
-			'upload_msg'  => "Upload Complete"
-			]);
 
 		
   }   
@@ -5220,19 +5226,14 @@ return $display_data;
 /** 
  * Purpose : Get unassigned files claims count with file name
  */
-public function get_file_ready_count()
+public function get_file_ready_count(LoginRequest $request)
 {
-  dd('lsdkfjklasdjf');
-  $user_details =array(
-    'code' =>204,
-    'message' =>'No Data Found'
-  );
   try{
 
-    // $response_data = Import_field::with(['FileName_details'])->where('claim_Status','Ready')->get();
-    $response_data = File_upload::select('import_fields.file_upload_id','file_uploads.file_name')
-                  ->join('import_fields', 'file_uploads.id', '=', 'import_fields.file_upload_id')
-                  ->where('import_fields.claim_Status','Ready')->get();
+    $response_data = Import_field::with(['FileName_details'])->where('claim_Status','Ready')->get();
+    // $response_data = File_upload::select('import_fields.file_upload_id','file_uploads.file_name')
+    //               ->join('import_fields', 'file_uploads.id', '=', 'import_fields.file_upload_id')
+    //               ->where('import_fields.claim_Status','Ready')->get();
       $getcount = $response_data->count();
 
       return response()->json([
