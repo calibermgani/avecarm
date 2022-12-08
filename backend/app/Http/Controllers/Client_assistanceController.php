@@ -2096,11 +2096,11 @@ class Client_assistanceController extends Controller
 
 
 
-                $date_format[0]=(int)date('d', strtotime( $claim_data[$key]['followup_date']));
-                $date_format[1]=(int)date('m', strtotime( $claim_data[$key]['followup_date']));
-                $date_format[2]=(int)date('Y', strtotime( $claim_data[$key]['followup_date']));
+                // $date_format[0]=(int)date('d', strtotime( $claim_data[$key]['followup_date']));
+                // $date_format[1]=(int)date('m', strtotime( $claim_data[$key]['followup_date']));
+                // $date_format[2]=(int)date('Y', strtotime( $claim_data[$key]['followup_date']));
 
-                $claim_data[$key]['followup_date'] = $date_format;
+                // $claim_data[$key]['followup_date'] = $date_format;
 
                 $date_formats = Carbon::parse($value['followup_date'])->format('m/d/Y');
 
