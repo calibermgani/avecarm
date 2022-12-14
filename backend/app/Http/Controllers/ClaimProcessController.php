@@ -273,7 +273,8 @@ class ClaimProcessController extends Controller
                         // 'followup_associate'    =>  '',
                         // 'followup_date'         =>  $date,
                         'claim_closing'         =>  $claim_closed,
-                        'updated_at'            =>  date('Y-m-d H:i:s')
+                        'updated_at'            =>  date('Y-m-d H:i:s'),
+                        'closed_claim_date'     =>  date('Y-m-d')
                         ));
                 }
                 else{
@@ -301,7 +302,8 @@ class ClaimProcessController extends Controller
                         // 'followup_associate'    =>  $user_id,
                         // 'followup_date'         =>  $date,
                         'claim_closing'         =>  $claim_closed,
-                        'updated_at'            =>  date('Y-m-d H:i:s')
+                        'updated_at'            =>  date('Y-m-d H:i:s'),
+                        'closed_claim_date'     =>  date('Y-m-d')
                         ));
 
                 }

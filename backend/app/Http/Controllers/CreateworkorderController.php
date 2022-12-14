@@ -4151,13 +4151,13 @@ public function get_workorder(LoginRequest $request)
                     FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                     ) as claim_histories"), function($join) {
                       $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1);
+                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close');
          
             $claim_data = $claim_data-> offset($skip) ->limit($end);
 
             $claim_count= $claim_data->count();
 
-            $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1);
+            $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close');
          
             $claim_data = $claim_data->get();
 
@@ -4179,13 +4179,13 @@ public function get_workorder(LoginRequest $request)
                     FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                     ) as claim_histories"), function($join) {
                       $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)-> offset($skip) ->limit($end)->get();
+                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')-> offset($skip) ->limit($end)->get();
 
             $current_total = $claim_data->count();
 
-            $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->get();
+            $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->get();
             $selected_count = $selected_claim_data->count();
-            $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->count();
+            $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->count();
         }elseif($sort_type=="closedClaims"  && $sort_type_close == null && $sorting_method == true && $sorting_name == ''){
 
             $claim_data = Import_field::leftjoin(DB::raw("(SELECT
@@ -4199,14 +4199,14 @@ public function get_workorder(LoginRequest $request)
                     FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                     ) as claim_histories"), function($join) {
                       $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)-> offset($skip) ->limit($end)->get();
+                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')-> offset($skip) ->limit($end)->get();
 
               $current_total = $claim_data->count();
 
-              $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->get();
+              $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->get();
               $selected_count = $selected_claim_data->count();
 
-              $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->count();
+              $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->count();
         }
 
         if($sort_type=="closedClaims"  && $sort_type_close == null && $sorting_name != 'null' && $sorting_name != '' && $searchValue == null && $search  == null){
@@ -4224,9 +4224,9 @@ public function get_workorder(LoginRequest $request)
                     FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                     ) as claim_histories"), function($join) {
                       $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end)->get();
+                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end)->get();
                   $current_total = $claim_data->count(); 
-                  $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->get();
+                  $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->get();
                   $selected_count = $selected_claim_data->count();
               }else if($sorting_method == false){
                   $claim_data= Import_field::leftjoin(DB::raw("(SELECT
@@ -4240,14 +4240,14 @@ public function get_workorder(LoginRequest $request)
                     FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                     ) as claim_histories"), function($join) {
                       $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end)->get();
+                  })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end)->get();
                   $current_total = $claim_data->count(); 
 
-                  $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->get();
+                  $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->get();
                   $selected_count = $selected_claim_data->count();
               }   
             
-              $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->count();
+              $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->count();
         }
 
         if($sort_code != null && $sorting_name == 'null' && $searchValue == null){
@@ -4265,11 +4265,11 @@ public function get_workorder(LoginRequest $request)
                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                 ) as claim_histories"), function($join) {
                   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-              })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orderBy($sort_code, 'desc')-> offset($skip) ->limit($end)->get();
+              })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->orderBy($sort_code, 'desc')-> offset($skip) ->limit($end)->get();
                 $current_total = $claim_data->count(); 
-                $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->get();
+                $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->get();
                 $selected_count = $selected_claim_data->count();
-                $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->count();
+                $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->count();
             }else if($sort_type_close == false){
                 $claim_data= Import_field::leftjoin(DB::raw("(SELECT
                     claim_notes.claim_id,claim_notes.content as claims_notes
@@ -4282,12 +4282,12 @@ public function get_workorder(LoginRequest $request)
                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                 ) as claim_histories"), function($join) {
                   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-              })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orderBy($sort_code, 'asc')-> offset($skip) ->limit($end)->get();
+              })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->orderBy($sort_code, 'asc')-> offset($skip) ->limit($end)->get();
                 $current_total = $claim_data->count(); 
 
-                $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->get();
+                $selected_claim_data = Import_field::with('users')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->get();
                 $selected_count = $selected_claim_data->count();
-                $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->count();
+                $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->count();
             }    
         }elseif($searchValue != null && $search == 'search'){
 
@@ -4302,7 +4302,7 @@ public function get_workorder(LoginRequest $request)
             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
             ) as claim_histories"), function($join) {
               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-          })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1);
+          })->with('Claim_history')->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close');
 
            $claim_count = Import_field::leftjoin(DB::raw("(SELECT
               claim_notes.claim_id,claim_notes.content as claims_notes
@@ -4315,7 +4315,7 @@ public function get_workorder(LoginRequest $request)
             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
             ) as claim_histories"), function($join) {
               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-          })->whereIN('claim_no',$closed)->where('claim_closing',1);
+          })->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close');
 
            $selected_claim_data = Import_field::leftjoin(DB::raw("(SELECT
               claim_notes.claim_id,claim_notes.content as claims_notes
@@ -4328,7 +4328,7 @@ public function get_workorder(LoginRequest $request)
             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
             ) as claim_histories"), function($join) {
               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-          })->whereIN('claim_no',$closed)->where('claim_closing',1);
+          })->whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close');
 
           
 
