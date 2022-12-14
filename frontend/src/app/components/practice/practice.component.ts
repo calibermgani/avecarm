@@ -128,8 +128,7 @@ export class PracticeComponent implements OnInit {
         Validators.required
       ]),
       mail_zip: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^\d{5}$|^\d{5}-\d{4}$/)
+        Validators.required
       ]),
 
 
@@ -159,7 +158,7 @@ export class PracticeComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('dsadasd');
+    console.log(this.formGroup.controls.value);
     this.submitted = true;
     if (this.formGroup.invalid) {
       console.log('error');

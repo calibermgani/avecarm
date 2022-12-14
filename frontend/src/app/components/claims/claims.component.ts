@@ -332,7 +332,7 @@ public handlemessage(message)
   // setTimeout(()=>{
   //   this.error = "";
   //   }, 1500);
-    }
+}
 
 notify(error)
 {
@@ -439,8 +439,28 @@ public processdata()
   this.Jarwis.upload(this.formdata).subscribe(
     message=> {this.handlemessage(message);  this.toastr.successToastr('Uploaded');},
     error => this.notify(error)
-);
+  );
 }
+notifysuccess(message){
+  console.log(message)
+  this.toastr.successToastr(message);
+}
+
+
+public auto_close_claim(){
+  console.log(this.formGroup.value);
+  let file_name = this.formGroup.value.file.file_name;
+  this.formdata.append('user_id', this.formGroup.value.user_id);
+  this.formdata.append('file_name', file_name);
+  this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));
+  console.log(this.formdata);
+  this.Jarwis.uploadcloseclaim(this.formdata).subscribe(
+    message=> {this.notifysuccess(message)},
+    error => this.notify(error)
+  );
+}
+
+
 
 public clear()
 {
@@ -1224,9 +1244,10 @@ client_notes;
   if(this.active_claim != undefined)
   {
     console.log(type);
+    console.log(this.active_claim);
     if(this.active_claim.length != 0)
-    {  console.log(this.active_claim.length);
-        this.update_refer_notes(data,type,this.active_claim)
+    { 
+      this.update_refer_notes(data,type,this.active_claim)
     }
       else
       {
@@ -1236,27 +1257,32 @@ client_notes;
           console.log(data);
           this.process_notes=data.data;
           console.log(this.process_notes);
-          }
-          else if(type=='claimnotes')
-          {
-            this.claim_notes=data.data;
-            }
-            else if(type=='qcnotes')
-            {
-              this.qc_notes=data.data;
-              }
-              else if(type=='All')
-              {
-                this.process_notes=data.data.process;
-                this.claim_notes=data.data.claim;
-                this.qc_notes=data.data.qc;
-                this.client_notes=data.data.client;
-                }
-                }
-                this.loading=false;
-                this.processNotes.reset();
-                //this.claimNotes.reset();
-                //this.qcNotes.reset();
+        }
+        else if(type=='claimnotes')
+        {
+          this.claim_notes=data.data;
+          console.log(this.claim_notes);
+        }
+        else if(type=='qcnotes')
+        {
+          this.qc_notes=data.data;
+          console.log(this.qc_notes);
+        }
+        else if(type=='All')
+        {
+          this.process_notes=data.data.process;
+          this.claim_notes=data.data.claim;
+          this.qc_notes=data.data.qc;
+          this.client_notes=data.data.client;
+          console.log("All details");
+          console.log(this.claim_notes);
+          console.log(this.qc_notes);
+        }
+      }
+      this.loading=false;
+      this.processNotes.reset();
+      //this.claimNotes.reset();
+      //this.qcNotes.reset();
   }
 
                 }
@@ -1830,251 +1856,250 @@ public auto_post_claims(data)
   this.assign_status=[];
   console.log("Claim Stats",data.import_det);
   let claim_stats=data.data;
-//   this.for(let j=0;j < assigned_associates.length;j++)
-// {
+  //   this.for(let j=0;j < assigned_associates.length;j++)
+  // {
+  let reassigned_claims=[];
+  let new_claim=[];
+  this.tested = data.import_det;
 
-let reassigned_claims=[];
-let new_claim=[];
-this.tested = data.import_det;
+  console.log(this.selected_claim_nos.length);
 
-console.log(this.selected_claim_nos.length);
-
-for(let i=0;i< this.selected_claim_nos.length;i++)
-{
-  console.log(this.selected_claim_nos[i]);
-  let curr_claim=this.selected_claim_nos[i];
-  console.log(curr_claim);
-
-  if(curr_claim !=null)
+  for(let i=0;i< this.selected_claim_nos.length;i++)
   {
-    let reass_index=reassigned_claims.findIndex(v => v.id == this.selected_id);
-    console.log(reass_index);
-    if(reass_index < 0)
+    console.log(this.selected_claim_nos[i]);
+    let curr_claim=this.selected_claim_nos[i];
+    console.log(curr_claim);
+
+    if(curr_claim !=null)
     {
-      reassigned_claims.push({ id:this.selected_id, value :[curr_claim]})
-      console.log("Reassigned",reassigned_claims);
+      let reass_index=reassigned_claims.findIndex(v => v.id == this.selected_id);
+      console.log(reass_index);
+      if(reass_index < 0)
+      {
+        reassigned_claims.push({ id:this.selected_id, value :[curr_claim]})
+        console.log("Reassigned",reassigned_claims);
+      }
+      else{
+        reassigned_claims[reass_index]['value'].push(curr_claim);
+        console.log("Reassigned2",reassigned_claims);
+      }
     }
-    else{
-      reassigned_claims[reass_index]['value'].push(curr_claim);
-      console.log("Reassigned2",reassigned_claims);
+    else
+    {
+      new_claim.push(this.selected_claim_nos[i]);
+      console.log(new_claim);
     }
+
+  }
+
+
+  // console.log("associate",new_claim,this.associates_detail,this.selected_associates);
+
+  let process_associates=[];
+  let claim_assign_nos=[]
+
+  console.log(this.selected_associates);
+
+  if(this.selected_associates.length == 0 )
+  {
+    process_associates=this.associates_detail;
   }
   else
   {
-    new_claim.push(this.selected_claim_nos[i]);
-    console.log(new_claim);
+    for(let i=0;i < this.selected_associates.length; i++)
+    {
+      console.log(this.selected_associates[i]);
+      process_associates.push(this.associates_detail.find(v => v.id == this.selected_associates[i]));
+      console.log(process_associates);
+    }
   }
 
-}
+  let assign_total=0;
+  let total_new_cliam=new_claim.length;
+  process_associates.forEach(element => {
+    assign_total += Number(2);
+  console.log("Assoc",assign_total,"TOT",element['assign_limit']);
+  });
 
 
-// console.log("associate",new_claim,this.associates_detail,this.selected_associates);
-
-let process_associates=[];
-let claim_assign_nos=[]
-
-console.log(this.selected_associates);
-
-if(this.selected_associates.length == 0 )
-{
-  process_associates=this.associates_detail;
-}
-else
-{
-  for(let i=0;i < this.selected_associates.length; i++)
+  for(let i=0;i < process_associates.length;i++)
   {
-    console.log(this.selected_associates[i]);
-    process_associates.push(this.associates_detail.find(v => v.id == this.selected_associates[i]));
-    console.log(process_associates);
-  }
-}
+    var assigned={};
+    let associate_data=process_associates[i];
+    // console.log("Assoc_data",associate_data,associate_data['assign_limit'],associate_data);
 
-let assign_total=0;
-let total_new_cliam=new_claim.length;
-process_associates.forEach(element => {
-  assign_total += Number(2);
- console.log("Assoc",assign_total,"TOT",element['assign_limit']);
-});
+    // let assignable_nos=Number(associate_data['assign_limit']) - Number(associate_data['assigned_claims']);
 
+    console.log('total_new_cliam ' + total_new_cliam);
+    console.log('assign_total '+ assign_total);
+    console.log('associate_data ' + associate_data['assign_limit']);
 
-for(let i=0;i < process_associates.length;i++)
-{
-  var assigned={};
-  let associate_data=process_associates[i];
-  // console.log("Assoc_data",associate_data,associate_data['assign_limit'],associate_data);
+    let assignable=(Number('1')/Number(assign_total))* Number('1');
+    console.log(assignable);
+    let assignable_nos=Number(assignable.toFixed());
 
-  // let assignable_nos=Number(associate_data['assign_limit']) - Number(associate_data['assigned_claims']);
-
-  console.log('total_new_cliam ' + total_new_cliam);
-  console.log('assign_total '+ assign_total);
-  console.log('associate_data ' + associate_data['assign_limit']);
-
-  let assignable=(Number('1')/Number(assign_total))* Number('1');
-  console.log(assignable);
-  let assignable_nos=Number(assignable.toFixed());
-
-  console.log("Ass_nos",total_new_cliam,assignable,assignable_nos);
+    console.log("Ass_nos",total_new_cliam,assignable,assignable_nos);
 
 
-  let assigned_claims=[];
-  console.log(associate_data['id']);
-  if( reassigned_claims.findIndex(x => x.id == associate_data['id'] ) >= 0 )
-  {
-    let claims_ref=reassigned_claims.find(x => x.id = associate_data['id'] );
-
-    console.log(claims_ref);
-
-    let claims=claims_ref['value'];
-    console.log("=>",claims)
-    assigned_claims=claims;
-  }
-
-  console.log(assignable_nos);
-
-  if(assignable_nos >0)
-  {
-    console.log(new_claim);
-    let new_assigned= new_claim.splice(0,assignable_nos);
-    console.log(new_assigned);
-    new_assigned.forEach(element => {
-      assigned_claims.push(element);
-    });
-
-  }
-
-assigned['assigned']= assigned_claims.length;
-assigned['assigned_to']= associate_data['id'];
-assigned['claims']= assigned_claims;
-assigned['max']= assigned_claims.length;
-
-console.log(assigned);
-console.log(this.assign_status);
-this.assign_status.push(assigned);
-  console.log(this.assign_status);
-}
-
-// console.log("Assigned",reassigned_claims,"New",new_claim,this.associates_detail);
-// console.log("Final",this.assign_status);
-
-
-
-// Old Logic
-  /*
-  if(assignable_nos >0)
-  {
-    // console.log("Ind",reassigned_claims,associate_data['id'],reassigned_claims.findIndex(x => x.id == associate_data['id'] ));
+    let assigned_claims=[];
+    console.log(associate_data['id']);
     if( reassigned_claims.findIndex(x => x.id == associate_data['id'] ) >= 0 )
     {
       let claims_ref=reassigned_claims.find(x => x.id = associate_data['id'] );
-      console.log("claims_ref",claims_ref,claims_ref['value'].length,claims_ref['value'].length <= assignable_nos)
 
-      let assigned_claims=[];
+      console.log(claims_ref);
 
-      if(claims_ref['value'].length <= Number(assignable_nos) )
+      let claims=claims_ref['value'];
+      console.log("=>",claims)
+      assigned_claims=claims;
+    }
+
+    console.log(assignable_nos);
+
+    if(assignable_nos >0)
+    {
+      console.log(new_claim);
+      let new_assigned= new_claim.splice(0,assignable_nos);
+      console.log(new_assigned);
+      new_assigned.forEach(element => {
+        assigned_claims.push(element);
+      });
+
+    }
+
+  assigned['assigned']= assigned_claims.length;
+  assigned['assigned_to']= associate_data['id'];
+  assigned['claims']= assigned_claims;
+  assigned['max']= assigned_claims.length;
+
+  console.log(assigned);
+  console.log(this.assign_status);
+  this.assign_status.push(assigned);
+    console.log(this.assign_status);
+  }
+
+  // console.log("Assigned",reassigned_claims,"New",new_claim,this.associates_detail);
+  // console.log("Final",this.assign_status);
+
+
+
+  // Old Logic
+    /*
+    if(assignable_nos >0)
+    {
+      // console.log("Ind",reassigned_claims,associate_data['id'],reassigned_claims.findIndex(x => x.id == associate_data['id'] ));
+      if( reassigned_claims.findIndex(x => x.id == associate_data['id'] ) >= 0 )
       {
-        let claims=claims_ref['value'];
-        // console.log("Fmm,f",claims);
-        assigned_claims.push(claims);
-        assignable_nos=assignable_nos-claims.length;
-        let new_assigned;
-        if(assignable_nos >0 && new_claim.length >= assignable_nos)
-        {
-          new_assigned= new_claim.splice(0,assignable_nos);
+        let claims_ref=reassigned_claims.find(x => x.id = associate_data['id'] );
+        console.log("claims_ref",claims_ref,claims_ref['value'].length,claims_ref['value'].length <= assignable_nos)
 
+        let assigned_claims=[];
+
+        if(claims_ref['value'].length <= Number(assignable_nos) )
+        {
+          let claims=claims_ref['value'];
+          // console.log("Fmm,f",claims);
+          assigned_claims.push(claims);
+          assignable_nos=assignable_nos-claims.length;
+          let new_assigned;
+          if(assignable_nos >0 && new_claim.length >= assignable_nos)
+          {
+            new_assigned= new_claim.splice(0,assignable_nos);
+
+          }
+          else if(new_claim.length !=0)
+          {
+            new_assigned=new_claim;
+            new_claim=[];
+          }
+          assigned_claims.push(new_assigned);
+
+        }
+        else
+        {
+          // console.log("comp",claims_ref['value'],claims_ref['value'].length,assignable_nos);
+          claims_ref['value'].length = assignable_nos ;
+          assigned_claims= claims_ref['value'];
+          // console.log("Exceed,f",claims_ref['value']);
+        }
+
+  // console.log("Old and New",assigned_claims);
+  // var assigned={
+  //   assigned:assigned_claims.length,
+  //   assigned_to:associate_data['id'],
+  //   claims:assigned_claims,
+  //   max:assignable_nos
+  // };
+  assigned['assigned']= assigned_claims.length;
+  assigned['assigned_to']= associate_data['id'];
+  assigned['claims']= assigned_claims;
+  assigned['max']= assignable_nos;
+  // console.log(assigned);
+  this.assign_status.push(assigned);
+
+
+      }
+      else if(new_claim.length > 0)
+      {
+        let claims_assigned;
+        if(new_claim.length >= assignable_nos)
+        {
+          claims_assigned=new_claim.splice(0,assignable_nos)
         }
         else if(new_claim.length !=0)
         {
-          new_assigned=new_claim;
+          claims_assigned=new_claim;
           new_claim=[];
         }
-        assigned_claims.push(new_assigned);
+        // console.log("New",claims_assigned,assignable_nos,"NC",new_claim)
+
+        // var assigned_here={
+        //   assigned:associate_data.length,
+        //   assigned_to:associate_data['id'],
+        //   claims:claims_assigned,
+        //   max:assignable_nos
+        // };
+
+        assigned['assigned']= claims_assigned.length;
+        assigned['assigned_to']= associate_data['id'];
+        assigned['claims']= claims_assigned;
+        assigned['max']= assignable_nos;
+        // console.log(assigned);
+        this.assign_status.push(assigned);
+
 
       }
-      else
-      {
-        // console.log("comp",claims_ref['value'],claims_ref['value'].length,assignable_nos);
-        claims_ref['value'].length = assignable_nos ;
-        assigned_claims= claims_ref['value'];
-        // console.log("Exceed,f",claims_ref['value']);
-      }
-
-// console.log("Old and New",assigned_claims);
-// var assigned={
-//   assigned:assigned_claims.length,
-//   assigned_to:associate_data['id'],
-//   claims:assigned_claims,
-//   max:assignable_nos
-// };
-assigned['assigned']= assigned_claims.length;
-assigned['assigned_to']= associate_data['id'];
-assigned['claims']= assigned_claims;
-assigned['max']= assignable_nos;
-// console.log(assigned);
-this.assign_status.push(assigned);
-
-
     }
-    else if(new_claim.length > 0)
-    {
-      let claims_assigned;
-      if(new_claim.length >= assignable_nos)
-      {
-        claims_assigned=new_claim.splice(0,assignable_nos)
-      }
-      else if(new_claim.length !=0)
-      {
-        claims_assigned=new_claim;
-        new_claim=[];
-      }
-      // console.log("New",claims_assigned,assignable_nos,"NC",new_claim)
-
-      // var assigned_here={
-      //   assigned:associate_data.length,
-      //   assigned_to:associate_data['id'],
-      //   claims:claims_assigned,
-      //   max:assignable_nos
-      // };
-
-      assigned['assigned']= claims_assigned.length;
-      assigned['assigned_to']= associate_data['id'];
-      assigned['claims']= claims_assigned;
-      assigned['max']= assignable_nos;
-      // console.log(assigned);
-      this.assign_status.push(assigned);
+  */
 
 
-    }
+
+
+
+  // console.log(this.assign_status);
+
+  let assigned_count=0;
+  console.log(this.assign_status);
+  this.create_workorder();
+
+  this.assign_status.forEach(element => {
+
+    assigned_count+=element.claims.length;
+
+  });
+
+  console.log(assigned_count);
+    
+  // if(this.assign_status.length == 0)
+  if(assigned_count == 0)
+  {
+  this.null_assigned=true;
+
   }
-*/
-
-
-
-
-
-// console.log(this.assign_status);
-
-let assigned_count=0;
-console.log(this.assign_status);
-this.create_workorder();
-
-this.assign_status.forEach(element => {
-
-  assigned_count+=element.claims.length;
-
-});
-
-console.log(assigned_count);
-  
-// if(this.assign_status.length == 0)
-if(assigned_count == 0)
-{
- this.null_assigned=true;
-
-}
-else{
-  this.null_assigned=false;
-  this.associates_error_status=false;
-}
+  else{
+    this.null_assigned=false;
+    this.associates_error_status=false;
+  }
 }
 
 
@@ -2083,8 +2108,6 @@ public assigned_claims_details : Array<any> =[];
 public associate_error:string;
 public associate_error_handler:string[];
 assigned_claim_nos:number=0;
-
-
 public manual_assign(event,id)
 {
   let check = this.assigned_claims_details.some(function (value) {
@@ -2093,31 +2116,30 @@ public manual_assign(event,id)
   console.log("Man",event.target.value,id,check);
   if(event.target.value!=0)
   {
-if(!check)
-{
-  this.assigned_claims_details.push({ id:id, value :event.target.value});
-  console.log(this.assigned_claims_details);
-}
-else
-{
-  this.assigned_claims_details.find(v => v.id == id).value = event.target.value;
-  console.log(this.assigned_claims_details);
-}
-}
-else if(this.assigned_claims_details.find(v => v.id == id) !=0 && this.assigned_claims_details.find(v => v.id == id) != undefined)
-{
-  // console.log(this.assigned_claims_details.find(v => v.id == id));
-  this.assigned_claims_details.find(v => v.id == id).value = 0;
-  console.log(this.assigned_claims_details);
-}
-
-
-
-// console.log("assigned",this.assigned_claims_details);
-this.calculate_assigned();
-// this.check_limit();
-this.associates_error_status=true;
-this.proceed_stats();
+    if(!check)
+    {
+      console.log(id);
+      console.log(event.target.value);
+      this.assigned_claims_details.push({ id:id, value :event.target.value});
+      console.log(this.assigned_claims_details);
+    }
+    else
+    {
+      this.assigned_claims_details.find(v => v.id == id).value = event.target.value;
+      console.log(this.assigned_claims_details);
+    }
+  }
+  else if(this.assigned_claims_details.find(v => v.id == id) !=0 && this.assigned_claims_details.find(v => v.id == id) != undefined)
+  {
+    // console.log(this.assigned_claims_details.find(v => v.id == id));
+    this.assigned_claims_details.find(v => v.id == id).value = 0;
+    console.log(this.assigned_claims_details);
+  }
+  // console.log("assigned",this.assigned_claims_details);
+  this.calculate_assigned();
+  // this.check_limit();
+  this.associates_error_status=true;
+  this.proceed_stats();
 }
 
 public assigned_data: Array<any> =[];
@@ -2139,44 +2161,44 @@ limit_exceeds=[];
 //Monitor Limit of Associates
 check_limit()
 {
-// console.log("Here",this.assigned_claims_details)
+  // console.log("Here",this.assigned_claims_details)
 
-for(let i=0;i < this.assigned_claims_details.length;i++)
-{
-let associate=this.associates_detail.find(x => x['id'] == this.assigned_claims_details[i]['id']);
-
-let total_assigned=Number(this.assigned_claims_details[i]['value']) + Number(associate['assigned_claims']);
-// console.log("Ta",total_assigned,associate['assign_limit'])
-if(associate['assign_limit'] < total_assigned)
-{
-  //Filter duplicate
-  if(this.limit_exceeds.indexOf(associate['id']) < 0)
+  for(let i=0;i < this.assigned_claims_details.length;i++)
   {
-    this.limit_exceeds.push(associate['id']);
-  }
-  // console.log("Limit _exccede",this.limit_exceeds)
-  this.limit_clearance=false;
-}
-else
-{
-  // console.log("Entered")
-  if(this.limit_exceeds.length == 0)
-  {
-    this.limit_clearance=true;
-  }
-  else{
-    //Splice code
-    let index=this.limit_exceeds.indexOf(associate['id']);
-    this.limit_exceeds.splice(index, 1);
+    let associate=this.associates_detail.find(x => x['id'] == this.assigned_claims_details[i]['id']);
 
-    if(this.limit_exceeds.length == 0)
+    let total_assigned=Number(this.assigned_claims_details[i]['value']) + Number(associate['assigned_claims']);
+    // console.log("Ta",total_assigned,associate['assign_limit'])
+    if(associate['assign_limit'] < total_assigned)
     {
-      this.limit_clearance=true;
+      //Filter duplicate
+      if(this.limit_exceeds.indexOf(associate['id']) < 0)
+      {
+        this.limit_exceeds.push(associate['id']);
+      }
+      // console.log("Limit _exccede",this.limit_exceeds)
+      this.limit_clearance=false;
     }
+    else
+    {
+      // console.log("Entered")
+      if(this.limit_exceeds.length == 0)
+      {
+        this.limit_clearance=true;
+      }
+      else{
+        //Splice code
+        let index=this.limit_exceeds.indexOf(associate['id']);
+        this.limit_exceeds.splice(index, 1);
+
+        if(this.limit_exceeds.length == 0)
+        {
+          this.limit_clearance=true;
+        }
+      }
+    }
+    // console.log("Associate",associate);
   }
-}
-// console.log("Associate",associate);
-}
 
 }
 
@@ -2219,9 +2241,7 @@ public assign_claims()
     );
 
 }
-//associateCount : any [] = [];;
-
-
+//associateCount : any [] = [];
 
 //Assign Claims to Associates
 public claims_assigned : Array<any> =[];
@@ -2231,155 +2251,151 @@ public error_details:Array<any> =[];
 public null_assigned:boolean=true;
 public assign_associates(data)
 {
-let claim_numbers=this.selected_claim_nos;
-let assigned_associates=this.assigned_claims_details;
+  let claim_numbers=this.selected_claim_nos;
+  let assigned_associates=this.assigned_claims_details;
 
   console.log(assigned_associates);
   console.log(this.selected_claim_nos);
   console.log(assigned_associates);
-this.error_details=[];
-this.assign_status=[];
+  this.error_details=[];
+  this.assign_status=[];
 
-this.associates_error_status=true;
+  this.associates_error_status=true;
 
 
-let unassigned_numbers=[];
-//Assign Logic
-for(let j=0;j < assigned_associates.length;j++)
-{
-
-  // this.assign_status.push({id:assigned_associates[j]['id'],to:assigned_associates[j]['value']});
-  let assign=[];
-  let count=0;
-
-for(let x=0;x < Object.keys(data.data).length;x++)
-{
-  if(data.data[claim_numbers[x]] != null)
+  let unassigned_numbers=[];
+  //Assign Logic
+  for(let j=0;j < assigned_associates.length;j++)
   {
-  // console.log(data.data);
-    if(data.data[claim_numbers[x]]['assigned_to'] == assigned_associates[j]['id'] && count < assigned_associates[j]['value'] )
+
+    // this.assign_status.push({id:assigned_associates[j]['id'],to:assigned_associates[j]['value']});
+    let assign=[];
+    let count=0;
+
+    for(let x=0;x < Object.keys(data.data).length;x++)
     {
-      assign.push(claim_numbers[x]);
-      count++;
+      if(data.data[claim_numbers[x]] != null)
+      {
+      // console.log(data.data);
+        if(data.data[claim_numbers[x]]['assigned_to'] == assigned_associates[j]['id'] && count < assigned_associates[j]['value'] )
+        {
+          assign.push(claim_numbers[x]);
+          count++;
 
-      unassigned_numbers.push(claim_numbers[x]);
+          unassigned_numbers.push(claim_numbers[x]);
 
+        }
+
+      }
     }
-
+    this.assign_status.push({claims:assign,assigned:count,max:assigned_associates[j]['value'],assigned_to:assigned_associates[j]['id']});;
+    console.log(this.assign_status);
   }
-}
-this.assign_status.push({claims:assign,assigned:count,max:assigned_associates[j]['value'],assigned_to:assigned_associates[j]['id']});;
-console.log(this.assign_status);
-}
-let missing = claim_numbers.filter(item => unassigned_numbers.indexOf(item) < 0);
-let new_claim =[];
-let reopen_claim =[];
+  let missing = claim_numbers.filter(item => unassigned_numbers.indexOf(item) < 0);
+  let new_claim =[];
+  let reopen_claim =[];
 
-for(let z=0;z<missing.length;z++)
-{
-  if(data.data[missing[z]]==null)
+  for(let z=0;z<missing.length;z++)
   {
-    new_claim.push(missing[z]);
+    if(data.data[missing[z]]==null)
+    {
+      new_claim.push(missing[z]);
+    }
+    else{
+      reopen_claim.push(missing[z]);
+    }
+  }
+  let cont=0;
+  for(let j=0;j < assigned_associates.length;j++)
+  {
+    let count= this.assign_status.find(v => v.assigned_to == assigned_associates[j]['id']);
+    count=Number(count['max'])-Number(count['assigned']);
+    if(count!=0)
+    {
+      let assign=[];
+      let loop_count=0;
+      for(let i=0;i < count;i++)
+      {
+        if(new_claim[cont]!=undefined)
+        {
+          assign.push(new_claim[cont]);
+          cont++;
+          loop_count++;
+        ///Continue Here to update 'assign_status' and form it as 'claims_assigned' format  *************IMPORTANT-------******
+        }
+          // this.assigned_claims_details.find(v => v.id == id).value = event.target.value;
+      }
+      //Concat Claim Values
+      if(loop_count!=0)
+      {
+        let array_data= this.assign_status.find(v => v.assigned_to == assigned_associates[j]['id']);
+        let index=this.assign_status.findIndex(x => x.assigned_to==assigned_associates[j]['id']);
+        let claims=array_data['claims'];
+        let assigned_nos=array_data['assigned'];
+        for(let z=0;z<claims.length;z++)
+        {
+          assign.push(claims[z]);
+        }
+        array_data['claims']=assign;
+        array_data['assigned']=Number(assigned_nos)+Number(loop_count);
+        if(array_data['assigned'] > 0)
+        {
+          this.assign_status[index]=array_data;
+        }
+      }   
+    }
+  }
+  let unassigned_new_claims=[];
+  if(cont<new_claim.length)
+  {
+    for(let i=cont;i<new_claim.length;i++)
+    {
+      unassigned_new_claims.push(new_claim[i]);
+    }
+  }
+
+  //Final Check for Unassigned Claims and Associates
+  let claim_array=[];
+  let claim_name=[];
+  for(let i=0;i<this.assign_status.length;i++)
+  {
+    if(this.assign_status[i]['claims'].length == 0 )
+    {
+      claim_array.push(this.assign_status[i]['assigned_to']);
+
+      let name=this.associates_detail.find(v => v.id == this.assign_status[i]['assigned_to']);
+      claim_name.push(name['firstname']);
+      // let x=this.assigned_claims_details.find(v => v.id == id);
+    }
+  }
+
+  if(claim_array.length != 0 || reopen_claim.length !=0 || unassigned_new_claims.length!=0)
+  {
+    this.error_details['associates']= claim_array;
+    this.error_details['reopen']=reopen_claim;
+    this.error_details['new_claims']=unassigned_new_claims;
+    this.error_details['associate_name']=claim_name;
+    this.associates_error_status=true;
+  }
+  else
+  {
+    this.associates_error_status=false;
+  }
+  let current_assigned=0;
+  let total_assigned=0;
+  this.assign_status.forEach(element => {
+      current_assigned=element.assigned;
+      total_assigned=Number(total_assigned)+Number(current_assigned);
+  });
+
+  if(total_assigned==0)
+  {
+    this.null_assigned=true;
   }
   else{
-    reopen_claim.push(missing[z]);
+    this.null_assigned=false;
   }
-}
-let cont=0;
-for(let j=0;j < assigned_associates.length;j++)
-{
-  let count= this.assign_status.find(v => v.assigned_to == assigned_associates[j]['id']);
-count=Number(count['max'])-Number(count['assigned']);
-if(count!=0)
-{
-  let assign=[];
-  let loop_count=0;
- for(let i=0;i < count;i++)
- {
-   if(new_claim[cont]!=undefined)
-{
-  assign.push(new_claim[cont]);
-  cont++;
-  loop_count++;
-///Continue Here to update 'assign_status' and form it as 'claims_assigned' format  *************IMPORTANT-------******
-}
-// this.assigned_claims_details.find(v => v.id == id).value = event.target.value;
-}
-//Concat Claim Values
-if(loop_count!=0)
-{
-
-
-let array_data= this.assign_status.find(v => v.assigned_to == assigned_associates[j]['id']);
-
-let index=this.assign_status.findIndex(x => x.assigned_to==assigned_associates[j]['id']);
-let claims=array_data['claims'];
-let assigned_nos=array_data['assigned'];
-for(let z=0;z<claims.length;z++)
-{
-   assign.push(claims[z]);
-}
-array_data['claims']=assign;
-array_data['assigned']=Number(assigned_nos)+Number(loop_count);
-if(array_data['assigned'] > 0)
-{
-  this.assign_status[index]=array_data;
-}
-
-}
-}
-}
-let unassigned_new_claims=[];
-if(cont<new_claim.length)
-{
-  for(let i=cont;i<new_claim.length;i++)
-  {
-    unassigned_new_claims.push(new_claim[i]);
-  }
-}
-
-//Final Check for Unassigned Claims and Associates
-let claim_array=[];
-let claim_name=[];
-for(let i=0;i<this.assign_status.length;i++)
-{
-  if(this.assign_status[i]['claims'].length == 0 )
-  {
-    claim_array.push(this.assign_status[i]['assigned_to']);
-
-    let name=this.associates_detail.find(v => v.id == this.assign_status[i]['assigned_to']);
-claim_name.push(name['firstname']);
-    // let x=this.assigned_claims_details.find(v => v.id == id);
-  }
-}
-
-if(claim_array.length != 0 || reopen_claim.length !=0 || unassigned_new_claims.length!=0)
-{
-  this.error_details['associates']= claim_array;
-  this.error_details['reopen']=reopen_claim;
-  this.error_details['new_claims']=unassigned_new_claims;
-  this.error_details['associate_name']=claim_name;
-  this.associates_error_status=true;
-}
-else
-{
-  this.associates_error_status=false;
-}
-let current_assigned=0;
-let total_assigned=0;
-this.assign_status.forEach(element => {
-    current_assigned=element.assigned;
-    total_assigned=Number(total_assigned)+Number(current_assigned);
-});
-
-if(total_assigned==0)
-{
-  this.null_assigned=true;
-}
-else{
-  this.null_assigned=false;
-}
-console.log("Assigned",this.assign_status);
+  console.log("Assigned",this.assign_status);
 }
 
 assigntype_reset;
@@ -2420,7 +2436,7 @@ checkedEvnt(val) {
       this.associates_detail[i].isChecked = val;
     }
     this.associateCount='';
-  }
+}
 
 public clear_fields()
 {
@@ -2447,65 +2463,65 @@ public ignore_error(type)
   }
   else if(type == 'assign_to_others')
   {
-let reopen=this.error_details['reopen']
+    let reopen=this.error_details['reopen']
     for(let x=0;x<reopen.length;x++)
     {
-for(let i=0;i<this.assign_status.length;i++)
-{
-  let min=this.assign_status[i]['assigned'];
-  let max=this.assign_status[i]['max'];
-if(Number(max)-Number(min) > 0)
-{
-  let claims=this.assign_status[i]['claims'];
-  claims.push(reopen[x]);
-  this.assign_status[i]['claims']=claims;
-  this.assign_status[i]['assigned']=Number(min)+1;
-  break;
-}
-}
+      for(let i=0;i<this.assign_status.length;i++)
+      {
+        let min=this.assign_status[i]['assigned'];
+        let max=this.assign_status[i]['max'];
+        if(Number(max)-Number(min) > 0)
+        {
+          let claims=this.assign_status[i]['claims'];
+          claims.push(reopen[x]);
+          this.assign_status[i]['claims']=claims;
+          this.assign_status[i]['assigned']=Number(min)+1;
+          break;
+        }
+      }
     }
 
- this.error_details['reopen']= [];
+    this.error_details['reopen']= [];
   }
 
   if( this.error_details['associates']=='' && this.error_details['reopen']=='' && this.error_details['new_claims']=='')
-{
+  {
     this.associates_error_status=false;
-}
-console.log(this.assign_status);
+  }
+  console.log(this.assign_status);
 }
 
 sorting_name;
 order_list(type,table,sorting_name,sorting_method,createsearch,search)
 {
-    this.sorting_name = type;
+  this.sorting_name = type;
 
-    if(this.sortByAsc == true) {
-      this.sortByAsc = false;
-      this.pageChange(this.pages,table,this.sortByAsc,type,sorting_name,sorting_method,null,search);
-    } else {
-      this.sortByAsc = true;
-      this.pageChange(this.pages,table,this.sortByAsc,type,sorting_name,sorting_method,null,search);
-    }
+  if(this.sortByAsc == true) {
+    this.sortByAsc = false;
+    this.pageChange(this.pages,table,this.sortByAsc,type,sorting_name,sorting_method,null,search);
+  } else {
+    this.sortByAsc = true;
+    this.pageChange(this.pages,table,this.sortByAsc,type,sorting_name,sorting_method,null,search);
+  }
 
 }
 
 sort(property) {
-    this.isDesc = false;
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-    this.table_datas.sort(function(a, b) {
-      if (a[property] < b[property]) {
-        return -1 * direction;
-      } else if (a[property] > b[property]) {
-        return 1 * direction;
-      } else {
-        return 0;
-      }
-    });
-  }
+  this.isDesc = false;
+  this.column = property;
+  let direction = this.isDesc ? 1 : -1;
+  this.table_datas.sort(function(a, b) {
+    if (a[property] < b[property]) {
+      return -1 * direction;
+    } else if (a[property] > b[property]) {
+      return 1 * direction;
+    } else {
+      return 0;
+    }
+  });
+}
 
-  desort(property) {
+desort(property) {
   this.isDesc = true;
   this.column = property;
   let direction = this.isDesc ? 1 : -1;

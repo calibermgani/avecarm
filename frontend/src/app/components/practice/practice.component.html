@@ -48,526 +48,97 @@
                            <div class="tab-content no-padding">
                               <div class="tab-pane" id="tab_1">
                                  <form  [formGroup]="formGroup" (ngSubmit)="onSubmit()" >
-                                 <div class="box no-shadow no-border">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                       <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                                          <!-- /.box-header -->
-                                          <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                             <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
-                                                Business Details
-                                             </h3>
-                                             <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box40"><i
-                                                   class="fa fa-plus"></i>
-                                                </button>
-                                             </div>
-                                          </div>
-                                          <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box40">
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="form-group ">
-                                                            <label>Doing Business As<span class="ar-red">*</span></label>
-                                                            <input type="text" class="form-control" formControlName="business_name"
-                                                               name="business_name" id="business_name" >
-                                                            <div *ngIf="(f.business_name.touched || submitted) && f.business_name.errors" class="invalid-feedback">
-                                                               <div *ngIf="f.business_name.errors.required">Business Name is required</div>
-                                                            </div>
-                                                         </div>
-                                                         <div class="form-group">
-                                                            <label>Specialty</label>
-                                                            <select class="form-control"  formControlName="speciality_id" id="spec">
-                                                               <option>-- Select --</option>
-                                                               <option>Specialty 1</option>
-                                                               <option>Specialty 2</option>
-                                                               <option>Specialty 3</option>
-                                                            </select>
-                                                         </div>
-                                                         <div class="form-group">
-                                                            <label>Taxonomy</label>
-                                                            <select class="form-control"  formControlName="taxanomy_id" id="taxonomy">
-                                                               <option>-- Select --</option>
-                                                               <option>Taxonomy 1</option>
-                                                               <option>Taxonomy 2</option>
-                                                               <option>Taxonomy 3</option>
-                                                            </select>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9">
-                                                        <div class="form-group">
-                                                          <label>Billing Entity</label>
-                                                            <div class="status-column status">
-                                                              <div class="status">
-                                                                <div class="status-radio">
-                                                                  <div class="custom-control custom-radio">
-                                                                     <input id="true" class="custom-control-input" formControlName="billing_entity" type="radio" value="true">
-                                                                     &nbsp;<label class="custom-control-label" for="true">Yes</label>
-                                                                  </div>
-                                                                  <div class="custom-control custom-radio">
-                                                                     <input id="false" class="custom-control-input" formControlName="billing_entity" type="radio" value="false">
-                                                                     &nbsp;<label class="custom-control-label" for="false">No</label>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                               <!-- <input type="radio" formControlName="billing_entity" value="true"><p>Yes</p>
-                                                               <input type="radio" name="billing_entity" value="false" ><p>No</p> -->
-                                                            </div>
-                                                         </div>
-                                                         <div class="form-group">
-                                                            <label>Entity Type</label>
-                                                            <!-- <div class="practice">
-                                                               <input type="radio"  formControlName="entity_type" value="Individual" ><p>Individual</p>
-                                                               <input type="radio" name="entity_type" value="Group"><p>Group</p>
-                                                            </div> -->
-                                                            <div class="status-column status">
-                                                              <div class="status">
-                                                                <div class="status-radio">
-                                                                  <div class="custom-control custom-radio">
-                                                                     <input id="group" class="custom-control-input" name="entity_type" formControlName="entity_type" type="radio" value="Group">
-                                                                     &nbsp;<label class="custom-control-label" for="group">Group</label>
-                                                                  </div>
-                                                                  <div class="custom-control custom-radio">
-                                                                     <input id="individual" class="custom-control-input" name="entity_type" formControlName="entity_type" type="radio" value="Individual">
-                                                                     &nbsp;<label class="custom-control-label" for="ndividual">Individual</label>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
+                                    <div class="box no-shadow no-border">
+                                       <!-- /.box-header -->
+                                       <div class="box-body no-padding">
+                                          <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                                             <!-- /.box-header -->
+                                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
+                                                   Business Details
+                                                </h3>
+                                                <div class="box-tools pull-right">
+                                                   <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box40"><i
+                                                      class="fa fa-plus"></i>
+                                                   </button>
                                                 </div>
                                              </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="box no-shadow no-border">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                       <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                                          <!-- /.box-header -->
-                                          <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                             <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
-                                                Pay to Address
-                                             </h3>
-                                             <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box41"><i
-                                                   class="fa fa-plus"></i>
-                                                </button>
-                                             </div>
-                                          </div>
-                                          <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box41">
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="form-group ">
-                                                            <label>Address Line1<span class="ar-red">*</span></label>
-                                                            <input type="text" class="form-control" formControlName="pay_address_1"
-                                                               name="pay_address_1" id="pay_address_1">
-                                                            <div *ngIf="(f.pay_address_1.touched || submitted) && f.pay_address_1.errors" class="invalid-feedback">
-                                                               <div *ngIf="f.pay_address_1.errors.required">Address line 1 is required</div>
-                                                            </div>
-                                                         </div>
-                                                         <div class="form-group ">
-                                                            <label>Address Line2<span class="ar-red">*</span></label>
-                                                            <input type="text" class="form-control" formControlName="pay_address_2"
-                                                               name="pay_address_2" id="pay_address_2">
-                                                            <div *ngIf="(f.pay_address_2.touched || submitted) && f.pay_address_2.errors" class="invalid-feedback">
-                                                               <div *ngIf="f.pay_address_2.errors.required">Address line 1 is required</div>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="col-lg-12 no-padding">
-                                                            <div class="col-lg-6">
-                                                               <div class="form-group ">
-                                                                  <label>City<span class="ar-red">*</span></label>
-                                                                  <input type="text" class="form-control" formControlName="pay_city"
-                                                                     name="pay_city" id="city">
-                                                                  <div *ngIf="(f.pay_city.touched || submitted) && f.pay_city.errors" class="invalid-feedback">
-                                                                     <div *ngIf="f.pay_city.errors.required">City is required</div>
-                                                                  </div>
-                                                               </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                               <div class="form-group ">
-                                                                  <label>State<span class="ar-red">*</span></label>
-                                                                  <input type="text" class="form-control" formControlName="pay_state"
-                                                                     name="pay_state" id="pay_state">
-                                                                  <div *ngIf="(f.pay_state.touched || submitted) && f.pay_state.errors" class="invalid-feedback">
-                                                                     <div *ngIf="f.pay_state.errors.required">State is required</div>
-                                                                  </div>
-                                                               </div>
-                                                            </div>
-                                                         </div>
-                                                         <div class="col-lg-12 no-padding">
-                                                            <div class="col-lg-6">
-                                                               <div class="form-group ">
-                                                                  <label>Zip Code<span class="ar-red">*</span></label>
-                                                                  <input type="text" class="form-control" formControlName="pay_zip_code"
-                                                                     name="pay_zip_code" id="pay_zip_code" >
-                                                                  <div *ngIf="(f.pay_zip_code.touched || submitted) && f.pay_zip_code.errors" class="invalid-feedback">
-                                                                     <div *ngIf="f.pay_zip_code.errors.required">Zip Code is required</div>
-                                                                  </div>
-                                                               </div>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="box no-shadow no-border">
-                                    <div class="box-body no-padding">
-                                       <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                                          <!-- /.box-header -->
-                                          <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                             <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
-                                                Primary Location
-                                             </h3>
-                                             <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box42"><i
-                                                   class="fa fa-plus"></i>
-                                                </button>
-                                             </div>
-                                          </div>
-                                          <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box42">
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="form-group ">
-                                                            <label>Address Line1<span class="ar-red">*</span></label>
-                                                            <input type="text" class="form-control" formControlName="primary_address_1"
-                                                               name="primary_address_1" id="primary_address_1">
-                                                            <div *ngIf="(f.primary_address_1.touched || submitted) && f.primary_address_1.errors" class="invalid-feedback">
-                                                               <div *ngIf="f.primary_address_1.errors.required">Address line 1 is required</div>
-                                                            </div>
-                                                         </div>
-                                                         <div class="form-group ">
-                                                            <label>Address Line2<span class="ar-red">*</span></label>
-                                                            <input type="text" class="form-control" formControlName="primary_address_2"
-                                                               name="primary_address_2" id="primary_address_2">
-                                                            <div *ngIf="(f.primary_address_2.touched || submitted) && f.primary_address_2.errors" class="invalid-feedback">
-                                                               <div *ngIf="f.primary_address_2.errors.required">Address line 2 is required</div>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="col-lg-12 no-padding">
-                                                            <div class="col-lg-6">
-                                                               <div class="form-group ">
-                                                                  <label>City<span class="ar-red">*</span></label>
-                                                                  <input type="text" class="form-control" formControlName="primary_city"
-                                                                     name="primary_city" id="primary_city">
-                                                                  <div *ngIf="(f.primary_city.touched || submitted) && f.primary_city.errors" class="invalid-feedback">
-                                                                     <div *ngIf="f.primary_city.errors.required">City is required</div>
-                                                                  </div>
-                                                               </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                               <div class="form-group ">
-                                                                  <label>State<span class="ar-red">*</span></label>
-                                                                  <input type="text" class="form-control" formControlName="primary_state"
-                                                                     name="primary_state" id="primary_state">
-                                                                  <div *ngIf="(f.primary_state.touched || submitted) && f.primary_state.errors" class="invalid-feedback">
-                                                                     <div *ngIf="f.primary_city.errors.required">State is required</div>
-                                                                  </div>
-                                                               </div>
-                                                            </div>
-                                                         </div>
-                                                         <div class="col-lg-12 no-padding">
-                                                            <div class="col-lg-6">
-                                                               <div class="form-group ">
-                                                                  <label>Zip Code<span class="ar-red">*</span></label>
-                                                                  <input type="text" class="form-control" formControlName="primary_zip_code"
-                                                                     name="primary_zip_code" id="primary_zip_code">
-                                                                  <div *ngIf="(f.primary_zip_code.touched || submitted) && f.primary_zip_code.errors" class="invalid-feedback">
-                                                                     <div *ngIf="f.primary_zip_code.errors.required">Zip Code is required</div>
-                                                                  </div>
-                                                               </div>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="box no-shadow no-border">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                       <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                                          <!-- /.box-header -->
-                                          <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                             <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
-                                                Credentials
-                                             </h3>
-                                             <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box43"><i
-                                                   class="fa fa-plus"></i>
-                                                </button>
-                                             </div>
-                                          </div>
-                                          <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box43">
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="form-group ">
-                                                            <label>Tax ID</label>
-                                                            <input type="text" class="form-control" formControlName="tax_id" id="tax_id"> <!-- formControlName="tax_id" -->
-                                                         </div>
-                                                         <div class="form-group ">
-                                                            <label>NPI</label>
-                                                            <input type="text" class="form-control" formControlName="npi" id="npi">
-                                                         </div>
-                                                         <div class="form-group ">
-                                                            <label>Medicare PTAN</label>
-                                                            <input type="text" class="form-control" formControlName="medicare_ptan" id="medicare_ptan">
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="col-lg-8 no-padding">
-                                                            <div class="form-group ">
-                                                               <label>Medicaid ID</label>
-                                                               <input type="text" class="form-control" formControlName="medicare_id" id="medicare_id">
-                                                            </div>
-                                                            <div class="form-group ">
-                                                               <label>Medicaid ID</label>
-                                                               <input type="text" class="form-control" formControlName="medicare_id2" id="medicare_id2">
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="box no-shadow no-border">
-                                    <div class="box-body no-padding">
-                                       <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                                          <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                             <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
-                                                Mailing Address
-                                             </h3>
-                                             <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box44"><i
-                                                   class="fa fa-plus"></i>
-                                                </button>
-                                             </div>
-                                          </div>
-                                          <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box44">
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="form-group ">
-                                                            <label>Address Line1<span class="ar-red">*</span></label>
-                                                            <input type="text" class="form-control" formControlName="mail_address_1"
-                                                               name="mail_address_1" id="mail_address_1">
-                                                            <div *ngIf="(f.mail_address_1.touched || submitted) && f.mail_address_1.errors" class="invalid-feedback">
-                                                               <div *ngIf="f.mail_address_1.errors.required">Address Line1 is required</div>
-                                                            </div>
-                                                         </div>
-                                                         <div class="form-group ">
-                                                            <label>Address Line2<span class="ar-red">*</span></label>
-                                                            <input type="text" class="form-control" formControlName="mail_address_2"
-                                                               name="mail_address_2" id="mail_address_2">
-                                                            <div *ngIf="(f.mail_address_1.touched || submitted) && f.mail_address_1.errors" class="invalid-feedback">
-                                                               <div *ngIf="f.mail_address_1.errors.required">Address Line2 is required</div>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="col-lg-12 no-padding">
-                                                            <div class="col-lg-6">
-                                                               <div class="form-group ">
-                                                                  <label>City<span class="ar-red">*</span></label>
-                                                                  <input type="text" class="form-control" formControlName="mail_city"
-                                                                     name="mail_city" id="mail_city">
-                                                                  <div *ngIf="(f.mail_city.touched || submitted) && f.mail_city.errors" class="invalid-feedback">
-                                                                     <div *ngIf="f.mail_city.errors.required">City is required</div>
-                                                                  </div>
-                                                               </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                               <div class="form-group ">
-                                                                  <label>State<span class="ar-red">*</span></label>
-                                                                  <input type="text" class="form-control" formControlName="mail_state"
-                                                                     name="mail_state" id="mail_state">
-                                                                  <div *ngIf="(f.mail_state.touched || submitted) && f.mail_state.errors" class="invalid-feedback">
-                                                                     <div *ngIf="f.mail_state.errors.required">State is required</div>
-                                                                  </div>
-                                                               </div>
-                                                            </div>
-                                                         </div>
-                                                         <div class="col-lg-12 no-padding">
-                                                            <div class="col-lg-6">
-                                                               <div class="form-group ">
-                                                                  <label>Zip Code<span class="ar-red">*</span></label>
-                                                                  <input type="text" class="form-control" formControlName="mail_zip"
-                                                                     name="mail_zip" id="mail_zip">
-                                                                  <div *ngIf="(f.mail_zip.touched || submitted) && f.mail_zip.errors" class="invalid-feedback">
-                                                                     <div *ngIf="f.mail_zip.errors.required"> Zip Code is required</div>
-                                                                  </div>
-                                                               </div>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="box no-shadow no-border">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                       <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                                          <!-- /.box-header -->
-                                          <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                             <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
-                                                General Details
-                                             </h3>
-                                             <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box45"><i
-                                                   class="fa fa-plus"></i>
-                                                </button>
-                                             </div>
-                                          </div>
-                                          <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box45">
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="form-group ">
-                                                            <label>Practice Start Date</label>
-                                                            <input type="text" class="form-control" formControlName="practice_start" id="practice_start">
-                                                         </div>
-                                                         <div class="form-group ">
-                                                            <label>Primary Language</label>
-                                                            <input type="text" class="form-control"  formControlName="primary_language" id="primary_language">
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                   <!-- /.box-body -->
-                                                </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="col-lg-8 no-padding">
-                                                            <div class="form-group ">
-                                                               <label>Providers</label>
-                                                               <input type="text" class="form-control" formControlName="providers" id="providers">
-                                                            </div>
-                                                            <div class="form-group ">
-                                                               <label>Facilities</label>
-                                                               <input type="text" class="form-control" formControlName="facilities" id="facilities">
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="box no-shadow no-border">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                       <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                                          <!-- /.box-header -->
-                                          <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                             <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
-                                                Practice Info
-                                             </h3>
-                                             <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box46">
-                                                <i class="fa fa-plus"></i>
-                                                </button>
-                                             </div>
-                                          </div>
-                                          <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box46">
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
-                                                         <div class="form-group ">
-                                                            <label>Practice Name</label><span _ngcontent-c5="" class="ar-red">*</span>
-                                                            <input type="text" class="form-control" formControlName="practice_name"
-                                                               name="practice_name" id="practice_name">
-                                                            <div *ngIf="(f.practice_name.touched || submitted) && f.practice_name.errors" class="invalid-feedback">
-                                                               <div *ngIf="f.practice_name.errors.required">Practice Name is required</div>
-                                                            </div>
-                                                         </div>
-                                                         <div class="form-group ">
-                                                            <label>Practice Description</label>
-                                                            <input type="textarea" class="form-control" formControlName="practice_desc" id="practice_desc">
-                                                         </div>
-                                                         <div class="form-group ">
-                                                            <label>Avatar Name</label>
-                                                            <input type="text" class="form-control" formControlName="avatar_name" id="avatar_name">
-                                                         </div>
-                                                         <div class="form-group ">
-                                                            <label>Practice Link</label>
-                                                            <input type="text" class="form-control" formControlName="practice_link" id="practice_link">
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding">
-                                                   <div class="box-body">
-                                                      <div class="col-lg-9 no-padding">
+                                             <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box40">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
                                                          <div class="col-lg-9 no-padding">
                                                             <div class="form-group ">
-                                                               <label>Email Id</label><span _ngcontent-c5="" class="ar-red">*</span>
-                                                               <input type="email" class="form-control" formControlName="email"
-                                                                  name="email" id="email" required>
-                                                               <div *ngIf="(f.email.touched || submitted) && f.email.errors" class="invalid-feedback">
-                                                                  <div *ngIf="f.email.errors.required"> Email is required</div>
+                                                               <label>Doing Business As<span class="ar-red">*</span></label>
+                                                               <input type="text" class="form-control" formControlName="business_name"
+                                                                  name="business_name" id="business_name" >
+                                                               <div *ngIf="(f.business_name.touched || submitted) && f.business_name.errors" class="invalid-feedback">
+                                                                  <div *ngIf="f.business_name.errors.required">Business Name is required</div>
                                                                </div>
                                                             </div>
-                                                            <div class="form-group ">
-                                                               <label>Phone</label>
-                                                               <input type="text" class="form-control" formControlName="phone_no" id="phone_no">
+                                                            <div class="form-group">
+                                                               <label>Specialty</label>
+                                                               <select class="form-control"  formControlName="speciality_id" id="spec">
+                                                                  <option>-- Select --</option>
+                                                                  <option>Specialty 1</option>
+                                                                  <option>Specialty 2</option>
+                                                                  <option>Specialty 3</option>
+                                                               </select>
                                                             </div>
-                                                            <div class="form-group ">
-                                                               <label>Fax</label>
-                                                               <input type="text" class="form-control" formControlName="fax_no" id="fax_no">
+                                                            <div class="form-group">
+                                                               <label>Taxonomy</label>
+                                                               <select class="form-control"  formControlName="taxanomy_id" id="taxonomy">
+                                                                  <option>-- Select --</option>
+                                                                  <option>Taxonomy 1</option>
+                                                                  <option>Taxonomy 2</option>
+                                                                  <option>Taxonomy 3</option>
+                                                               </select>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9">
+                                                         <div class="form-group">
+                                                            <label>Billing Entity</label>
+                                                               <div class="status-column status">
+                                                               <div class="status">
+                                                                  <div class="status-radio">
+                                                                     <div class="custom-control custom-radio">
+                                                                        <input id="true" class="custom-control-input" formControlName="billing_entity" type="radio" value="true">
+                                                                        &nbsp;<label class="custom-control-label" for="true">Yes</label>
+                                                                     </div>
+                                                                     <div class="custom-control custom-radio">
+                                                                        <input id="false" class="custom-control-input" formControlName="billing_entity" type="radio" value="false">
+                                                                        &nbsp;<label class="custom-control-label" for="false">No</label>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                                  <!-- <input type="radio" formControlName="billing_entity" value="true"><p>Yes</p>
+                                                                  <input type="radio" name="billing_entity" value="false" ><p>No</p> -->
+                                                               </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                               <label>Entity Type</label>
+                                                               <!-- <div class="practice">
+                                                                  <input type="radio"  formControlName="entity_type" value="Individual" ><p>Individual</p>
+                                                                  <input type="radio" name="entity_type" value="Group"><p>Group</p>
+                                                               </div> -->
+                                                               <div class="status-column status">
+                                                               <div class="status">
+                                                                  <div class="status-radio">
+                                                                     <div class="custom-control custom-radio">
+                                                                        <input id="group" class="custom-control-input" name="entity_type" formControlName="entity_type" type="radio" value="Group">
+                                                                        &nbsp;<label class="custom-control-label" for="group">Group</label>
+                                                                     </div>
+                                                                     <div class="custom-control custom-radio">
+                                                                        <input id="individual" class="custom-control-input" name="entity_type" formControlName="entity_type" type="radio" value="Individual">
+                                                                        &nbsp;<label class="custom-control-label" for="ndividual">Individual</label>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               </div>
                                                             </div>
                                                          </div>
                                                       </div>
@@ -577,7 +148,437 @@
                                           </div>
                                        </div>
                                     </div>
-                                 </div>
+                                    <div class="box no-shadow no-border">
+                                       <!-- /.box-header -->
+                                       <div class="box-body no-padding">
+                                          <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                                             <!-- /.box-header -->
+                                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
+                                                   Pay to Address
+                                                </h3>
+                                                <div class="box-tools pull-right">
+                                                   <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box41"><i
+                                                      class="fa fa-plus"></i>
+                                                   </button>
+                                                </div>
+                                             </div>
+                                             <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box41">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="form-group ">
+                                                               <label>Address Line1<span class="ar-red">*</span></label>
+                                                               <input type="text" class="form-control" formControlName="pay_address_1"
+                                                                  name="pay_address_1" id="pay_address_1">
+                                                               <div *ngIf="(f.pay_address_1.touched || submitted) && f.pay_address_1.errors" class="invalid-feedback">
+                                                                  <div *ngIf="f.pay_address_1.errors.required">Address line 1 is required</div>
+                                                               </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                               <label>Address Line2<span class="ar-red">*</span></label>
+                                                               <input type="text" class="form-control" formControlName="pay_address_2"
+                                                                  name="pay_address_2" id="pay_address_2">
+                                                               <div *ngIf="(f.pay_address_2.touched || submitted) && f.pay_address_2.errors" class="invalid-feedback">
+                                                                  <div *ngIf="f.pay_address_2.errors.required">Address line 1 is required</div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="col-lg-12 no-padding">
+                                                               <div class="col-lg-6">
+                                                                  <div class="form-group ">
+                                                                     <label>City<span class="ar-red">*</span></label>
+                                                                     <input type="text" class="form-control" formControlName="pay_city"
+                                                                        name="pay_city" id="city">
+                                                                     <div *ngIf="(f.pay_city.touched || submitted) && f.pay_city.errors" class="invalid-feedback">
+                                                                        <div *ngIf="f.pay_city.errors.required">City is required</div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="col-lg-6">
+                                                                  <div class="form-group ">
+                                                                     <label>State<span class="ar-red">*</span></label>
+                                                                     <input type="text" class="form-control" formControlName="pay_state"
+                                                                        name="pay_state" id="pay_state">
+                                                                     <div *ngIf="(f.pay_state.touched || submitted) && f.pay_state.errors" class="invalid-feedback">
+                                                                        <div *ngIf="f.pay_state.errors.required">State is required</div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                            <div class="col-lg-12 no-padding">
+                                                               <div class="col-lg-6">
+                                                                  <div class="form-group ">
+                                                                     <label>Zip Code<span class="ar-red">*</span></label>
+                                                                     <input type="text" class="form-control" formControlName="pay_zip_code"
+                                                                        name="pay_zip_code" id="pay_zip_code" >
+                                                                     <div *ngIf="(f.pay_zip_code.touched || submitted) && f.pay_zip_code.errors" class="invalid-feedback">
+                                                                        <div *ngIf="f.pay_zip_code.errors.required">Zip Code is required</div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="box no-shadow no-border">
+                                       <div class="box-body no-padding">
+                                          <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                                             <!-- /.box-header -->
+                                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
+                                                   Primary Location
+                                                </h3>
+                                                <div class="box-tools pull-right">
+                                                   <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box42"><i
+                                                      class="fa fa-plus"></i>
+                                                   </button>
+                                                </div>
+                                             </div>
+                                             <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box42">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="form-group ">
+                                                               <label>Address Line1<span class="ar-red">*</span></label>
+                                                               <input type="text" class="form-control" formControlName="primary_address_1"
+                                                                  name="primary_address_1" id="primary_address_1">
+                                                               <div *ngIf="(f.primary_address_1.touched || submitted) && f.primary_address_1.errors" class="invalid-feedback">
+                                                                  <div *ngIf="f.primary_address_1.errors.required">Address line 1 is required</div>
+                                                               </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                               <label>Address Line2<span class="ar-red">*</span></label>
+                                                               <input type="text" class="form-control" formControlName="primary_address_2"
+                                                                  name="primary_address_2" id="primary_address_2">
+                                                               <div *ngIf="(f.primary_address_2.touched || submitted) && f.primary_address_2.errors" class="invalid-feedback">
+                                                                  <div *ngIf="f.primary_address_2.errors.required">Address line 2 is required</div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="col-lg-12 no-padding">
+                                                               <div class="col-lg-6">
+                                                                  <div class="form-group ">
+                                                                     <label>City<span class="ar-red">*</span></label>
+                                                                     <input type="text" class="form-control" formControlName="primary_city"
+                                                                        name="primary_city" id="primary_city">
+                                                                     <div *ngIf="(f.primary_city.touched || submitted) && f.primary_city.errors" class="invalid-feedback">
+                                                                        <div *ngIf="f.primary_city.errors.required">City is required</div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="col-lg-6">
+                                                                  <div class="form-group ">
+                                                                     <label>State<span class="ar-red">*</span></label>
+                                                                     <input type="text" class="form-control" formControlName="primary_state"
+                                                                        name="primary_state" id="primary_state">
+                                                                     <div *ngIf="(f.primary_state.touched || submitted) && f.primary_state.errors" class="invalid-feedback">
+                                                                        <div *ngIf="f.primary_city.errors.required">State is required</div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                            <div class="col-lg-12 no-padding">
+                                                               <div class="col-lg-6">
+                                                                  <div class="form-group ">
+                                                                     <label>Zip Code<span class="ar-red">*</span></label>
+                                                                     <input type="text" class="form-control" formControlName="primary_zip_code"
+                                                                        name="primary_zip_code" id="primary_zip_code">
+                                                                     <div *ngIf="(f.primary_zip_code.touched || submitted) && f.primary_zip_code.errors" class="invalid-feedback">
+                                                                        <div *ngIf="f.primary_zip_code.errors.required">Zip Code is required</div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="box no-shadow no-border">
+                                       <!-- /.box-header -->
+                                       <div class="box-body no-padding">
+                                          <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                                             <!-- /.box-header -->
+                                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
+                                                   Credentials
+                                                </h3>
+                                                <div class="box-tools pull-right">
+                                                   <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box43"><i
+                                                      class="fa fa-plus"></i>
+                                                   </button>
+                                                </div>
+                                             </div>
+                                             <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box43">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="form-group ">
+                                                               <label>Tax ID</label>
+                                                               <input type="text" class="form-control" formControlName="tax_id" id="tax_id"> <!-- formControlName="tax_id" -->
+                                                            </div>
+                                                            <div class="form-group ">
+                                                               <label>NPI</label>
+                                                               <input type="text" class="form-control" formControlName="npi" id="npi">
+                                                            </div>
+                                                            <div class="form-group ">
+                                                               <label>Medicare PTAN</label>
+                                                               <input type="text" class="form-control" formControlName="medicare_ptan" id="medicare_ptan">
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="col-lg-8 no-padding">
+                                                               <div class="form-group ">
+                                                                  <label>Medicaid ID</label>
+                                                                  <input type="text" class="form-control" formControlName="medicare_id" id="medicare_id">
+                                                               </div>
+                                                               <div class="form-group ">
+                                                                  <label>Medicaid ID</label>
+                                                                  <input type="text" class="form-control" formControlName="medicare_id2" id="medicare_id2">
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="box no-shadow no-border">
+                                       <div class="box-body no-padding">
+                                          <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
+                                                   Mailing Address
+                                                </h3>
+                                                <div class="box-tools pull-right">
+                                                   <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box44"><i
+                                                      class="fa fa-plus"></i>
+                                                   </button>
+                                                </div>
+                                             </div>
+                                             <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box44">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="form-group ">
+                                                               <label>Address Line1<span class="ar-red">*</span></label>
+                                                               <input type="text" class="form-control" formControlName="mail_address_1"
+                                                                  name="mail_address_1" id="mail_address_1">
+                                                               <div *ngIf="(f.mail_address_1.touched || submitted) && f.mail_address_1.errors" class="invalid-feedback">
+                                                                  <div *ngIf="f.mail_address_1.errors.required">Address Line1 is required</div>
+                                                               </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                               <label>Address Line2<span class="ar-red">*</span></label>
+                                                               <input type="text" class="form-control" formControlName="mail_address_2"
+                                                                  name="mail_address_2" id="mail_address_2">
+                                                               <div *ngIf="(f.mail_address_1.touched || submitted) && f.mail_address_1.errors" class="invalid-feedback">
+                                                                  <div *ngIf="f.mail_address_1.errors.required">Address Line2 is required</div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="col-lg-12 no-padding">
+                                                               <div class="col-lg-6">
+                                                                  <div class="form-group ">
+                                                                     <label>City<span class="ar-red">*</span></label>
+                                                                     <input type="text" class="form-control" formControlName="mail_city"
+                                                                        name="mail_city" id="mail_city">
+                                                                     <div *ngIf="(f.mail_city.touched || submitted) && f.mail_city.errors" class="invalid-feedback">
+                                                                        <div *ngIf="f.mail_city.errors.required">City is required</div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="col-lg-6">
+                                                                  <div class="form-group ">
+                                                                     <label>State<span class="ar-red">*</span></label>
+                                                                     <input type="text" class="form-control" formControlName="mail_state"
+                                                                        name="mail_state" id="mail_state">
+                                                                     <div *ngIf="(f.mail_state.touched || submitted) && f.mail_state.errors" class="invalid-feedback">
+                                                                        <div *ngIf="f.mail_state.errors.required">State is required</div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                            <div class="col-lg-12 no-padding">
+                                                               <div class="col-lg-6">
+                                                                  <div class="form-group ">
+                                                                     <label>Zip Code<span class="ar-red">*</span></label>
+                                                                     <input type="text" class="form-control" formControlName="mail_zip"
+                                                                        name="mail_zip" id="mail_zip">
+                                                                     <div *ngIf="(f.mail_zip.touched || submitted) && f.mail_zip.errors" class="invalid-feedback">
+                                                                        <div *ngIf="f.mail_zip.errors.required"> Zip Code is required</div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="box no-shadow no-border">
+                                       <!-- /.box-header -->
+                                       <div class="box-body no-padding">
+                                          <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                                             <!-- /.box-header -->
+                                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
+                                                   General Details
+                                                </h3>
+                                                <div class="box-tools pull-right">
+                                                   <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box45"><i
+                                                      class="fa fa-plus"></i>
+                                                   </button>
+                                                </div>
+                                             </div>
+                                             <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box45">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="form-group ">
+                                                               <label>Practice Start Date</label>
+                                                               <input type="text" class="form-control" formControlName="practice_start" id="practice_start">
+                                                            </div>
+                                                            <div class="form-group ">
+                                                               <label>Primary Language</label>
+                                                               <input type="text" class="form-control"  formControlName="primary_language" id="primary_language">
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                      <!-- /.box-body -->
+                                                   </div>
+                                                   <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="col-lg-8 no-padding">
+                                                               <div class="form-group ">
+                                                                  <label>Providers</label>
+                                                                  <input type="text" class="form-control" formControlName="providers" id="providers">
+                                                               </div>
+                                                               <div class="form-group ">
+                                                                  <label>Facilities</label>
+                                                                  <input type="text" class="form-control" formControlName="facilities" id="facilities">
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="box no-shadow no-border">
+                                       <!-- /.box-header -->
+                                       <div class="box-body no-padding">
+                                          <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                                             <!-- /.box-header -->
+                                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i>
+                                                   Practice Info
+                                                </h3>
+                                                <div class="box-tools pull-right">
+                                                   <button type="button" class="btn btn-box-tool" data-widget="collapse"  data-toggle="collapse" data-target="#box46">
+                                                   <i class="fa fa-plus"></i>
+                                                   </button>
+                                                </div>
+                                             </div>
+                                             <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box46">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table ">
+                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="form-group ">
+                                                               <label>Practice Name</label><span _ngcontent-c5="" class="ar-red">*</span>
+                                                               <input type="text" class="form-control" formControlName="practice_name"
+                                                                  name="practice_name" id="practice_name">
+                                                               <div *ngIf="(f.practice_name.touched || submitted) && f.practice_name.errors" class="invalid-feedback">
+                                                                  <div *ngIf="f.practice_name.errors.required">Practice Name is required</div>
+                                                               </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                               <label>Practice Description</label>
+                                                               <input type="textarea" class="form-control" formControlName="practice_desc" id="practice_desc">
+                                                            </div>
+                                                            <div class="form-group ">
+                                                               <label>Avatar Name</label>
+                                                               <input type="text" class="form-control" formControlName="avatar_name" id="avatar_name">
+                                                            </div>
+                                                            <div class="form-group ">
+                                                               <label>Practice Link</label>
+                                                               <input type="text" class="form-control" formControlName="practice_link" id="practice_link">
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding">
+                                                      <div class="box-body">
+                                                         <div class="col-lg-9 no-padding">
+                                                            <div class="col-lg-9 no-padding">
+                                                               <div class="form-group ">
+                                                                  <label>Email Id</label><span _ngcontent-c5="" class="ar-red">*</span>
+                                                                  <input type="email" class="form-control" formControlName="email"
+                                                                     name="email" id="email" required>
+                                                                  <div *ngIf="(f.email.touched || submitted) && f.email.errors" class="invalid-feedback">
+                                                                     <div *ngIf="f.email.errors.required"> Email is required</div>
+                                                                     <div *ngIf="f.email.errors?.pattern"> Enter Valid email Address</div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="form-group ">
+                                                                  <label>Phone</label>
+                                                                  <input type="text" class="form-control" formControlName="phone_no" id="phone_no">
+                                                               </div>
+                                                               <div class="form-group ">
+                                                                  <label>Fax</label>
+                                                                  <input type="text" class="form-control" formControlName="fax_no" id="fax_no">
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
                                  </form>
                                  <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
                                     <!-- /.box-header -->

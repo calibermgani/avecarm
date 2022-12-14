@@ -87,6 +87,11 @@ upload(formdata)
   // return response;
 }
 
+uploadcloseclaim(formvalues){
+  console.log(formvalues);
+  return this.http.post(`${this.baseUrl}/upload`,formvalues);
+}
+
 getprofile(data)
 {
   data = {id: data};

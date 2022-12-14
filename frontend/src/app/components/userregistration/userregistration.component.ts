@@ -74,9 +74,10 @@ onSubmit()
 
   
   this.submitted = true;
-    /* if (this.formGroup.invalid) {
+    if (this.formGroup.invalid) {
+      console.log("check fields for valid entry");
         return;
-    } */
+    }
     try{
      
       let process_values=this.formGroup.value.process_details;
@@ -125,7 +126,8 @@ notifyregister(error)
 {
   //console.log(error);
   // this.notify = error.error.error;
-  this.toastr.successToastr('User-Created')
+  this.toastr.successToastr('User-Created');
+  this.formGroup.reset();
   this.getPractices();
 }
 
