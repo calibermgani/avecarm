@@ -5120,6 +5120,8 @@ class ImportController extends Controller
 
           $import = AutoCloseClaimModel::create(
             [
+              'claim_no' => $op_array['claim_no'],
+              'acct_no' => $op_array['acct_no'],
               'import_by' => $user,
               'file_name' => $filename,
               'file_url' => $path,
@@ -5176,7 +5178,7 @@ class ImportController extends Controller
           log::debug("No Match Record");
         }
 
-        $display_data['import_file'] = $import;
+        $display_data['import_file'] = ['import_by' => $import->import_by, 'file_name' => $import->file_name, 'file_url' => $import->file_url, 'auto_close_date'=> $import->auto_close_date];
       }
     }
 
