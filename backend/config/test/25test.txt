@@ -1,0 +1,1 @@
+{"patient_name":["true","notify"],"total_ar_due":["true","notify"],"responsibility":["true","notify"]}
