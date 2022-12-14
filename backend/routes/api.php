@@ -218,4 +218,7 @@ Route::group([
     Route::post('get_setting_importsearch', 'SettingsController@get_setting_importsearch');
 
     Route::post('getAlertNotification', 'DashboardController@getAlertNotification');
+
+    
+    Route::post('update_auto_close_claims', 'ImportController@updateAutoClose');
 });

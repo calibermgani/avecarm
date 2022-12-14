@@ -1368,6 +1368,7 @@ private _toggleMode(): void {
       sec_pol_id: [],
       ter_ins_name: [],
       ter_pol_id: [],
+      followup_date: [],
     });
 
 

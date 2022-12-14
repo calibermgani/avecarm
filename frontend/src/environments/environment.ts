@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 import { IEnvironment } from './environment.interface';
 export const environment:IEnvironment = {
-  production: false
-
+  production: false,
+  apiUrl: 'http://127.0.0.1:8000/api'
 };
 // apiUrl: 'http://127.0.0.1:8000/api'
 /*
