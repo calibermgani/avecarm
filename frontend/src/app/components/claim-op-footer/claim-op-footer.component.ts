@@ -145,7 +145,7 @@ public clear(): void {
   {
     console.log(data);
 
-    console.log(this.selected_claim_data['claim_closing']);
+    console.log(this.selected_claim_data);
         
     if(this.selected_claim_data['claim_closing'] == 1)
     {
@@ -157,73 +157,73 @@ public clear(): void {
        
         //alert(this.selected_claim_data['status_code']);
         if(this.selected_claim_data['status_code'] !='' && this.selected_claim_data['status_code'] != undefined && this.selected_claim_data['status_code'] != null )
-      {  
-        console.log(this.sub_status_codes_data);
-        console.log(this.selected_claim_data['status_code']);
-        let status_id=this.status_codes_data.find(v => v.id == this.selected_claim_data['status_code']);
-        console.log(status_id);
-        let substatus_id=this.sub_status_codes_data[status_id['id']];
-        console.log(substatus_id);
-        let data={type:'initialisation',status_code:status_id['id'],sub_status_id:substatus_id};
-        console.log(data);
-        this.status_code_changed(data);
-        let associate_data={type:'Assign',associate:this.selected_claim_data['followup_associate']};
+        {  
+          console.log(this.sub_status_codes_data);
+          console.log(this.selected_claim_data['status_code']);
+          let status_id=this.status_codes_data.find(v => v.id == this.selected_claim_data['status_code']);
+          console.log(status_id);
+          let substatus_id=this.sub_status_codes_data[status_id['id']];
+          console.log(substatus_id);
+          let data={type:'initialisation',status_code:status_id['id'],sub_status_id:substatus_id};
+          console.log(data);
+          this.status_code_changed(data);
+          let associate_data={type:'Assign',associate:this.selected_claim_data['followup_associate']};
 
-          this.process_associates(associate_data);
-         
-            // this.formGroup.patchValue({
-            //   status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
-            //   followup_date: {year:this.selected_claim_data['followup_date'][2],month:this.selected_claim_data['followup_date'][1],day:this.selected_claim_data['followup_date'][0]},
-            // });
-             console.log(status_id['id']);
-             console.log(status_id['status_code']);
-             console.log(status_id['description']);
+            this.process_associates(associate_data);
+          
+              // this.formGroup.patchValue({
+              //   status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
+              //   followup_date: {year:this.selected_claim_data['followup_date'][2],month:this.selected_claim_data['followup_date'][1],day:this.selected_claim_data['followup_date'][0]},
+              // });
+              console.log(status_id['id']);
+              console.log(status_id['status_code']);
+              console.log(status_id['description']);
 
-            if(Array.isArray(this.selected_claim_data['followup_date'])){
-             console.log('It is an array');
-             console.log(this.selected_claim_data['followup_date']);
-             if(this.selected_claim_data['followup_date'][2] == 1970){
-               this.formGroup.patchValue({
-                  status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
-                  followup_date: '',
-                  closed: 1
-                }); 
-             }else{
-               this.formGroup.patchValue({
-                  status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
-                  followup_date: {year:this.selected_claim_data['followup_date'][2],month:this.selected_claim_data['followup_date'][1],day:this.selected_claim_data['followup_date'][0]},
-                  closed: 1
-                });
-             }
-            } else {
-             console.log('Not an array');
-             console.log(this.selected_claim_data['followup_date']);
-             var str = this.selected_claim_data['followup_date'];
-             console.log(str); 
-             if(str == null){
-               this.selected_claim_data['followup_date'] = ''; 
-             }else{
-               this.selected_claim_data['followup_date'] = str.split("-"); 
-             }
-             console.log(this.selected_claim_data['followup_date']);
-             if(Number(this.selected_claim_data['followup_date'][0]) == 1970){
+              if(Array.isArray(this.selected_claim_data['followup_date'])){
+              console.log('It is an array');
+              console.log(this.selected_claim_data['followup_date']);
+              if(this.selected_claim_data['followup_date'][2] == 1970){
                 this.formGroup.patchValue({
-                  status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
-                  followup_date: '',
-                  closed: 1
-                });
+                    status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
+                    followup_date: '',
+                    closed: 1
+                  }); 
               }else{
                 this.formGroup.patchValue({
-                  status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
-                  followup_date: {year:Number(this.selected_claim_data['followup_date'][0]),month:Number(this.selected_claim_data['followup_date'][1]),day:Number(this.selected_claim_data['followup_date'][2])},
-                  closed: 1
-                });
-              } 
-            }
+                    status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
+                    followup_date: {year:this.selected_claim_data['followup_date'][2],month:this.selected_claim_data['followup_date'][1],day:this.selected_claim_data['followup_date'][0]},
+                    closed: 1
+                  });
+              }
+              } else {
+              console.log('Not an array');
+              console.log(this.selected_claim_data['followup_date']);
+              var str = this.selected_claim_data['followup_date'];
+              console.log(str); 
+              if(str == null){
+                this.selected_claim_data['followup_date'] = ''; 
+              }else{
+                this.selected_claim_data['followup_date'] = str.split("-"); 
+              }
+              console.log(this.selected_claim_data['followup_date']);
+              if(Number(this.selected_claim_data['followup_date'][0]) == 1970){
+                  this.formGroup.patchValue({
+                    status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
+                    followup_date: '',
+                    closed: 1
+                  });
+                }else{
+                  this.formGroup.patchValue({
+                    status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
+                    followup_date: {year:Number(this.selected_claim_data['followup_date'][0]),month:Number(this.selected_claim_data['followup_date'][1]),day:Number(this.selected_claim_data['followup_date'][2])},
+                    closed: 1
+                  });
+                } 
+              }
 
 
-        //}
-    }
+          //}
+        }
 
       }
       this.claim_closed=true;
@@ -243,7 +243,6 @@ public clear(): void {
     else
     {
       this.claim_closed =false;
-      console.log(this.formGroup.value);
       this.formGroup.controls['status_code'].enable();
       this.formGroup.controls['sub_status_code'].enable();
       this.formGroup.controls['followup_date'].enable();
