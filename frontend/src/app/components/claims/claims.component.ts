@@ -102,6 +102,7 @@ workOrder: FormGroup;
 closedClaimsFind: FormGroup;
 createClaimsFind: FormGroup;
 workOrderFind: FormGroup;
+autoclose_claim: FormGroup;
 // formGroup: FormGroup;
 submitted = false;
 modalform: FormGroup;
@@ -448,14 +449,16 @@ notifysuccess(message){
 
 
 public auto_close_claim(){
-  console.log(this.formGroup.value);
-  let file_name = this.formGroup.value.file.file_name;
-  this.formdata.append('user_id', this.formGroup.value.user_id);
+  console.log(this.autoclose_claim.value['file']);
+  let file_name = this.autoclose_claim.value['file'];
   this.formdata.append('file_name', file_name);
+  this.formdata.append('user_id',this.setus.getId());
   this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));
   console.log(this.formdata);
   this.Jarwis.uploadcloseclaim(this.formdata).subscribe(
-    message=> {this.notifysuccess(message)},
+    message=> {
+      let data = message['message'];
+      console.log(data);this.notifysuccess(data)},
     error => this.notify(error)
   );
 }
@@ -3646,6 +3649,10 @@ ngOnInit() {
         ])
     });
 
+    this.autoclose_claim = this.formBuilder.group({
+      file: ['', Validators.required]
+    });
+
 this.workOrder = new FormGroup({
   workorder_name: new FormControl('', [
 Validators.required
@@ -3728,6 +3735,7 @@ file_count(){
 }
 
 get f() { return this.formGroup.controls; }
+get auto_cc() {return this.autoclose_claim.controls;}
 
 formValidators(){
     this.formGroup = this.formBuilder.group({
