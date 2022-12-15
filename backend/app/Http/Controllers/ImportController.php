@@ -3109,7 +3109,9 @@ class ImportController extends Controller
   {
     $claim_id = $request->get('claim_no');
 
-    $related_claims = Line_item::where('claim_id', $claim_id)->get();
+    $related_claims = Line_item::select('line_items.*','import_fields.closed_claim_date')
+                      ->join('import_fields', 'line_items.claim_id', '=', 'import_fields.claim_no')
+                      ->where('line_items.claim_id', $claim_id)->get();
 
     return response()->json([
       'data'  => $related_claims
@@ -4933,7 +4935,7 @@ class ImportController extends Controller
   {
     try {
 
-      $response_data = Import_field::with(['FileName_details'])->where('claim_Status', 'Ready')->get();
+      $response_data = Import_field::with(['FileName_details'])->where('claim_Status', Null)->get();
       // $response_data = File_upload::select('import_fields.file_upload_id','file_uploads.file_name')
       //               ->join('import_fields', 'file_uploads.id', '=', 'import_fields.file_upload_id')
       //               ->where('import_fields.claim_Status','Ready')->get();
