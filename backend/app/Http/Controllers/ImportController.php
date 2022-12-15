@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use JWTFactory;
 use JWTAuth;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Schema;
 use App\Import_field;
 
@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Log;
 use Exception;
 use App\Models\AutoCloseClaimModel;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Response;
 
 
 class ImportController extends Controller
@@ -4928,28 +4929,34 @@ class ImportController extends Controller
   }
 
 
-  /** 
-   * Purpose : Get unassigned files claims count with file name
+  /** Developer : Sathish
+   *  Date : 14/12/2022
+   *  Purpose : File Name and Count to get dropdown Fields
    */
+
   public function get_file_ready_count(LoginRequest $request)
   {
-    try {
+      $get_file_count = [
+          'code' =>204,
+          'message' =>'No Data Found'
+      ];
+      try {
+        if($request){
+          $response_data = Import_field::select('import_fields.file_upload_id','file_uploads.file_name', DB::raw("COUNT(import_fields.file_upload_id) as file_count"))
+                      ->join('file_uploads', 'file_uploads.id', '=', 'import_fields.file_upload_id')
+                      ->where('import_fields.claim_Status', Null)->groupBy('import_fields.file_upload_id')->get();
 
-      $response_data = Import_field::with(['FileName_details'])->where('claim_Status', Null)->get();
-      // $response_data = File_upload::select('import_fields.file_upload_id','file_uploads.file_name')
-      //               ->join('import_fields', 'file_uploads.id', '=', 'import_fields.file_upload_id')
-      //               ->where('import_fields.claim_Status','Ready')->get();
-      $getcount = $response_data->count();
-
-      return response()->json([
-        'code' => 200,
-        'file_datas' =>  $response_data,
-        'file_count' =>  $getcount,
-        'message'  => "success",
-      ]);
-    } catch (Exception $e) {
-      Log::debug($e->getMessage());
-    }
+            $get_file_count = [
+              'code' =>200,
+              'message' =>'success',
+              'file_datas' =>$response_data
+            ];
+          return Response::json($get_file_count);
+        }
+        
+      } catch (Exception $e) {
+        Log::debug($e->getMessage());
+      }
   }
 
   /** Developer : Sathish
