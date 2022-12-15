@@ -89,7 +89,7 @@ upload(formdata)
 
 uploadcloseclaim(formvalues){
   console.log(formvalues);
-  return this.http.post(`${this.baseUrl}/upload`,formvalues);
+  return this.http.post(`${this.baseUrl}/update_auto_close_claims`,formvalues);
 }
 
 getprofile(data)

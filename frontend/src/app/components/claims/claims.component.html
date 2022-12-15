@@ -5445,37 +5445,19 @@
       </div>
    </div>
    <div class="modal-body">
-      <form #modalform=ngForm [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-      <!--   <div class="form-group">
-         <label for="dateOfBirth">Date of birth</label>
-         <div class="input-group">
-           <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-           <div class="input-group-append">
-             <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-           </div>
-         </div>
-         </div>
-         -->
+      <form #modalform=ngForm [formGroup]="autoclose_claim" (ngSubmit)="auto_close_claim()">      
       <div class="col-lg-12">
          <div class="form-group">
             <label>User - <span class="ar-blue">{{user_name}}</span> </label>
             <span class="pull-right ar-blue font600"> {{myDate | date:'MM/dd/yyyy'}}</span>
-         </div>
-         <div class="row form-group">
-            <div class="col-sm-2 text-center"><label>User Id <span class="ar-red">*</span></label></div>
-            <div class="col-sm-1"><strong>:</strong></div>
-            <div class="col-sm-9">
-               <input type="text" class="form-control" formControlName="user_id"  autocomplete="off" value="{{user_id}}">
-            </div>
-            <!-- ngxDaterangepickerMd singleDatePicker="true" -->
-         </div>
+         </div>         
          <div class="row form-group">
             <div class="col-sm-2 text-center"><label>File Import <span class="ar-red">*</span></label></div>
             <div class="col-sm-1"><strong>:</strong></div>
             <div class="col-sm-9">
-               <input type="file" class="form-control file-upload" formControlName="file" (change)="onFileChange($event)" value="" [ngClass]="{ 'is-invalid': (f.file.touched) && f.file.errors }">
-               <div *ngIf="(f.file.touched) && f.file.errors" class="invalid-feedback">
-                  <div *ngIf="f.file.errors.required">File Import is required</div>
+               <input type="file" class="form-control file-upload" formControlName="file" (change)="onFileChange($event)" value="" [ngClass]="{ 'is-invalid': (auto_cc.file.touched) && auto_cc.file.errors }">
+               <div *ngIf="(auto_cc.file.touched) && auto_cc.file.errors" class="invalid-feedback">
+                  <div *ngIf="auto_cc.file.errors.required">File is required</div>
                </div>
             </div>
          </div>         
