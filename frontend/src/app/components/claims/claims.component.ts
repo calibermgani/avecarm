@@ -2596,8 +2596,11 @@ public pageChange(page:number,table,sort_data,sort_type,sorting_name,sorting_met
       );
     }else if(searchs == 'search'){
       console.log(sort_data);
-      this.createClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.startDate._d),'yyyy-MM-dd');
-      this.createClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.endDate._d),'yyyy-MM-dd');
+      if (this.createClaimsFind.value.dos.startDate != null && this.createClaimsFind.value.dos.endDate != null){
+        console.log(this.createClaimsFind.controls.dos.value);
+        this.createClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.startDate._d),'yyyy-MM-dd');
+        this.createClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.endDate._d),'yyyy-MM-dd');
+      }      
       this.Jarwis.get_table_page(sort_data,page,page_count,sort_type,this.sortByAsc,this.sorting_name,this.createClaimsFind.value,this.search).subscribe(
         data  => this.assign_page_data(data),
         error => this.handleError(error)
