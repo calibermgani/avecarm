@@ -54,6 +54,7 @@ export class ClaimsComponent implements OnInit {
 
 
 
+public filecount:any;
 public file_name = [];
 public data = null;
 public error = null;
@@ -267,6 +268,10 @@ public updateignore(message){
  // this.process_uld_file(message.upload_id);
 }
 
+public handlesuccess(res){
+  this.filecount = res.file_datas;
+  console.log(this.filecount);
+}
 duplicates;
 
 public handlemessage(message)
@@ -2591,6 +2596,8 @@ public pageChange(page:number,table,sort_data,sort_type,sorting_name,sorting_met
       );
     }else if(searchs == 'search'){
       console.log(sort_data);
+      this.createClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.startDate._d),'yyyy-MM-dd');
+      this.createClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.endDate._d),'yyyy-MM-dd');
       this.Jarwis.get_table_page(sort_data,page,page_count,sort_type,this.sortByAsc,this.sorting_name,this.createClaimsFind.value,this.search).subscribe(
         data  => this.assign_page_data(data),
         error => this.handleError(error)
@@ -3562,149 +3569,146 @@ weekly_data(data)
 }
 
 user_name:string;
-ngOnInit() {
+ngOnInit() 
+{
 
-     // this.getclaims();
-     this.user_role_maintainer();
-     this.formValidators();
-     this.claimValidators();
-     this.pageChange(1,'all',null,null,'null','null','null','null');
-    // this.formGroup = new FormGroup({
-    //   report_date: new FormControl('', [
-    //     Validators.required
-    //   ]),
-    //   file: new FormControl('', [
-    //     Validators.required
-    //   ]) ,
-    //   notes: new FormControl('', [
-    //     Validators.required
-    //   ])
-    // });
+  // this.getclaims();
+  this.user_role_maintainer();
+  this.formValidators();
+  this.claimValidators();
+  this.pageChange(1,'all',null,null,'null','null','null','null');
+  // this.formGroup = new FormGroup({
+  //   report_date: new FormControl('', [
+  //     Validators.required
+  //   ]),
+  //   file: new FormControl('', [
+  //     Validators.required
+  //   ]) ,
+  //   notes: new FormControl('', [
+  //     Validators.required
+  //   ])
+  // });
 
-    this.closedClaimsFind = this.formBuilder.group({
-      filename:[],
-      dos: [],
-      claim_no: [],
-      acc_no: [],
-      patient_name: [],
-      total_charge: [],
-      total_ar: [],
-      claim_note: [],
-      insurance: [],
-      prim_ins_name: [],
-      prim_pol_id: [],
-      sec_ins_name: [],
-      sec_pol_id: [],
-      ter_ins_name: [],
-      ter_pol_id: [],
-    });
+  this.closedClaimsFind = this.formBuilder.group({
+    filename:[],
+    dos: [],
+    claim_no: [],
+    acc_no: [],
+    patient_name: [],
+    total_charge: [],
+    total_ar: [],
+    claim_note: [],
+    insurance: [],
+    prim_ins_name: [],
+    prim_pol_id: [],
+    sec_ins_name: [],
+    sec_pol_id: [],
+    ter_ins_name: [],
+    ter_pol_id: [],
+  });
 
-    this.createClaimsFind = this.formBuilder.group({
-      filename: [],
-      dos: [],
-      claim_no: [],
-      acc_no: [],
-      patient_name: [],
-      total_charge: [],
-      total_ar: [],
-      claim_note: [],
-      insurance: [],
-      prim_ins_name: [],
-      prim_pol_id: [],
-      sec_ins_name: [],
-      sec_pol_id: [],
-      ter_ins_name: [],
-      ter_pol_id: [],
-    });
+  this.createClaimsFind = this.formBuilder.group({
+    filename: [],
+    dos: [],
+    claim_no: [],
+    acc_no: [],
+    patient_name: [],
+    total_charge: [],
+    total_ar: [],
+    claim_note: [],
+    insurance: [],
+    prim_ins_name: [],
+    prim_pol_id: [],
+    sec_ins_name: [],
+    sec_pol_id: [],
+    ter_ins_name: [],
+    ter_pol_id: [],
+  });
 
-    this.workOrderFind = this.formBuilder.group({
-      created_at: [],
-      due_date: [],
-      work_order_name: [],
-      priority: [],
-    });
+  this.workOrderFind = this.formBuilder.group({
+    created_at: [],
+    due_date: [],
+    work_order_name: [],
+    priority: [],
+  });
 
-    this.processNotes = new FormGroup({
-      processnotes: new FormControl('', [
-        Validators.required
-      ])
-    });
+  this.processNotes = new FormGroup({
+    processnotes: new FormControl('', [
+      Validators.required
+    ])
+  });
 
-    this.claimNotes = new FormGroup({
-      claim_notes: new FormControl('', [
-        Validators.required
-      ])
-    });
+  this.claimNotes = new FormGroup({
+    claim_notes: new FormControl('', [
+      Validators.required
+    ])
+  });
 
 
-    this.qcNotes = new FormGroup({
-      qc_notes: new FormControl('', [
-        Validators.required
+  this.qcNotes = new FormGroup({
+    qc_notes: new FormControl('', [
+      Validators.required
+    ]),
+    root_cause: new FormControl('', [
+      Validators.required
       ]),
-      root_cause: new FormControl('', [
+      error_type: new FormControl('', [
         Validators.required
-        ]),
-        error_type: new FormControl('', [
-          Validators.required
-        ])
-    });
+      ])
+  });
 
-    this.autoclose_claim = this.formBuilder.group({
-      file: ['', Validators.required]
-    });
+  this.autoclose_claim = this.formBuilder.group({
+    file: ['', Validators.required]
+  });
 
-this.workOrder = new FormGroup({
-  workorder_name: new FormControl('', [
-Validators.required
-]),
-due_date: new FormControl('', [
+  this.workOrder = new FormGroup({
+    workorder_name: new FormControl('', [
   Validators.required
-]),
-priority: new FormControl('', [
-  Validators.required
-]),
-wo_notes: new FormControl('', [
-  Validators.required
-])
-});
-// this.workOrder = new FormGroup({
-//   workorder_name: new FormControl('', [
-// Validators.required
-// ]),
-// due_date: new FormControl('', [
-//   Validators.required
-// ]),
-// priority: new FormControl('', [
-//   Validators.required
-// ]),
-// wo_notes: new FormControl('', [
-//   Validators.required
-// ])
-// });
+  ]),
+  due_date: new FormControl('', [
+    Validators.required
+  ]),
+  priority: new FormControl('', [
+    Validators.required
+  ]),
+  wo_notes: new FormControl('', [
+    Validators.required
+  ])
+  });
+  // this.workOrder = new FormGroup({
+  //   workorder_name: new FormControl('', [
+  // Validators.required
+  // ]),
+  // due_date: new FormControl('', [
+  //   Validators.required
+  // ]),
+  // priority: new FormControl('', [
+  //   Validators.required
+  // ]),
+  // wo_notes: new FormControl('', [
+  //   Validators.required
+  // ])
+  // });
 
 
 
-const debouncetime = pipe(debounceTime(700));
-this.search_data.valueChanges.pipe(debouncetime)
-.subscribe( result => this.sort_data(result)
-);
+  const debouncetime = pipe(debounceTime(700));
+  this.search_data.valueChanges.pipe(debouncetime)
+  .subscribe( result => this.sort_data(result)
+  );
 
-this.wo_search_data.valueChanges.pipe(debouncetime)
-.subscribe( result => this.sort_wo_data(result)
-);
+  this.wo_search_data.valueChanges.pipe(debouncetime)
+  .subscribe( result => this.sort_wo_data(result)
+  );
 
-this.filter_option.valueChanges
-.subscribe( result => this.sort_table(result)
-);
-// this.fetch_count();
-this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
-  this.touch_count = message });
-
+  this.filter_option.valueChanges
+  .subscribe( result => this.sort_table(result)
+  );
+  // this.fetch_count();
+  this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
+    this.touch_count = message });
   this.user_name=this.setus.getname();
-
-
   this.get_graph_stats();
-
   this.file_count();
 
 }
@@ -3725,13 +3729,9 @@ let role_id=Number(this.setus.get_role_id());
 
 file_count(){
   this.Jarwis.get_file_ready_count().subscribe(res => {
-    console.log(res);
-    let fileCount = res;
-    console.log(fileCount);
-    this.file_name.push(fileCount);
-    console.log(this.file_name);
-  return fileCount;
-  })
+    this.handlesuccess(res);},
+    error => this.notify(error)
+  )
 }
 
 get f() { return this.formGroup.controls; }

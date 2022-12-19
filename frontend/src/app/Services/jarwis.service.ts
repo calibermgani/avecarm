@@ -1175,8 +1175,8 @@ view_doc_file(id){
 }
 
 get_file_ready_count(){
-  let response = this.http.get(`${this.baseUrl}/get_file_ready_count`);
-  console.log(response);
+  let data = {'practice_dbid':localStorage.getItem('practice_id')};
+  let response = this.http.post(`${this.baseUrl}/get_file_ready_count`, data);  
   return response;
 }
 
