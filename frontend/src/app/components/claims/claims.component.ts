@@ -1975,15 +1975,15 @@ public auto_post_claims(data)
 
     }
 
-  assigned['assigned']= assigned_claims.length;
-  assigned['assigned_to']= associate_data['id'];
-  assigned['claims']= assigned_claims;
-  assigned['max']= assigned_claims.length;
+    assigned['assigned']= assigned_claims.length;
+    assigned['assigned_to']= associate_data['id'];
+    assigned['claims']= assigned_claims;
+    assigned['max']= assigned_claims.length;
 
-  console.log(assigned);
-  console.log(this.assign_status);
-  this.assign_status.push(assigned);
+    console.log(assigned);
     console.log(this.assign_status);
+    this.assign_status.push(assigned);
+      console.log(this.assign_status);
   }
 
   // console.log("Assigned",reassigned_claims,"New",new_claim,this.associates_detail);
@@ -2031,19 +2031,19 @@ public auto_post_claims(data)
           // console.log("Exceed,f",claims_ref['value']);
         }
 
-  // console.log("Old and New",assigned_claims);
-  // var assigned={
-  //   assigned:assigned_claims.length,
-  //   assigned_to:associate_data['id'],
-  //   claims:assigned_claims,
-  //   max:assignable_nos
-  // };
-  assigned['assigned']= assigned_claims.length;
-  assigned['assigned_to']= associate_data['id'];
-  assigned['claims']= assigned_claims;
-  assigned['max']= assignable_nos;
-  // console.log(assigned);
-  this.assign_status.push(assigned);
+        // console.log("Old and New",assigned_claims);
+        // var assigned={
+        //   assigned:assigned_claims.length,
+        //   assigned_to:associate_data['id'],
+        //   claims:assigned_claims,
+        //   max:assignable_nos
+        // };
+        assigned['assigned']= assigned_claims.length;
+        assigned['assigned_to']= associate_data['id'];
+        assigned['claims']= assigned_claims;
+        assigned['max']= assignable_nos;
+        // console.log(assigned);
+        this.assign_status.push(assigned);
 
 
       }
@@ -2431,7 +2431,6 @@ public work_order_notify(data)
 //Create Work Order
 public create_workorder()
 {
-  console.log(this.assign_status);
   console.log(this.assign_status);
   this.Jarwis.create_workorder(this.setus.getId(),this.workOrder.value,this.assign_status,'followup').subscribe(
    data  => this.work_order_notify(data),
@@ -3611,7 +3610,7 @@ ngOnInit()
   });
 
   this.createClaimsFind = this.formBuilder.group({
-    filename: [],
+    file_id: [],
     dos: [],
     claim_no: [],
     acc_no: [],
