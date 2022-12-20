@@ -3459,15 +3459,16 @@ class ImportController extends Controller
             // 'total_charges' => $value['total_charges'],
             if ($key == 'total_charges') {
               if (!empty($value)) {
-                $tableFieldArr['total_charges'] = number_format($value, 2);
+                // $tableFieldArr['total_charges'] = number_format($value, 2);
+                $tableFieldArr['total_charges'] = trim($value);
               }
             } else if ($key == 'pat_ar') {
               if (!empty($value)) {
-                $tableFieldArr['pat_ar'] = number_format($value, 2);
+                $tableFieldArr['pat_ar'] = trim($value);
               }
             } else if ($key == 'ins_ar') {
               if (!empty($value)) {
-                $tableFieldArr['ins_ar'] = number_format($value, 2);
+                $tableFieldArr['ins_ar'] = trim($value);
               }
             } else if ($key == 'address_1') {
               $tableFieldArr['address_line_1'] = trim($value);
@@ -3519,9 +3520,9 @@ class ImportController extends Controller
             } else if ($key == 'ter_city') {
               $tableFieldArr['tertiary_insurance_city'] = trim($value);
             } else if ($key == 'ter_state') {
-              $tableFieldArr['tertiary_insurance_state'] = $value;
+              $tableFieldArr['tertiary_insurance_state'] = trim($value);
             } else if ($key == 'ter_zipcode') {
-              $tableFieldArr['tertiary_insurance_zipcode'] = $value;
+              $tableFieldArr['tertiary_insurance_zipcode'] = trim($value);
             } else if ($key == 'auth_no') {
               $tableFieldArr['authorization'] = trim($value);
             } else if ($key == 'rendering_prov') {
@@ -4280,86 +4281,93 @@ class ImportController extends Controller
             // 'total_charges' => $value['total_charges'],
             if ($key == 'total_charges') {
               if (!empty($value)) {
-                $tableFieldArr['total_charges'] = number_format($value, 2);
+                $tableFieldArr['total_charges'] = trim(number_format((float)$value, 2, '.', ''));
+                // $tableFieldArr['total_charges'] = trim($value);
               }
             } else if ($key == 'pat_ar') {
               if (!empty($value)) {
-                $tableFieldArr['pat_ar'] = number_format($value, 2);
+                $tableFieldArr['pat_ar'] = trim(number_format((float)$value, 2, '.', ''));
               }
             } else if ($key == 'ins_ar') {
               if (!empty($value)) {
-                $tableFieldArr['ins_ar'] = number_format($value, 2);
+                $tableFieldArr['ins_ar'] = trim(number_format((float)$value, 2, '.', ''));
               }
-            } else if ($key == 'address_1') {
-              $tableFieldArr['address_line_1'] = $value;
+            } 
+            else if($key == 'total_ar'){
+              if (!empty($value)) {
+                $tableFieldArr['total_ar'] = trim(number_format((float)$value, 2, '.', ''));
+              }
+            } 
+            else if ($key == 'address_1') {
+              $tableFieldArr['address_line_1'] = trim($value);
             } else if ($key == 'address_2') {
-              $tableFieldArr['address_line_2'] = $value;
+              $tableFieldArr['address_line_2'] = trim($value);
             } else if ($key == 'prim_ins_name') {
-              $tableFieldArr['primary_insurance_name'] = $value;
+              $tableFieldArr['primary_insurance_name'] = trim($value);
               //print_r($tableFieldArr['primary_insurance_name']);
             } else if ($key == 'prim_pol_id') {
-              $tableFieldArr['primary_policy_id'] = $value;
+              $tableFieldArr['primary_policy_id'] = trim($value);
             } else if ($key == 'prim_group_id') {
-              $tableFieldArr['primary_group_id'] = $value;
+              $tableFieldArr['primary_group_id'] = trim($value);
             } else if ($key == 'prim_address_1') {
-              $tableFieldArr['primary_insurance_address_line_1'] = $value;
+              $tableFieldArr['primary_insurance_address_line_1'] = trim($value);
             } else if ($key == 'prim_address_2') {
-              $tableFieldArr['primary_insurance_address_line_2'] = $value;
+              $tableFieldArr['primary_insurance_address_line_2'] = trim($value);
             } else if ($key == 'prim_city') {
-              $tableFieldArr['primary_insurance_city'] = $value;
+              $tableFieldArr['primary_insurance_city'] = trim($value);
             } else if ($key == 'prim_state') {
-              $tableFieldArr['primary_insurance_state'] = $value;
+              $tableFieldArr['primary_insurance_state'] = trim($value);
             } else if ($key == 'prim_zipcode') {
-              $tableFieldArr['primary_insurance_zipcode'] = $value;
+              $tableFieldArr['primary_insurance_zipcode'] = trim($value);
             } else if ($key == 'sec_ins_name') {
-              $tableFieldArr['secondary_insurance_name'] = $value;
+              $tableFieldArr['secondary_insurance_name'] = trim($value);
             } else if ($key == 'sec_pol_id') {
-              $tableFieldArr['secondary_policy_id'] = $value;
+              $tableFieldArr['secondary_policy_id'] = trim($value);
             } else if ($key == 'sec_group_id') {
-              $tableFieldArr['secondary_group_id'] = $value;
+              $tableFieldArr['secondary_group_id'] = trim($value);
             } else if ($key == 'sec_address_1') {
-              $tableFieldArr['secondary_insurance_address_line_1'] = $value;
+              $tableFieldArr['secondary_insurance_address_line_1'] = trim($value);
             } else if ($key == 'sec_address_2') {
-              $tableFieldArr['secondary_insurance_address_line_2'] = $value;
+              $tableFieldArr['secondary_insurance_address_line_2'] = trim($value);
             } else if ($key == 'sec_city') {
-              $tableFieldArr['secondary_insurance_city'] = $value;
+              $tableFieldArr['secondary_insurance_city'] = trim($value);
             } else if ($key == 'sec_state') {
-              $tableFieldArr['secondary_insurance_state'] = $value;
+              $tableFieldArr['secondary_insurance_state'] = trim($value);
             } else if ($key == 'sec_zipcode') {
-              $tableFieldArr['secondary_insurance_zipcode'] = $value;
+              $tableFieldArr['secondary_insurance_zipcode'] = trim($value);
             } else if ($key == 'ter_ins_name') {
-              $tableFieldArr['tertiary_insurance_name'] = $value;
+              $tableFieldArr['tertiary_insurance_name'] = trim($value);
             } else if ($key == 'ter_pol_id') {
-              $tableFieldArr['tertiary_policy_id'] = $value;
+              $tableFieldArr['tertiary_policy_id'] = trim($value);
             } else if ($key == 'ter_group_id') {
-              $tableFieldArr['tertiary_group_id'] = $value;
+              $tableFieldArr['tertiary_group_id'] = trim($value);
             } else if ($key == 'ter_address_1') {
-              $tableFieldArr['tertiary_insurance_address_line_1'] = $value;
+              $tableFieldArr['tertiary_insurance_address_line_1'] = trim($value);
             } else if ($key == 'ter_address_2') {
-              $tableFieldArr['tertiary_insurance_address_line_2'] = $value;
+              $tableFieldArr['tertiary_insurance_address_line_2'] = trim($value);
             } else if ($key == 'ter_city') {
-              $tableFieldArr['tertiary_insurance_city'] = $value;
+              $tableFieldArr['tertiary_insurance_city'] = trim($value);
             } else if ($key == 'ter_state') {
-              $tableFieldArr['tertiary_insurance_state'] = $value;
+              $tableFieldArr['tertiary_insurance_state'] = trim($value);
             } else if ($key == 'ter_zipcode') {
-              $tableFieldArr['tertiary_insurance_zipcode'] = $value;
+              $tableFieldArr['tertiary_insurance_zipcode'] = trim($value);
             } else if ($key == 'auth_no') {
-              $tableFieldArr['authorization'] = $value;
+              $tableFieldArr['authorization'] = trim($value);
             } else if ($key == 'rendering_prov') {
-              $tableFieldArr['rendering_provider'] = $value;
+              $tableFieldArr['rendering_provider'] = trim($value);
             } else if ($key == 'billing_prov') {
-              $tableFieldArr['billing_provider'] = $value;
+              $tableFieldArr['billing_provider'] = trim($value);
             } else if ($key == 'claim_note') {
               $tableFieldArr['claim_note'] = trim($value);
             } else
-              $tableFieldArr[$key] = $value;
+              $tableFieldArr[$key] = trim($value);
           }
-          // exit();
+          
 
           //dd($op_array);
 
           foreach ($op_array as $key => $value) {
-            \Log::info($key . '------' . $value);
+            // \Log::info($key . '------' . $value);
             if ($key == 'acct_no') {
               if (!empty($op_array['acct_no'])) {
                 $op_array['acct_no'] = trim($value);
@@ -4683,7 +4691,7 @@ class ImportController extends Controller
 
             if ($key == 'pat_ar') {
               if (!empty($value)) {
-                $values = trim(number_format($value, 2));
+                $values = trim(number_format((float)$value, 2, '.', ''));
                 $op_array['pat_ar'] = $values;
               }
             }
@@ -4691,20 +4699,23 @@ class ImportController extends Controller
             if ($key == 'total_charges') {
               if (!empty($value)) {
                 $values = trim($value);
-                $op_array['total_charges'] = number_format($values, 2);
+                $op_array['total_charges'] = number_format((float)$values, 2, '.', '');
               }
             }
 
             if ($key == 'ins_ar') {
               if (!empty($value)) {
                 $values = trim($value);
-                $op_array['ins_ar'] = number_format($values, 2);
+                $op_array['ins_ar'] = number_format((float)$values, 2, '.', '');
               }
             }
 
-            // if($key == 'total_ar'){
-            //     $op_array['total_ar'] = number_format($value, 2);
-            // }
+            if($key == 'total_ar'){
+              if (!empty($value)) {
+                $values = trim($value);
+                $op_array['total_ar'] = number_format((float)$values, 2, '.', '');
+              }
+            }
 
           }
           $difference = array_diff($op_array, $mismatch);
