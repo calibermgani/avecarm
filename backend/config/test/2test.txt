@@ -1,1 +1,1 @@
-{"insurance_type":[true,"notify"],"pat_ar":[true,"notify"],"ins_ar":[true,"notify"],"total_ar_due":[true,"notify"]}
+{"total_ar_due":["true","notify"],"patient_name":[true,"notify"],"responsibility":[true,"notify"]}

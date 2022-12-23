@@ -64,6 +64,7 @@ public duplicate= null;
 public mismatch = null;
 public claimno = null;
 public filenote = null;
+public claims_processed;
 new_claims : string[];
 duplicate_claims : string[];
 mismatch_claims : string[];
@@ -294,6 +295,7 @@ public handlemessage(message)
   this.file_upload_id = message.message.filedata.id;
   console.log(message.message.filedata.id);
   this.field_name = message.message.field_name;
+  this.claims_processed = message.message.filedata.claims_processed;
 
   // console.log("Field",this.field_name)
   //Mismatch data Keys
@@ -490,6 +492,7 @@ public updatelog(data)
   if(data.error == 'Created')
   {
     this.toastr.successToastr('New Claims Created.');
+    console.log(this.claims_processed);
     this.new_claims = [];
     this.newclaim = 0;
   }
@@ -824,7 +827,7 @@ public claimslection(claim)
     //Clear Previous Claims
     this.clear_refer();
     this.claim_clicked=claim;
-    let length=this.table_datas.length;
+    // let length=this.table_datas?.length;
     this.claim_related=[];
   // this.get_related(claim);
   // console.log("Selected",this.claim_clicked);
@@ -1303,7 +1306,7 @@ client_notes;
     this.claim_notes=[];
     this.qc_notes=[];
     this.client_notes=[];
-    let type='All';
+    let type='All';    
     this.Jarwis.getnotes(claim).subscribe(
       data  => this.display_notes(data,type),
       error => this.handleError(error)
@@ -3086,7 +3089,7 @@ if(stat ==0)
   );
 }
 
-
+this.pageChange(1,'claims','null','null','null','null','null','null');
 
 }
 
@@ -3570,6 +3573,7 @@ weekly_data(data)
   this.assoc_target_data=data.target;
 }
 
+isSelected: boolean[];
 user_name:string;
 ngOnInit() 
 {
@@ -3615,6 +3619,7 @@ ngOnInit()
     claim_no: [],
     acc_no: [],
     patient_name: [],
+    responsibility: [],
     total_charge: [],
     total_ar: [],
     claim_note: [],
@@ -3769,6 +3774,8 @@ onClaimSubmit() {
     console.log('Error');
       return;
   }
+
+  this.processdata();
 }
 
 ngAfterViewInit()
