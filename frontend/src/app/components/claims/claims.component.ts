@@ -3573,7 +3573,6 @@ weekly_data(data)
   this.assoc_target_data=data.target;
 }
 
-isSelected: boolean[];
 user_name:string;
 ngOnInit() 
 {
