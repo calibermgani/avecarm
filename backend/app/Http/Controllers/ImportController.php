@@ -92,7 +92,7 @@ class ImportController extends Controller
 
 
     $i = 0;
-    $claim_history_data;
+    // $claim_history_data;
     foreach ($claim as $key => $value) {
 
       $value['file_upload_id'] = $file_det['id'];
@@ -626,13 +626,8 @@ class ImportController extends Controller
     $sorting_method = $request->get('sorting_method');
     $searchValue = $request->get('createsearch');
 
-    /** Sathish */
-    // $search_claim_no = $searchValue['claim_no'];
-    // $search_acc_no = $searchValue['acc_no'];
-    // $search_dos = $searchValue['dos'];
-    // $search_patient_name = $searchValue['patient_name'];
-
-
+    // echo '<pre>'; print_r($sorting_method); echo '</pre>'; exit;
+ 
 
 
       // if($searchValue != null ){
@@ -650,6 +645,7 @@ class ImportController extends Controller
         // $search_ter_pol_id = $searchValue['ter_pol_id'];
         // $search_total_ar = $searchValue['total_ar'];
         // $search_total_charge = $searchValue['total_charge'];
+        // $search_responsibility = $searchValue['responsibility'];
     // } 
 
     $search = $request->get('search');
@@ -662,7 +658,7 @@ class ImportController extends Controller
     if ($searchValue == null && $search != 'search') {
 
       if (($action == null || $action == 'null') && $sorting_method == null && $searchValue == null) {
-        // dd('hi hello');
+
         $skip = ($page_no - 1) * $page_count;
         $end = $page_count;
 
@@ -687,7 +683,8 @@ class ImportController extends Controller
         if ($sorting_name == true) {
           //dd('2');
 
-          $claim_data = Import_field::whereNull('followup_work_order')->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->orderBy($sorting_method, 'desc')->offset($skip)->limit($end)->get();
+          // $claim_data = Import_field::whereNull('followup_work_order')->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->orderBy($sorting_method, 'desc')->offset($skip)->limit($end)->get();
+          $claim_data = Import_field::whereNull('followup_work_order')->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->offset($skip)->limit($end)->get();
           $claim_count = Import_field::whereNull('followup_work_order')->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->orderBy(
             'id',
             'desc'
@@ -711,7 +708,6 @@ class ImportController extends Controller
         $selected_claim_data = Import_field::whereNull('followup_work_order')->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->orderBy('created_at', 'desc')->get();
         $selected_count = $selected_claim_data->count();
       } elseif ($sorting_method == 'null' && $action != "null" && $searchValue == null) {
-        //dd('3');
         $skip = ($page_no - 1) * $page_count;
         $end = $page_count;
 
@@ -1121,6 +1117,83 @@ class ImportController extends Controller
           $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
           $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+        }
+      }
+
+      if (!empty($searchValue['responsibility'] && isset($searchValue['responsibility']))) {
+        $search_responsibility = $searchValue['responsibility'];
+        if ($action == 'null' && $action != null) {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
+
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        }
+
+        if ($action != 'null' && $action == null && empty($sorting_name)) {
+
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
+
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        }
+
+        if ($sort_data == true && $search == null && $sorting_name == 'null') {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        }
+
+
+        if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
+
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        }
+        //dd($sort_data); echo "</br>"; false sort_type_close
+        // print_r($action); echo "</br>"; exit(); patient_name sort_code
+
+        if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
         }
       }
 
@@ -1591,6 +1664,78 @@ class ImportController extends Controller
           $claim_count->where('ter_pol_id', $search_ter_pol_id);
 
           $selected_claim_data->where('ter_pol_id', $search_ter_pol_id);
+        }
+      }
+
+      if (!empty($searchValue['file_id']) && isset($searchValue['file_id'])) {
+
+        $search_file_id = $searchValue['file_id'];
+
+        if ($action == 'null' && $action != null) {
+
+          $claim_data->where('file_upload_id', '=',  $search_file_id)->offset($skip)->limit($end);
+
+          $claim_count->where('file_upload_id', '=',  $search_file_id);
+
+          $selected_claim_data->where('file_upload_id', '=', $search_file_id);
+        }
+
+        if ($action != 'null' && $action != null && empty($sorting_name)) {
+
+          $claim_data->where('file_upload_id', '=',  $search_file_id)->offset($skip)->limit($end);
+
+          $claim_count->where('file_upload_id', '=', $search_file_id);
+
+          $selected_claim_data->where('file_upload_id', '=', $search_file_id);
+        }
+
+        if ($sort_data == true && $search == null && $sorting_name == 'null') {
+
+          $claim_data->where('file_upload_id', '=', $search_file_id)->orderBy($action, 'asc')->offset($skip)->limit($end);
+
+          $claim_count->where('file_upload_id', '=', $search_file_id);
+
+          $selected_claim_data->where('file_upload_id', '=', $search_file_id);
+        } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+
+          $claim_data->where('file_upload_id', '=', $search_file_id)->orderBy($action, 'desc')->offset($skip)->limit($end);
+
+          $claim_count->where('file_upload_id', '=', $search_file_id);
+
+          $selected_claim_data->where('file_upload_id', '=', $search_file_id);
+        }
+
+
+        if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
+
+          $claim_data->where('file_upload_id', '=', $search_file_id)->orderBy($action, 'asc')->offset($skip)->limit($end);
+
+          $claim_count->where('file_upload_id', '=', $search_file_id);
+
+          $selected_claim_data->where('file_upload_id', '=', $search_file_id);
+        } else if ($sort_data == false && $search == 'search'  && $action != null) {
+
+          $claim_data->where('file_upload_id', '=', $search_file_id)->orderBy($action, 'desc')->offset($skip)->limit($end);
+
+          $claim_count->where('file_upload_id', '=', $search_file_id);
+
+          $selected_claim_data->where('file_upload_id', '=', $search_file_id);
+        }
+
+        if ($sorting_name == true && $sort_data == null && $search == 'search' && $action == null) {
+
+          $claim_data->where('file_upload_id', '=', $search_file_id)->orderBy($sorting_method, 'asc')->offset($skip)->limit($end);
+
+          $claim_count->where('file_upload_id', '=', $search_file_id);
+
+          $selected_claim_data->where('file_upload_id', '=', $search_file_id);
+        } else if ($sorting_name == false && $sort_data == null && $search == 'search') {
+
+          $claim_data->where('file_upload_id', '=', $search_file_id)->orderBy($sorting_method, 'desc')->offset($skip)->limit($end);
+
+          $claim_count->where('file_upload_id', '=', $search_file_id);
+
+          $selected_claim_data->where('file_upload_id', '=', $search_file_id);
         }
       }
 
