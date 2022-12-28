@@ -2168,12 +2168,12 @@
 
 </ng-template>
 <ng-template #HtmlContent>
-  <div><p>Auth No : {{claim_data.auth_no ? claim_data.auth_no : '-Nil-'}}<br />
-  Admit Date : {{claim_data.admit_date  ? (claim_data.admit_date | date:'MM/dd/yyyy') : '-Nil-'}}<br />Discharge Date : {{claim_data.discharge_date ? (claim_data.discharge_date | date:'MM/dd/yyyy') : '-Nil-'}}<br />
-  CPT : {{claim_data.cpt ? claim_data.cpt: '-Nil-'}}<br /> ICD : {{claim_data.icd ? claim_data.icd: '-Nil-'}}<br />
-  Modifiers : {{claim_data.modifiers ? claim_data.modifiers: '-Nil-'}}<br /> Units : {{claim_data.units ? claim_data.units: '-Nil-'}}<br />
-  Facility : {{claim_data.facility ? claim_data.facility: '-Nil-'}}<br /> Billing Provider : {{claim_data.billing_prov ? claim_data.billing_prov:'-Nil-'}}<br />
-  Insurance Type : {{claim_data.insurance_type ? claim_data.insurance_type:'-Nil-'}}</p></div>
+  <div><p>Auth No : {{claim_data?.auth_no ? claim_data?.auth_no : '-Nil-'}}<br />
+  Admit Date : {{claim_data?.admit_date  ? (claim_data?.admit_date | date:'MM/dd/yyyy') : '-Nil-'}}<br />Discharge Date : {{claim_data?.discharge_date ? (claim_data?.discharge_date | date:'MM/dd/yyyy') : '-Nil-'}}<br />
+  CPT : {{claim_data?.cpt ? claim_data?.cpt: '-Nil-'}}<br /> ICD : {{claim_data?.icd ? claim_data?.icd: '-Nil-'}}<br />
+  Modifiers : {{claim_data?.modifiers ? claim_data?.modifiers: '-Nil-'}}<br /> Units : {{claim_data?.units ? claim_data?.units: '-Nil-'}}<br />
+  Facility : {{claim_data?.facility ? claim_data?.facility: '-Nil-'}}<br /> Billing Provider : {{claim_data?.billing_prov ? claim_data?.billing_prov:'-Nil-'}}<br />
+  Insurance Type : {{claim_data?.insurance_type ? claim_data?.insurance_type:'-Nil-'}}</p></div>
 </ng-template>
 <ng-template #AccNo>
     <div><p>Guarantor : {{claim_data.guarantor ? claim_data.guarantor: '-Nil-'}}<br />

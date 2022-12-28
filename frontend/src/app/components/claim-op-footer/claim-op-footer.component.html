@@ -1,9 +1,9 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3">
 
-    <div class="col-lg-12 no-padding">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
         <div class="box-body no-padding" style="margin-top:20px;">
           <form #modalform=ngForm [formGroup]="formGroup">
-            <div class="col-lg-3">
+            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                 <div class="form-group" style="margin-bottom: 10px;">
                     <label>Status Code<span class="ar-red">*</span></label>
 
@@ -12,7 +12,7 @@
             </div>
 
 
-            <div class="col-lg-3">
+            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
 
                 <div class="form-group" style="margin-bottom: 10px;">
                     <label>Sub Status Code<span class="ar-red">*</span></label>
@@ -21,7 +21,7 @@
 
 
             </div>
-            <div class="col-lg-3" *ngIf="router.url != '/followup'">
+            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12" *ngIf="router.url != '/followup'">
 
                 <div class="form-group" style="margin-bottom: 10px;">
                     <label>Associates<span class="ar-red">*</span></label>
@@ -32,7 +32,7 @@
 
             </div>
 
-            <div class="col-lg-3">
+            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
 
                 <div class="form-group" style="margin-bottom: 10px;" *ngIf="router.url == '/followup'">
                    <label>Followup Date<span class="ar-red"></span></label>
@@ -52,14 +52,14 @@
 
             </div>
 <!-- <span *ngIf="this.claim_closed == false"></span> -->
-          <div class="col-lg-3 pull-right"  *ngIf="router.url != '/followup'">
+          <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right"  *ngIf="router.url != '/followup'">
               <div class="form-group contact100-form-checkbox" style="display: inline-block">
                 <input formControlName="closed" class="input-checkbox100 claim-checkbox" id="closed" [(ngModel)]="claimeds" type="checkbox" name="closed" (click)="closed_event($event)"><span>&nbsp;&nbsp;&nbsp;</span>
                   </div>
                   <div class="claim-closed"><label>Claim Closed</label>
               </div>
           </div>
-          <div class="col-lg-3 pull-right followup-claim"  *ngIf="(router.url == '/followup') && (this.selected_claim_data['claim_closing'] == 1)">
+          <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right followup-claim"  *ngIf="(router.url == '/followup') && (this.selected_claim_data['claim_closing'] == 1)">
               <div class="form-group contact100-form-checkbox" style="display: inline-block">
                 <input formControlName="closed" class="input-checkbox100 claim-checkbox" id="closed" [(ngModel)]="claimeds" type="checkbox" name="closed" ><span>&nbsp;&nbsp;&nbsp;</span>
               </div>
@@ -72,13 +72,13 @@
 </div>
 
 
-<div class="col-lg-12 text-center" style="margin-bottom: 20px;margin-top:30px;" *ngIf="tab_status == false">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="margin-bottom: 20px;margin-top:30px;" *ngIf="tab_status == false">
     <!-- <button type="button" class="btn btn-default text-center btn-md btn-flat" (click)="modal.dismiss()" style="min-width: 80px;">Cancel</button> -->
     <button type="button" [disabled]="!modalform.valid || !note_validation" class="btn btn-info text-center btn-md btn-flat" (click)="save_alert_function(alert_modal);" style="min-width: 80px;">Save</button>
     <!-- followup_process();finish_followup(); -->
 </div>
 
-<div class="col-lg-12 text-center status-message"  *ngIf="tab_status == true ">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center status-message"  *ngIf="tab_status == true ">
   {{message}}
 </div>
 

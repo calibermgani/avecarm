@@ -3595,11 +3595,11 @@ ngOnInit()
   // });
 
   this.closedClaimsFind = this.formBuilder.group({
-    filename:[],
     dos: [],
     claim_no: [],
     acc_no: [],
     patient_name: [],
+    responsibility: [],
     total_charge: [],
     total_ar: [],
     claim_note: [],
