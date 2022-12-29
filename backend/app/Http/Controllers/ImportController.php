@@ -2016,6 +2016,7 @@ class ImportController extends Controller
       $search_ter_pol_id = $auditSearchValue['ter_pol_id'];
       $search_total_ar = $auditSearchValue['total_ar'];
       $search_total_charge = $auditSearchValue['total_charge'];
+      $search_responsibility = $auditSearchValue['responsibility'];
     }
 
     $total_count = 0;
@@ -3015,6 +3016,68 @@ class ImportController extends Controller
         //exit();
       }
 
+      if (!empty($search_responsibility && isset($search_responsibility))) {
+        if ($sort_data == null && $action == null) {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $audit_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        }
+
+        if ($sort_data == 'null' && $action == 'null') {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $audit_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        }
+
+        if ($action != 'null' && $action == null && empty($sorting_name)) {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $audit_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        }
+
+        if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $audit_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        } else if ($sort_data == false && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $audit_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        }
+
+        if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $audit_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+          $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+          //print_r($sorting_name); echo "</br>";
+          $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+          $audit_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+        }
+      }
+
       if (!empty($search_ter_pol_id)) {
 
         if ($sort_data == null && $action == null) {
@@ -3213,8 +3276,8 @@ class ImportController extends Controller
       
       $getStatusCode = Statuscode::where('id',$claim_data[$key]['status_code'])->first();
       $getSubStatusCode = Sub_statuscode::where('id',$claim_data[$key]['substatus_code'])->first();
-      $claim_data[$key]['statuscode'] = $getStatusCode->status_code;
-      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code;
+      $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
       
       $assigned_data = Action::where('claim_id', $claim_data[$key]['claim_no'])->orderBy('created_at', 'desc')->first();
       if ($assigned_data != null) {

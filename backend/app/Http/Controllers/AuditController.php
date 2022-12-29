@@ -17,6 +17,7 @@ use App\Action;
 use DB;
 use Record_claim_history;
 use App\Statuscode;
+use App\Sub_statuscode;
 use App\Error_type;
 use App\Root_cause;
 use App\User_work_profile;
@@ -140,38 +141,48 @@ class AuditController extends Controller
 
             if($claim_type=="wo")
             {
+              // dd('datas1');
+              $users=User::where('role_id', '4')->pluck('id');
+              $claims=Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
+              
+              // $claim_count= Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
+              // $claim_count=sizeof($claim_count);
+              // $claim_data= Import_field::whereIN('claim_no',$claims)->orwhere('claim_Status','Audit')->where('claim_Status','!=','Completed')->distinct('claim_no')->offset($skip)->limit($end)->get();\
+              // $claim_count=Import_field::whereIN('claim_no',$claims)->orwhere('claim_Status','Audit')->where('claim_Status','!=','Completed')->distinct('claim_no')->count();
+              $claim_data=Import_field::where(function ($query) use ($claims) {
+                  $query->whereIN('claim_no',$claims)
+                        ->orwhere('claim_Status','Audit')
+                        ->orwhere('claim_Status','RCM Completed')
+                        ->orwhere('claim_Status','CA Completed') 
+                        ->orwhere('claim_Status','CA Assigned')
+                        ->orwhere('claim_Status','Closed');
+              })->distinct('claim_no')->offset($skip)->limit($end)->get();
 
-            $users=User::where('role_id', '4')->pluck('id');
-            $claims=Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
-            
-            // $claim_count= Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
-            // $claim_count=sizeof($claim_count);
-            // $claim_data= Import_field::whereIN('claim_no',$claims)->orwhere('claim_Status','Audit')->where('claim_Status','!=','Completed')->distinct('claim_no')->offset($skip)->limit($end)->get();\
-            // $claim_count=Import_field::whereIN('claim_no',$claims)->orwhere('claim_Status','Audit')->where('claim_Status','!=','Completed')->distinct('claim_no')->count();
-            $claim_data=Import_field::where(function ($query) use ($claims) {
-                $query->whereIN('claim_no',$claims)
-                      ->orwhere('claim_Status','Audit')
-                      ->orwhere('claim_Status','RCM Completed')
-                      ->orwhere('claim_Status','CA Completed') 
-                      ->orwhere('claim_Status','CA Assigned')
-                      ->orwhere('claim_Status','Closed');
-            })->distinct('claim_no')->offset($skip)->limit($end)->get();
-            
-            // ->where('claim_Status','!=','Completed')
+              foreach($claim_data as $key => $claim_datas)
+              {
+                $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
 
-            $claim_count=Import_field::where(function ($query) use ($claims) {
-                $query->whereIN('claim_no',$claims)
-                      ->orwhere('claim_Status','Audit')
-                      ->orwhere('claim_Status','RCM Completed')
-                      ->orwhere('claim_Status','CA Completed') 
-                      ->orwhere('claim_Status','CA Assigned')
-                      ->orwhere('claim_Status','Closed');
-            })->distinct('claim_no')->count();
-            // ->where('claim_Status','!=','Completed')
+                $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+              }
+              
+              // ->where('claim_Status','!=','Completed')
+
+              $claim_count=Import_field::where(function ($query) use ($claims) {
+                  $query->whereIN('claim_no',$claims)
+                        ->orwhere('claim_Status','Audit')
+                        ->orwhere('claim_Status','RCM Completed')
+                        ->orwhere('claim_Status','CA Completed') 
+                        ->orwhere('claim_Status','CA Assigned')
+                        ->orwhere('claim_Status','Closed');
+              })->distinct('claim_no')->count();
+              // ->where('claim_Status','!=','Completed')
 
             }
             else if($claim_type=="completed")
             {
+              // dd('datas2');
               $claimInfo = Claim_history::orderBy('id','desc')->get()->unique('claim_id')->toArray();
 					
       				foreach($claimInfo as $claimList){
@@ -192,6 +203,21 @@ class AuditController extends Controller
                             ) as claim_histories"), function($join) {
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$closed)->where('claim_closing',1)-> offset($skip) ->limit($end)->get();
+
+                          /** Developer : Sathish
+                           *  Date : 29/12/2022
+                           *  Purpose : To get Status and Sub Status Code
+                           */
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
+                          /** End */
+
                         $current_total = $claim_data->count(); 
                   }elseif($claim_type=="completed"  && $sort_type == 'null' && $sorting_name == 'null'){
                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
@@ -203,6 +229,15 @@ class AuditController extends Controller
                             ) as claim_histories"), function($join) {
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$closed)->where('claim_closing',1)-> offset($skip) ->limit($end)->get();
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
+                          
                         $current_total = $claim_data->count(); 
                   }elseif($claim_type=="completed"  && $sort_type == 'null' && $sorting_method == true && empty($sorting_name)){
                       $claim_data= Import_field::leftjoin(DB::raw("(SELECT
@@ -214,6 +249,21 @@ class AuditController extends Controller
                             ) as claim_histories"), function($join) {
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$closed)->where('claim_closing',1)-> offset($skip) ->limit($end)->get();
+
+                          /** Developer : Sathish
+                           *  Date : 29/12/2022
+                           *  Purpose : To get Status and Sub Status Code
+                           */
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
+                          /** End */
+
                         $current_total = $claim_data->count(); 
                   }
 
@@ -229,6 +279,21 @@ class AuditController extends Controller
                             ) as claim_histories"), function($join) {
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$closed)->where('claim_closing',1)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end)->get();
+                          
+                          /** Developer : Sathish
+                           *  Date : 29/12/2022
+                           *  Purpose : To get Status and Sub Status Code
+                           */
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
+                          /** End */
+
                       $current_total = $claim_data->count(); 
                     }else if($sorting_method == false){
                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
@@ -240,6 +305,21 @@ class AuditController extends Controller
                             ) as claim_histories"), function($join) {
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$closed)->where('claim_closing',1)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end)->get();
+                          
+                          /** Developer : Sathish
+                           *  Date : 29/12/2022
+                           *  Purpose : To get Status and Sub Status Code
+                           */
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
+                          /** End */
+
                        $current_total = $claim_data->count(); 
                     } 
 
@@ -261,6 +341,21 @@ class AuditController extends Controller
                             ) as claim_histories"), function($join) {
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$closed)->where('claim_closing',1)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end)->get();
+                          
+                          /** Developer : Sathish
+                           *  Date : 29/12/2022
+                           *  Purpose : To get Status and Sub Status Code
+                           */
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
+                          /** End */
+
                       $current_total = $claim_data->count(); 
                     }else if($sort_data == false){
                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
@@ -272,6 +367,20 @@ class AuditController extends Controller
                             ) as claim_histories"), function($join) {
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$closed)->where('claim_closing',1)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end)->get();
+                          
+                          /** Developer : Sathish
+                           *  Date : 29/12/2022
+                           *  Purpose : To get Status and Sub Status Code
+                           */
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
+                          /** End */
                        $current_total = $claim_data->count(); 
                     } 
                   }
@@ -1417,6 +1526,16 @@ class AuditController extends Controller
                   }
                   
                   $claim_data = $claim_data->get();
+                  
+                    /** Developer : Sathish
+                     *  Date : 29/12/2022
+                     *  Purpose : To get Status and Sub Status Code
+                     */
+                    $getStatusCode = Statuscode::where('id', $claim_data->status_code)->first();
+                    $getSubStatusCode = Sub_statuscode::where('id',$claim_data->substatus_code)->first();
+                    $op_data['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+                    $op_data['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                    /** End */
 
                   $current_total = $claim_data->count();
 
@@ -1432,6 +1551,7 @@ class AuditController extends Controller
             }
             else if($claim_type=="allocated" )
             {
+              // dd('datas3');
                 $claimInfo = Claim_history::orderBy('id','desc')->get()->unique('claim_id')->toArray();
 
                 foreach($claimInfo as $claimList){
@@ -1452,6 +1572,15 @@ class AuditController extends Controller
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$assign)->where('claim_closing', '!=', 1)->offset($skip) ->limit($end)->get();
 
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
+
                       $current_total = $claim_data->count();  
                   }elseif($claim_type=="allocated"  && $sort_type == 'null' && $sorting_method == true && empty($sorting_name)){
 
@@ -1464,6 +1593,15 @@ class AuditController extends Controller
                             ) as claim_histories"), function($join) {
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$assign)->where('claim_closing', '!=', 1)->offset($skip) ->limit($end)->get();
+
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
 
                         $current_total = $claim_data->count();
 
@@ -1481,6 +1619,14 @@ class AuditController extends Controller
                             ) as claim_histories"), function($join) {
                               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                           })->whereIN('claim_no',$assign)->where('claim_closing', '!=', 1)->orderBy($sorting_name, 'desc')->offset($skip) ->limit($end)->get();
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
 
                           $current_total = $claim_data->count();
                         }else if($sorting_method == false){
@@ -1493,6 +1639,15 @@ class AuditController extends Controller
                                 ) as claim_histories"), function($join) {
                                   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                               })->whereIN('claim_no',$assign)->where('claim_closing', '!=', 1)->orderBy($sorting_name, 'asc')->offset($skip) ->limit($end)->get();
+
+                          foreach($claim_data as $key => $claim_datas)
+                          {
+                            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                            $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                          }
                           $current_total = $claim_data->count();
                         }    
 
@@ -1513,6 +1668,14 @@ class AuditController extends Controller
                                 ) as claim_histories"), function($join) {
                                   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                               })->whereIN('claim_no',$assign)->where('claim_closing', '!=', 1)->orderBy($sort_type, 'desc')->offset($skip) ->limit($end)->get();
+                              foreach($claim_data as $key => $claim_datas)
+                              {
+                                $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                                $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                                $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                                $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                              }
                         $current_total = $claim_data->count();
                       }else if($sort_data == false){
                         $claim_data= Import_field::leftjoin(DB::raw("(SELECT
@@ -1524,6 +1687,14 @@ class AuditController extends Controller
                                 ) as claim_histories"), function($join) {
                                   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                               })->whereIN('claim_no',$assign)->where('claim_closing', '!=', 1)->orderBy($sort_type, 'asc')->offset($skip) ->limit($end)->get();
+                              foreach($claim_data as $key => $claim_datas)
+                              {
+                                $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                                $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                                $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                                $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                              }
                         $current_total = $claim_data->count();
                       }    
                   }
@@ -2618,6 +2789,18 @@ class AuditController extends Controller
 
 
                       $claim_data = $claim_data->get();
+                      /** Developer : Sathish
+                       *  Date: 29/12/2022
+                       *  Purpose : To Get Status and Substatus Name
+                       */
+                      foreach($claim_data as $key => $claim_datas)
+                      {
+                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                      }
 
                       $current_total = $claim_data->count();
 
