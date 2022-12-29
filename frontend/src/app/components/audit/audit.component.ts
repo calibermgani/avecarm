@@ -2470,12 +2470,14 @@ graphStatus()
       qc_notes: new FormControl('', [
         Validators.required
         ]),
-        root_cause: new FormControl('', [
-          Validators.required
-          ]),
+        root_cause: new FormControl('',),
           error_type: new FormControl('', [
             Validators.required
-            ])
+            ]),
+            error_parameter: new FormControl(''),
+            error_sub_parameter:new FormControl(''),
+            fyi_parameter:new FormControl(''),
+            fyi_sub_parameter:new FormControl(''),
         });
 
 
