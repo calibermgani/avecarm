@@ -24,6 +24,7 @@ use App\Claim_note;
 use App\Action;
 use App\Helpers\Record_claim_history;
 use App\Statuscode;
+use App\Sub_statuscode;
 use App\Line_item;
 use App\Claim_history;
 use DateTime;
@@ -3209,6 +3210,12 @@ class ImportController extends Controller
       $claim_data[$key]['age'] = $age->days;
       $claim_data[$key]['touch'] = Claim_note::where('claim_id', $claim_data[$key]['claim_no'])->count();
 
+      
+      $getStatusCode = Statuscode::where('id',$claim_data[$key]['status_code'])->first();
+      $getSubStatusCode = Sub_statuscode::where('id',$claim_data[$key]['substatus_code'])->first();
+      $claim_data[$key]['statuscode'] = $getStatusCode->status_code;
+      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code;
+      
       $assigned_data = Action::where('claim_id', $claim_data[$key]['claim_no'])->orderBy('created_at', 'desc')->first();
       if ($assigned_data != null) {
         $assigned_to = User::where('id', $assigned_data['assigned_to'])->pluck('firstname');
