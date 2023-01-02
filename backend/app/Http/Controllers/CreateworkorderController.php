@@ -3566,6 +3566,9 @@ public function qc_note(LoginRequest $request)
     $notes=$notes_details['notes'];
     $notes_options=$notes_details['notes_opt'];
 
+    /** Extra 2 Fields Added */
+    $parameter_option = $notes_details['parameter'];
+    $sub_parameter_option = $notes_details['sub_parameter'];
 
 
 
@@ -3581,6 +3584,8 @@ public function qc_note(LoginRequest $request)
                 'content'          => $notes,
                 'root_cause'       => $notes_options['root_cause'],
                 'error_type'       => json_encode($notes_options['error_types']),
+                'parameter'        => $parameter_option,
+                'sub_parameter'    => $sub_parameter_option,
                 'created_by'       => $id
                 ]);
     }
@@ -3591,6 +3596,8 @@ else
         'content'        => $notes,
         'root_cause'     => $notes_options['root_cause'],
         'error_type'     => json_encode($notes_options['error_types']),
+        'parameter'      => $parameter_option,
+        'sub_parameter'  => $sub_parameter_option,
         'updated_by'     => $id,
         'updated_at'     => date('Y-m-d H:i:s')
         ));
