@@ -670,7 +670,7 @@ class ImportController extends Controller
         $selected_claim_data = Import_field::whereNull('followup_work_order')->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->orderBy('created_at', 'desc')->get();
         $selected_count = $selected_claim_data->count();
 
-        $claim_data = $this->arrange_claim_data($claim_data);
+        $claim_data = $this->arrange_claim_datas($claim_data);
         $claim_count = Import_field::whereNull('followup_work_order')->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->orderBy(
           'id',
           'asc'
@@ -704,7 +704,7 @@ class ImportController extends Controller
           $current_total = $claim_data->count();
         }
 
-        $claim_data = $this->arrange_claim_data($claim_data);
+        $claim_data = $this->arrange_claim_datas($claim_data);
 
         $selected_claim_data = Import_field::whereNull('followup_work_order')->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->orderBy('created_at', 'desc')->get();
         $selected_count = $selected_claim_data->count();
@@ -734,7 +734,7 @@ class ImportController extends Controller
           $current_total = $claim_data->count();
         }
 
-        $claim_data = $this->arrange_claim_data($claim_data);
+        $claim_data = $this->arrange_claim_datas($claim_data);
 
         $selected_claim_data = Import_field::whereNull('followup_work_order')->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->orderBy('created_at', 'desc')->get();
         $selected_count = $selected_claim_data->count();
@@ -3278,6 +3278,39 @@ class ImportController extends Controller
       $getSubStatusCode = Sub_statuscode::where('id',$claim_data[$key]['substatus_code'])->first();
       $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
       $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+      
+      $assigned_data = Action::where('claim_id', $claim_data[$key]['claim_no'])->orderBy('created_at', 'desc')->first();
+      if ($assigned_data != null) {
+        $assigned_to = User::where('id', $assigned_data['assigned_to'])->pluck('firstname');
+        $assigned_by = User::where('id', $assigned_data['assigned_by'])->pluck('firstname');
+
+        $assignedTo_size = sizeOf($assigned_to);
+        $assignedBy_size = sizeOf($assigned_by);
+
+        $claim_data[$key]['assigned_to'] = $assignedTo_size ? $assigned_to[0] : 'NA';
+        $claim_data[$key]['assigned_by'] = $assignedBy_size ? $assigned_by[0] : 'NA';
+
+        $claim_data[$key]['created'] = date('d/m/Y', strtotime($assigned_data['created_at']));
+      }
+    }
+    return $claim_data;
+  }
+
+  protected function arrange_claim_datas($claim_data)
+  {
+
+    foreach ($claim_data as $key => $value) {
+      $dob = $claim_data[$key]['dos'];
+
+      $from = DateTime::createFromFormat('m/d/Y', date('m/d/Y', strtotime($dob)));
+
+      $to = date('d/m/Y');
+      $to = new DateTime;
+      $age = $to->diff($from);
+
+      $claim_data[$key]['age'] = $age->days;
+      $claim_data[$key]['touch'] = Claim_note::where('claim_id', $claim_data[$key]['claim_no'])->count();
+
       
       $assigned_data = Action::where('claim_id', $claim_data[$key]['claim_no'])->orderBy('created_at', 'desc')->first();
       if ($assigned_data != null) {
