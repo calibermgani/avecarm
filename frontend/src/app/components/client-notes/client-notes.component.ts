@@ -45,6 +45,22 @@ public savenotes(type)
   // console.log(this.active_tab);
   claim_id=this.active_tab;
 
+  if(type=='client_notes')
+  {
+    this.Jarwis.client_notes(this.setus.getId(),this.clientNotes.value['client_notes'],claim_id,'client_create').subscribe(
+    data  =>this.display_notes(data,type),
+    error => console.log(error)
+  );
+
+  // this.client_notes_data.push({notes:this.clientNotes.value['client_notes'],id:claim_id['claim_no']});
+  // this.client_notes_data_list.push(claim_id['claim_no']);
+  // this.notes_hadler.set_notes(this.setus.getId(),this.clientNotes.value['client_notes'],claim_id,'create_client_notes');
+  // this.send_calim_det('footer_data');
+
+
+
+  }
+
 }
 
 client_notes=[];
@@ -60,10 +76,11 @@ client_notes=[];
 
 public display_notes(data,type)
 {
-// console.log(data,type);
+console.log(data,type);
       if(type=='client_notes')
       {
         this.client_notes=data.data;
+        console.log(this.client_notes);
         }
            else if(type=='All')
            {

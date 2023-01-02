@@ -911,10 +911,10 @@ public savenotes(type)
 
   if(type=='client_notes')
   {
-  // this.Jarwis.client_notes(this.setus.getId(),this.clientNotes.value['client_notes'],claim_id,'client_create').subscribe(
-  //   data  =>this.display_notes(data,type),
-  //   error => console.log(error)
-  // );
+    this.Jarwis.client_notes(this.setus.getId(),this.clientNotes.value['client_notes'],claim_id,'client_create').subscribe(
+    data  =>this.display_notes(data,type),
+    error => console.log(error)
+  );
 
   this.client_notes_data.push({notes:this.clientNotes.value['client_notes'],id:claim_id['claim_no']});
   this.client_notes_data_list.push(claim_id['claim_no']);
@@ -935,24 +935,25 @@ public display_notes(data,type)
   {
   this.update_refer_notes(data,type,this.active_claim)
   }
-    else{
-      if(type=='processnotes')
-      {
-        this.process_notes=data.data;
-        }
-           else if(type=='All')
-           {
-             this.process_notes=data.data.process;
-             this.client_notes=data.data.client;
-             }
-             else if(type == 'client_notes')
-             {   this.client_notes=data.data;
-
-             }
-             }
-             this.loading=false;
+  else{
+    if(type=='processnotes')
+    {
+      this.process_notes=data.data;
+    }
+    else if(type=='All')
+    {
+      this.process_notes=data.data.process;
+      this.client_notes=data.data.client;
+      this.qc_notes=data.data.qc;
+    }
+    else if(type == 'client_notes')
+    {
+      this.client_notes=data.data;
+    }
+  }
+  this.loading=false;
   this.processNotes.reset();
-this.clientNotes.reset();
+  this.clientNotes.reset();
 }
 
 //Get Notes
@@ -960,6 +961,7 @@ public getnotes(claim)
 {
   this.process_notes=[];
   this.client_notes=[];
+    this.qc_notes=[];
   let type='All';
   this.Jarwis.getnotes(claim).subscribe(
     data  => this.display_notes(data,type),
@@ -982,7 +984,7 @@ public editnotes(type,value,id)
       this.initial_edit=true;
     }
     else{
-      this.editnote_value=value;
+      this.editnote_value=value.content;
       this.edit_noteid=id;
       this.initial_edit=false;
     }
@@ -1007,7 +1009,16 @@ public updatenotes(type)
   else{
     if(type=='client_notes')
     {
-      this.Jarwis.client_notes(this.setus.getId(),this.clientNotes.value['client_notes'],this.edit_noteid,'client_note_update').subscribe(
+      let claim_active;
+
+      if(this.main_tab == true)
+      {
+        claim_active=this.claim_clicked;
+      }
+      else{
+        claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+      }
+        this.Jarwis.client_notes(this.setus.getId(),this.clientNotes.value['client_notes'],this.edit_noteid,'client_note_update').subscribe(
         data  => this.display_notes(data,type),
         error => this.handleError(error)
         );

@@ -484,7 +484,7 @@ get_user_list(data)
 // }
 client_notes(id,notes,data,func_type)
 {
-  data={userid:id,client_note:notes,claim_det:data,func:func_type};
+  data={practice_dbid:localStorage.getItem('practice_id'),userid:id,client_note:notes,claim_det:data,func:func_type};
   return this.http.post(`${this.baseUrl}/client_note`, data);
 }
 fetch_export_data(filter,s_code,user_id)
