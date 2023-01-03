@@ -3567,10 +3567,10 @@ public function qc_note(LoginRequest $request)
     $notes_options=$notes_details['notes_opt'];
 
     /** Extra 4 Fields Added */
-    $error_parameter_option = $notes_details['error_parameter'];
-    $error_sub_parameter_option = $notes_details['error_sub_parameter'];
-    $fyi_parameter_option = $notes_details['fyi_parameter'];
-    $fyi_sub_parameter_option = $notes_details['fyi_sub_parameter'];
+    $error_parameter_option = $notes_options['error_parameter'];
+    $error_sub_parameter_option = $notes_options['error_sub_parameter'];
+    $fyi_parameter_option = $notes_options['fyi_parameter'];
+    $fyi_sub_parameter_option = $notes_options['fyi_sub_parameter'];
 
 
 
