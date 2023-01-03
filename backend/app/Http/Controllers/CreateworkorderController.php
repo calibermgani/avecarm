@@ -3576,7 +3576,7 @@ public function qc_note(LoginRequest $request)
 
     $claim_data=$request->get('claim_det');
     $function=$request->get('func');
-    $claim_no= $claim_data['claim_no'];
+    $claim_no= @$claim_data['claim_no'];
     if($function=="create_qcnotes")
     {
         $notes_insert=Qc_note::create(
