@@ -20,7 +20,7 @@ class Qc_note extends Model
     ];
 
     protected $fillable = [
-        'claim_id','state','content','root_cause','error_type','parameter','sub_parameter','created_by'
+        'claim_id','state','content','root_cause','error_type','error_parameter','error_sub_parameter','fyi_parameter','fyi_sub_parameter','created_by'
     ];
 
     public function root() {

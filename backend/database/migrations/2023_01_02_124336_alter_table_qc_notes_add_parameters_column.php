@@ -14,8 +14,10 @@ class AlterTableQcNotesAddParametersColumn extends Migration
     public function up()
     {
         Schema::table('qc_notes', function (Blueprint $table) {
-            $table->string('parameter',255)->nullable()->after('root_cause');
-            $table->string('sub_parameter',255)->nullable()->after('parameter');
+            $table->integer('error_parameter')->nullable()->after('root_cause');
+            $table->integer('error_sub_parameter')->nullable()->after('error_parameter');
+            $table->integer('fyi_parameter')->nullable()->after('error_sub_parameter');
+            $table->integer('fyi_sub_parameter')->nullable()->after('fyi_parameter');
         });
     }
 
@@ -27,8 +29,10 @@ class AlterTableQcNotesAddParametersColumn extends Migration
     public function down()
     {
         Schema::table('qc_notes', function (Blueprint $table) {
-            $table->dropColumn('parameter');
-            $table->dropColumn('sub_parameter');
+            $table->dropColumn('error_parameter');
+            $table->dropColumn('error_sub_parameter');
+            $table->dropColumn('fyi_parameter');
+            $table->dropColumn('fyi_sub_parameter');
         });
     }
 }
