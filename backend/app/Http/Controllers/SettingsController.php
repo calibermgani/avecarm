@@ -11,7 +11,7 @@ use App\Http\Requests\LoginRequest;
 use Validator;
 use JWTFactory;
 use JWTAuth;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Schema;
 use App\Import_field;
 use App\File_upload;
@@ -24,13 +24,14 @@ use App\Statuscode;
 use App\Sub_statuscode;
 use App\Error_type;
 use App\Models\ErrorParameter;
+use App\Models\FYIParameter;
 use App\Root_cause;
 
 class SettingsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['getfields','setsetting','create_category','get_category','create_questions','update_category','update_questions','create_statuscode','get_status_codes','create_substatus_code','update_status_code','get_root_cause','create_root_cause','get_error_type','create_error_type','update_prac_settings','get_practice_stats', 'get_settingsearch','create_error_parameters']]);
+        $this->middleware('auth:api', ['except' => ['getfields','setsetting','create_category','get_category','create_questions','update_category','update_questions','create_statuscode','get_status_codes','create_substatus_code','update_status_code','get_root_cause','create_root_cause','get_error_type','create_error_type','update_prac_settings','get_practice_stats', 'get_settingsearch','create_error_parameters','create_fyi_parameters']]);
     }
       
     /*Get the Field Names and Previous Settings*/ 
@@ -794,6 +795,40 @@ public function update_prac_settings(LoginRequest $request)
                 ));
         }
             $root_states=ErrorParameter::all();
+            return response()->json(['states'   => $root_states]);
+    }
+
+    /** Developer: Sathish
+     *  Purposer : To Create and Update FYI Parameter
+     *  Date : 04/01/2023
+     */
+
+    public function create_fyi_parameters(LoginRequest $request)
+    {
+        $data=$request->get('form_data');
+        $id=$request->get('id');
+        $type=$request->get('type');
+
+        if($type=='create')
+        {
+            $create_status=FYIParameter::create(
+                [
+                    'name'          => $data['name'],
+                    'status'        => $data['status'],
+                    'created_by'    => $id
+                ]);
+
+        }
+        else if($type =='update')
+        {
+            DB::table('f_y_i_parameters')->where('id',$id['upd_id'])->update(array(
+                'name'        => $data['name'],
+                'status'      => $data['status'],
+                'updated_at'  => date('Y-m-d H:i:s'),
+                'updated_by'  => $id['user']
+                ));
+        }
+            $root_states=FYIParameter::all();
             return response()->json(['states'   => $root_states]);
     }
 

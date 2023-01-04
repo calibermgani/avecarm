@@ -223,4 +223,5 @@ Route::group([
     Route::post('update_auto_close_claims', 'ImportController@updateAutoClose');
     Route::post('assigned_claim_list', 'AssignedListController@assigned_claim_list');
     Route::post('create_error_parameters', 'SettingsController@create_error_parameters');
+    Route::post('create_fyi_parameters', 'SettingsController@create_fyi_parameters');
 });
