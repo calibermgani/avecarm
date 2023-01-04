@@ -15,7 +15,8 @@ class CreateFYIParametersTable extends Migration
     {
         Schema::create('f_y_i_parameters', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',50);
+            $table->string('fyi_parameter',50);
+            $table->string('fyi_sub_parameter',50);
             $table->integer('status');
             $table->integer('created_by');
 			$table->integer('updated_by')->nullable();

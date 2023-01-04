@@ -779,19 +779,20 @@ public function update_prac_settings(LoginRequest $request)
         {
             $create_status=ErrorParameter::create(
                 [
-                    'name'          => $data['name'],
-                    'status'        => $data['status'],
-                    'created_by'    => $id
+                    'error_parameter'       => $data['error_parameter'],
+                    'error_sub_parameter'   => $data['error_sub_parameter'],
+                    'status'                => $data['status'],
+                    'created_by'            => $id
                 ]);
 
         }
         else if($type =='update')
         {
             DB::table('error_parameters')->where('id',$id['upd_id'])->update(array(
-                'name'        => $data['name'],
-                'status'      => $data['status'],
-                'updated_at'  => date('Y-m-d H:i:s'),
-                'updated_by'  => $id['user']
+                'error_parameter'       => $data['error_parameter'],
+                'error_sub_parameter'   => $data['error_sub_parameter'],
+                'updated_at'            => date('Y-m-d H:i:s'),
+                'updated_by'            => $id['user']
                 ));
         }
             $root_states=ErrorParameter::all();
@@ -813,16 +814,18 @@ public function update_prac_settings(LoginRequest $request)
         {
             $create_status=FYIParameter::create(
                 [
-                    'name'          => $data['name'],
-                    'status'        => $data['status'],
-                    'created_by'    => $id
+                    'fyi_parameter'     => $data['fyi_parameter'],
+                    'fyi_sub_parameter' => $data['fyi_sub_parameter'],
+                    'status'            => $data['status'],
+                    'created_by'        => $id
                 ]);
 
         }
         else if($type =='update')
         {
             DB::table('f_y_i_parameters')->where('id',$id['upd_id'])->update(array(
-                'name'        => $data['name'],
+                'fyi_parameter'     => $data['fyi_parameter'],
+                'fyi_sub_parameter' => $data['fyi_sub_parameter'],
                 'status'      => $data['status'],
                 'updated_at'  => date('Y-m-d H:i:s'),
                 'updated_by'  => $id['user']

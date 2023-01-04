@@ -15,7 +15,8 @@ class CreateErrorParametersTable extends Migration
     {
         Schema::create('error_parameters', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',50);
+            $table->string('error_parameter',50);
+            $table->string('error_sub_parameter',50);
             $table->integer('status');
             $table->integer('created_by');
 			$table->integer('updated_by')->nullable();
