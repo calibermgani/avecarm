@@ -224,4 +224,6 @@ Route::group([
     Route::post('assigned_claim_list', 'AssignedListController@assigned_claim_list');
     Route::post('create_error_parameters', 'SettingsController@create_error_parameters');
     Route::post('create_fyi_parameters', 'SettingsController@create_fyi_parameters');
+    Route::post('get_error_param_codes', 'AuditController@get_error_param_codes');
+    Route::post('get_fyi_param_codes', 'AuditController@get_fyi_param_codes');
 });

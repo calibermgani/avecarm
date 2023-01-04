@@ -25,6 +25,8 @@ use DateTime;
 use App\Claim_history;
 use App\Workorder_field;
 use App\Workorder_user_field;
+use App\Models\ErrorParameter;
+use App\Models\FYIParameter;
 
 
 
@@ -32,7 +34,7 @@ class AuditController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['get_audit_claim_details','get_auditors','create_audit_workorder','fetch_export_data','get_audit_codes','auto_assign_claims', 'audit_assigned_order_list', 'auto_assigned']]);
+        $this->middleware('auth:api', ['except' => ['get_audit_claim_details','get_auditors','create_audit_workorder','fetch_export_data','get_audit_codes','auto_assign_claims', 'audit_assigned_order_list', 'auto_assigned', 'get_error_param_codes','get_fyi_param_codes']]);
     }
 
     //Get Audit Claim Details
@@ -3557,6 +3559,34 @@ class AuditController extends Controller
     //                      'data' => $workorder_det
     //                      ]);
     //                      }
-                         }
+
+
+  public function get_error_param_codes(LoginRequest $request)
+  {
+    $id=$request->get('id');
+    $error_param_type= ErrorParameter::select('id','error_parameter')->where('status', 1)->get();
+    $sub_error_param_type= ErrorParameter::select('id','error_sub_parameter')->where('status', 1)->get();
+
+    return response()->json([
+    'err_param_types'  => $error_param_type,
+    'sub_err_param_types'  => $sub_error_param_type,
+    ]);
+
+  }
+
+  public function get_fyi_param_codes(LoginRequest $request)
+  {
+    $id=$request->get('id');
+    $fyi_param_type= FYIParameter::select('id','fyi_parameter')->where('status', 1)->get();
+    $fyi_sub_param_type= FYIParameter::select('id','fyi_sub_parameter')->where('status', 1)->get();
+
+    return response()->json([
+    'fyi_param_types'  => $fyi_param_type,
+    'fyi_sub_param_types'  => $fyi_sub_param_type,
+    ]);
+
+  }
+
+}
 
    
