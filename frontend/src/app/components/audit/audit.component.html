@@ -425,137 +425,130 @@
                      </div>
                   </div>
                   <div class="tab-pane" id="tab_1">
-                     <div class="box no-shadow no-border">
-                        <div class="box-body no-padding" style="border:1px solid #d8dbe4">
-                           <div class="box no-shadow no-bottom" >
-                              <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Find My Search</h3>
-                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool collapsed" style="margin-left:10px;" data-widget="collapse" data-toggle="collapse" data-target="#closed_ClaimsSearch">
-                                       <i class="fa fa-plus"></i>
-                                    </button>
-                                 </div>
-                                    <!-- <div class="box-tools pull-right">
-                                    <input type="text" class="form-control pull-right" [formControl]="search_data" placeholder="Search.." style="width:300px;margin-top:1px;font-weight:normal;">
-                                    </div> -->
-                              </div>
-                              <div class="collapse" id ="closed_ClaimsSearch">
-                                 <form [formGroup]="closedClaimsFind" (ngSubmit)="closed_claims_filter(1,'completed',null,null,null,null,null,null,null,null,'search')">
-                                    <div class="box-body no-padding" style="margin-top:20px;">
-                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                             <label>DOS</label>
-                                             <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="dos"  [(ngModel)]="selectedClosed" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
-                                          </div>
-                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                             <label>Claim No</label>
-                                             <input type="text" class="form-control" formControlName="claim_no">
-                                          </div>
-                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                             <label>Acc No</label>
-                                             <input type="text" class="form-control" formControlName="acc_no">
-                                          </div>
-                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                             <label>Patient Name</label>
-                                             <input type="text" class="form-control" formControlName="patient_name">
-                                          </div>
-                                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                             <label>Total Charge</label>
-                                             <input type="text" class="form-control" formControlName="total_charge">
-                                          </div>
-                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                             <label>Total AR</label>
-                                             <input type="text" class="form-control" formControlName="total_ar">
-                                          </div>
-                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                             <label>Claim note</label>
-                                             <input type="text" class="form-control" formControlName="claim_note">
-                                          </div>
-                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                             <label>Insurance</label>
-                                             <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="closedWork" [ngModelOptions]="{standalone: true}">
-                                                <option value="all" (selected)="closedWork='all'">All</option>
-                                                <option value="primary" (selected)="closedWork='primary'">Primary Insurance</option>
-                                                <option value="secondary" (selected)="closedWork='secondary'">Secondary Insurance</option>
-                                                <option value="tertiary" (selected)="closedWork='tertiary'">Tertiary Insurance</option>
-                                             </select>
-                                          </div>
-                                       </div>
-                                       <div [ngSwitch]="closedWork">
-                                          <div *ngSwitchCase="'primary'">
-                                             <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                <label>Primary Insurance</label>
-                                                <input type="text" class="form-control" formControlName="prim_ins_name">
-                                             </div>
-                                             <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                <label>Primary Policy ID</label>
-                                                <input type="text" class="form-control" formControlName="prim_pol_id">
-                                             </div>
-                                          </div>
-                                          <div *ngSwitchCase="'secondary'">
-                                             <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12" >
-                                                <label>Secondary Insurance</label>
-                                                <input type="text" class="form-control" formControlName="sec_ins_name">
-                                             </div>
-                                             <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                <label>Secondary Policy ID</label>
-                                                <input type="text" class="form-control" formControlName="sec_pol_id">
-                                             </div>
-                                          </div>
-                                          <div *ngSwitchCase="'tertiary'">
-                                             <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                <label>Tertiary Insurance</label>
-                                                <input type="text" class="form-control" formControlName="ter_ins_name">
-                                             </div>
-                                             <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                <label>Tertiary Policy ID</label>
-                                                <input type="text" class="form-control" formControlName="ter_pol_id">
-                                             </div>
-                                          </div>
-                                          <div *ngSwitchCase="'all'">
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                <label>Primary Insurance</label>
-                                                <input type="text" class="form-control" formControlName="prim_ins_name">
-                                                </div>
-                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                <label>Primary Policy ID</label>
-                                                <input type="text" class="form-control" formControlName="prim_pol_id">
-                                                </div>
-                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                <label>Secondary Insurance</label>
-                                                <input type="text" class="form-control" formControlName="sec_ins_name">
-                                                </div>
-                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                   <label>Secondary Policy ID</label>
-                                                   <input type="text" class="form-control" formControlName="sec_pol_id">
-                                                </div>
-                                             </div>
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                   <label>Tertiary Insurance</label>
-                                                   <input type="text" class="form-control" formControlName="ter_ins_name">
-                                                </div>
-                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                   <label>Tertiary Policy ID</label>
-                                                   <input type="text" class="form-control" formControlName="ter_pol_id">
-                                                </div>
-                                             </div>
-                                          </div>
-                                          </div>
-                                       </div>
+                    <div class="box no-shadow no-border">
+                       <div class="box-body no-padding" style="border:1px solid #d8dbe4">
+                          <div class="box no-shadow no-bottom" >
+                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Find My Search</h3>
+                                <!-- <div class="box-tools pull-right">
+                                   <input type="text" class="form-control pull-right" [formControl]="search_data" placeholder="Search.." style="width:300px;margin-top:1px;font-weight:normal;">
+                                </div> -->
+                             </div>
+                             <form [formGroup]="closedClaimsFind" (ngSubmit)="closed_claims_filter(1,'completed',null,null,null,null,null,null,null,null,'search')">
+                                <div class="box-body no-padding" style="margin-top:20px;">
+                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                      <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                         <label>DOS</label>
+                                         <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="dos"  [(ngModel)]="selectedClosed" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                      </div>
+                                      <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                         <label>Claim No</label>
+                                         <input type="text" class="form-control" formControlName="claim_no">
+                                      </div>
+                                      <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                         <label>Acc No</label>
+                                         <input type="text" class="form-control" formControlName="acc_no">
+                                      </div>
+                                      <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                         <label>Patient Name</label>
+                                         <input type="text" class="form-control" formControlName="patient_name">
+                                      </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                      <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                         <label>Total Charge</label>
+                                         <input type="text" class="form-control" formControlName="total_charge">
+                                      </div>
+                                      <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                         <label>Total AR</label>
+                                         <input type="text" class="form-control" formControlName="total_ar">
+                                      </div>
+                                      <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                         <label>Claim note</label>
+                                         <input type="text" class="form-control" formControlName="claim_note">
+                                      </div>
+                                      <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label>Insurance</label>
+                                        <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="closedWork" [ngModelOptions]="{standalone: true}">
+                                           <option value="all" (selected)="closedWork='all'">All</option>
+                                           <option value="primary" (selected)="closedWork='primary'">Primary Insurance</option>
+                                           <option value="secondary" (selected)="closedWork='secondary'">Secondary Insurance</option>
+                                           <option value="tertiary" (selected)="closedWork='tertiary'">Tertiary Insurance</option>
+                                        </select>
                                     </div>
-                                 </form>
-                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right">
-                                       <input type="button" class="pull-right btn btn-search" value="Search" (click)="closed_claims_filter(1,'completed',null,null,null,null,null,null,null,null,'search')">
+                                  </div>
+                                  <div [ngSwitch]="closedWork">
+                                    <div *ngSwitchCase="'primary'">
+                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                          <label>Primary Insurance</label>
+                                          <input type="text" class="form-control" formControlName="prim_ins_name">
+                                        </div>
+                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                          <label>Primary Policy ID</label>
+                                          <input type="text" class="form-control" formControlName="prim_pol_id">
+                                        </div>
+                                      </div>
+                                      <div *ngSwitchCase="'secondary'">
+                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12" >
+                                          <label>Secondary Insurance</label>
+                                          <input type="text" class="form-control" formControlName="sec_ins_name">
+                                        </div>
+                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                          <label>Secondary Policy ID</label>
+                                          <input type="text" class="form-control" formControlName="sec_pol_id">
+                                        </div>
+                                      </div>
+                                      <div *ngSwitchCase="'tertiary'">
+                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                          <label>Tertiary Insurance</label>
+                                          <input type="text" class="form-control" formControlName="ter_ins_name">
+                                        </div>
+                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                          <label>Tertiary Policy ID</label>
+                                          <input type="text" class="form-control" formControlName="ter_pol_id">
+                                        </div>
+                                      </div>
+                                      <div *ngSwitchCase="'all'">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <label>Primary Insurance</label>
+                                            <input type="text" class="form-control" formControlName="prim_ins_name">
+                                          </div>
+                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <label>Primary Policy ID</label>
+                                            <input type="text" class="form-control" formControlName="prim_pol_id">
+                                          </div>
+                                          <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <label>Secondary Insurance</label>
+                                            <input type="text" class="form-control" formControlName="sec_ins_name">
+                                          </div>
+                                           <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                             <label>Secondary Policy ID</label>
+                                             <input type="text" class="form-control" formControlName="sec_pol_id">
+                                          </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                              <label>Tertiary Insurance</label>
+                                              <input type="text" class="form-control" formControlName="ter_ins_name">
+                                           </div>
+                                           <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                             <label>Tertiary Policy ID</label>
+                                             <input type="text" class="form-control" formControlName="ter_pol_id">
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
+                                  </div>
+                                </div>
+                             </form>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                  <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right">
+                                   <input type="button" class="pull-right btn btn-search" value="Search" (click)="closed_claims_filter(1,'completed',null,null,null,null,null,null,null,null,'search')">
                                  </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
+                                </div>
+                          </div>
+                       </div>
+                    </div>
                      <div class="box no-shadow no-border mb-3">
                         <!-- /.box-header -->
                         <div class="box-body no-padding">
@@ -661,9 +654,9 @@
 
                                                                <td (mouseover)="tooltip(x)" class="cur-pointer"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.statuscode==NULL">-Nil-</span><span *ngIf="x.statuscode!=NULL">{{x.statuscode}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL">{{x.status_code}}</span></td>
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.substatuscode==NULL">-Nil-</span><span *ngIf="x.substatuscode!=NULL">{{x.substatuscode}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL">{{x.substatus_code}}</span></td>
 
                                                                <td (mouseover)="tooltip(x)" class="cur-pointer text-right"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
@@ -714,16 +707,10 @@
                           <div class="box no-shadow no-bottom">
                              <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Find My Search</h3>
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool collapsed" style="margin-left:10px;" data-widget="collapse" data-toggle="collapse" data-target="#assigned_ClaimsSearch">
-                                       <i class="fa fa-plus"></i>
-                                    </button>
-                                 </div>
                                 <!-- <div class="box-tools pull-right">
                                    <input type="text" class="form-control pull-right" [formControl]="search_data" placeholder="Search.." style="width:300px;margin-top:1px;font-weight:normal;">
                                 </div> -->
                              </div>
-                             <div class="collapse" id ="assigned_ClaimsSearch">
                              <form [formGroup]="assignedClaimsFind" (ngSubmit)="assigned_claims_filter(1,'allocated',null,null,null,null,null,null,null,null,'search')">
                                 <div class="box-body no-padding" style="margin-top:20px;">
                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -836,7 +823,6 @@
                                    <input type="button" class="pull-right btn btn-search" value="Search" (click)="assigned_claims_filter(1,'allocated',null,null,null,null,null,null,null,null,'search')">
                                  </div>
                                 </div>
-                              </div>
                           </div>
                        </div>
                     </div>
@@ -950,9 +936,9 @@
 
                                                                <td><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL" (mouseover)="tooltip(x)">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.statuscode==NULL">-Nil-</span><span *ngIf="x.statuscode!=NULL">{{x.status_code}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL">{{x.status_code}}</span></td>
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.substatuscode==NULL">-Nil-</span><span *ngIf="x.substatuscode!=NULL">{{x.substatus_code}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL">{{x.substatus_code}}</span></td>
 
                                                                <td class="cur-pointer text-right" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
@@ -1002,16 +988,10 @@
                           <div class="box no-shadow no-bottom">
                              <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Find My Search</h3>
-                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool collapsed" style="margin-left:10px;" data-widget="collapse" data-toggle="collapse" data-target="#audit_ClaimsSearch">
-                                       <i class="fa fa-plus"></i>
-                                    </button>
-                                 </div>
                                 <!-- <div class="box-tools pull-right">
                                    <input type="text" class="form-control pull-right" [formControl]="search_data" placeholder="Search.." style="width:300px;margin-top:1px;font-weight:normal;">
                                 </div> -->
                              </div>
-                             <div class="collapse" id ="audit_ClaimsSearch">
                              <form [formGroup]="auditClaimsFind" (ngSubmit)="audit_claims_filter(1,'completed',null,null,null,null,null,null,null,'search')">
                                 <div class="box-body no-padding" style="margin-top:20px;">
                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -1124,7 +1104,6 @@
                                 <input type="button" class="pull-right btn btn-search" value="Search" (click)="audit_claims_filter(1,'wo',null,null,null,null,null,null,null,null,'search')">
                               </div>
                              </div>
-                           </div>
                           </div>
                        </div>
                     </div>
@@ -1194,7 +1173,12 @@
                                              </tr>
                                           </thead>
                                           <tbody>
-                                             <app-atom-spinner *ngIf="tab_load == true && !table_datas" [size]="60" [color]="'#1fa5be'"></app-atom-spinner>
+                                             <app-atom-spinner
+                                             *ngIf="tab_load == true && !table_datas"
+                                             [size]="60"
+                                             [color]="'#1fa5be'"
+                                             ></app-atom-spinner>
+
                                              <tr class="clickable-row cur-pointer" *ngFor="let x of table_datas | paginate: { id: 'claims',itemsPerPage: 15, currentPage: pages, totalItems:total}; let i = index" >
 
                                                 <td (mouseover)="tooltip(x)"><input type="checkbox" [checked]="selected_claim_nos.includes(x.claim_no)" style="margin-top:0px;" (click)="selected($event,x.claim_no,i)" ></td>
@@ -1220,13 +1204,13 @@
 
                                                 <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                                <td><span *ngIf="x.statuscode==NULL">-Nil-</span><span *ngIf="x.statuscode!=NULL" (mouseover)="tooltip(x)">{{x.statuscode}}</span></td>
+                                                <td><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL" (mouseover)="tooltip(x)">{{x.status_code}}</span></td>
 
-                                                <td><span *ngIf="x.substatuscode==NULL">-Nil-</span><span *ngIf="x.substatuscode!=NULL" (mouseover)="tooltip(x)">{{x.substatuscode}}</span></td>
+                                                <td><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL" (mouseover)="tooltip(x)">{{x.substatus_code}}</span></td>
 
-                                                <td  class="cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
+                                                <td  class="text-right cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
-                                                <td  class="cur-pointer ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                                <td  class="text-right cur-pointer ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
 
                                                 <td><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
@@ -1270,7 +1254,6 @@
                           <div class="box no-shadow no-bottom">
                              <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Find My Search</h3>
-                                
                              </div>
                              <div class="box-body no-padding" style="margin-top:20px;">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -1725,18 +1708,13 @@
                   </div>
                </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
+            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
                <div class="box no-shadow no-border" style="margin-top:10px">
-                  <!-- /.box-header -->
                   <div class="box-body no-padding">
                      <div class="box no-shadow no-bottom no-border">
-                        <!-- /.box-header -->
                         <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                            <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Process Notes</h3>
                            <div class="box-tools pull-right">
-                              <a  class="cur-pointer" *ngIf="edit_permission==true" style="font-size:16px;" (click)="open(processnotes)"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New</span></a>
-                               <!-- <span><a  class="cur-pointer" [hidden]="process_notes_data_list.includes(claim_clicked.claim_no) " style="font-size:16px;" (click)="open(processnotes)"><i class="fa fa-plus-circle"></i>&nbsp;<span style="text-decoration: underline">New</span></a>
-                              <a  class="cur-pointer" [hidden]="!process_notes_data_list.includes(claim_clicked.claim_no) " style="font-size:16px;" (click)="open(processnotes);editnotes('process_notes_init','none',claim_clicked);"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">Edit</span></a></span> -->
                               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box23" style="margin-left: 10px;">
                               <i class="fa fa-plus"></i>
                               </button>
@@ -1745,7 +1723,9 @@
                         <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box23">
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div  *ngFor="let x of process_notes" class="col-lg-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
-                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(processnotes);editnotes('processnote',x,x.id)" ></i></p>
+                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}. 
+                                    
+                                 </p>
                               </div>
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!process_notes.length'>
                                  <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
@@ -1760,7 +1740,7 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div> -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
                <div class="box no-shadow no-border" style="margin-top:10px">
                   <!-- /.box-header -->
@@ -1785,8 +1765,9 @@
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                  <div  *ngFor="let x of qc_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
-                                    <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at}} :</span> <span class="pull-right" style="font-size: 18px;">    </span><span> {{x.content | date: 'MM/dd/yyyy'}}. </span><span class="ar-blue font600 ">Error Types: </span> {{x.root.name}}.
-                                       <span class="ar-blue font600 ">Root Causes: </span><span *ngFor="let x of x.error_type" >{{x.name}}. </span><i *ngIf="edit_permission==true && note_edit_val == x.id" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="get_audit_codes();open(qcnotes);editnotes('qcnote',x,x.id)" ></i></p>
+                                    <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span></span><span class="ar-blue font600 ">Notes: </span><span class="font600">{{x.content}}.</span><span class="ar-blue font600 ">Error Types: </span>
+                                       <span class="font600" *ngFor="let x of x.error_type" >{{x.name}}. </span><i *ngIf="edit_permission==true && note_edit_val == x.id" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="get_audit_codes();open(qcnotes);editnotes('qcnote',x,x.id)" ></i>
+                                    </p>
                                  </div>
                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!qc_notes.length'>
                                     <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
@@ -1825,8 +1806,9 @@
                         <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box25">
                            <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div *ngFor="let y of claim_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
-                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}. </p>
-                                 <!-- <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(claimnotes);editnotes('claimnotes',y.content,y.id)" ></i> -->
+                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}. 
+                                    <!-- <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(claimnotes);editnotes('claimnotes',y.content,y.id)" ></i> -->
+                                 </p>
                               </div>
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!claim_notes.length'>
                                  <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
@@ -2142,12 +2124,10 @@
                </div>
             </div>
          </div>
-         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
+         <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
             <div class="box no-shadow no-border" style="margin-top:10px">
-               <!-- /.box-header -->
                <div class="box-body no-padding">
                   <div class="box no-shadow no-bottom no-border">
-                     <!-- /.box-header -->
                      <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                         <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Process Notes</h3>
                         <div class="box-tools pull-right">
@@ -2160,7 +2140,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                            <div  *ngFor="let x of active_refer_process" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
                               <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}.  </p>
-                              <!-- <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(processnotes);editnotes('processnote',x.content,x.id)"></i> -->
+                              
                            </div>
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!active_refer_process.length'>
                               <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
@@ -2170,7 +2150,7 @@
                   </div>
                </div>
             </div>
-         </div>
+         </div> -->
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
             <div class="box no-shadow no-border" style="margin-top:10px">
                <!-- /.box-header -->
@@ -2456,25 +2436,35 @@
             <!-- /.box-body -->
             <div class="box-body no-padding">
                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                  
+                  <!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                     <div class="form-group" style="margin-bottom: 10px;">
+                        <label>Root Cause Analysis<span class="ar-red">*</span></label>
+                        <select class="form-control ngx-dropdown-button" formControlName="root_cause" style="width:100%" aria-hidden="true" >
+                        <option *ngFor="let opt of root_cause_list" value="{{opt.id}}" >{{opt.description}}</option>
+                           </select>
+                        <ngx-select-dropdown formControlName="root_cause" [config]="config" [options]="root_cause_list"></ngx-select-dropdown>
+                        <div *ngIf="submitted && v.root_cause.errors" class="invalid-feedback">
+                           <div *ngIf="v.root_cause.errors.required">Choose Root Cause Analysis</div>
+                        </div>
+                        <div *ngIf="qcNotes.controls['root_cause'].touched">
+                           <div *ngIf="qcNotes.controls['root_cause'].hasError('required')" class="error">
+                               Choose Root Cause Analysis
+                             </div>
+                             </div>
+                     </div>
+                  </div> -->
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                      <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
                         <label>Audit Status<span class="ar-red">*</span></label>
-                        <!-- <select class="form-control ngx-dropdown-button" formControlName="error_type" style="width:100%" aria-hidden="true" >
+                        <select class="form-control ngx-dropdown-button" formControlName="error_type" style="width:100%" aria-hidden="true" [(ngModel)]="errortype">
                            <option *ngFor="let err of err_type_list" value="{{err.id}}" >{{err.description}}</option>
-                           </select>  -->
-                           <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="createWork" formControlName="error_type">
-                              <option value="" >Choose Audit Status</option>
-                              <option value="NoError" (selected)="createWork='NoError'">No Error</option>
-                              <option value="Error" (selected)="createWork='Error'">Error</option>
-                              <option value="FYI" (selected)="createWork='FYI'">FYI</option>
-                           </select>
-
-                        <!-- <ngx-select-dropdown formControlName="error_type" [config]="config" [multiple]="true" [options]="err_type_list"
-                        [ngClass]="{ 'is-invalid': submitted && v.error_type.errors }"></ngx-select-dropdown> -->
-                        <!-- <div *ngIf="submitted && v.error_type.errors" class="invalid-feedback">
+                           </select> 
+                        <!-- <ngx-select-dropdown formControlName="error_type" [config]="config" [multiple]="true" [options]="err_type_list" #errortype
+                        [ngClass]="{ 'is-invalid': submitted && v.error_type.errors }" [(ngModel)]="errortype"></ngx-select-dropdown>
+                        <div *ngIf="submitted && v.error_type.errors" class="invalid-feedback">
                            <div *ngIf="v.error_type.errors.required">Choose Audit Status</div>
-                        </div> -->
+                        </div>
+                        <p>{{errortype}}</p> -->
                         <!-- <div *ngIf="qcNotes.controls['error_type'].touched">
                            <div *ngIf="qcNotes.controls['error_type'].hasError('required')" class="error">
                                Choose Error type
@@ -2482,8 +2472,8 @@
                              </div> -->
                      </div>
                   </div>
-                  <div [ngSwitch]="createWork">
-                     <div *ngSwitchCase="'Error'">
+                  <div [ngSwitch]="errortype">
+                     <div *ngSwitchCase="'2'">
                         <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12">
                            <label>Parameter</label>
                            <input type="text" class="form-control" formControlName="error_parameter">
@@ -2493,7 +2483,7 @@
                            <input type="text" class="form-control" formControlName="error_sub_parameter">
                         </div>
                      </div>
-                     <div *ngSwitchCase="'FYI'">
+                     <div *ngSwitchCase="'3'">
                         <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12">
                            <label>Parameter</label>
                            <input type="text" class="form-control" formControlName="fyi_parameter">
@@ -2503,7 +2493,7 @@
                            <input type="text" class="form-control" formControlName="fyi_sub_parameter">
                         </div>
                      </div>
-                     <div *ngSwitchCase="'NoError'"></div>
+                     <div *ngSwitchCase="'1'"></div>
                   </div>
                </div>
             </div>

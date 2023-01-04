@@ -565,7 +565,7 @@ public clear(): void {
         let claim_details=selected_details['claim'];
         // if(input_type=='claim_create')
         //     {
-              this.Jarwis.check_notes_update(claim_details,'all',this.claim_data['all']).subscribe(
+              this.Jarwis.check_notes_update(claim_details,'all',this.claim_data).subscribe(
                 data  => this.set_note_update_val(data),
                 error => this.handleError(error)
                 );
@@ -632,10 +632,10 @@ public clear(): void {
           let user=selected_details['user'];
           let input_type=selected_details['type'];
           let claim_details=selected_details['claim'];
-          this.Jarwis.claim_note(this.setus.getId(),user_notes,claim_details,'claim_create').subscribe(
-            data  => this.response_handler(data,'followup'),
-            error => this.handleError(error)
-          );
+          // this.Jarwis.claim_note(this.setus.getId(),user_notes,claim_details,'claim_create').subscribe(
+          //   data  => this.response_handler(data,'followup'),
+          //   error => this.handleError(error)
+          // );
           this.Jarwis.process_note(this.setus.getId(), user_notes, claim_details, 'processcreate', 'followup').subscribe(
             data  => this.response_handler(data,'followup'),
             error => this.handleError(error)
@@ -748,7 +748,6 @@ public clear(): void {
       else if(data.type== "CA")
       {
         this.submit_tab_types[this.active_tab]=data;
-        console.log('abc');
       this.message="Claim Processed";
       }
       this.toastr.successToastr( this.message) ;

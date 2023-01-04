@@ -855,68 +855,7 @@ list_related(claims)
   get c() { return this.claimNotes.controls; }
 
 
-  //Save Notes
-  public process_notes_data_list =[];
-  public process_notes_data =[];
-  request_monitor:number=0;
-
-  note_refresh(){
-    this.process_notes_data_list =[];
-    this.qc_notes_data_list =[];
-  }
-
-  public savenotes(type)
-  {
-    let claim_id=[];
-    if(this.active_claim.length != 0)
-    {
-      let index= this.refer_claim_no.indexOf(this.active_claim);
-      claim_id=this.refer_claim_det[index];
-      }
-      else{
-        claim_id=this.claim_clicked;
-        }
-        if(type=='processnotes')
-        {
-          this.Jarwis.process_note(this.setus.getId(),this.processNotes.value['processnotes'],claim_id,'processcreate', 'followup').subscribe(
-            data  => this.display_notes(data,type),
-            error => this.handleError(error)
-          );
-          // this.request_monitor=0;
-          // this.process_notes_data.push({notes:this.processNotes.value['processnotes'],id:claim_id['claim_no']});
-          // this.process_notes_data_list.push(claim_id['claim_no']);
-          // this.notes_hadler.set_notesest(this.setus.getId(),this.processNotes.value['processnotes'],claim_id,'process_create');
-          // this.send_calim_det('footer_data');
-        }
-        else if(type=='claimnotes')
-        {
-          this.Jarwis.claim_note(this.setus.getId(),this.claimNotes.value['claim_notes'],claim_id,'claim_create').subscribe(
-            data  => this.display_notes(data,type),
-            error => this.handleError(error)
-            );
-         }
-        else if(type=='qcnotes')
-        {
-          //console.log(this.qcNotes.value['qc_notes']);
-          console.log('claaim id  :' + claim_id);
-
-          this.submitted=true;
-          this.Jarwis.qc_note(this.setus.getId(),this.qcNotes.value['qc_notes'],claim_id,'create_qcnotes').subscribe(
-            data  => this.display_notes(data,type),
-            error => this.handleError(error)
-            );
-          this.handle_notes_opt();
-          // console.log("QC",this.rc_et_data);
-          this.qc_notes_data.push({notes:this.qcNotes.value['qc_notes'],id:claim_id['claim_no'],notes_opt:this.rc_et_data});
-          this.qc_notes_data_list.push(claim_id['claim_no']);
-
-          let notes_det={notes:this.qcNotes.value['qc_notes'],notes_opt:this.rc_et_data};
-          this.notes_hadler.set_notes(this.setus.getId(),notes_det,claim_id,'create_qcnotes');
-          this.send_calim_det('footer_data');
-            }
-            }
-
-
+  
 
   //Update Displayed Notes
   public display_notes(data,type)
@@ -1078,17 +1017,121 @@ public process_display_notes(data,type)
 
     let error_type=this.qcNotes.value['error_type'];
     let root_cause=this.qcNotes.value['root_cause'];
+    let error_parameter = this.qcNotes.value['parameter'];
+    let error_sub_parameter = this.qcNotes.value['sub_parameter'];
+    let fyi_parameter = this.qcNotes.value['fyi_parameter'];
+    let fyi_sub_parameter = this.qcNotes.value['fyi_sub_parameter'];
+    if (error_type !="1" && error_type =="2"){
+      if (this.qcNotes.value['error_parameter'] !=null && this.qcNotes.value['error_sub_parameter'] !=null){
+        error_parameter = this.qcNotes.value['error_parameter'];
+        error_sub_parameter = this.qcNotes.value['error_sub_parameter'];
+      }
+      else{
+        error_parameter = null;
+        error_sub_parameter = null;
+      }
+    }
+    else if(error_type !="1" && error_type =="3"){
+      if (this.qcNotes.value['fyi_parameter'] !=null && this.qcNotes.value['fyi_sub_parameter'] !=null){
+        fyi_parameter = this.qcNotes.value['fyi_parameter'];
+        fyi_sub_parameter = this.qcNotes.value['fyi_sub_parameter'];
+      }
+      else{
+        fyi_parameter = null;
+        fyi_sub_parameter = null;
+      }
+    }
+    else{
+      error_parameter = null;
+      error_sub_parameter = null;
+      fyi_parameter = null;
+      fyi_sub_parameter = null;
+    }    
+    
     let error_types_ids=[];
+if (error_type.length >1){
+  error_type.forEach(function (value) {
+    let keys = value;
+    error_types_ids.push(keys['id']);
+    });
+}
+else{
+  let keys = error_type;
+  console.log(keys);
+  error_types_ids.push(keys);
+}
 
-error_type.forEach(function (value) {
-      let keys = value;
-      error_types_ids.push(keys['id']);
-      });
+      
+     
 
-this.rc_et_data={root_cause:root_cause['id'],error_types:error_types_ids}
+this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:error_parameter,error_sub_parameter:error_sub_parameter,fyi_parameter:fyi_parameter,fyi_sub_parameter:fyi_sub_parameter}
 
   }
 
+
+  //Save Notes
+  public process_notes_data_list =[];
+  public process_notes_data =[];
+  request_monitor:number=0;
+
+  note_refresh(){
+    this.process_notes_data_list =[];
+    this.qc_notes_data_list =[];
+  }
+
+  public savenotes(type)
+  {
+    let claim_id=[];
+    if(this.active_claim.length != 0)
+    {
+      let index= this.refer_claim_no.indexOf(this.active_claim);
+      claim_id=this.refer_claim_det[index];
+      }
+      else{
+        claim_id=this.claim_clicked;
+        console.log(this.claim_clicked);
+        }
+        if(type=='processnotes')
+        {
+          this.Jarwis.process_note(this.setus.getId(),this.processNotes.value['processnotes'],claim_id,'processcreate', 'followup').subscribe(
+            data  => this.display_notes(data,type),
+            error => this.handleError(error)
+          );
+          // this.request_monitor=0;
+          // this.process_notes_data.push({notes:this.processNotes.value['processnotes'],id:claim_id['claim_no']});
+          // this.process_notes_data_list.push(claim_id['claim_no']);
+          // this.notes_hadler.set_notesest(this.setus.getId(),this.processNotes.value['processnotes'],claim_id,'process_create');
+          // this.send_calim_det('footer_data');
+        }
+        else if(type=='claimnotes')
+        {
+          this.Jarwis.claim_note(this.setus.getId(),this.claimNotes.value['claim_notes'],claim_id,'claim_create').subscribe(
+            data  => this.display_notes(data,type),
+            error => this.handleError(error)
+            );
+         }
+        else if(type=='qcnotes')
+        {
+          //console.log(this.qcNotes.value['qc_notes']);
+          console.log('claaim id  :' + claim_id);
+
+          this.submitted=true;
+          
+          this.handle_notes_opt();
+          // console.log("QC",this.rc_et_data);
+          this.qc_notes_data.push({notes:this.qcNotes.value['qc_notes'],id:claim_id['claim_no'],notes_opt:this.rc_et_data});
+          this.qc_notes_data_list.push(claim_id['claim_no']);
+          let notes_det={notes:this.qcNotes.value['qc_notes'],notes_opt:this.rc_et_data};
+
+          // this.Jarwis.qc_note(this.setus.getId(),notes_det,claim_id,'create_qcnotes').subscribe(
+          //   data  => this.display_notes(data,type),
+          //   error => this.handleError(error)
+          //   );
+
+          this.notes_hadler.set_notes(this.setus.getId(),notes_det,claim_id,'create_qcnotes');
+          this.send_calim_det('footer_data');
+            }
+            }
 
 
 
@@ -1137,10 +1180,12 @@ this.rc_et_data={root_cause:root_cause['id'],error_types:error_types_ids}
 
 
         let claim_active;
+        console.log(this.edit_noteid);
 
     if(this.main_tab == true)
     {
       claim_active=this.claim_clicked;
+      console.log(claim_active);
     }
     else{
       claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
@@ -1249,6 +1294,10 @@ this.rc_et_data={root_cause:root_cause['id'],error_types:error_types_ids}
     }
     this.editnote_value=null;
   }
+
+
+  
+
 
   //Clear ProcessNote
   public clear_notes()
@@ -2470,14 +2519,14 @@ graphStatus()
       qc_notes: new FormControl('', [
         Validators.required
         ]),
-        root_cause: new FormControl('',),
-          error_type: new FormControl('', [
+        root_cause: new FormControl(null),
+        error_type: new FormControl('', [
             Validators.required
             ]),
-            error_parameter: new FormControl(''),
+            error_parameter:new FormControl(''),
             error_sub_parameter:new FormControl(''),
-            fyi_parameter:new FormControl(''),
-            fyi_sub_parameter:new FormControl(''),
+              fyi_parameter:new FormControl(''),
+              fyi_sub_parameter:new FormControl('')
         });
 
 
