@@ -15,7 +15,14 @@ class CreateSubParametersTable extends Migration
     {
         Schema::create('sub_parameters', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('parent_id');
+            $table->string('sub_parameter', 255);
+            $table->integer('status');
+            $table->integer('created_by');
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('parent_parameters')->onDelete('cascade');
         });
     }
 

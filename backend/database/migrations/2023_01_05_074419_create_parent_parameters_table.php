@@ -15,6 +15,10 @@ class CreateParentParametersTable extends Migration
     {
         Schema::create('parent_parameters', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('err_params', 255);
+            $table->integer('status');
+            $table->integer('created_by');
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }
