@@ -27,6 +27,7 @@ use App\Workorder_field;
 use App\Workorder_user_field;
 use App\Models\ErrorParameter;
 use App\Models\FYIParameter;
+use App\Models\ParentParameter;
 
 
 
@@ -3563,13 +3564,15 @@ class AuditController extends Controller
 
   public function get_error_param_codes(LoginRequest $request)
   {
+    
     $id=$request->get('id');
-    $error_param_type= ErrorParameter::select('id','error_parameter')->where('status', 1)->get();
-    $sub_error_param_type= ErrorParameter::select('id','error_sub_parameter')->where('status', 1)->get();
+    $error_param_type= ParentParameter::where('status', 1)->get();
+   // dd($error_param_type);
+   // $sub_error_param_type= ErrorParameter::select('id','error_sub_parameter')->where('status', 1)->get();
 
     return response()->json([
     'err_param_types'  => $error_param_type,
-    'sub_err_param_types'  => $sub_error_param_type,
+    //'sub_err_param_types'  => $sub_error_param_type,
     ]);
 
   }
