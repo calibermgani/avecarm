@@ -226,4 +226,6 @@ Route::group([
     Route::post('create_fyi_parameters', 'SettingsController@create_fyi_parameters');
     Route::post('get_error_param_codes', 'AuditController@get_error_param_codes');
     Route::post('get_fyi_param_codes', 'AuditController@get_fyi_param_codes');
+    Route::post('get_sub_error_param_codes', 'AuditController@get_sub_error_param_codes');
+    
 });

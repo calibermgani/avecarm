@@ -28,6 +28,9 @@ use App\Workorder_user_field;
 use App\Models\ErrorParameter;
 use App\Models\FYIParameter;
 use App\Models\ParentParameter;
+use App\Models\SubParameter;
+use Exception;
+use Illuminate\Support\Facades\Response;
 
 
 
@@ -35,7 +38,7 @@ class AuditController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['get_audit_claim_details','get_auditors','create_audit_workorder','fetch_export_data','get_audit_codes','auto_assign_claims', 'audit_assigned_order_list', 'auto_assigned', 'get_error_param_codes','get_fyi_param_codes']]);
+        $this->middleware('auth:api', ['except' => ['get_audit_claim_details','get_auditors','create_audit_workorder','fetch_export_data','get_audit_codes','auto_assign_claims', 'audit_assigned_order_list', 'auto_assigned', 'get_error_param_codes','get_fyi_param_codes','get_sub_error_param_codes']]);
     }
 
     //Get Audit Claim Details
@@ -3589,6 +3592,21 @@ class AuditController extends Controller
     'fyi_sub_param_types'  => $fyi_sub_param_type,
     ]);
 
+  }
+
+
+  public function get_sub_error_param_codes(LoginRequest $request)
+  {
+      $parent_id = $request->get('parent_id');
+      $getSubParamCode = SubParameter::where('parent_id', $parent_id)->get();
+
+    if($getSubParamCode)
+    {
+      return Response::json(['status' => '200', 'sum_param_datas' => $getSubParamCode]);
+    }else{
+      return Response::json(['status' => '400', 'sum_param_datas' => $getSubParamCode]);
+    }
+    
   }
 
 }
