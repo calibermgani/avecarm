@@ -3566,12 +3566,13 @@ class AuditController extends Controller
   {
     
     $id=$request->get('id');
-    $error_param_type= ParentParameter::where('status', 1)->get();
-   // dd($error_param_type);
+    $error_param_type= ParentParameter::where('status', 1)->where('id', '<>', 5)->get();
+    $fyi_param= ParentParameter::where('status', 1)->where('id', 5)->get();
    // $sub_error_param_type= ErrorParameter::select('id','error_sub_parameter')->where('status', 1)->get();
 
     return response()->json([
     'err_param_types'  => $error_param_type,
+    'fyi_param_types'  => $fyi_param,
     //'sub_err_param_types'  => $sub_error_param_type,
     ]);
 
