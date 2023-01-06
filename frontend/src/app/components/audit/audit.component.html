@@ -613,7 +613,7 @@
 
                                                                <th (click)="closed_order_list('completed','claims_notes','null','null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                               <th (click)="closed_order_list('completed','created_ats','null','null')" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click)="closed_order_list('completed','created_ats','null','null')" class="font600 line-height-24">User | Date<i class="fa fa-fw fa-sort"></i></th>
 
                                                             </tr>
                                                          </thead>
@@ -654,19 +654,19 @@
 
                                                                <td (mouseover)="tooltip(x)" class="cur-pointer"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL">{{x.status_code}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL">{{x.statuscode}}</span></td>
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL">{{x.substatus_code}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL">{{x.substatuscode}}</span></td>
 
-                                                               <td (mouseover)="tooltip(x)" class="cur-pointer text-right"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
+                                                               <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
-                                                               <td (mouseover)="tooltip(x)" class="cur-pointer text-right ar-total"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                                               <td (mouseover)="tooltip(x)" class="cur-pointer ar-total"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
 
                                                                <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
-                                                               <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL">{{x.claims_notes}}</span></td>
+                                                               <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
 
-                                                               <td><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.assigned_by ">UA</span><span *ngIf="x.assigned_by">{{x.assigned_by}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
+                                                               <td><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
                                                             </tr>
                                                             <!-- <div *ngIf="completed_claims == [] && tab_load == false">No claims to show</div> -->
                                                             <tr *ngIf="total_completed_claims==0">
@@ -898,7 +898,7 @@
 
                                                                <th (click)="assigned_order_list('allocated','claims_notes','null','null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                               <th (click)="assigned_order_list('allocated','created_ats','null','null')" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click)="assigned_order_list('allocated','created_ats','null','null')" class="font600 line-height-24">User | Date<i class="fa fa-fw fa-sort"></i></th>
 
                                                             </tr>
                                                          </thead>
@@ -936,19 +936,19 @@
 
                                                                <td><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL" (mouseover)="tooltip(x)">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL">{{x.status_code}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL">{{x.statuscode}}</span></td>
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL">{{x.substatus_code}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL">{{x.substatuscode}}</span></td>
 
-                                                               <td class="cur-pointer text-right" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
+                                                               <td class="cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
-                                                               <td class="cur-pointer text-right ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                                               <td class="cur-pointer ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
 
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="x.claim_Status==NULL">-Nil-</span> <span *ngIf="x.claim_Status!=NULL"></span>{{x.claim_Status}}</td>
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL">{{x.claims_notes}}</span></td>
+                                                               <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.assigned_by ">UA</span><span *ngIf="x.assigned_by">{{x.assigned_by}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
 
                                                             </tr>
                                                             <tr *ngIf="total_allocated==0">
@@ -1168,7 +1168,7 @@
 
                                                 <th (click)="order_list('wo','claims_notes','null','null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                <th (click)="order_list('wo','created_ats','null','null')" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                <th (click)="order_list('wo','created_ats','null','null')" class="font600 line-height-24">User | Date<i class="fa fa-fw fa-sort"></i></th>
 
                                              </tr>
                                           </thead>
@@ -1204,19 +1204,19 @@
 
                                                 <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                                <td><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL" (mouseover)="tooltip(x)">{{x.status_code}}</span></td>
+                                                <td><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL" (mouseover)="tooltip(x)">{{x.statuscode}}</span></td>
 
-                                                <td><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL" (mouseover)="tooltip(x)">{{x.substatus_code}}</span></td>
+                                                <td><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL" (mouseover)="tooltip(x)">{{x.substatuscode}}</span></td>
 
-                                                <td  class="text-right cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
+                                                <td  class="cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
-                                                <td  class="text-right cur-pointer ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                                <td  class="cur-pointer ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
 
                                                 <td><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
-                                                <td (mouseover)="tooltip(x)"><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL">{{x.claims_notes}}</span></td>
+                                                <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
 
-                                                <td (mouseover)="tooltip(x)"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.assigned_by ">UA</span><span *ngIf="x.assigned_by">{{x.assigned_by}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
+                                                <td (mouseover)="tooltip(x)"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
 
                                              </tr>
                                              <tr *ngIf="total==0">
@@ -1753,7 +1753,7 @@
                               <!-- <a data-toggle="modal" (click)="open(qcnotes)" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a>  -->
                               <a *ngIf="reassign_allocation == true && refer_claim_editable" class="cur-pointer" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="open(confirm_modal);confirm_reassign(claim_clicked)"><i class="fa fa-exchange" title="Assign to Manager / TL"></i> <span style="text-decoration: underline">Re-Assign</span></a>
                               <span *ngIf="curr_reassigned_claims.includes(claim_clicked.claim_no) == false">
-                              <a data-toggle="modal" *ngIf="edit_permission==true" [hidden]="qc_notes_data_list.includes(claim_clicked.claim_no)" (click)="open(qcnotes);get_audit_codes();" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a>
+                              <a data-toggle="modal" *ngIf="edit_permission==true" [hidden]="qc_notes_data_list.includes(claim_clicked.claim_no)" (click)="open(qcnotes);get_audit_codes();get_error_param_codes();" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a>
                               <a  class="cur-pointer" [hidden]="!qc_notes_data_list.includes(claim_clicked.claim_no)" style="font-size:16px;" (click)="open(qcnotes);editnotes('qc_notes_init','none',claim_clicked);"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">Edit</span></a>
                               </span>
                               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box24" style="margin-left: 10px;">
@@ -1766,7 +1766,7 @@
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                  <div  *ngFor="let x of qc_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
                                     <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span></span><span class="ar-blue font600 ">Notes: </span><span class="font600">{{x.content}}.</span><span class="ar-blue font600 ">Error Types: </span>
-                                       <span class="font600" *ngFor="let x of x.error_type" >{{x.name}}. </span><i *ngIf="edit_permission==true && note_edit_val == x.id" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="get_audit_codes();open(qcnotes);editnotes('qcnote',x,x.id)" ></i>
+                                       <span class="font600" *ngFor="let x of x.error_type" >{{x.name}}. </span><i *ngIf="edit_permission==true && note_edit_val == x.id" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="get_audit_codes();open(qcnotes);editnotes('qcnote',x,x.id);get_error_param_codes();" ></i>
                                     </p>
                                  </div>
                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!qc_notes.length'>
@@ -2161,7 +2161,7 @@
                         <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> QC Notes</h3>
                         <div class="box-tools pull-right">
                            <a *ngIf="reassign_allocation == true && refer_claim_editable" class="cur-pointer" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="open(confirm_modal);confirm_reassign(x)"><i class="fa fa-exchange" title="Assign to Manager / TL"></i> <span style="text-decoration: underline">Re-Assign</span></a>
-                           <a data-toggle="modal" *ngIf="edit_permission==true" [hidden]="qc_notes_data_list.includes(x.claim_no)" (click)="open(qcnotes);get_audit_codes()" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a>
+                           <a data-toggle="modal" *ngIf="edit_permission==true" [hidden]="qc_notes_data_list.includes(x.claim_no)" (click)="open(qcnotes);get_audit_codes();get_error_param_codes();get_error_sub_param_codes();" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a>
                            <a  class="cur-pointer" [hidden]="!qc_notes_data_list.includes(x.claim_no)" style="font-size:16px;" (click)="open(qcnotes);editnotes('qc_notes_init','none',x);"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">Edit</span></a>
                            <button type="button" class="btn btn-box-tool" data-widget="collapse" style="margin-left: 10px;"><i class="fa fa-minus"></i>
                            </button>
@@ -2171,7 +2171,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div  *ngFor="let x of active_refer_qc" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
-                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}.<i *ngIf="edit_permission==true && note_edit_val == x.id" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="get_audit_codes();open(qcnotes);editnotes('qcnote',x,x.id)" ></i> </p>
+                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}.<i *ngIf="edit_permission==true && note_edit_val == x.id" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="get_audit_codes();get_error_param_codes();get_error_sub_param_codes();open(qcnotes);editnotes('qcnote',x,x.id)" ></i> </p>
                               </div>
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!active_refer_qc.length'>
                                  <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
@@ -2454,47 +2454,53 @@
                      </div>
                   </div> -->
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                     <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
+                     <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;" >
                         <label>Audit Status<span class="ar-red">*</span></label>
-                        <select class="form-control ngx-dropdown-button" formControlName="error_type" style="width:100%" aria-hidden="true" [(ngModel)]="errortype">
-                           <option *ngFor="let err of err_type_list" value="{{err.id}}" >{{err.description}}</option>
-                           </select> 
-                        <!-- <ngx-select-dropdown formControlName="error_type" [config]="config" [multiple]="true" [options]="err_type_list" #errortype
-                        [ngClass]="{ 'is-invalid': submitted && v.error_type.errors }" [(ngModel)]="errortype"></ngx-select-dropdown>
+                        <!-- <select class="form-control ngx-dropdown-button" formControlName="error_type" style="width:100%" aria-hidden="true" [(ngModel)]="selectedValue" (ngModelChange)="selectChange($event)" #errortype>
+                           <option *ngFor="let err of err_type_list" [ngValue]="err">{{err.description}} </option>                
+                        </select> -->
+                        <ngx-select-dropdown formControlName="error_type" [config]="config" [multiple]="true" [options]="err_type_list" (ngModelChange)="selectChange($event)" #errortype
+                        [ngClass]="{ 'is-invalid': submitted && v.error_type.errors }"></ngx-select-dropdown>
                         <div *ngIf="submitted && v.error_type.errors" class="invalid-feedback">
                            <div *ngIf="v.error_type.errors.required">Choose Audit Status</div>
-                        </div>
-                        <p>{{errortype}}</p> -->
+                        </div>  
+                                            
                         <!-- <div *ngIf="qcNotes.controls['error_type'].touched">
                            <div *ngIf="qcNotes.controls['error_type'].hasError('required')" class="error">
                                Choose Error type
                              </div>
                              </div> -->
                      </div>
-                  </div>
-                  <div [ngSwitch]="errortype">
-                     <div *ngSwitchCase="'2'">
-                        <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                  </div>                  
+                  <div *ngIf="selectedError =='Error'">
+                     <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12" >
+                        <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
                            <label>Parameter</label>
-                           <input type="text" class="form-control" formControlName="error_parameter">
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                           <ngx-select-dropdown formControlName="error_parameter" [config]="config" [multiple]="false" [options]="error_param_list" (ngModelChange)="selectSubChange($event)" (click)="get_error_sub_param_codes();"></ngx-select-dropdown>
+                        </div>                        
+                     </div>
+                     <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                        <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
                            <label>Sub Parameter</label>
-                           <input type="text" class="form-control" formControlName="error_sub_parameter">
+                           <ngx-select-dropdown formControlName="error_sub_parameter" [config]="config" [multiple]="false" [options]="error_sub_param_list"></ngx-select-dropdown>
                         </div>
                      </div>
-                     <div *ngSwitchCase="'3'">
-                        <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                  </div>
+                  <div *ngIf="selectedError =='FYI'">
+                     <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                        <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
                            <label>Parameter</label>
-                           <input type="text" class="form-control" formControlName="fyi_parameter">
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12">
-                           <label>Sub Parameter</label>
-                           <input type="text" class="form-control" formControlName="fyi_sub_parameter">
+                           <ngx-select-dropdown formControlName="fyi_parameter" [config]="config" [multiple]="false" [options]="fyi_param_list" (ngModelChange)="selectSubChange($event)" (click)="get_error_sub_param_codes();"></ngx-select-dropdown>
                         </div>
                      </div>
-                     <div *ngSwitchCase="'1'"></div>
+                     <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                        <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
+                           <label>Sub Parameter</label>
+                           <ngx-select-dropdown formControlName="fyi_sub_parameter" [config]="config" [multiple]="false" [options]="error_sub_param_list"></ngx-select-dropdown>
+                        </div>
+                     </div>
                   </div>
+                  <div *ngIf="selectedError =='No Error'"></div>
                </div>
             </div>
          </div>
@@ -2788,4 +2794,10 @@
 <ng-template #TotalAr>
     <div><p>Patient AR : {{(claim_data.pat_ar | number:'1.2-2') ? (claim_data.pat_ar | number:'1.2-2'):'-Nil-'}}<br />
     Insurance AR : {{(claim_data.ins_ar | number:'1.2-2') ? (claim_data.ins_ar | number:'1.2-2'):'-Nil-'}}</p></div>
+</ng-template>
+<ng-template #ClaimNote>
+   <div>
+      <p>Claim Notes : {{(claim_data.claims_notes) ? (claim_data.claims_notes):'-Nil-'}}</p>
+      <p>Claim Notes : {{(claim_data.claims_notes)}}</p>
+   </div>
 </ng-template>

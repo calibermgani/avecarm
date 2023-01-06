@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Observable";
 import { map, filter, switchMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs'; 
 import { environment } from 'src/environments/environment';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -725,6 +726,13 @@ let response= this.common_url('create_error_type',data);
 return response;
 }
 
+getDropDownText(id, object){
+  const selObj = _.filter(object, function (o) {
+      return (_.includes(id,o.id));
+  });
+  return selObj;
+}
+
 get_audit_codes(data)
 {
   data={id:data};
@@ -1180,4 +1188,18 @@ get_file_ready_count(){
   return response;
 }
 
+get_error_param_codes(data){
+  data={id:data,practice_dbid : localStorage.getItem('practice_id')};
+  // return this.http.post(`${this.baseUrl}/get_audit_codes`, data);
+  let response= this.common_url('get_error_param_codes',data);
+  return response;
 }
+
+get_error_sub_param_codes(data,p_id){
+  data={id:data,practice_dbid : localStorage.getItem('practice_id'),parent_id:p_id};
+  let response= this.common_url('get_sub_error_param_codes',data);
+  return response;
+}
+
+}
+

@@ -19,6 +19,9 @@ import * as moment from 'moment';
   templateUrl: './audit.component.html',
   styleUrls: ['./audit.component.css'],
   encapsulation: ViewEncapsulation.None
+
+  
+
 })
 export class AuditComponent implements OnInit {
 
@@ -26,6 +29,12 @@ export class AuditComponent implements OnInit {
   assigned = "";
   closedWork = "";
   associateCount : any ='';
+
+  mySelect = '';
+  ErrType:[] = [];
+  selectedValue: any = {};
+  selectedError:any;
+  parentId:any;
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -980,23 +989,38 @@ public process_display_notes(data,type)
       if(type=='qcnote')
       {
         let root_cause= value.root_cause;
-        let error_type= JSON.parse(value.error_type);
+        let error_type= value.error_type;
+        let error_parameter = value.error_parameter;
 
         // console.log(this.audit_codes_list);
         let root_det=this.audit_codes_list.root.find(x => x.id = root_cause );
 
         let error_det = this.audit_codes_list.error;
 
+        let error_param_det = this.error_codes_list.errorparam
+        let fyi_param_det = this.error_codes_list.fyiparam
+
         let selecetd_err=[];
 // console.log("ERR_tyoe",error_type);
         error_type.forEach(function (value) {
           let keys = value;
-          let error=error_det.find(x => x.id == keys );
-          selecetd_err.push({id:keys,description:error['name']});
+          console.log(keys);
+          let error=error_det.find(x => x.id == keys['id'] );
+          selecetd_err.push({id:keys['id'],description:error['name']});
           });
+
+          let selecetd_err_parameter=[];
+          error_parameter.forEach(function (value) {
+            let err_param_keys = value;
+            let error_param=error_param_det.find(x => x.id == err_param_keys['id'] );
+            selecetd_err_parameter.push({id:err_param_keys['id'],description:error_param['name']});
+            });
+
+
         this.qcNotes.patchValue({
           root_cause: {id:root_cause,description:root_det['name']},
-          error_type: selecetd_err
+          error_type: selecetd_err,
+          error_parameter: selecetd_err_parameter
           });
       }
 
@@ -1013,58 +1037,80 @@ public process_display_notes(data,type)
   //Handle Rootcause and Error Type
   public handle_notes_opt()
   {
-    // console.log("QC",this.qcNotes.value);
+    console.log("QC",this.qcNotes.value);
 
     let error_type=this.qcNotes.value['error_type'];
     let root_cause=this.qcNotes.value['root_cause'];
-    let error_parameter = this.qcNotes.value['parameter'];
-    let error_sub_parameter = this.qcNotes.value['sub_parameter'];
+    let error_parameter = this.qcNotes.value['error_parameter'];
+    let error_sub_parameter = this.qcNotes.value['error_sub_parameter'];
     let fyi_parameter = this.qcNotes.value['fyi_parameter'];
     let fyi_sub_parameter = this.qcNotes.value['fyi_sub_parameter'];
-    if (error_type !="1" && error_type =="2"){
-      if (this.qcNotes.value['error_parameter'] !=null && this.qcNotes.value['error_sub_parameter'] !=null){
-        error_parameter = this.qcNotes.value['error_parameter'];
-        error_sub_parameter = this.qcNotes.value['error_sub_parameter'];
-      }
-      else{
-        error_parameter = null;
-        error_sub_parameter = null;
-      }
-    }
-    else if(error_type !="1" && error_type =="3"){
-      if (this.qcNotes.value['fyi_parameter'] !=null && this.qcNotes.value['fyi_sub_parameter'] !=null){
-        fyi_parameter = this.qcNotes.value['fyi_parameter'];
-        fyi_sub_parameter = this.qcNotes.value['fyi_sub_parameter'];
-      }
-      else{
-        fyi_parameter = null;
-        fyi_sub_parameter = null;
-      }
-    }
-    else{
-      error_parameter = null;
-      error_sub_parameter = null;
-      fyi_parameter = null;
-      fyi_sub_parameter = null;
-    }    
+
+    console.log(error_type);
+    console.log(error_parameter);
+    console.log(error_sub_parameter);
+    console.log(fyi_parameter);
+    console.log(fyi_sub_parameter);
+    console.log(this.selectedError);
+    console.log(this.parentId);     
     
     let error_types_ids=[];
-if (error_type.length >1){
-  error_type.forEach(function (value) {
-    let keys = value;
-    error_types_ids.push(keys['id']);
-    });
+    error_type.forEach(ertype => {
+    let keys = ertype;
+    console.log(keys); 
+    error_types_ids.push(keys.id);
+    console.log(error_types_ids);
+    });  
+
+let error_parameter_ids;
+let error_sub_parameter_ids;
+let fyi_parameter_ids;
+let fyi_sub_parameter_ids;
+
+if(this.selectedError != "No Error"){
+  if(error_parameter !=null && error_sub_parameter !=null){
+    console.log(error_parameter);    
+    error_parameter_ids = error_parameter.id;
+    console.log(error_parameter_ids);
+
+    console.log(error_sub_parameter);
+    error_sub_parameter_ids = error_sub_parameter.id;
+    console.log(error_sub_parameter_ids);    
+  }
+  else{
+    error_parameter_ids = null;
+    error_sub_parameter_ids = null;
+  }
+  
+  if (fyi_parameter !=null && fyi_sub_parameter !=null){
+    console.log(fyi_parameter);
+    fyi_parameter_ids = fyi_parameter.id;
+    console.log(fyi_parameter_ids);
+
+    console.log(fyi_parameter);
+    fyi_sub_parameter_ids = fyi_sub_parameter.id;
+    console.log(fyi_sub_parameter_ids);
+  }
+  else{
+    fyi_parameter_ids = null;
+    fyi_sub_parameter_ids = null;
+  }
 }
 else{
-  let keys = error_type;
-  console.log(keys);
-  error_types_ids.push(keys);
+  error_parameter_ids = null;
+  error_sub_parameter_ids = null;
+  fyi_parameter_ids = null;
+  fyi_sub_parameter_ids = null;
 }
 
+
+
+
+  
       
      
 
-this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:error_parameter,error_sub_parameter:error_sub_parameter,fyi_parameter:fyi_parameter,fyi_sub_parameter:fyi_sub_parameter}
+this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:error_parameter_ids,error_sub_parameter:error_sub_parameter_ids,fyi_parameter:fyi_parameter_ids,fyi_sub_parameter:fyi_sub_parameter_ids}
 
   }
 
@@ -1190,9 +1236,6 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
     else{
       claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
     }
-
-
-
         this.Jarwis.check_edit_val(claim_active,'audit').subscribe(
           data  => {this.set_note_edit_validity(data);
             if(this.note_edit_val != undefined)
@@ -1287,16 +1330,10 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
           },
           error => this.handleError(error)
         );
-
-
       }
-
     }
     this.editnote_value=null;
   }
-
-
-  
 
 
   //Clear ProcessNote
@@ -2086,6 +2123,7 @@ audit_codes_list:any;
 
 get_audit_codes()
 {
+  console.log(this.audit_codes_list);
   if(!this.audit_codes_list )
   {
     this.Jarwis.get_audit_codes(this.setus.getId()).subscribe(
@@ -2093,30 +2131,115 @@ get_audit_codes()
       error => this.handleError(error)
     );
   }
-  //console.log(this.audit_codes_list);
+  console.log(this.audit_codes_list);
 
 }
 
+error_codes_list:any;
+error_param_list = [];
+fyi_param_list = [];
+get_error_param_codes()
+{ 
+  console.log(this.error_codes_list);
+  if(!this.error_codes_list ){
+    this.Jarwis.get_error_param_codes(this.setus.getId()).subscribe(
+      data  => this.assign_error_codes(data),
+      error => this.handleError(error)
+    );
+  }  
+  console.log(this.error_codes_list);
+}
+
+assign_error_codes(data){
+  console.log(data);
+  let err_param_stats = data.err_param_types;
+  let fyi_param_stats = data.fyi_param_types;
+
+  this.error_codes_list = {errorparam:err_param_stats,fyiparam:fyi_param_stats}
+
+  let error_params=[];
+  for(let k=0;k< err_param_stats.length;k++)
+  {
+    if(err_param_stats[k].status=='1'){      
+      error_params.push({id: err_param_stats[k]['id'], description: err_param_stats[k]['err_params'] });
+    }
+  }
+  console.log(error_params);
+  console.log(error_params['id']);
+  this.error_param_list = error_params;
+  
+  let fyi_params=[];
+  for(let m=0;m< fyi_param_stats.length;m++)
+  {
+    if(fyi_param_stats[m].status=='1'){
+      
+      fyi_params.push({id: fyi_param_stats[m]['id'], description: fyi_param_stats[m]['err_params'] });
+    }
+  }
+  console.log(fyi_params);
+  this.fyi_param_list = fyi_params;
+}
+
+error_sub_codes_list:any;
+error_sub_param_list = [];
+fyi_sub_param_list = [];
+
+
+
+get_error_sub_param_codes()
+{ 
+  console.log(this.error_sub_codes_list);
+  if(!this.error_sub_codes_list ){
+    this.Jarwis.get_error_sub_param_codes(this.setus.getId(),this.parentId).subscribe(
+      data  => {console.log(data);this.assign_sub_error_codes(data);},
+      error => this.handleError(error)
+    );
+  }  
+  else{
+    console.log('error sub param');
+    console.log(this.error_sub_codes_list);
+    this.Jarwis.get_error_sub_param_codes(this.setus.getId(),this.parentId).subscribe(
+      data  => {console.log(data);this.assign_sub_error_codes(data);},
+      error => this.handleError(error)
+    );
+  }
+  console.log(this.error_sub_codes_list);
+}
+
+assign_sub_error_codes(data){
+  console.log(data);
+  let err_sub_param_stats = data.sub_param_datas;
+  
+  // let fyi_sub_param_stats = data.fyi_sub_param_types;
+
+  this.error_sub_codes_list = {errorsubparam:err_sub_param_stats}
+
+  let error_sub_params=[];
+  for(let n=0;n< err_sub_param_stats.length;n++)
+  {
+    if(err_sub_param_stats[n].status=='1'){
+      error_sub_params.push({id: err_sub_param_stats[n]['id'], description: err_sub_param_stats[n]['sub_parameter'] });
+    }
+  }
+  console.log(error_sub_params);
+  this.error_sub_param_list = error_sub_params;  
+}
 
 
 assign_audit_codes(data)
 {
+  console.log("hello2")
   console.log(data);
   let root_stats=data.root_states;
   console.log(root_stats);
   let err_stats =data.err_types;
+  console.log(err_stats);  
 
   this.audit_codes_list={root:root_stats,error:err_stats};
 
   let root_states=[];
   console.log(root_states);
-for(let i=0; i<root_stats.length ;i++)
-{
-  if(root_stats[i].status=='1'){
-  root_states.push({id: root_stats[i]['id'], description: root_stats[i]['name']});
-}
-}
-this.root_cause_list=root_states;
+
 let error_states=[];
 for(let j=0;j< err_stats.length;j++)
 {
@@ -2125,6 +2248,16 @@ for(let j=0;j< err_stats.length;j++)
   }
 }
 this.err_type_list=error_states;
+console.log(this.err_type_list);
+
+for(let i=0; i<root_stats.length ;i++)
+{
+  if(root_stats[i].status=='1'){
+  root_states.push({id: root_stats[i]['id'], description: root_stats[i]['name']});
+}
+}
+this.root_cause_list=root_states;
+
 // console.log("err",this.err_type_list,this.root_cause_list);
   // sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
 
@@ -2442,6 +2575,8 @@ graphStatus()
 
 
   ngOnInit() {
+
+    
     this.user_role_maintainer();
     this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null,null);
     // this.get_auditors();
@@ -2559,6 +2694,8 @@ this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
   this.touch_count = message });
 
   this.graphStatus();
+
+  
 }
 
 ngAfterViewInit()
@@ -2623,6 +2760,20 @@ public reassign(content){
     });
   }
 }
+ 
+selectChange(value){ 
+ value.forEach(element => {
+  this.selectedError = element.description;
+ });
+console.log(this.selectedValue);
+console.log(this.selectedError);
+}
+
+selectSubChange(value){ 
+  console.log(value);
+   this.parentId = value.id;
+ console.log(this.parentId);
+ }
 
 confirm_box()
 {
