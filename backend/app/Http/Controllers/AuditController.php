@@ -3602,11 +3602,11 @@ class AuditController extends Controller
 
     if($getSubParamCode)
     {
-      return Response::json(['status' => '200', 'sum_param_datas' => $getSubParamCode]);
+      return Response::json(['status' => '200', 'sub_param_datas' => $getSubParamCode]);
     }else{
-      return Response::json(['status' => '400', 'sum_param_datas' => $getSubParamCode]);
+      return Response::json(['status' => '400', 'sub_param_datas' => $getSubParamCode]);
     }
-    
+
   }
 
 }
