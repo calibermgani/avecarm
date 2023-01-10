@@ -344,68 +344,68 @@ class AllClaimsController extends Controller
                 $search_claim_status = $searchValue['claim_status'];
                 if ($action == 'null' && $action != null) {
 
-                    $claim_data->where('claim_Status', '=', $search_claim_status)->offset($skip)->limit($end);
+                    $claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%')->offset($skip)->limit($end);
 
-                    $claim_count->where('claim_Status', '=', $search_claim_status);
+                    $claim_count->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
 
-                    $selected_claim_data->where('claim_Status', '=', $search_claim_status);
+                    $selected_claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
                 }
 
                 if ($action != 'null' && $action == null && empty($sorting_name)) {
 
-                    $claim_data->where('claim_Status', '=', $search_claim_status)->offset($skip)->limit($end);
+                    $claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%')->offset($skip)->limit($end);
 
-                    $claim_count->where('claim_Status', '=', $search_claim_status);
+                    $claim_count->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
 
-                    $selected_claim_data->where('claim_Status', '=', $search_claim_status);
+                    $selected_claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
                 }
 
                 if ($sort_data == true && $search == null && $sorting_name == 'null') {
 
-                    $claim_data->where('claim_Status', '=', $search_claim_status)->orderBy($action, 'asc')->offset($skip)->limit($end);
+                    $claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
 
-                    $claim_count->where('claim_Status', '=', $search_claim_status);
+                    $claim_count->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
 
-                    $selected_claim_data->where('claim_Status', '=', $search_claim_status);
+                    $selected_claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
                 } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
 
-                    $claim_data->where('claim_Status', '=', $search_claim_status)->orderBy($action, 'desc')->offset($skip)->limit($end);
+                    $claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
 
-                    $claim_count->where('claim_Status', '=', $search_claim_status);
+                    $claim_count->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
 
-                    $selected_claim_data->where('claim_Status', '=', $search_claim_status);
+                    $selected_claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
                 }
 
                 if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
 
-                    $claim_data->where('claim_Status', '=', $search_claim_status)->orderBy($action, 'asc')->offset($skip)->limit($end);
+                    $claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
 
-                    $claim_count->where('claim_Status', '=', $search_claim_status);
+                    $claim_count->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
 
-                    $selected_claim_data->where('claim_Status', '=', $search_claim_status);
+                    $selected_claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
                 } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
 
-                    $claim_data->where('claim_Status', '=', $search_claim_status)->orderBy($action, 'desc')->offset($skip)->limit($end);
+                    $claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
 
-                    $claim_count->where('claim_Status', '=', $search_claim_status);
+                    $claim_count->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
 
-                    $selected_claim_data->where('claim_Status', '=', $search_claim_status);
+                    $selected_claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
                 }
 
                 if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
 
-                    $claim_data->where('claim_Status', '=', $search_claim_status)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+                    $claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
 
-                    $claim_count->where('claim_Status', '=', $search_claim_status);
+                    $claim_count->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
 
-                    $selected_claim_data->where('claim_Status', '=', $search_claim_status);
+                    $selected_claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
                 } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
 
-                    $claim_data->where('claim_Status', '=', $search_claim_status)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+                    $claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
 
-                    $claim_count->where('claim_Status', '=', $search_claim_status);
+                    $claim_count->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
 
-                    $selected_claim_data->where('claim_Status', '=', $search_claim_status);
+                    $selected_claim_data->where('claim_Status', 'LIKE', '%' . $search_claim_status . '%');
                 }
             }
 

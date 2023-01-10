@@ -2366,7 +2366,6 @@ export class ClaimsComponent implements OnInit {
 
 
   createClaims_search(page: number, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, search) {
-    console.log('tested');
     this.search = search;
     this.pageChange(page, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, search);
   }
@@ -2388,7 +2387,6 @@ export class ClaimsComponent implements OnInit {
     let page_count = 15;
 
     if (table == 'claim') {
-      console.log('tested');
       this.pages = page;
       if (sorting_name == 'null' && searchs == null) {
         console.log(sort_data);
@@ -2397,7 +2395,7 @@ export class ClaimsComponent implements OnInit {
           error => this.handleError(error)
         );
       } else if (searchs == 'search') {
-        console.log(sort_data);
+        console.log(this.createClaimsFind.value.dos);
         if (this.createClaimsFind.value.dos.startDate != null && this.createClaimsFind.value.dos.endDate != null) {
           console.log(this.createClaimsFind.controls.dos.value);
           this.createClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
@@ -2444,8 +2442,8 @@ export class ClaimsComponent implements OnInit {
           error => this.handleError(error)
         );
       } else if (searchs == 'search') {
-        if (this.allClaimsFind.value.dos.startDate != null && this.allClaimsFind.value.dos.endDate != null) {
-          // console.log(this.allClaimsFind.controls.dos.value);
+        if (this.allClaimsFind.value.dos !=null) {
+          // console.log(this.allClaimsFind.value);
           this.allClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
           this.allClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
         }

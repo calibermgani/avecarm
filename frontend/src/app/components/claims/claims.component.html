@@ -2780,7 +2780,7 @@
                        <div class="box-body no-padding">
                           <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
                              <!-- /.box-header -->
-                             <div class="box-body no-padding colors" id="1">
+                             <div class="box-body no-padding colors" id="6">
                                 <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                                    <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> All Claims</h3>
                                    <div class="box-tools pull-right" style="margin-top: 5px;">
@@ -2788,7 +2788,7 @@
 
                                          <span class="fa fa-refresh" style="cursor:pointer;" title="Refresh Values" (click)="reload_data()"></span>
 
-                                         <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span><i (click)="select_claim(new_workorder);" class="fa fa-user-plus" style="cursor:pointer;" title="Assign Claims"></i>
+                                         <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span><i (click)="select_claim(new_workorder);" class="fa fa-user-plus" style="cursor:pointer;" title="Assign Claims"></i> -->
                                          <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span><span class="fa fa-print" style="cursor:pointer;" title="Print" (click)="export_files('print')"></span> -->
                                          <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> <i class="fa fa-file-excel-o" style="cursor:pointer;" (click)="export_excel_files('excel', 'Create_work_order_claims', null, null, null)" title="Excel"></i>
                                          <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>  <i class="fa fa-file-pdf-o"  (click)="export_pdf_files('PDF', 'create_work_order')" style="cursor:pointer;" title="PDF"></i> -->
@@ -2808,22 +2808,21 @@
                                                   <th style="width:1%">
                                                      <input type="checkbox" style="margin-top:0px;" (click)="selected($event,'all','all');check_all_assign(page,$event)" title="Select All" #checkboxes>
                                                   </th>
-                                                  <th></th>
 
-                                                  <th (click)="order_list('claim_no','claim','null','null',null,null)" class="font600  line-height-24" placement="left">Claim No <i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('claim_no','all_claim','null','null',null,null)" class="font600  line-height-24" placement="left">Claim No <i class="fa fa-fw fa-sort"></i></th>
 
                                                   <th class="font600 line-height-24">DOS <span class="sort-table">
                                                     <i class="fa fa-sort-desc" (click)="desort('dos')" aria-hidden="true"></i>
                                                     <i class="fa fa-sort-asc" aria-hidden="true" (click)="sort('dos')"></i></span>
                                                   </th>
 
-                                                  <th (click)="order_list('acct_no','claim','null','null',null,null)" class="font600  line-height-24">Acc No <i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('acct_no','all_claim','null','null',null,null)" class="font600  line-height-24">Acc No <i class="fa fa-fw fa-sort"></i></th>
 
-                                                  <th (click)="order_list('patient_name','claim','null','null',null,null)">Patient Name <i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('patient_name','all_claim','null','null',null,null)">Patient Name <i class="fa fa-fw fa-sort"></i></th>
 
-                                                  <th class="font600 line-height-24" (click)="order_list('rendering_prov','claim','null','null',null,null)" >Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
+                                                  <th class="font600 line-height-24" (click)="order_list('rendering_prov','all_claim','null','null',null,null)" >Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
 
-                                                  <th (click)="order_list('responsibility','claim','null','null',null,null)" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('responsibility','all_claim','null','null',null,null)" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
 
 
                                                   <!-- <th (click)="order_list('prim_ins_name','claim','null','null',null,null)" class="font600 line-height-24">Primary Insurance <span class="sort-table"><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i></span></th>
@@ -2832,15 +2831,15 @@
 
                                                   <th (click)="order_list('ter_ins_name','claim','null','null',null,null)" class="font600 line-height-24">Tertiary Insurance Name<span class="sort-table"><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i></span></th> -->
 
-                                                  <th (click)="order_list('total_charges','claim','null','null',null,null)" class="font600 line-height-24">Total Charges<i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('total_charges','all_claim','null','null',null,null)" class="font600 line-height-24">Total Charges<i class="fa fa-fw fa-sort"></i></th>
 
-                                                  <th (click)="order_list('total_ar','claim','null','null',null,null)" class="font600 line-height-24">Total AR<i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('total_ar','all_claim','null','null',null,null)" class="font600 line-height-24">Total AR<i class="fa fa-fw fa-sort"></i></th>
 
-                                                  <th (click)="order_list('claim_Status','claim','null','null',null,null)" class="font600 line-height-24">Claim Status<i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('claim_Status','all_claim','null','null',null,null)" class="font600 line-height-24">Claim Status<i class="fa fa-fw fa-sort"></i></th>
 
-                                                  <th (click)="order_list('claim_note','claim','null','null',null,null)" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('claim_note','all_claim','null','null',null,null)" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                  <th (click)="order_list('created_at','claim','null','null',null,null)" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('created_at','all_claim','null','null',null,null)" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
 
                                                   <!-- <th class="font600 line-height-24">Assign.By</th>
                                                      <th class="font600 line-height-24">Assign.Date</th> -->
@@ -2904,7 +2903,7 @@
                                       <div class="row">
                                          <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
                                             <div class="has-text-centered">
-                                               <pagination-controls id="foo" (pageChange)="pageChange($event,'claim',null,null);" maxSize="9"></pagination-controls>
+                                               <pagination-controls id="foo" (pageChange)="pageChange($event,'all_claim',null,null);" maxSize="9"></pagination-controls>
                                             </div>
                                          </div>
                                          <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12" style="text-align: right;" class="showing_count" *ngIf="total_row != 0">
