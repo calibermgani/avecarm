@@ -585,6 +585,7 @@ table_datas : string[];
 claim_clicked : string[];
 claim_related : string[];
 process_notes:string[];
+claim_notes:string[];
 client_notes: string[];
 //Get Claim Details to Display
 // private getclaim_details()
@@ -911,10 +912,10 @@ public savenotes(type)
 
   if(type=='client_notes')
   {
-    this.Jarwis.client_notes(this.setus.getId(),this.clientNotes.value['client_notes'],claim_id,'client_create').subscribe(
+    /* this.Jarwis.client_notes(this.setus.getId(),this.clientNotes.value['client_notes'],claim_id,'client_create').subscribe(
     data  =>this.display_notes(data,type),
     error => console.log(error)
-  );
+  ); */
 
   this.client_notes_data.push({notes:this.clientNotes.value['client_notes'],id:claim_id['claim_no']});
   this.client_notes_data_list.push(claim_id['claim_no']);
@@ -944,6 +945,7 @@ public display_notes(data,type)
     {
       this.process_notes=data.data.process;
       this.client_notes=data.data.client;
+      this.claim_notes=data.data.claim;
       this.qc_notes=data.data.qc;
     }
     else if(type == 'client_notes')
@@ -960,6 +962,7 @@ public display_notes(data,type)
 public getnotes(claim)
 {
   this.process_notes=[];
+  this.claim_notes=[];
   this.client_notes=[];
     this.qc_notes=[];
   let type='All';

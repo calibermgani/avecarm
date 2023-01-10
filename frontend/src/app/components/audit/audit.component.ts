@@ -2267,6 +2267,7 @@ this.root_cause_list=root_states;
  config = {
   displayKey:"description",
   search:true,
+  limitTo: 1000,
   result:'single'
  }
 

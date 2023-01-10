@@ -735,7 +735,7 @@ getDropDownText(id, object){
 
 get_audit_codes(data)
 {
-  data={id:data};
+  data={id:data,practice_dbid : localStorage.getItem('practice_id')};
   // return this.http.post(`${this.baseUrl}/get_audit_codes`, data);
   let response= this.common_url('get_audit_codes',data);
   return response;

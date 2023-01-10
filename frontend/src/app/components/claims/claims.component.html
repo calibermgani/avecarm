@@ -1691,7 +1691,7 @@
 
                                                                <th (click) = "order_list('allocated','claims_notes','null','null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                               <th (click) = "order_list('allocated','created_ats','null','null')" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click) = "order_list('allocated','created_ats','null','null')" class="font600 line-height-24">Assigned To | Date<i class="fa fa-fw fa-sort"></i></th>
                                                             </tr>
                                                          </thead>
                                                          <tbody>
@@ -1729,13 +1729,12 @@
 
                                                                <td class="cur-pointer" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
-                                                               <td ><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL">{{x.claims_notes}}</span>
-                                                               <span *ngIf="x.claims_notes ==NULL">{{x.claim_note}}</span>
+                                                               <td ><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span>
                                                                </td>
 
                                                                <!-- <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);">{{x.assigned_to}}/{{x.assigned_by}}/{{x.created}}</td> -->
 
-                                                               <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.assigned_by ">UA</span><span *ngIf="x.assigned_by">{{x.assigned_by}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats }}</span></td>
+                                                               <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats }}</span></td>
 
                                                             </tr>
                                                             <tr *ngIf="total_allocated==0">
@@ -1985,7 +1984,7 @@
 
                                                                <th (click) = "order_list('allocated','claims_notes','null','null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                               <th (click) = "order_list('allocated','created_ats','null','null')" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click) = "order_list('allocated','created_ats','null','null')" class="font600 line-height-24">Assigned To | Date<i class="fa fa-fw fa-sort"></i></th>
                                                             </tr>
                                                          </thead>
                                                          <tbody>
@@ -2023,13 +2022,12 @@
 
                                                                <td class="cur-pointer" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
-                                                               <td ><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL">{{x.claims_notes}}</span>
-                                                               <span *ngIf="x.claims_notes ==NULL">{{x.claim_note}}</span>
+                                                               <td ><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span>
                                                                </td>
 
                                                                <!-- <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);">{{x.assigned_to}}/{{x.assigned_by}}/{{x.created}}</td> -->
 
-                                                               <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.assigned_by ">UA</span><span *ngIf="x.assigned_by">{{x.assigned_by}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats }}</span></td>
+                                                               <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats }}</span></td>
 
                                                             </tr>
                                                             <tr *ngIf="total_allocated==0">
@@ -2271,7 +2269,7 @@
 
                                                                <th (click) = "reassigned_order_list('reallocated','claims_notes', 'null', 'null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                               <th (click) = "reassigned_order_list('reallocated','created_ats', 'null', 'null')" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click) = "reassigned_order_list('reallocated','created_ats', 'null', 'null')" class="font600 line-height-24">Assigned To | Date<i class="fa fa-fw fa-sort"></i></th>
 
                                                             </tr>
                                                          </thead>
@@ -2314,9 +2312,9 @@
 
                                                                <td class="cur-pointer" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
-                                                               <td><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL">{{x.claims_notes}}</span></td>
+                                                               <td><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
 
-                                                               <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.assigned_by ">UA</span><span *ngIf="x.assigned_by">{{x.assigned_by}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
+                                                               <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
 
 
                                                             </tr>
@@ -2538,7 +2536,7 @@
 
                                                    <th (click)="closed_order_list('closedClaims',0, 0, 1,'claims_notes','null','null','null',null,null)" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                   <th (click)="closed_order_list('closedClaims',0, 0, 1,'created_ats','null','null','null',null,null)" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                   <th (click)="closed_order_list('closedClaims',0, 0, 1,'created_ats','null','null','null',null,null)" class="font600 line-height-24">Assigned To | Date<i class="fa fa-fw fa-sort"></i></th>
 
                                                    <!-- <th class="font600 line-height-24">Assign.By</th>
                                                       <th class="font600 line-height-24">Assign.Date</th> -->
@@ -2586,11 +2584,11 @@
 
                                                    <td data-toggle="modal" class="cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
-                                                   <td><span *ngIf="x.claims_notes==NULL" (mouseover)="tooltip(x)">-Nil-</span><span *ngIf="x.claims_notes!=NULL">  {{x.claims_notes}}</span></td>
+                                                   <td><span *ngIf="x.claims_notes==NULL" (mouseover)="tooltip(x)">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
 
                                                    <!-- <p>dasdas: {{x.created_at}} </p> -->
 
-                                                   <td (mouseover)="tooltip(x)"><span *ngIf="x.assigned_to==NULL ">UA</span><span *ngIf="x.assigned_to !=NULL">{{x.assigned_to}}</span>|<span *ngIf="x.assigned_by==NULL ">UA</span><span *ngIf="x.assigned_by != NULL">{{x.assigned_by}}</span>|<span *ngIf="x.created_ats == NULL">UA</span><span *ngIf="x.created_ats != NULL">{{x.created_ats}}</span></td>
+                                                   <td (mouseover)="tooltip(x)"><span *ngIf="x.assigned_to==NULL ">UA</span><span *ngIf="x.assigned_to !=NULL">{{x.assigned_to}}</span>|<span *ngIf="x.created_ats == NULL">UA</span><span *ngIf="x.created_ats != NULL">{{x.created_ats}}</span></td>
 
 
 
@@ -3544,7 +3542,7 @@
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top: 5px solid #e9ecf3;border-bottom: 3px solid #e9ecf3;">
                <div class="box-tools pull-right">
-                  <a data-toggle="collapse" data-target="#Client_Notes" class="cur-pointer collapsed" title="Client Notes" style="margin-right: 15px;font-size: 16px;" aria-expanded="false"><span style="text-decoration: underline">Client Notes</span></a>
+                  <a data-toggle="collapse" data-target="#Claim_Note" class="cur-pointer collapsed" title="Claim Notes" style="margin-right: 15px;font-size: 16px;" aria-expanded="false"><span style="text-decoration: underline">Claim Notes</span></a>
                   <a data-toggle="collapse" data-target="#QC_Notes" class="cur-pointer collapsed" title="QC Notes" style="margin-right: 15px;font-size: 16px;" aria-expanded="false"><span style="text-decoration: underline">QC Notes</span></a>
                   <a data-toggle="collapse" data-target="#followupview" class="cur-pointer collapsed" title="Followup View" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det('claims')"><i class="fa fa-external-link-square" title="Followup Template View" ></i> <span style="text-decoration: underline">F.Template View</span></a>
                </div>
@@ -3588,14 +3586,61 @@
                                       <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">Jos Buttler <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span>  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;" title="Edit" (click)="open(processnotes)"></i></p>
                                   </div>
                               </div>
-
-
-
                         </div>
                      </div>
                   </div>
                </div>
             </div> -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding collapse" id="Claim_Note" style="border-top:15px solid #e9ecf3;">
+               <div class="box no-shadow no-border" style="margin-top:10px">
+                  <!-- .box-header -->
+                  <div class="box-body no-padding">
+                     <div class="box no-shadow no-bottom no-border" >
+                        <!-- .box-header -->
+                        <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                           <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Claim Notes</h3>
+                           <div class="box-tools pull-right">
+
+                              <!-- <a data-toggle="collapse" data-target="#followupview" class="cur-pointer collapsed" title="Followup View" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det('claims')"><i class="fa fa-external-link-square" title="Followup Template View" ></i> <span style="text-decoration: underline">F.Template View</span></a> -->
+                              <!-- <a data-toggle="collapse" data-target="#followup-list3" class="cur-pointer collapsed" title="Followup Template" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det()"><i class="fa fa-headphones" title="Followup Template"></i> <span style="text-decoration: underline">F.Template</span></a>
+                              <a  class="cur-pointer" style="font-size:16px;" (click)="open(claimnotes)"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New</span></a> -->
+                              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box37" style="margin-left: 10px;">
+                              <i class="fa fa-plus"></i>
+                              </button>
+                           </div>
+                        </div>
+                        <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box37">
+                           <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div *ngFor="let y of claim_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
+                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}. </p>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!claim_notes.length'>
+                                 <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
+                              </div>
+                           </div>
+                           <app-atom-spinner
+                           *ngIf="loading == true"
+                           [size]="60"
+                           [color]="'#1fa5be'"
+                           ></app-atom-spinner>
+                              <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <div class="col-lg-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;">
+                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">Mike Hussey <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span>  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                  </div>
+
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
+                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">David Miller <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span> Printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;" title="Edit" (click)="open(claimnotes)"></i></p>
+                                  </div>
+
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;">
+                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">John Willamson <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span>  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;" title="Edit" (click)="open(claimnotes)"></i></p>
+                                  </div>
+                              </div> -->
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding collapse" id="QC_Notes" style="border-top:15px solid #e9ecf3;">
                <div class="box no-shadow no-border" style="margin-top:10px">
                   <!-- /.box-header -->
@@ -3632,93 +3677,8 @@
                   </div>
                </div>
             </div>
-            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
-               <div class="box no-shadow no-border" style="margin-top:10px">
-                  /.box-header
-                  <div class="box-body no-padding">
-                     <div class="box no-shadow no-bottom no-border" >
-                        /.box-header
-                        <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                           <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Claim Notes</h3>
-                           <div class="box-tools pull-right">
 
-                              <a data-toggle="collapse" data-target="#followupview" class="cur-pointer collapsed" title="Followup View" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det('claims')"><i class="fa fa-external-link-square" title="Followup Template View" ></i> <span style="text-decoration: underline">F.Template View</span></a>
 
-                              / <a data-toggle="collapse" data-target="#followup-list3" class="cur-pointer collapsed" title="Followup Template" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det()"><i class="fa fa-headphones" title="Followup Template"></i> <span style="text-decoration: underline">F.Template</span></a>
-
-                              / <a  class="cur-pointer" style="font-size:16px;" (click)="open(claimnotes)"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New</span></a>
-                              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box37" style="margin-left: 10px;">
-                              <i class="fa fa-plus"></i>
-                              </button>
-                           </div>
-                        </div>
-                        <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box37">
-                           <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div *ngFor="let y of claim_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
-                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}. </p>
-                              </div>
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!claim_notes.length'>
-                                 <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
-                              </div>
-                           </div>
-                           <app-atom-spinner
-                           *ngIf="loading == true"
-                           [size]="60"
-                           [color]="'#1fa5be'"
-                           ></app-atom-spinner>
-                              /
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <div class="col-lg-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;">
-                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">Mike Hussey <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span>  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                  </div>
-
-                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
-                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">David Miller <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span> Printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;" title="Edit" (click)="open(claimnotes)"></i></p>
-                                  </div>
-
-                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;">
-                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">John Willamson <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span>  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;" title="Edit" (click)="open(claimnotes)"></i></p>
-                                  </div>
-                              </div> /
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div> -->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding collapse" id="Client_Notes" style="border-top:15px solid #e9ecf3;">
-               <div class="box no-shadow no-border" style="margin-top:10px">
-                  <!-- /.box-header -->
-                  <div class="box-body no-padding">
-                     <div class="box no-shadow no-bottom no-border">
-                        <!-- /.box-header -->
-                        <div class="box-header" style="border-bottom: 1px solid #f3eee9;">
-                           <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Client Notes</h3>
-                           <div class="box-tools pull-right">
-                              <!-- <a data-toggle="modal" data-target="#process-notes" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a> -->
-                              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box38" style="margin-left: 10px;">
-                              <i class="fa fa-plus"></i>
-                              </button>
-                           </div>
-                        </div>
-                        <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box38">
-                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div  *ngFor="let x of client_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
-                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}. </p>
-                              </div>
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!client_notes.length'>
-                                 <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
-                              </div>
-                           </div>
-                           <app-atom-spinner
-                           *ngIf="loading == true"
-                           [size]="60"
-                           [color]="'#1fa5be'"
-                           ></app-atom-spinner>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:0px;">
                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding collapse" id="followup-list3"
                   style="border-top: 15px solid rgb(233, 236, 243); height: 15px;" aria-expanded="false">
@@ -3873,8 +3833,7 @@
                                     </tr>
                                     <tr>
                                        <td class="table-label">DOB</td>
-                                       <td>: {{x.dob | date:'MM/dd/
-                                       yyyy'}}, {{x.gender}}</td>
+                                       <td>: {{x.dob | date:'MM/dd/yyyy'}}, {{x.gender}}</td>
                                     </tr>
                                     <tr>
                                        <td class="table-label">SSN</td>
@@ -4518,12 +4477,23 @@
                   </div>
                </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top: 5px solid #e9ecf3;border-bottom: 3px solid #e9ecf3;">
+               <div class="box-tools pull-right">
+                  <a aria-expanded="false" class="cur-pointer collapsed" data-target="#Claim_Note" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="Claim Notes">
+                     <span style="text-decoration: underline">Claim Notes</span>
+                  </a>
+                  <a aria-expanded="false" class="cur-pointer collapsed" data-target="#QC_Notes" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="QC Notes">
+                     <span style="text-decoration: underline">QC Notes</span>
+                  </a>
+                  <a aria-expanded="false" class="cur-pointer collapsed" data-target="#followupview" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="Followup View">
+                     <i class="fa fa-external-link-square" title="Followup Template View"></i><span style="text-decoration: underline">F.Template View</span>
+                  </a>
+               </div>
+            </div>
+            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
                <div class="box no-shadow no-border" style="margin-top:10px">
-                  <!-- /.box-header -->
                   <div class="box-body no-padding">
                      <div class="box no-shadow no-bottom no-border" >
-                        <!-- /.box-header -->
                         <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                            <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Process Notes</h3>
                            <div class="box-tools pull-right">
@@ -4547,25 +4517,21 @@
                               [color]="'#1fa5be'"
                               ></app-atom-spinner>
                            </div>
-                           <!--
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;">
-                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">Willamson <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span>  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;" title="Edit" (click)="open(processnotes)" ></i></p>
-                                  </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;">
+                                    <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">Willamson <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span>  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;" title="Edit" (click)="open(processnotes)" ></i></p>
+                                 </div>
 
-                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;">
-                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">Jos Buttler <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span>  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;" title="Edit" (click)="open(processnotes)"></i></p>
-                                  </div>
-                              </div>
-
-
-                              -->
+                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;">
+                                    <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">Jos Buttler <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> 09/09/18 :</span> <span class="pull-right" style="font-size: 18px;">    </span>  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;" title="Edit" (click)="open(processnotes)"></i></p>
+                                 </div>
+                           </div>
                         </div>
                      </div>
                   </div>
                </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
+            </div> -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding collapse" id="QC_Notes" style="border-top:15px solid #e9ecf3;">
                <div class="box no-shadow no-border" style="margin-top:10px">
                   <!-- /.box-header -->
                   <div class="box-body no-padding">
@@ -4574,9 +4540,9 @@
                         <div class="box-header" style="border-bottom: 1px solid #f3eee9;">
                            <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> QC Notes </h3>
                            <div class="box-tools pull-right">
-                              <a *ngIf="reassign_allocation == true && refer_claim_editable" class="cur-pointer" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="open(confirm_modal);confirm_reassign(x)"><!-- <i class="fa fa-exchange" title="Assign to Manager / TL"></i> --><!--  <span style="text-decoration: underline">Re-Assign</span> --></a>
+                              <!-- <a *ngIf="reassign_allocation == true && refer_claim_editable" class="cur-pointer" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="open(confirm_modal);confirm_reassign(x)"><i class="fa fa-exchange" title="Assign to Manager / TL"></i><span style="text-decoration: underline">Re-Assign</span></a>
                                  <a data-toggle="modal" *ngIf="edit_permission==true" [hidden]="qc_notes_data_list.includes(claim_clicked.claim_no)" (click)="open(qcnotes);get_audit_codes()" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a>
-                                 <a  class="cur-pointer" [hidden]="!qc_notes_data_list.includes(claim_clicked.claim_no)" style="font-size:16px;" (click)="open(qcnotes);editnotes('qc_notes_init','none',x);"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">Edit</span></a>
+                                 <a  class="cur-pointer" [hidden]="!qc_notes_data_list.includes(claim_clicked.claim_no)" style="font-size:16px;" (click)="open(qcnotes);editnotes('qc_notes_init','none',x);"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">Edit</span></a> -->
                                  <button type="button" class="btn btn-box-tool" data-widget="collapse" style="margin-left: 10px;"><i class="fa fa-minus"></i>
                                  </button>
                            </div>
@@ -4600,7 +4566,7 @@
                   </div>
                </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding collapse" id="Claim_Note" style="border-top:15px solid #e9ecf3;">
                <div class="box no-shadow no-border" style="margin-top:10px">
                   <!-- /.box-header -->
                   <div class="box-body no-padding">
@@ -4636,20 +4602,18 @@
                   </div>
                </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
+            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
                <div class="box no-shadow no-border" style="margin-top:10px">
-                  <!-- /.box-header -->
                   <div class="box-body no-padding">
                      <div class="box no-shadow no-bottom no-border">
-                        <!-- /.box-header -->
                         <div class="box-header" style="border-bottom: 1px solid #f3eee9;">
                            <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Client Notes</h3>
-                           <!-- <div class="box-tools pull-right"> -->
-                           <!-- <a data-toggle="modal" data-target="#process-notes" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a> -->
-                           <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box38" style="margin-left: 10px;">
+                           <div class="box-tools pull-right">
+                           <a data-toggle="modal" data-target="#process-notes" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a>
+                           <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box38" style="margin-left: 10px;">
                               <i class="fa fa-plus"></i>
                               </button>
-                              </div> -->
+                              </div>
                         </div>
                         <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box38">
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -4669,7 +4633,7 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div> -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:0px;">
                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding collapse" id="followup-list3" style="border-top: 15px solid rgb(233, 236, 243); height: 15px;" aria-expanded="false">
                   <app-followup-template></app-followup-template>
@@ -4982,6 +4946,19 @@
                         </div>
                      </div>
                   </div>
+               </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top: 5px solid #e9ecf3;border-bottom: 3px solid #e9ecf3;">
+               <div class="box-tools pull-right">
+                  <a aria-expanded="false" class="cur-pointer collapsed" data-target="#Claim_Note" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="Claim Notes">
+                     <span style="text-decoration: underline">Claim Notes</span>
+                  </a>
+                  <a aria-expanded="false" class="cur-pointer collapsed" data-target="#QC_Notes" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="QC Notes">
+                     <span style="text-decoration: underline">QC Notes</span>
+                  </a>
+                  <a aria-expanded="false" class="cur-pointer collapsed" data-target="#followupview" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="Followup View">
+                     <i class="fa fa-external-link-square" title="Followup Template View"></i><span style="text-decoration: underline">F.Template View</span>
+                  </a>
                </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
