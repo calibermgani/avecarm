@@ -108,6 +108,15 @@ class Client_assistanceController extends Controller
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
 
+                    foreach($claim_data as $key => $claim_datas)
+                    {
+                      $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                      $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                      $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                    }
+
                     $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
 
                     $current_total = $claim_data->count();
@@ -127,6 +136,15 @@ class Client_assistanceController extends Controller
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
 
+                    foreach($claim_data as $key => $claim_datas)
+                    {
+                      $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                      $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                      $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                    }
+
                     $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
 
                     $current_total = $claim_data->count();
@@ -143,7 +161,14 @@ class Client_assistanceController extends Controller
                       ) as claim_histories"), function($join) {
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+                      foreach($claim_data as $key => $claim_datas)
+                      {
+                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
 
+                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                      }
                         $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
 
                         $current_total = $claim_data->count();
@@ -157,7 +182,14 @@ class Client_assistanceController extends Controller
                       ) as claim_histories"), function($join) {
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+                      foreach($claim_data as $key => $claim_datas)
+                      {
+                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
 
+                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                      }
                         $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
                         $current_total = $claim_data->count();
                     }
@@ -173,6 +205,14 @@ class Client_assistanceController extends Controller
                       ) as claim_histories"), function($join) {
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+                      foreach($claim_data as $key => $claim_datas)
+                      {
+                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                      }
 
                         $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
 
@@ -187,6 +227,14 @@ class Client_assistanceController extends Controller
                       ) as claim_histories"), function($join) {
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+                      foreach($claim_data as $key => $claim_datas)
+                      {
+                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                      }
                         $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
                         $current_total = $claim_data->count();
                     }
@@ -1040,6 +1088,14 @@ class Client_assistanceController extends Controller
                   }
 
                 $claim_data = $claim_data->get();
+                foreach($claim_data as $key => $claim_datas)
+                {
+                  $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                  $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                  $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                  $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                }
 
                 $current_total = $claim_data->count();
 
@@ -1082,6 +1138,15 @@ class Client_assistanceController extends Controller
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
 
+                    foreach($claim_data as $key => $claim_datas)
+                    {
+                      $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                      $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                      $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                    }
+
                     $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
 
                     $current_total = $claim_data->count();
@@ -1101,6 +1166,15 @@ class Client_assistanceController extends Controller
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
 
+                    foreach($claim_data as $key => $claim_datas)
+                    {
+                      $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                      $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                      $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                    }
+
                     $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
 
                     $current_total = $claim_data->count();
@@ -1117,7 +1191,14 @@ class Client_assistanceController extends Controller
                       ) as claim_histories"), function($join) {
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+                      foreach($claim_data as $key => $claim_datas)
+                      {
+                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
 
+                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                      }
                         $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
 
                         $current_total = $claim_data->count();
@@ -1131,7 +1212,14 @@ class Client_assistanceController extends Controller
                       ) as claim_histories"), function($join) {
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+                      foreach($claim_data as $key => $claim_datas)
+                      {
+                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
 
+                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                      }
                         $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
                         $current_total = $claim_data->count();
                     }
@@ -1142,7 +1230,14 @@ class Client_assistanceController extends Controller
                           claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
                         AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
                       })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
-
+                        foreach($claim_data as $key => $claim_datas)
+                        {
+                          $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                          $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+    
+                          $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                          $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                        }
                         $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
 
                         $current_total = $claim_data->count();
@@ -1156,6 +1251,14 @@ class Client_assistanceController extends Controller
                       ) as claim_histories"), function($join) {
                         $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+                      foreach($claim_data as $key => $claim_datas)
+                      {
+                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                      }
                         $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
                         $current_total = $claim_data->count();
                     }
@@ -1974,6 +2077,14 @@ class Client_assistanceController extends Controller
                 }
 
                 $claim_data = $claim_data->get();
+                foreach($claim_data as $key => $claim_datas)
+                {
+                  $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+                  $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+                  $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+                  $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+                }
 
                 $current_total = $claim_data->count();
 
@@ -2000,6 +2111,14 @@ class Client_assistanceController extends Controller
             // $claim_count=Action::where('assigned_to', $user_id)->distinct('claim_id')->pluck('claim_id');
             // $claim_count=sizeof($claim_count);
             $claim_data=Import_field::whereIN('claim_no', $claims)-> offset($skip) ->limit($end)->get();
+            foreach($claim_data as $key => $claim_datas)
+            {
+              $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+
+              $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+              $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+            }
             $claim_count=Import_field::whereIN('claim_no', $claims)->count();
             // $claim_data=Import_field::where('assigned_to', $user_id)->where('status_code',$status_code[0]['id'])->orderBy('id', 'desc')-> offset($skip) ->limit($end)->get();
             // $claim_count=Import_field::where('assigned_to', $user_id)->where('status_code',$status_code[0]['id'])->count();
@@ -2169,7 +2288,7 @@ class Client_assistanceController extends Controller
         {
             
             $filter=$request->get('filter'); 
-            $status_code=$request->get('status'); 
+            $status_code=$request->get('status');
             $user_id=$request->get('user'); 
 
 
