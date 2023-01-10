@@ -20,7 +20,7 @@ import * as moment from 'moment';
   styleUrls: ['./audit.component.css'],
   encapsulation: ViewEncapsulation.None
 
-  
+
 
 })
 export class AuditComponent implements OnInit {
@@ -31,7 +31,7 @@ export class AuditComponent implements OnInit {
   associateCount : any ='';
 
   mySelect = '';
-  ErrType:[] = [];
+  // ErrType:[] = [];
   selectedValue: any = {};
   selectedError:any;
   parentId:any;
@@ -864,7 +864,7 @@ list_related(claims)
   get c() { return this.claimNotes.controls; }
 
 
-  
+
 
   //Update Displayed Notes
   public display_notes(data,type)
@@ -1052,15 +1052,15 @@ public process_display_notes(data,type)
     console.log(fyi_parameter);
     console.log(fyi_sub_parameter);
     console.log(this.selectedError);
-    console.log(this.parentId);     
-    
+    console.log(this.parentId);
+
     let error_types_ids=[];
     error_type.forEach(ertype => {
     let keys = ertype;
-    console.log(keys); 
+    console.log(keys);
     error_types_ids.push(keys.id);
     console.log(error_types_ids);
-    });  
+    });
 
 let error_parameter_ids;
 let error_sub_parameter_ids;
@@ -1069,19 +1069,19 @@ let fyi_sub_parameter_ids;
 
 if(this.selectedError != "No Error"){
   if(error_parameter !=null && error_sub_parameter !=null){
-    console.log(error_parameter);    
+    console.log(error_parameter);
     error_parameter_ids = error_parameter.id;
     console.log(error_parameter_ids);
 
     console.log(error_sub_parameter);
     error_sub_parameter_ids = error_sub_parameter.id;
-    console.log(error_sub_parameter_ids);    
+    console.log(error_sub_parameter_ids);
   }
   else{
     error_parameter_ids = null;
     error_sub_parameter_ids = null;
   }
-  
+
   if (fyi_parameter !=null && fyi_sub_parameter !=null){
     console.log(fyi_parameter);
     fyi_parameter_ids = fyi_parameter.id;
@@ -1106,9 +1106,9 @@ else{
 
 
 
-  
-      
-     
+
+
+
 
 this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:error_parameter_ids,error_sub_parameter:error_sub_parameter_ids,fyi_parameter:fyi_parameter_ids,fyi_sub_parameter:fyi_sub_parameter_ids}
 
@@ -1162,7 +1162,7 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
           console.log('claaim id  :' + claim_id);
 
           this.submitted=true;
-          
+
           this.handle_notes_opt();
           // console.log("QC",this.rc_et_data);
           this.qc_notes_data.push({notes:this.qcNotes.value['qc_notes'],id:claim_id['claim_no'],notes_opt:this.rc_et_data});
@@ -1753,7 +1753,7 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
 
   public auto_assign_claims()
   {
-    
+
     //alert("Auto");
 
     //console.log("Auto",this.selected_claim_nos,this.auditors_detail,this.selected_associates);
@@ -1808,7 +1808,7 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
             let claims_assigned=selected_claims.slice(init_value,Number(init_value)+Number(assign_limit));
             init_value=Number(init_value)+Number(assign_limit);
             assigned_details.push({assigned_to:auditor_det['id'],claim_nos:assign_limit,claims:selected_claims});
-            console.log(assigned_details);        
+            console.log(assigned_details);
           }
     });
 
@@ -1841,7 +1841,7 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
     this.check_all=[];
     this.assigned_claim_details=[];
     this.assigned_data=[];
-    this.selected_claim_nos=[]; 
+    this.selected_claim_nos=[];
 
   }
 
@@ -2139,14 +2139,14 @@ error_codes_list:any;
 error_param_list = [];
 fyi_param_list = [];
 get_error_param_codes()
-{ 
+{
   console.log(this.error_codes_list);
   if(!this.error_codes_list ){
     this.Jarwis.get_error_param_codes(this.setus.getId()).subscribe(
       data  => this.assign_error_codes(data),
       error => this.handleError(error)
     );
-  }  
+  }
   console.log(this.error_codes_list);
 }
 
@@ -2160,19 +2160,19 @@ assign_error_codes(data){
   let error_params=[];
   for(let k=0;k< err_param_stats.length;k++)
   {
-    if(err_param_stats[k].status=='1'){      
+    if(err_param_stats[k].status=='1'){
       error_params.push({id: err_param_stats[k]['id'], description: err_param_stats[k]['err_params'] });
     }
   }
   console.log(error_params);
   console.log(error_params['id']);
   this.error_param_list = error_params;
-  
+
   let fyi_params=[];
   for(let m=0;m< fyi_param_stats.length;m++)
   {
     if(fyi_param_stats[m].status=='1'){
-      
+
       fyi_params.push({id: fyi_param_stats[m]['id'], description: fyi_param_stats[m]['err_params'] });
     }
   }
@@ -2187,14 +2187,14 @@ fyi_sub_param_list = [];
 
 
 get_error_sub_param_codes()
-{ 
+{
   console.log(this.error_sub_codes_list);
   if(!this.error_sub_codes_list ){
     this.Jarwis.get_error_sub_param_codes(this.setus.getId(),this.parentId).subscribe(
       data  => {console.log(data);this.assign_sub_error_codes(data);},
       error => this.handleError(error)
     );
-  }  
+  }
   else{
     console.log('error sub param');
     console.log(this.error_sub_codes_list);
@@ -2209,7 +2209,7 @@ get_error_sub_param_codes()
 assign_sub_error_codes(data){
   console.log(data);
   let err_sub_param_stats = data.sub_param_datas;
-  
+
   // let fyi_sub_param_stats = data.fyi_sub_param_types;
 
   this.error_sub_codes_list = {errorsubparam:err_sub_param_stats}
@@ -2222,7 +2222,7 @@ assign_sub_error_codes(data){
     }
   }
   console.log(error_sub_params);
-  this.error_sub_param_list = error_sub_params;  
+  this.error_sub_param_list = error_sub_params;
 }
 
 
@@ -2233,7 +2233,7 @@ assign_audit_codes(data)
   let root_stats=data.root_states;
   console.log(root_stats);
   let err_stats =data.err_types;
-  console.log(err_stats);  
+  console.log(err_stats);
 
   this.audit_codes_list={root:root_stats,error:err_stats};
 
@@ -2577,7 +2577,7 @@ graphStatus()
 
   ngOnInit() {
 
-    
+
     this.user_role_maintainer();
     this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null,null);
     // this.get_auditors();
@@ -2696,7 +2696,7 @@ this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
 
   this.graphStatus();
 
-  
+
 }
 
 ngAfterViewInit()
@@ -2761,8 +2761,8 @@ public reassign(content){
     });
   }
 }
- 
-selectChange(value){ 
+
+selectChange(value){
  value.forEach(element => {
   this.selectedError = element.description;
  });
@@ -2770,7 +2770,7 @@ console.log(this.selectedValue);
 console.log(this.selectedError);
 }
 
-selectSubChange(value){ 
+selectSubChange(value){
   console.log(value);
    this.parentId = value.id;
  console.log(this.parentId);
@@ -3038,7 +3038,7 @@ reassigned_claims(data){
 
 
   public auto_assigned(){
-     
+
       console.log(this.selected_claim_nos);
       //this.setus.getId(),this.workOrder.value,this.assigned_claim_details,'audit'
       this.Jarwis.auto_assigned(this.setus.getId(), this.selected_claim_nos,this.workOrder.value,this.assigned_claim_details,'audit').subscribe(
@@ -3058,7 +3058,7 @@ reassigned_claims(data){
       element.nativeElement.checked = false;
     });
 
-    
+
   }
 
   public export_excel_wo_files(type, table_name)
