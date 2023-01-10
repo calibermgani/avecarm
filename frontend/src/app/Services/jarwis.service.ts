@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/observable/forkJoin';
 import {Observable} from "rxjs/Observable";
 import { map, filter, switchMap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs'; 
+import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as _ from 'lodash';
 
@@ -676,10 +676,10 @@ get_users_list(user)
 // getting user list from aims database //
 get_aimsusers_list(user)
 {
-  let data={token:'1a32e71a46317b9cc6feb7388238c95d', 
+  let data={token:'1a32e71a46317b9cc6feb7388238c95d',
     department_id:1};
   // console.log(data);
-  let response = this.http.post('http://127.0.0.1:8080/api/product_api_v1/get_user_list', data, {headers: {'Content-Type': 'application/json', 
+  let response = this.http.post('http://127.0.0.1:8080/api/product_api_v1/get_user_list', data, {headers: {'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST'}});
   console.log(response);
@@ -1184,7 +1184,7 @@ view_doc_file(id){
 
 get_file_ready_count(){
   let data = {'practice_dbid':localStorage.getItem('practice_id')};
-  let response = this.http.post(`${this.baseUrl}/get_file_ready_count`, data);  
+  let response = this.http.post(`${this.baseUrl}/get_file_ready_count`, data);
   return response;
 }
 
@@ -1199,6 +1199,13 @@ get_error_sub_param_codes(data,p_id){
   data={id:data,practice_dbid : localStorage.getItem('practice_id'),parent_id:p_id};
   let response= this.common_url('get_sub_error_param_codes',data);
   return response;
+}
+
+all_claim_list(data,page,page_count,type,sorting_name,sorting_method,createsearch,search)
+{
+   data={page_no:page,count:page_count,filter:data,sort_type:type,sorting_name:sorting_name,sorting_method:sorting_method,createsearch:createsearch,search:search};
+   let response= this.common_url('all_claim_list',data);
+   return response;
 }
 
 }
