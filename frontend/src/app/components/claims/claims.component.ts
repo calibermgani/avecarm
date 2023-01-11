@@ -83,6 +83,7 @@ export class ClaimsComponent implements OnInit {
   new_value: string[];
   fieldselect: string[];
   roles: string[] = [];
+  importProcessed:any;
   datas: string[];
   mismatch_field_list: string[];
   mismatch_selected: string;
@@ -346,12 +347,21 @@ export class ClaimsComponent implements OnInit {
 
   upload_total: number;
   latest_id;
+  importedfile;
   skip_row_import;
   current_row_import;
   total_row_import
   handleResponse(data) {
+    console.log(data);
     this.roles = data.message;
+    console.log(this.roles);
     this.latest_id = data.latest_id;
+    this.importedfile = (data.message.filter(x => x.id == this.latest_id));
+    console.log(this.importedfile); 
+    this.importedfile.forEach(element => {
+      this.importProcessed = element.processed;
+     });
+    console.log(this.importProcessed);    
     this.datas = this.tabdat;
     this.upload_total = data.count;
     this.total = data.count;

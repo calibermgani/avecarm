@@ -1215,7 +1215,7 @@
                                  </h3>
                                  <!--        <input type="file" name="fileupload" [(ngModel)]="fileupload" class="btn btn-info btn-xs pull-right btn-flat" style="margin-top:-2px" (change)="onFileChange($event)">  -->
                                  <div class="box-tools pull-right">
-                                    <button class="btn btn-info btn-xs pull-right btn-flat" style="margin-top:4px;"  (click)="open(page1)"><i class="fa fa-upload"></i> Import</button>
+                                    <button class="btn btn-info btn-xs pull-right btn-flat" style="margin-top:4px;" [disabled]="(importProcessed ==0 && importProcessed != null && importProcessed != undefined)"  (click)="open(page1)"><i class="fa fa-upload"></i> Import</button>
                                     <button class="btn btn-info btn-xs pull-right btn-flat" style="margin-top:4px;margin-right:20px;" (click)="template()" ><i class="fa fa-download"></i>Template</button>
                                  </div>
                               </div>
@@ -1243,7 +1243,7 @@
                                                 <td class="cur-pointer"><i tooltip="{{r.notes}}" [options]="myOptions" class="fa fa-file-text"></i></td>
                                                 <td><a (click)="getfile(r.path,r.file_name)"><i class="fa fa-download cur-pointer" title = "Download File"></i></a><span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
                                                    <a (click)="delete_file(r.path)"><i class="fa fa-trash cur-pointer" title = "Delete File"></i></a>
-                                                   <span *ngIf="latest_id == r.id && (newclaim !=0 || newclaim ==0)">
+                                                   <span *ngIf="(latest_id == r.id && (newclaim !=0 || newclaim ==0) || latest_id != r.id && newclaim !=0) ">
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
                                                       <a (click)="process_uld_file(r.path);open(page2);" ><i class="fa fa-cog cur-pointer" title = "Process File"></i></a>
                                                    </span>
