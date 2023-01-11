@@ -2841,7 +2841,7 @@
 
                                                   <th (click)="order_list('claim_Status','all_claim','null','null',null,null)" class="font600 line-height-24">Claim Status<i class="fa fa-fw fa-sort"></i></th>
 
-                                                  <th (click)="order_list('claim_note','all_claim','null','null',null,null)" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
+                                                  <!-- <th (click)="order_list('claim_note','all_claim','null','null',null,null)" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th> -->
 
                                                   <th (click)="order_list('created_at','all_claim','null','null',null,null)" class="font600 line-height-24">Assigned To | Date<i class="fa fa-fw fa-sort"></i></th>
 
@@ -2890,7 +2890,7 @@
 
                                                   <td ><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
-                                                  <td (mouseover)="tooltip(x)"><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claim_note!=NULL">{{x.claim_note}}</span></td>
+                                                  <!-- <td (mouseover)="tooltip(x)"><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claim_note!=NULL">{{x.claim_note}}</span></td> -->
 
 
                                                   <td (mouseover)="tooltip(x)"><span *ngIf="x.assigned_to == Null ">UA</span><span *ngIf="x.assigned_to != NULL">{{x.assigned_to}}</span>|<span *ngIf="x.created_at == Null ">UA</span><span *ngIf="x.created_at != NULL">{{x.created_at | date:'MM/dd/yyyy' }}</span></td>
