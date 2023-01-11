@@ -2653,7 +2653,10 @@
                                                </div>
                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                   <label>Claim Status</label>
-                                                  <input type="text" class="form-control" formControlName="claim_status">
+                                                  <select formControlName="claim_status" class="form-control ngx-dropdown-button" aria-hidden="true">
+                                                    <option [ngValue]="null" selected disabled>-- Select Status--</option>
+                                                    <option *ngFor="let cstatus of claim_statuses" [value]="cstatus">{{cstatus}}</option>
+                                                </select>
                                                </div>
                                             </div>
                                             <!-- <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding"> -->
@@ -2808,6 +2811,7 @@
                                                   <th style="width:1%">
                                                      <input type="checkbox" style="margin-top:0px;" (click)="selected($event,'all','all');check_all_assign(page,$event)" title="Select All" #checkboxes>
                                                   </th>
+                                                  <th></th>
 
                                                   <th (click)="order_list('claim_no','all_claim','null','null',null,null)" class="font600  line-height-24" placement="left">Claim No <i class="fa fa-fw fa-sort"></i></th>
 

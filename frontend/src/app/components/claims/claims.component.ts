@@ -46,6 +46,7 @@ export class ClaimsComponent implements OnInit {
   filter = '';
   assigned = "";
   reAssigned = "";
+  claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
