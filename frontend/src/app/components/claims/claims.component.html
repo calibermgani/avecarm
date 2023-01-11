@@ -1243,7 +1243,7 @@
                                                 <td class="cur-pointer"><i tooltip="{{r.notes}}" [options]="myOptions" class="fa fa-file-text"></i></td>
                                                 <td><a (click)="getfile(r.path,r.file_name)"><i class="fa fa-download cur-pointer" title = "Download File"></i></a><span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
                                                    <a (click)="delete_file(r.path)"><i class="fa fa-trash cur-pointer" title = "Delete File"></i></a>
-                                                   <span *ngIf="latest_id == r.id && (newclaim !=0 || newclaim ==0) ">
+                                                   <span *ngIf="latest_id == r.id && (newclaim !=0 || newclaim ==0)">
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
                                                       <a (click)="process_uld_file(r.path);open(page2);" ><i class="fa fa-cog cur-pointer" title = "Process File"></i></a>
                                                    </span>
@@ -2652,13 +2652,13 @@
                                                   <input type="text" class="form-control" ngxDaterangepickerMd formControlName="dos" [(ngModel)]="selecteds" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly />
                                                </div>
                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                  <label>Claim Status</label>
-                                                  <select formControlName="claim_status" class="form-control ngx-dropdown-button" aria-hidden="true">
-                                                    <option [ngValue]="null" selected disabled>-- Select Status--</option>
-                                                    <option *ngFor="let cstatus of claim_statuses" [value]="cstatus">{{cstatus}}</option>
-                                                </select>
-                                               </div>
-                                            </div>
+                                                   <label>Claim Status</label>
+                                                   <select formControlName="claim_status" class="form-control ngx-dropdown-button" aria-hidden="true">
+                                                      <option [ngValue]="null" selected disabled>-- Select Status--</option>
+                                                      <option *ngFor="let cstatus of claim_statuses" [value]="cstatus">{{cstatus}}</option>
+                                                   </select>
+                                                </div>
+                                             </div>
                                             <!-- <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding"> -->
                                                <!-- <div class="form-group col-lg-3">
                                                   <label>Total Charge</label>
@@ -2843,7 +2843,7 @@
 
                                                   <th (click)="order_list('claim_note','all_claim','null','null',null,null)" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                  <th (click)="order_list('created_at','all_claim','null','null',null,null)" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                  <th (click)="order_list('created_at','all_claim','null','null',null,null)" class="font600 line-height-24">Assigned To | Date<i class="fa fa-fw fa-sort"></i></th>
 
                                                   <!-- <th class="font600 line-height-24">Assign.By</th>
                                                      <th class="font600 line-height-24">Assign.Date</th> -->
@@ -2893,7 +2893,7 @@
                                                   <td (mouseover)="tooltip(x)"><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claim_note!=NULL">{{x.claim_note}}</span></td>
 
 
-                                                  <td (mouseover)="tooltip(x)"><span *ngIf="x.assigned_to == Null ">UA</span><span *ngIf="x.assigned_to != NULL">{{x.assigned_to}}</span>|<span *ngIf="x.assigned_by == NULL ">UA</span><span *ngIf="x.assigned_by != NULL">{{x.assigned_by}}</span>|<span *ngIf="x.created_at == Null ">UA</span><span *ngIf="x.created_at != NULL">{{x.created_at | date:'MM/dd/yyyy' }}</span></td>
+                                                  <td (mouseover)="tooltip(x)"><span *ngIf="x.assigned_to == Null ">UA</span><span *ngIf="x.assigned_to != NULL">{{x.assigned_to}}</span>|<span *ngIf="x.created_at == Null ">UA</span><span *ngIf="x.created_at != NULL">{{x.created_at | date:'MM/dd/yyyy' }}</span></td>
 
                                                </tr>
                                                <tr *ngIf="cwo_total == 0">
