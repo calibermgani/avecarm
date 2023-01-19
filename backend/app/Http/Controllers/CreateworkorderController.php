@@ -11,7 +11,7 @@ use App\Practice;
 use Validator;
 use JWTFactory;
 use JWTAuth;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -33,6 +33,7 @@ use App\User_work_profile;
 use DateTime;
 use App\Claim_history;
 use App\Error_type;
+use Illuminate\Support\Facades\Log;
 
 class CreateworkorderController extends Controller
 {
@@ -2312,13 +2313,16 @@ class CreateworkorderController extends Controller
 
 
                 foreach($count as $values){
-
-                    $claim_data[] = Import_field::where('claim_no',  $values)->where('assigned_to', $user_id)->where('claim_status', 'Assigned')->get()->toArray();
-
+                  // DB::enableQueryLog();
+                    // $claim_data[] = Import_field::leftJoin('qc_notes', function($join) { 
+                    //   $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+                    // })->where('qc_notes.deleted_at', '=', NULL)->Where('qc_notes.error_type', '=', '[2]')->Where('qc_notes.error_type', '=', '[3]')->where('claim_no',  $values)->where('assigned_to', $user_id)->Where('claim_status', 'Assigned')->orWhere('claim_status', 'Client Assistance')->get()->toArray();
+                    $claim_data[] = DB::table('import_fields')->leftJoin('qc_notes', 'qc_notes.claim_id', '=', 'import_fields.claim_no')->WhereIn('qc_notes.error_type', ['[2]','[3]'])->where('claim_no',  $values)->where('assigned_to', $user_id)->WhereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
+                  // $quries = DB::getQueryLog();
+                  // dd($quries);
                 }
-
+                  // log::debug($claim_data);
                     $claim_array = array_filter(array_map('array_filter', $claim_data));
-
                     $multi_claim_data = $claim_array;
 
                     $merge_claim_data = array_reduce($multi_claim_data, 'array_merge', array());

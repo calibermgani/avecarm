@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Address_flag;
 use App\Profile;
@@ -16,2315 +17,2280 @@ use App\Statuscode;
 use App\Sub_statuscode;
 use Carbon\Carbon;
 use App\Claim_note;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Record_claim_history;
 use App\Workorder_field;
 use App\Action;
 use App\User_work_profile;
 use DateTime;
-use App\Claim_history; 
+use App\Claim_history;
 
 class Client_assistanceController extends Controller
 {
-    //
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['get_ca_claims','get_user_list','create_ca_workorder','fetch_export_data']]);
-        }
+  //
+  public function __construct()
+  {
+    $this->middleware('auth:api', ['except' => ['get_ca_claims', 'get_user_list', 'create_ca_workorder', 'fetch_export_data']]);
+  }
 
-        public function get_ca_claims(LoginRequest $request)
-        {
-            $user_id=$request->get('user_id');
-            $page_no= $request->get('page_no');
-            $page_count= $request->get('count');
-            $type = $request->get('type');
-            $sort_data = $request->get('sort_data');
-           // dd($sort_data); //true
-            $sort_type = $request->get('sort_type');
-            //dd($sort_type); //claim_no
+  public function get_ca_claims(LoginRequest $request)
+  {
+    $user_id = $request->get('user_id');
+    $page_no = $request->get('page_no');
+    $page_count = $request->get('count');
+    $type = $request->get('type');
+    $sort_data = $request->get('sort_data');
+    // dd($sort_data); //true
+    $sort_type = $request->get('sort_type');
+    //dd($sort_type); //claim_no
 
-            $sorting_name = $request->get('sorting_name');
-            $sorting_method = $request->get('sorting_method');
+    $sorting_name = $request->get('sorting_name');
+    $sorting_method = $request->get('sorting_method');
 
-            $searchValue = $request->get('claim_searh');
+    $searchValue = $request->get('claim_searh');
 
-            if($searchValue != null){
-                $search_acc_no = $searchValue['acc_no'];
-                $search_claim_no = $searchValue['claim_no'];
-                $search_claim_note = $searchValue['claim_note'];
-                $search_dos = $searchValue['dos'];
-                $search_insurance = $searchValue['insurance'];
-                $search_patient_name = $searchValue['patient_name'];
-                $search_prim_ins_name = $searchValue['prim_ins_name'];
-                $search_prim_pol_id = $searchValue['prim_pol_id'];
-                $search_sec_ins_name = $searchValue['sec_ins_name'];
-                $search_sec_pol_id = $searchValue['sec_pol_id'];
-                $search_ter_ins_name = $searchValue['ter_ins_name'];
-                $search_ter_pol_id = $searchValue['ter_pol_id'];
-                $search_total_ar = $searchValue['total_ar'];
-                $search_total_charge = $searchValue['total_charge'];
-            }
+    if ($searchValue != null) {
+      $search_acc_no = $searchValue['acc_no'];
+      $search_claim_no = $searchValue['claim_no'];
+      $search_claim_note = $searchValue['claim_note'];
+      $search_dos = $searchValue['dos'];
+      $search_insurance = $searchValue['insurance'];
+      $search_patient_name = $searchValue['patient_name'];
+      $search_prim_ins_name = $searchValue['prim_ins_name'];
+      $search_prim_pol_id = $searchValue['prim_pol_id'];
+      $search_sec_ins_name = $searchValue['sec_ins_name'];
+      $search_sec_pol_id = $searchValue['sec_pol_id'];
+      $search_ter_ins_name = $searchValue['ter_ins_name'];
+      $search_ter_pol_id = $searchValue['ter_pol_id'];
+      $search_total_ar = $searchValue['total_ar'];
+      $search_total_charge = $searchValue['total_charge'];
+    }
 
-            $search = $request->get('search');
-            
-            $total_count=0;
-            $skip=($page_no-1) * $page_count;
-            //print_r($skip);
-            $end = $page_count;
-            
-            $status_code= Statuscode::where('description','like', '%' . 'Client Assistance' . '%')->get();
+    $search = $request->get('search');
 
-            $user_role=User::where('id', $user_id)->first();
+    $total_count = 0;
+    $skip = ($page_no - 1) * $page_count;
+    //print_r($skip);
+    $end = $page_count;
 
-        if($user_role['role_id'] == 5 || $user_role['role_id'] == 3 || $user_role['role_id'] == 2)
-        {
-            $users=User::where('role_id', '6')->orWhere('role_id', '3')->pluck('id');
-            //dd($users);
-            // $claims=Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
-            $claims = Claim_history::where('claim_state','7')->distinct('claim_id')->pluck('claim_id');
-            // $claims = Claim_history::where('claim_state','7')->orWhere('claim_state','4')->distinct('claim_id')->pluck('claim_id');
+    $status_code = Statuscode::where('description', 'like', '%' . 'Client Assistance' . '%')->get();
 
-            $claim_count= Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
+    $user_role = User::where('id', $user_id)->first();
 
-            $claim_count=sizeof($claim_count);
+    if ($user_role['role_id'] == 5 || $user_role['role_id'] == 3 || $user_role['role_id'] == 2) {
+      $users = User::where('role_id', '6')->orWhere('role_id', '3')->pluck('id');
+      //dd($users);
+      // $claims=Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
+      $claims = Claim_history::where('claim_state', '7')->distinct('claim_id')->pluck('claim_id');
+      // $claims = Claim_history::where('claim_state','7')->orWhere('claim_state','4')->distinct('claim_id')->pluck('claim_id');
 
-            // $claim_data= Import_field::whereIN('claim_no',$claims)->get();
-            //dd($claims);
+      $claim_count = Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
 
-            if($searchValue == null){
+      $claim_count = sizeof($claim_count);
 
-                if($type == 'wo' && $sort_type == null && empty($sorting_name)){
+      // $claim_data= Import_field::whereIN('claim_no',$claims)->get();
+      //dd($claims);
 
-                    $skip=($page_no-1) * $page_count;
-                    $end = $page_count;
+      if ($searchValue == null) {
 
-                    $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+        if ($type == 'wo' && $sort_type == null && empty($sorting_name)) {
+
+          $skip = ($page_no - 1) * $page_count;
+          $end = $page_count;
+          $claim_data = Import_field::leftjoin(DB::raw("(SELECT
                           claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          })->leftjoin(DB::raw("(SELECT
                         claim_histories.claim_id,claim_histories.created_at as created_ats
                       FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
+                      ) as claim_histories"), function ($join) {
+            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          })->leftjoin(DB::raw("(SELECT qc_notes.error_type FROM qc_notes WHERE qc_notes.deleted_at IS NULL AND GROUP BY qc_notes.claim_id)"), function ($join) {
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->leftJoin('qc_notes', function($join) { 
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
 
-                    foreach($claim_data as $key => $claim_datas)
-                    {
-                      $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                      $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+          foreach ($claim_data as $key => $claim_datas) {
+            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
 
-                      $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                    }
+            $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+          }
 
-                    $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
+          $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
 
-                    $current_total = $claim_data->count();
+          $current_total = $claim_data->count();
+        } elseif ($type == 'wo' && $sort_type == null && $sorting_name == 'null') {
 
-                }elseif($type == 'wo' && $sort_type == null && $sorting_name == 'null'){
-
-                    $skip=($page_no-1) * $page_count;
-                    $end = $page_count;
-
-                    $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+          $skip = ($page_no - 1) * $page_count;
+          $end = $page_count;
+          $claim_data = Import_field::leftjoin(DB::raw("(SELECT
                           claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          })->leftjoin(DB::raw("(SELECT
                         claim_histories.claim_id,claim_histories.created_at as created_ats
                       FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
+                      ) as claim_histories"), function ($join) {
+            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          })->leftJoin('qc_notes', function($join) { 
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
 
-                    foreach($claim_data as $key => $claim_datas)
-                    {
-                      $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                      $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+          foreach ($claim_data as $key => $claim_datas) {
+            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
 
-                      $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                    }
+            $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+          }
 
-                    $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
+          $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
 
-                    $current_total = $claim_data->count();
-
-                }elseif($type == 'wo' && $sort_type == null && !empty($sorting_name) ){
-
-                    if($sorting_method == true){
-                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
+          $current_total = $claim_data->count();
+        } elseif ($type == 'wo' && $sort_type == null && !empty($sorting_name)) {
+          if ($sorting_method == true) {
+            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
                           claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            })->leftjoin(DB::raw("(SELECT
                         claim_histories.claim_id,claim_histories.created_at as created_ats
                       FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
-                      foreach($claim_data as $key => $claim_datas)
-                      {
-                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                      }
-                        $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-
-                        $current_total = $claim_data->count();
-                    }else if($sorting_method == false ){
-                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
-                      foreach($claim_data as $key => $claim_datas)
-                      {
-                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                      }
-                        $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-                        $current_total = $claim_data->count();
-                    }
-
-                }else if($sort_type != 'null' && $sorting_name == 'null'){
-                    if($sort_data == true){
-                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
-                      foreach($claim_data as $key => $claim_datas)
-                      {
-                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                      }
-
-                        $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-
-                        $current_total = $claim_data->count();
-                    }else if($sort_data == false){
-                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
-                      foreach($claim_data as $key => $claim_datas)
-                      {
-                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                      }
-                        $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-                        $current_total = $claim_data->count();
-                    }
-                }
-                
-                $selected_claim_data = Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->get();
-                //$claim_count=sizeof($claim_data);
-
-
-                // $claim_data= Import_field::where('status_code',$status_code[0]['id'])->orderBy('id', 'asc')-> offset($skip) ->limit($end)->get();
-                // $claim_count= Import_field::where('status_code',$status_code[0]['id'])->count();
-
-            }elseif($searchValue != null){
-
-                $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                      claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                    AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                  })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance');
-
-                $claim_count = Import_field::leftjoin(DB::raw("(SELECT
-                      claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                    AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                  })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance');
-
-                $selected_claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                      claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                    AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                  })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance');
-
-                if(!empty($search_claim_no)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-                  } 
-
-                }
-
-                if(!empty($search_acc_no)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-                  } 
-
-                }
-
-                if(!empty($search_dos) && $search_dos['startDate'] != null){
-
-                  $sart_date = date('Y-m-d', strtotime($search_dos['startDate']));
-                  $end_date = date('Y-m-d', strtotime($search_dos['endDate']));
-
-                  if($sart_date == $end_date){
-                    $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate']. "+ 1 day"));
-                    $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate']. "+ 1 day"));
-                  }elseif($sart_date != $end_date){
-                    $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate']. "+ 1 day"));
-                    $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate']));
-                  }
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-                  } 
-
-                }
-
-                if(!empty($search_patient_name)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-                  } 
-
-                }
-
-                if(!empty($search_total_charge)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('total_charges', '=', $search_total_charge)-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('total_charges', '=', $search_total_charge)-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-                  } 
-
-                }
-
-                if(!empty($search_total_ar)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('total_ar', '=', $search_total_ar)-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('total_ar', '=', $search_total_ar)-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-                  } 
-
-                }
-
-                if(!empty($search_claim_note)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-                  } 
-
-                }
-
-                // if(!empty($search_insurance)){
-
-                //   if($sort_data == null && $sort_type == null){
-
-                //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')-> offset($skip) ->limit($end);
-
-                //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-                //   }
-
-                //   if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')-> offset($skip) ->limit($end);
-
-                //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-                //   }
-
-                //   if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                //   }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-                //   } 
-
-                //   if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                //   }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-                //   } 
-
-                // }
-
-                if(!empty($search_prim_ins_name)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-                  } 
-
-                }
-
-                if(!empty($search_prim_pol_id)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-                  } 
-
-                }
-
-                if(!empty($search_sec_ins_name)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-                  } 
-
-                }
-
-                if(!empty($search_sec_pol_id)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-                  } 
-
-                }
-
-                if(!empty($search_ter_ins_name)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-                  } 
-
-                }
-
-                if(!empty($search_ter_pol_id)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-                  } 
-
-                }else{
-                    if(!empty($sorting_name)){
-
-                      if($sorting_method == true){
-                        $claim_data->orderBy($sorting_name, 'desc')->offset($skip) ->limit($end);
-                        $claim_count->orderBy($sorting_name, 'desc');
-                        $selected_claim_data->orderBy($sorting_name, 'desc');
-                      }else if($sorting_method == false){
-                        $claim_data->orderBy($sorting_name, 'asc')->offset($skip) ->limit($end);
-                         $claim_count->orderBy($sorting_name, 'asc');
-                         $selected_claim_data->orderBy($sorting_name, 'asc');
-                      }
-                    }
-                  }
-
-                $claim_data = $claim_data->get();
-                foreach($claim_data as $key => $claim_datas)
-                {
-                  $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                  $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                  $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                  $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                }
-
-                $current_total = $claim_data->count();
-
-                $claim_count = $claim_count->count();
-
-                $selected_claim_data = $selected_claim_data->get();
-                
-                $selected_count = $selected_claim_data->count();
-
-                $type = 'wo';
-
-            }
-                
-
-        }else if($user_role['role_id'] == 4 || $user_role['role_id'] == 1)
-        {
-
-            $users = User::where('role_id', '4')->orWhere('role_id', '1')->pluck('id');
-            
-            $claims = Claim_history::where('claim_state','7')->where('assigned_to', $user_id)->distinct('claim_id')->pluck('claim_id');
-
-            $claim_count= Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
-
-            $claim_count=sizeof($claim_count);
-
-            if($searchValue == null){
-
-                if($type == 'wo' && $sort_type == null && empty($sorting_name)){
-
-                    $skip=($page_no-1) * $page_count;
-                    $end = $page_count;
-
-                    $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
-
-                    foreach($claim_data as $key => $claim_datas)
-                    {
-                      $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                      $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                      $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                    }
-
-                    $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-
-                    $current_total = $claim_data->count();
-
-                }elseif($type == 'wo' && $sort_type == null && $sorting_name == 'null'){
-
-                    $skip=($page_no-1) * $page_count;
-                    $end = $page_count;
-
-                    $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
-
-                    foreach($claim_data as $key => $claim_datas)
-                    {
-                      $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                      $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                      $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                      $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                    }
-
-                    $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-
-                    $current_total = $claim_data->count();
-
-                }elseif($type == 'wo' && $sort_type == null && !empty($sorting_name) ){
-
-                    if($sorting_method == true){
-                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
-                      foreach($claim_data as $key => $claim_datas)
-                      {
-                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                      }
-                        $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-
-                        $current_total = $claim_data->count();
-                    }else if($sorting_method == false ){
-                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
-                      foreach($claim_data as $key => $claim_datas)
-                      {
-                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                      }
-                        $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-                        $current_total = $claim_data->count();
-                    }
-
-                }else if($sort_type != 'null' && $sorting_name == 'null'){
-                    if($sort_data == true){
-                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
-                        foreach($claim_data as $key => $claim_datas)
-                        {
-                          $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                          $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-    
-                          $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                          $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                        }
-                        $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-
-                        $current_total = $claim_data->count();
-                    }else if($sort_data == false){
-                        $claim_data= Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                      })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
-                      foreach($claim_data as $key => $claim_datas)
-                      {
-                        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                        $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                      }
-                        $claim_count= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->count();
-                        $current_total = $claim_data->count();
-                    }
-                }
-                
-                $selected_claim_data = Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->distinct('claim_no')->get();
-                //$claim_count=sizeof($claim_data);
-
-
-                // $claim_data= Import_field::where('status_code',$status_code[0]['id'])->orderBy('id', 'asc')-> offset($skip) ->limit($end)->get();
-                // $claim_count= Import_field::where('status_code',$status_code[0]['id'])->count();
-
-            $selected_claim_data= Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance')->where('assigned_to', $user_id)->distinct('claim_no')->get();
-            }elseif($searchValue != null){
-
-                $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                      claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                    AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                  })->leftjoin(DB::raw("(SELECT
-                        claim_histories.claim_id,claim_histories.created_at as created_ats
-                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                      ) as claim_histories"), function($join) {
-                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIN('claim_no',$claims)->where('claim_Status','Client Assistance');
-
-                $claim_count = Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance');
-
-                $selected_claim_data = Import_field::whereIN('claim_no',$claims)->where('claim_Status','Client Assistance');
-
-                if(!empty($search_claim_no)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-
-                    $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
-                  } 
-
-                }
-
-                if(!empty($search_acc_no)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-
-                    $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
-                  } 
-
-                }
-
-                if(!empty($search_dos)){
-
-                  $search_date = explode('-', $search_dos);
-                  $dos_sart_date = date('Y-m-d', strtotime($search_date[0]));
-                  $dos_end_date = date('Y-m-d', strtotime($search_date[1]));
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-
-                    $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
-                  } 
-
-                }
-
-                if(!empty($search_patient_name)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-
-                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-                  } 
-
-                }
-
-                if(!empty($search_total_charge)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('total_charges', '=', $search_total_charge)-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('total_charges', '=', $search_total_charge)-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_charges', '=', $search_total_charge);
-
-                    $selected_claim_data->where('total_charges', '=', $search_total_charge);
-                  } 
-
-                }
-
-                if(!empty($search_total_ar)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('total_ar', '=', $search_total_ar)-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('total_ar', '=', $search_total_ar)-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('total_ar', '=', $search_total_ar);
-
-                    $selected_claim_data->where('total_ar', '=', $search_total_ar);
-                  } 
-
-                }
-
-                if(!empty($search_claim_note)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-
-                    $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
-                  } 
-
-                }
-
-                if(!empty($search_insurance)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                    $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                    $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                    $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                    $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                    $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-
-                    $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
-                  } 
-
-                }
-
-                if(!empty($search_prim_ins_name)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-
-                    $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
-                  } 
-
-                }
-
-                if(!empty($search_prim_pol_id)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-
-                    $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
-                  } 
-
-                }
-
-                if(!empty($search_sec_ins_name)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-
-                    $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-                  } 
-
-                }
-
-                if(!empty($search_sec_pol_id)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-
-                    $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
-                  } 
-
-                }
-
-                if(!empty($search_ter_ins_name)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-
-                    $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-                  } 
-
-                }
-
-                if(!empty($search_ter_pol_id)){
-
-                  if($sort_data == null && $sort_type == null){
-
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-                  }
-
-                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
-
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-                  }
-
-                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
-
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-                  } 
-
-                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
-               
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
-                   
-                    $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
-
-                    $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-
-                    $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
-                  } 
-
-                }
-
-                $claim_data = $claim_data->get();
-                foreach($claim_data as $key => $claim_datas)
-                {
-                  $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-                  $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
-
-                  $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
-                  $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
-                }
-
-                $current_total = $claim_data->count();
-
-                $claim_count = $claim_count->count();
-
-                $selected_claim_data = $selected_claim_data->get();
-                
-                $selected_count = $selected_claim_data->count();
-
-                $type = 'wo';
-
-            }
-            
-
-
-            //$claim_count=sizeof($claim_data);
-
-
-            // $claim_data= Import_field::where('status_code',$status_code[0]['id'])->orderBy('id', 'asc')-> offset($skip) ->limit($end)->get();
-            // $claim_count= Import_field::where('status_code',$status_code[0]['id'])->count();
-        }
-        else{
-            $claims= Action::where('assigned_to',$user_id)->where('status','Active')->distinct('claim_id')->pluck('claim_id');
-            // $claim_count=Action::where('assigned_to', $user_id)->distinct('claim_id')->pluck('claim_id');
-            // $claim_count=sizeof($claim_count);
-            $claim_data=Import_field::whereIN('claim_no', $claims)-> offset($skip) ->limit($end)->get();
-            foreach($claim_data as $key => $claim_datas)
-            {
+                      ) as claim_histories"), function ($join) {
+              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            })->leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+            foreach ($claim_data as $key => $claim_datas) {
               $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
-              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
 
-              $getSubStatusCode = Sub_statuscode::where('id',$claim_datas['substatus_code'])->first();
+              $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
               $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
             }
-            $claim_count=Import_field::whereIN('claim_no', $claims)->count();
-            // $claim_data=Import_field::where('assigned_to', $user_id)->where('status_code',$status_code[0]['id'])->orderBy('id', 'desc')-> offset($skip) ->limit($end)->get();
-            // $claim_count=Import_field::where('assigned_to', $user_id)->where('status_code',$status_code[0]['id'])->count();
+            $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+
+            $current_total = $claim_data->count();
+          } else if ($sorting_method == false) {
+            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            })->leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+            foreach ($claim_data as $key => $claim_datas) {
+              $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+              $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+              $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+            }
+            $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+            $current_total = $claim_data->count();
+          }
+        } else if ($sort_type != 'null' && $sorting_name == 'null') {
+          if ($sort_data == true) {
+            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            })->leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+            foreach ($claim_data as $key => $claim_datas) {
+              $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+              $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+              $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+            }
+
+            $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+
+            $current_total = $claim_data->count();
+          } else if ($sort_data == false) {
+            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            })->leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+            foreach ($claim_data as $key => $claim_datas) {
+              $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+              $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+              $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+            }
+            $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+            $current_total = $claim_data->count();
+          }
         }
 
-        // foreach($claim_data as $key=>$claim)
-        // {
-            
-        //     $dob=$claim_data[$key]['dos'];
-        //     //   $dob = strtotime($dob);
-        //       $from= DateTime::createFromFormat('m/d/Y', date('m/d/Y',strtotime($dob)));
-            
-        //        $to= date('d/m/Y');
-        //     $to= new DateTime;
-        //       $age = $to->diff($from);
-    
-        //       $claim_data[$key]['claim_age']=$age->days;
+        $selected_claim_data = Import_field::leftJoin('qc_notes', function($join) { 
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->distinct('claim_no')->get();
+        //$claim_count=sizeof($claim_data);
 
 
-        //     if($claim['substatus_code']!= null)
-        //     {
-        //         $substatus=Sub_statuscode::where('id', $claim['substatus_code'])->get();
-        //         $claim_data[$key]['sub_status']=$substatus[0]['description'];
-        //     }
-        //     else{
-        //         $claim_data[$key]['sub_status']='NA';
-        //     }
-        //     if($claim['ca_work_order'] == Null )
-        //     {
-        //         $assigned_to= 'NA';
-        //         $assigned_by= 'NA';
-        //     }
-        //     else{
+        // $claim_data= Import_field::where('status_code',$status_code[0]['id'])->orderBy('id', 'asc')-> offset($skip) ->limit($end)->get();
+        // $claim_count= Import_field::where('status_code',$status_code[0]['id'])->count();
 
-        //         $assigned_data=Workorder_field::where('id', $claim['ca_work_order'])->get();
-        //         $assigned_to= User::where('id', $claim['assigned_to'])->pluck('firstname');
-        //         $assigned_by= User::where('id', $assigned_data[0]['created_by'])->pluck('firstname');
-        //     }
+      } elseif ($searchValue != null) {
 
-        
-        //     $claim_data[$key]['assigned_to_name']=$assigned_to;
-        //     $claim_data[$key]['assigned_by_name']=$assigned_by;
+        $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                      claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                    AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+          $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+        })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+          $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+        })->leftJoin('qc_notes', function($join) { 
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance');
 
-        //     // $claim_data[$key]['followup_date'] = date('m/d/Y', strtotime( $claim_data[$key]['followup_date']));
+        $claim_count = Import_field::leftjoin(DB::raw("(SELECT
+                      claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                    AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+          $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+        })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+          $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+        })->leftJoin('qc_notes', function($join) { 
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance');
 
+        $selected_claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                      claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                    AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+          $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+        })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+          $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+        })->leftJoin('qc_notes', function($join) { 
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance');
 
-        //     $date_format[0]=(int)date('d', strtotime( $claim_data[$key]['followup_date']));
-        //     $date_format[1]=(int)date('m', strtotime( $claim_data[$key]['followup_date']));
-        //     $date_format[2]=(int)date('Y', strtotime( $claim_data[$key]['followup_date']));
+        if (!empty($search_claim_no)) {
 
-        //     $claim_data[$key]['followup_date'] = $date_format;   
+          if ($sort_data == null && $sort_type == null) {
 
-        //     $claim_data[$key]['touch']=Claim_note::where('claim_id', $claim_data[$key]['claim_no']) ->count();
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->offset($skip)->limit($end);
 
-        //     // $claim_data[$key]['touch']=Claim_note::where('claim_id', $claim['claim_no']) ->count();
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          }
+        }
+
+        if (!empty($search_acc_no)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          }
+        }
+
+        if (!empty($search_dos) && $search_dos['startDate'] != null) {
+
+          $sart_date = date('Y-m-d', strtotime($search_dos['startDate']));
+          $end_date = date('Y-m-d', strtotime($search_dos['endDate']));
+
+          if ($sart_date == $end_date) {
+            $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate'] . "+ 1 day"));
+            $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate'] . "+ 1 day"));
+          } elseif ($sart_date != $end_date) {
+            $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate'] . "+ 1 day"));
+            $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate']));
+          }
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          }
+        }
+
+        if (!empty($search_patient_name)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
+        }
+
+        if (!empty($search_total_charge)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          }
+        }
+
+        if (!empty($search_total_ar)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          }
+        }
+
+        if (!empty($search_claim_note)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          }
+        }
+
+        // if(!empty($search_insurance)){
+
+        //   if($sort_data == null && $sort_type == null){
+
+        //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')-> offset($skip) ->limit($end);
+
+        //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+        //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+        //   }
+
+        //   if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
+
+        //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')-> offset($skip) ->limit($end);
+
+        //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+        //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+        //   }
+
+        //   if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
+
+        //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
+
+        //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+        //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+        //   }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
+
+        //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
+
+        //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+        //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+        //   } 
+
+        //   if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
+
+        //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+
+        //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+        //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+        //   }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
+
+        //     $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+
+        //     $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+        //     $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+        //   } 
+
         // }
 
-        foreach($claim_data as $key=>$value)
-        {
+        if (!empty($search_prim_ins_name)) {
 
-        $claim_data[$key]['created_ats'] = date('m/d/Y', strtotime($claim_data[$key]['created_ats']));
-       
-        $dos = strtotime($claim_data[$key]['dos']);
+          if ($sort_data == null && $sort_type == null) {
 
-        if(!empty($dos) && $dos != 0000-00-00){
-          $claim_data[$key]['dos'] = date('m-d-Y',$dos);
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          }
         }
 
-        if($dos == 0000-00-00){
-          $claim_data[$key]['dos'] = 01-01-1970;
+        if (!empty($search_prim_pol_id)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          }
         }
 
-        $dob=$claim_data[$key]['dos'];
-        
-          $from= DateTime::createFromFormat('m/d/Y', date('m/d/Y',strtotime($dob)));
-        
-           $to= date('d/m/Y');
-        $to= new DateTime;
-          $age = $to->diff($from);
+        if (!empty($search_sec_ins_name)) {
 
-          $claim_data[$key]['age']=$age->days;
+          if ($sort_data == null && $sort_type == null) {
 
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->offset($skip)->limit($end);
 
-          $claim_data[$key]['touch']=Claim_note::where('claim_id', $claim_data[$key]['claim_no']) ->count();
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
-          $assigned_data=Action::where('claim_id', $claim_data[$key]['claim_no'])->orderBy('created_at', 'desc')->first();
-            if($assigned_data!=null)
-            {
-                $assigned_to= User::where('id', $assigned_data['assigned_to'])->pluck('firstname');
-                $assigned_by= User::where('id', $assigned_data['assigned_by'])->pluck('firstname');
-                $claim_data[$key]['assigned_to']=$assigned_to[0];
-                $claim_data[$key]['assigned_by']=$assigned_by[0];
-                $claim_data[$key]['created'] = date('d/m/Y', strtotime($assigned_data['created_at']));
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          }
 
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
 
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->offset($skip)->limit($end);
 
-                // $date_format[0]=(int)date('d', strtotime( $claim_data[$key]['followup_date']));
-                // $date_format[1]=(int)date('m', strtotime( $claim_data[$key]['followup_date']));
-                // $date_format[2]=(int)date('Y', strtotime( $claim_data[$key]['followup_date']));
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
-                // $claim_data[$key]['followup_date'] = $date_format;
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          }
 
-                $date_formats = Carbon::parse($value['followup_date'])->format('m/d/Y');
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
 
-                $claim_data[$key]['follows_date'] = $date_formats;
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          }
+        }
+
+        if (!empty($search_sec_pol_id)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          }
+        }
+
+        if (!empty($search_ter_ins_name)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          }
+        }
+
+        if (!empty($search_ter_pol_id)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          }
+        } else {
+          if (!empty($sorting_name)) {
+
+            if ($sorting_method == true) {
+              $claim_data->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+              $claim_count->orderBy($sorting_name, 'desc');
+              $selected_claim_data->orderBy($sorting_name, 'desc');
+            } else if ($sorting_method == false) {
+              $claim_data->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+              $claim_count->orderBy($sorting_name, 'asc');
+              $selected_claim_data->orderBy($sorting_name, 'asc');
             }
+          }
         }
 
-        return response()->json([
-            'data'  => $claim_data,
-            'count' => $claim_count,
-            'current_total' => $current_total,
-            'skip' => $skip,
-            'type' => $type,
-            'selected_claim_data' => $selected_claim_data,
-            ]);
+        $claim_data = $claim_data->get();
+        foreach ($claim_data as $key => $claim_datas) {
+          $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+          $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+          $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+          $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
         }
 
-        public function get_user_list(LoginRequest $request)
-        {
-            $user_id=$request->get('user_id');
-            $users= User::where('role_id', 6)->select('id','firstname', 'lastname')->get();
-            $i=0;
-            foreach($users as $user)
-            {
-                $claim_count=Import_field::where('assigned_to', $user['id'])->where('claim_Status','CA Assigned')->count();
-                $users[$i]['assigned_nos']=$claim_count;
-                $assign_limit=User_work_profile::where('user_id', $user['id'])->pluck('claim_assign_limit');
-                $users[$i]['assigned_claims']= $claim_count;
-                $users[$i]['assign_limit']= $assign_limit[0];
-                $i++;
-                }
-                
-           return response()->json([
-               'data' => $users
-               ]);
+        $current_total = $claim_data->count();
+
+        $claim_count = $claim_count->count();
+
+        $selected_claim_data = $selected_claim_data->get();
+
+        $selected_count = $selected_claim_data->count();
+
+        $type = 'wo';
+      }
+    } else if ($user_role['role_id'] == 4 || $user_role['role_id'] == 1) {
+
+      $users = User::where('role_id', '4')->orWhere('role_id', '1')->pluck('id');
+
+      $claims = Claim_history::where('claim_state', '7')->where('assigned_to', $user_id)->distinct('claim_id')->pluck('claim_id');
+
+      $claim_count = Action::whereIN('assigned_to', $users)->distinct('claim_id')->pluck('claim_id');
+
+      $claim_count = sizeof($claim_count);
+
+      if ($searchValue == null) {
+
+        if ($type == 'wo' && $sort_type == null && empty($sorting_name)) {
+
+          $skip = ($page_no - 1) * $page_count;
+          $end = $page_count;
+          $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          })->leftJoin('qc_notes', function($join) { 
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
+
+          foreach ($claim_data as $key => $claim_datas) {
+            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+            $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+          }
+
+          $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+
+          $current_total = $claim_data->count();
+        } elseif ($type == 'wo' && $sort_type == null && $sorting_name == 'null') {
+
+          $skip = ($page_no - 1) * $page_count;
+          $end = $page_count;
+          // DB::enableQueryLog();
+          $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          })->leftJoin('qc_notes', function($join) { 
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->distinct('claim_no')->offset($skip)->limit($end)->get();
+          // $quries = DB::getQueryLog();
+          // dd($quries);
+          foreach ($claim_data as $key => $claim_datas) {
+            $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+            $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+            $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+            $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+          }
+
+          $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+
+          $current_total = $claim_data->count();
+        } elseif ($type == 'wo' && $sort_type == null && !empty($sorting_name)) {
+
+          if ($sorting_method == true) {
+            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            })->leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+            foreach ($claim_data as $key => $claim_datas) {
+              $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+              $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+              $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+            }
+            $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+
+            $current_total = $claim_data->count();
+          } else if ($sorting_method == false) {
+            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            })->leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+            foreach ($claim_data as $key => $claim_datas) {
+              $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+              $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+              $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+            }
+            $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+            $current_total = $claim_data->count();
+          }
+        } else if ($sort_type != 'null' && $sorting_name == 'null') {
+          if ($sort_data == true) {
+            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            })->leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+            foreach ($claim_data as $key => $claim_datas) {
+              $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+              $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+              $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+            }
+            $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+
+            $current_total = $claim_data->count();
+          } else if ($sort_data == false) {
+            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                          claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            })->leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->distinct('claim_no')->get();
+            foreach ($claim_data as $key => $claim_datas) {
+              $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+              $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+              $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+              $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+            }
+            $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+            })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->count();
+            $current_total = $claim_data->count();
+          }
         }
 
-        // public function create_ca_workorder(LoginRequest $request)
-        // {
-        //     $user_id=$request->get('filter');    
-        //     $workorder_det=$request->get('assign_data');    
-        //     $claim_data=[];
-        //     $i=1;
-        //     foreach($workorder_det as $detail)
-        //     {
-        //         $client=$detail['client_id'];
-        //         $claims=$detail['claims'];
-        //         foreach($claims as $claim)
-        //         {
-        //             $update_claim =DB::table('import_fields')->where('claim_no',$claim)->update(array(
-        //                 'claim_Status'          => "CA Assigned",
-        //                 'assigned_to'           =>  $client
-        //                 ));
-        //                 $claim_data[$i] = ["claim_no" => $claim, "state" => 7, "assigned_by" => $user_id, "assigned_to" => $client];
-        //                 $i++;    
-        //                 }
-        //                 }
-        //                 $data= Record_claim_history::create_history($claim_data);
-        //                  return response()->json([
-        //                      'data' => $workorder_det,
-        //                      'upld' => $data
-        //                      ]);
-        //                      }
-                             
-        public function fetch_export_data(LoginRequest $request)
-        {
-            
-            $filter=$request->get('filter'); 
-            $status_code=$request->get('status');
-            $user_id=$request->get('user'); 
+        $selected_claim_data = Import_field::leftJoin('qc_notes', function($join) { 
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->distinct('claim_no')->get();
+        //$claim_count=sizeof($claim_data);
 
 
-            /*The Values of User role and status code must be changed */
-            
-            $status_code= Statuscode::where('description','like', '%' . 'Client Assistance' . '%')->get();
+        // $claim_data= Import_field::where('status_code',$status_code[0]['id'])->orderBy('id', 'asc')-> offset($skip) ->limit($end)->get();
+        // $claim_count= Import_field::where('status_code',$status_code[0]['id'])->count();
 
-            $user_role=User::where('id', $user_id)->pluck('role_id');
-            if($user_role[0] == 5 || $user_role[0] == 3 || $user_role[0] == 2)
-        {
-            $claim_data= Import_field::where('status_code',$status_code[0]['id'])->orderBy('id', 'asc')->get();
+        $selected_claim_data = Import_field::leftJoin('qc_notes', function($join) { 
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance')->where('assigned_to', $user_id)->distinct('claim_no')->get();
+      } elseif ($searchValue != null) {
+
+        $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                      claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                    AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+          $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+        })->leftjoin(DB::raw("(SELECT
+                        claim_histories.claim_id,claim_histories.created_at as created_ats
+                      FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                      ) as claim_histories"), function ($join) {
+          $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+        })->leftJoin('qc_notes', function($join) { 
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance');
+
+        $claim_count = Import_field::leftJoin('qc_notes', function($join) { 
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance');
+
+        $selected_claim_data = Import_field::leftJoin('qc_notes', function($join) { 
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->where('qc_notes.deleted_at', '=', NULL)->where('qc_notes.error_type', '=', '[1]')->whereIN('claim_no', $claims)->where('claim_Status', 'Client Assistance');
+
+        if (!empty($search_claim_no)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+
+            $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+          }
         }
-        else{
-            $claim_data=Import_field::where('assigned_to', $user_id)->where('status_code',$status_code[0]['id'])->orderBy('id', 'desc')->get();
-    
+
+        if (!empty($search_acc_no)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+
+            $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+          }
         }
 
-        foreach($claim_data as $key=>$claim)
-        {
-            $dob=$claim_data[$key]['created_at'];
-            // $claim_age = Carbon::parse($dob)->age;
-            $claim_age =$dob->diff(Carbon::now())->format('%d');
-            $claim_data[$key]['claim_age']=$claim_age;
-            $substatus=Sub_statuscode::where('id', $claim['substatus_code'])->get();
-            $claim_data[$key]['sub_status']=$substatus[0]['description'];
+        if (!empty($search_dos)) {
 
-            $assigned_to= User::where('id', $claim['assigned_to'])->pluck('firstname');
-            $assigned_by= User::where('id', $claim['assigned_by'])->pluck('firstname');
-            $claim_data[$key]['assigned_to_name']=$assigned_to;
-            $claim_data[$key]['assigned_by_name']=$assigned_by;
+          $search_date = explode('-', $search_dos);
+          $dos_sart_date = date('Y-m-d', strtotime($search_date[0]));
+          $dos_end_date = date('Y-m-d', strtotime($search_date[1]));
 
-            $claim_data[$key]['touch']=Claim_note::where('claim_id', $claim['claim_no']) ->count();
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+
+            $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          }
         }
 
-        return response()->json([
-            'data'  => $claim_data
-            ]);
+        if (!empty($search_patient_name)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+
+            $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
         }
+
+        if (!empty($search_total_charge)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('total_charges', '=', $search_total_charge)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_charges', '=', $search_total_charge);
+
+            $selected_claim_data->where('total_charges', '=', $search_total_charge);
+          }
+        }
+
+        if (!empty($search_total_ar)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('total_ar', '=', $search_total_ar);
+
+            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          }
+        }
+
+        if (!empty($search_claim_note)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+
+            $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          }
+        }
+
+        if (!empty($search_insurance)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+            $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+            $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+            $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+            $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+            $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+
+            $selected_claim_data->where('insurance', 'LIKE', '%' . $search_insurance . '%');
+          }
+        }
+
+        if (!empty($search_prim_ins_name)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          }
+        }
+
+        if (!empty($search_prim_pol_id)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+
+            $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          }
+        }
+
+        if (!empty($search_sec_ins_name)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+
+            $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          }
+        }
+
+        if (!empty($search_sec_pol_id)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+
+            $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          }
+        }
+
+        if (!empty($search_ter_ins_name)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+
+            $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          }
+        }
+
+        if (!empty($search_ter_pol_id)) {
+
+          if ($sort_data == null && $sort_type == null) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+            $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+
+            $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          }
+        }
+
+        $claim_data = $claim_data->get();
+        foreach ($claim_data as $key => $claim_datas) {
+          $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+          $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+          $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+          $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+        }
+
+        $current_total = $claim_data->count();
+
+        $claim_count = $claim_count->count();
+
+        $selected_claim_data = $selected_claim_data->get();
+
+        $selected_count = $selected_claim_data->count();
+
+        $type = 'wo';
+      }
+
+
+
+      //$claim_count=sizeof($claim_data);
+
+
+      // $claim_data= Import_field::where('status_code',$status_code[0]['id'])->orderBy('id', 'asc')-> offset($skip) ->limit($end)->get();
+      // $claim_count= Import_field::where('status_code',$status_code[0]['id'])->count();
+    } else {
+      $claims = Action::where('assigned_to', $user_id)->where('status', 'Active')->distinct('claim_id')->pluck('claim_id');
+      // $claim_count=Action::where('assigned_to', $user_id)->distinct('claim_id')->pluck('claim_id');
+      // $claim_count=sizeof($claim_count);
+      $claim_data = Import_field::whereIN('claim_no', $claims)->offset($skip)->limit($end)->get();
+      foreach ($claim_data as $key => $claim_datas) {
+        $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+        $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+      }
+      $claim_count = Import_field::whereIN('claim_no', $claims)->count();
+      // $claim_data=Import_field::where('assigned_to', $user_id)->where('status_code',$status_code[0]['id'])->orderBy('id', 'desc')-> offset($skip) ->limit($end)->get();
+      // $claim_count=Import_field::where('assigned_to', $user_id)->where('status_code',$status_code[0]['id'])->count();
+    }
+
+    // foreach($claim_data as $key=>$claim)
+    // {
+
+    //     $dob=$claim_data[$key]['dos'];
+    //     //   $dob = strtotime($dob);
+    //       $from= DateTime::createFromFormat('m/d/Y', date('m/d/Y',strtotime($dob)));
+
+    //        $to= date('d/m/Y');
+    //     $to= new DateTime;
+    //       $age = $to->diff($from);
+
+    //       $claim_data[$key]['claim_age']=$age->days;
+
+
+    //     if($claim['substatus_code']!= null)
+    //     {
+    //         $substatus=Sub_statuscode::where('id', $claim['substatus_code'])->get();
+    //         $claim_data[$key]['sub_status']=$substatus[0]['description'];
+    //     }
+    //     else{
+    //         $claim_data[$key]['sub_status']='NA';
+    //     }
+    //     if($claim['ca_work_order'] == Null )
+    //     {
+    //         $assigned_to= 'NA';
+    //         $assigned_by= 'NA';
+    //     }
+    //     else{
+
+    //         $assigned_data=Workorder_field::where('id', $claim['ca_work_order'])->get();
+    //         $assigned_to= User::where('id', $claim['assigned_to'])->pluck('firstname');
+    //         $assigned_by= User::where('id', $assigned_data[0]['created_by'])->pluck('firstname');
+    //     }
+
+
+    //     $claim_data[$key]['assigned_to_name']=$assigned_to;
+    //     $claim_data[$key]['assigned_by_name']=$assigned_by;
+
+    //     // $claim_data[$key]['followup_date'] = date('m/d/Y', strtotime( $claim_data[$key]['followup_date']));
+
+
+    //     $date_format[0]=(int)date('d', strtotime( $claim_data[$key]['followup_date']));
+    //     $date_format[1]=(int)date('m', strtotime( $claim_data[$key]['followup_date']));
+    //     $date_format[2]=(int)date('Y', strtotime( $claim_data[$key]['followup_date']));
+
+    //     $claim_data[$key]['followup_date'] = $date_format;   
+
+    //     $claim_data[$key]['touch']=Claim_note::where('claim_id', $claim_data[$key]['claim_no']) ->count();
+
+    //     // $claim_data[$key]['touch']=Claim_note::where('claim_id', $claim['claim_no']) ->count();
+    // }
+
+    foreach ($claim_data as $key => $value) {
+
+      $claim_data[$key]['created_ats'] = date('m/d/Y', strtotime($claim_data[$key]['created_ats']));
+
+      $dos = strtotime($claim_data[$key]['dos']);
+
+      if (!empty($dos) && $dos != 0000 - 00 - 00) {
+        $claim_data[$key]['dos'] = date('m-d-Y', $dos);
+      }
+
+      if ($dos == 0000 - 00 - 00) {
+        $claim_data[$key]['dos'] = 01 - 01 - 1970;
+      }
+
+      $dob = $claim_data[$key]['dos'];
+
+      $from = DateTime::createFromFormat('m/d/Y', date('m/d/Y', strtotime($dob)));
+
+      $to = date('d/m/Y');
+      $to = new DateTime;
+      $age = $to->diff($from);
+
+      $claim_data[$key]['age'] = $age->days;
+
+
+      $claim_data[$key]['touch'] = Claim_note::where('claim_id', $claim_data[$key]['claim_no'])->count();
+
+      $assigned_data = Action::where('claim_id', $claim_data[$key]['claim_no'])->orderBy('created_at', 'desc')->first();
+      if ($assigned_data != null) {
+        $assigned_to = User::where('id', $assigned_data['assigned_to'])->pluck('firstname');
+        $assigned_by = User::where('id', $assigned_data['assigned_by'])->pluck('firstname');
+        $claim_data[$key]['assigned_to'] = $assigned_to[0];
+        $claim_data[$key]['assigned_by'] = $assigned_by[0];
+        $claim_data[$key]['created'] = date('d/m/Y', strtotime($assigned_data['created_at']));
+
+
+
+        // $date_format[0]=(int)date('d', strtotime( $claim_data[$key]['followup_date']));
+        // $date_format[1]=(int)date('m', strtotime( $claim_data[$key]['followup_date']));
+        // $date_format[2]=(int)date('Y', strtotime( $claim_data[$key]['followup_date']));
+
+        // $claim_data[$key]['followup_date'] = $date_format;
+
+        $date_formats = Carbon::parse($value['followup_date'])->format('m/d/Y');
+
+        $claim_data[$key]['follows_date'] = $date_formats;
+      }
+    }
+
+    return response()->json([
+      'data'  => $claim_data,
+      'count' => $claim_count,
+      'current_total' => $current_total,
+      'skip' => $skip,
+      'type' => $type,
+      'selected_claim_data' => $selected_claim_data,
+    ]);
+  }
+
+  public function get_user_list(LoginRequest $request)
+  {
+    $user_id = $request->get('user_id');
+    $users = User::where('role_id', 6)->select('id', 'firstname', 'lastname')->get();
+    $i = 0;
+    foreach ($users as $user) {
+      $claim_count = Import_field::where('assigned_to', $user['id'])->where('claim_Status', 'CA Assigned')->count();
+      $users[$i]['assigned_nos'] = $claim_count;
+      $assign_limit = User_work_profile::where('user_id', $user['id'])->pluck('claim_assign_limit');
+      $users[$i]['assigned_claims'] = $claim_count;
+      $users[$i]['assign_limit'] = $assign_limit[0];
+      $i++;
+    }
+
+    return response()->json([
+      'data' => $users
+    ]);
+  }
+
+  // public function create_ca_workorder(LoginRequest $request)
+  // {
+  //     $user_id=$request->get('filter');    
+  //     $workorder_det=$request->get('assign_data');    
+  //     $claim_data=[];
+  //     $i=1;
+  //     foreach($workorder_det as $detail)
+  //     {
+  //         $client=$detail['client_id'];
+  //         $claims=$detail['claims'];
+  //         foreach($claims as $claim)
+  //         {
+  //             $update_claim =DB::table('import_fields')->where('claim_no',$claim)->update(array(
+  //                 'claim_Status'          => "CA Assigned",
+  //                 'assigned_to'           =>  $client
+  //                 ));
+  //                 $claim_data[$i] = ["claim_no" => $claim, "state" => 7, "assigned_by" => $user_id, "assigned_to" => $client];
+  //                 $i++;    
+  //                 }
+  //                 }
+  //                 $data= Record_claim_history::create_history($claim_data);
+  //                  return response()->json([
+  //                      'data' => $workorder_det,
+  //                      'upld' => $data
+  //                      ]);
+  //                      }
+
+  public function fetch_export_data(LoginRequest $request)
+  {
+
+    $filter = $request->get('filter');
+    $status_code = $request->get('status');
+    $user_id = $request->get('user');
+
+
+    /*The Values of User role and status code must be changed */
+
+    $status_code = Statuscode::where('description', 'like', '%' . 'Client Assistance' . '%')->get();
+
+    $user_role = User::where('id', $user_id)->pluck('role_id');
+    if ($user_role[0] == 5 || $user_role[0] == 3 || $user_role[0] == 2) {
+      $claim_data = Import_field::where('status_code', $status_code[0]['id'])->orderBy('id', 'asc')->get();
+    } else {
+      $claim_data = Import_field::where('assigned_to', $user_id)->where('status_code', $status_code[0]['id'])->orderBy('id', 'desc')->get();
+    }
+
+    foreach ($claim_data as $key => $claim) {
+      $dob = $claim_data[$key]['created_at'];
+      // $claim_age = Carbon::parse($dob)->age;
+      $claim_age = $dob->diff(Carbon::now())->format('%d');
+      $claim_data[$key]['claim_age'] = $claim_age;
+      $substatus = Sub_statuscode::where('id', $claim['substatus_code'])->get();
+      $claim_data[$key]['sub_status'] = $substatus[0]['description'];
+
+      $assigned_to = User::where('id', $claim['assigned_to'])->pluck('firstname');
+      $assigned_by = User::where('id', $claim['assigned_by'])->pluck('firstname');
+      $claim_data[$key]['assigned_to_name'] = $assigned_to;
+      $claim_data[$key]['assigned_by_name'] = $assigned_by;
+
+      $claim_data[$key]['touch'] = Claim_note::where('claim_id', $claim['claim_no'])->count();
+    }
+
+    return response()->json([
+      'data'  => $claim_data
+    ]);
+  }
 }
