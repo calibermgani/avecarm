@@ -20,7 +20,7 @@ use App\Role;
 use App\User_work_profile;
 use App;
 use Config;
-use Session;
+use Illuminate\Support\Facades\Session;
 
 class PracticeController extends Controller
 {
@@ -129,9 +129,11 @@ public function selectPractice(ApiRequest $request)
     // $dbconnection->configureConnectionByName($practice_data['id']);
     
     $session= Session::put('practice_dbid', $practice_data['id']);
+    $practice_name_session= Session::put('curr_practice_name', $practice_data['practice_name']);
   
        return response()->json([
         'data' => Session::get('practice_dbid'),
+        'practice_name' => Session::get('curr_practice_name'),
         'role' => $practice_assigned
         ]);
 }
