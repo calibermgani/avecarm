@@ -2314,14 +2314,15 @@ class CreateworkorderController extends Controller
 
                 foreach($count as $values){
                   // DB::enableQueryLog();
-                    // $claim_data[] = Import_field::leftJoin('qc_notes', function($join) { 
-                    //   $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
-                    // })->where('qc_notes.deleted_at', '=', NULL)->Where('qc_notes.error_type', '=', '[2]')->Where('qc_notes.error_type', '=', '[3]')->where('claim_no',  $values)->where('assigned_to', $user_id)->Where('claim_status', 'Assigned')->orWhere('claim_status', 'Client Assistance')->get()->toArray();
-                    $claim_data[] = DB::table('import_fields')->leftJoin('qc_notes', 'qc_notes.claim_id', '=', 'import_fields.claim_no')->WhereIn('qc_notes.error_type', ['[2]','[3]'])->where('claim_no',  $values)->where('assigned_to', $user_id)->WhereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
-                  // $quries = DB::getQueryLog();
+                    $claim_data[] = Import_field::leftJoin('qc_notes', function($join) { 
+                      $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+                    })->where('qc_notes.deleted_at', '=', NULL)->whereIn('qc_notes.error_type', ['[2]','[3]'])->where('claim_no',  $values)->where('followup_associate', $user_id)->whereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
+                    // $claim_data[] = DB::table('import_fields')->leftJoin('qc_notes', 'qc_notes.claim_id', '=', 'import_fields.claim_no')->WhereIn('qc_notes.error_type', ['[2]','[3]'])->where('claim_no',  $values)->where('assigned_to', $user_id)->WhereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
+                  $quries = DB::getQueryLog();
                   // dd($quries);
                 }
-                  // log::debug($claim_data);
+                  // log::debug($quries);
+                  // log::debug(print_r($claim_data, true));
                     $claim_array = array_filter(array_map('array_filter', $claim_data));
                     $multi_claim_data = $claim_array;
 
