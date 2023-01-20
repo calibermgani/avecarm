@@ -105,11 +105,10 @@ update_user_role()
     this.Auth.changePractice();
   }
 
-  getprecticename(){
+  /* getpracticename(){
     let str = localStorage.getItem('practice_name');
     this.practice_name = str[0].toUpperCase() + str.slice(1);
-    console.log(this.practice_name);
-  }
+  } */
 
   ngOnInit() {
     this.Auth.authStatus.subscribe(value => this.loggedIn = value);
@@ -121,8 +120,8 @@ update_user_role()
     this.update_user_role();
     this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => { 
     this.touch_count = message });
-    this.getprecticename();
     
+    this.Auth.practice_name.subscribe(res => this.practice_name = res);
   }
 
   public alertValue(){

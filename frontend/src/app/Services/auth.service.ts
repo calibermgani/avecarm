@@ -16,6 +16,10 @@ export class AuthService {
 
   practiceStatus = this.PracticelogIn.asObservable();
 
+  public str = localStorage.getItem('practice_name');
+  public prac_name = new BehaviorSubject(this.str[0].toUpperCase() + this.str.slice(1));
+  practice_name = this.prac_name.asObservable();
+
   public validate = new BehaviorSubject<boolean>(this.Token.isValid());
   //private url: string = 'http://localhost:8000/api';
   private url = `${environment.apiUrl}`;

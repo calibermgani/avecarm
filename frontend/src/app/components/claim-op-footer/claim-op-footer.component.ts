@@ -34,6 +34,7 @@ export class ClaimOpFooterComponent implements OnInit {
   subscription2: Subscription;
   subscription3: Subscription;
   subscription4: Subscription;
+  subscription5: Subscription;
   public submitted_claims:string[]=[];
 
   public status_codes_data:Array<any> =[];
@@ -42,6 +43,9 @@ export class ClaimOpFooterComponent implements OnInit {
   public sub_options;
   public selected_claim_data:string[];
   public associates_options;
+  public err_type:any;
+  public err_val:any;
+  public errorCodeValue;
   minDate = undefined;
   constructor(
     private Jarwis: JarwisService,
@@ -54,11 +58,11 @@ export class ClaimOpFooterComponent implements OnInit {
     private date_config  : NgbDatepickerConfig,
 
   ) {
-    this.subscription=this.notes_handler.get_current_tab().subscribe(message => {this.set_current_tab(message);
-    });
-     this.subscription2=this.notes_handler.get_claim_details().subscribe(message => { this.set_status_codes(message) });
-     this.subscription3=this.notes_handler.get_notes().subscribe(message => { this.recieve_values(message) });
-     this.subscription4=this.notes_handler.process_get_notes().subscribe(message => { this.process_recieve_values(message) });
+    this.subscription=this.notes_handler.get_current_tab().subscribe(message => {this.set_current_tab(message); });
+    this.subscription2=this.notes_handler.get_claim_details().subscribe(message => { this.set_status_codes(message) });
+    this.subscription3=this.notes_handler.get_notes().subscribe(message => { this.recieve_values(message) });
+    this.subscription4=this.notes_handler.process_get_notes().subscribe(message => { this.process_recieve_values(message) });
+    this.subscription5=this.notes_handler.get_notes().subscribe(msg => { console.log(msg);this.receive_error_codes(msg) });
 
 
      const current = new Date();
@@ -121,13 +125,22 @@ public clear(): void {
       }
   }
 
-
+  public receive_error_codes(data:any){
+    //console.log(data);
+    this.err_val = data.note.notes_opt.error_types;
+    console.log(this.err_val);
+    this.err_val.forEach(ertype => {
+      this.err_type = ertype;
+      console.log(this.err_type);
+    });
+    this.errorvalues();
+  }
 
   //Set selected claim_details
   public set_status_codes(data:any)
   {
     
-    //alert(data);
+    console.log(data);
     this.selected_claim_data=[];
     this.selected_claim_data=data;
     console.log(this.selected_claim_data);
@@ -336,7 +349,8 @@ public clear(): void {
     }
 
     }
-   }
+  }
+  
 
   //Process and Display Claim Codes
   public process_codes(data:any)
@@ -501,6 +515,7 @@ public clear(): void {
   //Handle Validation of Notes
   public recieve_values(data:any)
   {
+    console.log('working');
      console.log("Notse data",data);
     if(this.notes_details.find(x => x.claim_no == this.active_tab))
     {
@@ -768,7 +783,7 @@ public clear(): void {
 
     this.claim_data=data;
 
-    console.log(this.claim_data);
+    //console.log(this.claim_data);
     // console.log("Claim_datra",this.claim_data);
   }
 
@@ -872,7 +887,29 @@ get_values()
       );
 }
 
+errorvalues(){
+  if (this.err_type !=null && this.err_type !='' && this.err_type !=undefined){
+    this.Jarwis.get_audit_codes(this.setus.getId()).subscribe(
+      data  => {
+        this.seterrcode(data);
+      }
+    );    
+  }
+}
+public seterrcode(value){
+  let errcode = value.err_types;
+  let evalue = errcode.find(x => x.id == this.err_type);
+  this.errorCodeValue = evalue.name;
+}
 
+public disableClaim(){
+  let disableClaim; 
+  if (this.errorCodeValue == 'Error' || this.errorCodeValue == 'FYI'){
+    disableClaim = this.formGroup.controls['closed'].disable();
+  }
+  this.claim_closed =false;
+  return disableClaim;
+}
 
   ngOnInit() {
 
@@ -916,19 +953,21 @@ get_values()
    }
     
 
-    console.log(this.formGroup.value);
+    //console.log(this.formGroup.value);
 
     if(this.router.url == '/followup')
     {
       if(this.tab == 'allocated'){
-        console.log(this.tab);
+        //console.log(this.tab);
         this.formGroup.removeControl('associates')
       }else{
-        console.log('this.tab');
+        //console.log('this.tab');
         this.formGroup.removeControl('associates')
       }
     }
 
+    /* this.errorvalues();
+    this.seterrcode(this.errorCodeValues); */
 
   }
 
@@ -940,6 +979,7 @@ ngOnDestroy(){
   this.subscription.unsubscribe();
   this.subscription2.unsubscribe();
   this.subscription3.unsubscribe();
+  this.subscription5.unsubscribe();
 
 }
 claimed() {
