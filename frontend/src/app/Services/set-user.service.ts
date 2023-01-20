@@ -69,6 +69,7 @@ export class SetUserService {
 
   setPractice(prac_id)
   {
+    localStorage.setItem('practice_name',prac_id.practice_name);
     localStorage.setItem('practice_id',prac_id.data);
     localStorage.setItem('role_id',prac_id.role);
   }

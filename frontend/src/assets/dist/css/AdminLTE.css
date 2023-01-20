@@ -609,6 +609,7 @@ a:focus {
     .sidebar-mini.sidebar-collapse .sidebar-menu > li > a > .pull-right,
     .sidebar-mini.sidebar-collapse .sidebar-menu li.header {
         display: none !important;
+        transform: translateZ(0);
         -webkit-transform: translateZ(0);
     }
     .sidebar-mini.sidebar-collapse .main-header .logo {
@@ -5046,8 +5047,9 @@ table.text-center th {
 .p-t-0{padding-top:0px;}
 .p-b-0{padding-bottom: 0px;}
 .p-l-0{padding-left: 0px;}
-.listing-table .table > tbody > tr > td{border-top: none; padding: 5px 7px !important;color:#363636;}
-.listing-table .table > thead > tr > th{background: #edf0f7; border-bottom: none;line-height: 12px;font-weight:600}
+.listing-table .table > tbody > tr > td{border-top: none; padding: 5px 7px !important;color:#363636;text-overflow: ellipsis;}
+.listing-table .table > thead > tr > th{background: #edf0f7; border-bottom: none;line-height: 12px;font-weight:600;white-space: nowrap;}
+.listing-table .table > thead > tr > th > i {color: #ccc;}
 .cur-pointer{cursor: pointer}
 .text-dark{color:#88919a;}
 .p-r-5{padding-right: 5px;}

@@ -251,6 +251,55 @@ export class ClaimsComponent implements OnInit {
     reader.readAsBinaryString(target.files[0]);
   }
 
+  onAutocc_FileChange(evt: any) {
+    /* wire up file reader */
+    const target: DataTransfer = <DataTransfer>(evt.target);
+    console.log(target.files.length);
+
+    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+    const reader: FileReader = new FileReader();
+
+    reader.onload = (e: any) => {
+      /* read workbook */
+      const bstr: string = e.target.result;
+
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+      /* grab first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+      /* save data */
+      this.data = (XLSX.utils.sheet_to_json(ws, { header: 2 }));
+      console.log(target.files[0]['name'].length);
+
+      if (this.data.length != 0 && target.files[0].type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && target.files[0]['name'].length <= 200) {
+        this.formdata.append('file_name', target.files[0]);
+
+        this.formdata.append('user_id', this.setus.getId());
+        console.log(this.formdata);
+
+        this.filenote = "";
+      }
+      else if (target.files[0]['name'].length > 200) {
+        this.autoclose_claim.controls.file.reset();
+        this.toastr.errorToastr('Upload another file.', 'File Name too long!');
+      }
+      else {
+        // console.log("Name",target.files[0]['name'].length);
+        this.autoclose_claim.controls.file.reset();
+        // this.filenote="Invalid File";
+
+        this.toastr.errorToastr('Invalid File.', 'Oops!');
+
+
+        // setTimeout(()=>{
+        //   this.filenote = "";
+        //   }, 1000);
+      }
+    };
+    reader.readAsBinaryString(target.files[0]);
+  }
+
   file_upload_id;
 
   public ignore_function() {

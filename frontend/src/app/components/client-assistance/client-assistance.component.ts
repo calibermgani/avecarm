@@ -1471,6 +1471,9 @@ public handleClaimsTooltip(data){
 
 public export_excel_files(type, table_name)
 {
+  console.log(table_name);
+  console.log(this.search);
+  console.log(this.claimsFind.value);
   this.Jarwis.fetch_client_claims_export_data(this.setus.getId(), table_name, this.search, this.claimsFind.value).subscribe(
       data  => this.export_handler.create_claim_export_excel(data),
       error => this.error_handler(error)

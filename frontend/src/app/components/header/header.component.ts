@@ -24,6 +24,8 @@ export class HeaderComponent implements OnInit  {
   public user_role : string=null;
   public touch_count:number;
   @ViewChild('confirm_modal') mymodal: ElementRef;
+
+  public practice_name;
   
   constructor(
     private Auth:AuthService,
@@ -103,6 +105,11 @@ update_user_role()
     this.Auth.changePractice();
   }
 
+  getprecticename(){
+    let str = localStorage.getItem('practice_name');
+    this.practice_name = str[0].toUpperCase() + str.slice(1);
+    console.log(this.practice_name);
+  }
 
   ngOnInit() {
     this.Auth.authStatus.subscribe(value => this.loggedIn = value);
@@ -113,8 +120,9 @@ update_user_role()
     // this.setus.change.subscribe(value => this.user_type = value,this.update_user_role());
     this.update_user_role();
     this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => { 
-      this.touch_count = message });
-
+    this.touch_count = message });
+    this.getprecticename();
+    
   }
 
   public alertValue(){

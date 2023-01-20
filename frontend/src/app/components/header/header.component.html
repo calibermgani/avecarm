@@ -136,10 +136,10 @@
     </nav>
 
     <nav class="navbar" style="background: #686c7d" *ngIf="loggedIn && practiceLogIn">
-        <div class="container">
+        <div class="container" style="padding:0">
         
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <div class="collapse navbar-collapse pull-left" id="navbar-collapse" style="padding:0">
                 <ul class="nav navbar-nav" (change)="monitor_change()">
                     <li routerLinkActive="active" *ngIf="user_type.includes('dashboard')" ><a routerLink="dashboard"><i class="fa fa-dashboard p-r-5 text-gray"></i> Dashboard
                             <span class="sr-only">(current)</span></a></li>
@@ -165,8 +165,9 @@
                 </ul>
 
             </div>
-            <div class="navbar-custom-menu" *ngIf="user_type.includes('practiceList')"> 
-                <button class="btn btn-info btn-xs btn-flat pull-right" style="margin-top:13px;"><a routerLink ="practiceList" (click)="changePractice()" style="color:#fff;">Change Practice &emsp;</a></button>
+            <div class="navbar-custom-menu" *ngIf="user_type.includes('practiceList')">                
+                <button class="btn btn-info btn-xs btn-flat pull-left" style="margin-top:13px;"><a routerLink ="practiceList" (click)="changePractice()" style="color:#fff;">Change Practice &emsp;</a></button>
+                <div class="pull-right prac-name" data-toggle="tooltip" title="{{practice_name}}" data-placement="bottom">{{practice_name}}</div>
             </div>
         </div>
     </nav>

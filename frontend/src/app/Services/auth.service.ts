@@ -150,6 +150,7 @@ export class AuthService {
 
   changePractice()
   {
+    localStorage.removeItem('practice_name');
     localStorage.removeItem('practice_id');
     localStorage.removeItem('role_id');
     this.set_us.set_type(null);
