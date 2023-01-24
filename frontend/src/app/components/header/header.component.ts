@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit  {
   public touch_count:number;
   @ViewChild('confirm_modal') mymodal: ElementRef;
 
+  public prac_storage;
   public practice_name;
   
   constructor(
@@ -102,13 +103,14 @@ update_user_role()
 
   changePractice()
   {
+    this.practice_name = '';
+    localStorage.removeItem('prac_storage');
     this.Auth.changePractice();
   }
 
-  /* getpracticename(){
-    let str = localStorage.getItem('practice_name');
-    this.practice_name = str[0].toUpperCase() + str.slice(1);
-  } */
+getpracname(){
+  
+}
 
   ngOnInit() {
     this.Auth.authStatus.subscribe(value => this.loggedIn = value);
@@ -120,8 +122,8 @@ update_user_role()
     this.update_user_role();
     this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => { 
     this.touch_count = message });
-    
-    this.Auth.practice_name.subscribe(res => this.practice_name = res);
+    this.setus.pracname.subscribe(data => this.practice_name = data);
+    console.log('practice_name', this.practice_name);
   }
 
   public alertValue(){

@@ -1,5 +1,5 @@
 import { Injectable,Output , EventEmitter } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { idLocale } from 'ngx-bootstrap';
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,9 @@ export class SetUserService {
   private change = new Subject<any>();
   private edit_permission = new Subject<any>();
   public user_role:string[];
+  public str;
+  public pr_name = new BehaviorSubject<any>('');
+  pracname = this.pr_name.asObservable();
   setId(token,data){
     localStorage.setItem('id', token);
     localStorage.setItem('name',data);
@@ -69,9 +72,14 @@ export class SetUserService {
 
   setPractice(prac_id)
   {
-    localStorage.setItem('practice_name',prac_id.practice_name);
+    console.log('123');      
     localStorage.setItem('practice_id',prac_id.data);
+    localStorage.setItem('pr_name',prac_id.practice_name);
     localStorage.setItem('role_id',prac_id.role);
+
+    if (localStorage.getItem('pr_name')){
+      this.get_prname();
+    }
   }
 
 
@@ -88,7 +96,11 @@ export class SetUserService {
     return this.display_error;
     }
   
-
-
-
+  
+  public get_prname(){  
+    this.str = localStorage.getItem('pr_name');
+    this.str = this.str[0].toUpperCase() + this.str.slice(1);
+    this.pr_name.next(this.str);
+    console.log(this.str);  
+  }
 }

@@ -243,3 +243,11 @@ select {
   margin-bottom: -14px;
   float: right;
 }
+
+.disabled-tooltip {
+  display: inline-block;
+}
+.disabled-tooltip button[disabled]{
+  pointer-events:none;
+}
+

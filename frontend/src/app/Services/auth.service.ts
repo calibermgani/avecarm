@@ -14,11 +14,8 @@ export class AuthService {
   public PracticelogIn = new BehaviorSubject<boolean>(false);
   authStatus = this.loggedIn.asObservable();
 
+  constructor(private Token: TokenService,private http: HttpClient,private myRoute: Router, private set_us :SetUserService) { }
   practiceStatus = this.PracticelogIn.asObservable();
-
-  public str = localStorage.getItem('practice_name');
-  public prac_name = new BehaviorSubject(this.str[0].toUpperCase() + this.str.slice(1));
-  practice_name = this.prac_name.asObservable();
 
   public validate = new BehaviorSubject<boolean>(this.Token.isValid());
   //private url: string = 'http://localhost:8000/api';
@@ -101,7 +98,7 @@ export class AuthService {
     if(!this.loggedIn.value)
     {
       this.errorhandler('error');
-    }    
+    }
   }
 
 
@@ -146,6 +143,8 @@ export class AuthService {
     {
       localStorage.removeItem('practice_id');
       localStorage.removeItem('role_id');
+      localStorage.removeItem('pr_name');
+      localStorage.removeItem('prac_storage');
       this.myRoute.navigate(["practiceList"]);
 
     }
@@ -154,9 +153,11 @@ export class AuthService {
 
   changePractice()
   {
-    localStorage.removeItem('practice_name');
     localStorage.removeItem('practice_id');
     localStorage.removeItem('role_id');
+    localStorage.removeItem('pr_name');
+    localStorage.removeItem('prac_storage');
+    window.localStorage.removeItem('pr_name');
     this.set_us.set_type(null);
     this.set_us.set_edit_type(null);
       this.PracticelogIn.next(false);
@@ -222,6 +223,5 @@ export class AuthService {
     this.loggedIn.next(value);
   } 
 
-  constructor(private Token: TokenService,private http: HttpClient,private myRoute: Router, private set_us :SetUserService, ) { }
 
 }
