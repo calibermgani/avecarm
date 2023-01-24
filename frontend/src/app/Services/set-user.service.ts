@@ -75,11 +75,8 @@ export class SetUserService {
     console.log('123');      
     localStorage.setItem('practice_id',prac_id.data);
     localStorage.setItem('pr_name',prac_id.practice_name);
-    localStorage.setItem('role_id',prac_id.role);
-
-    if (localStorage.getItem('pr_name')){
-      this.get_prname();
-    }
+    localStorage.setItem('role_id',prac_id.role); 
+    this.get_prname();   
   }
 
 
@@ -97,10 +94,15 @@ export class SetUserService {
     }
   
   
-  public get_prname(){  
-    this.str = localStorage.getItem('pr_name');
-    this.str = this.str[0].toUpperCase() + this.str.slice(1);
+  public get_prname(){ 
+    if (localStorage.getItem('pr_name') !=undefined && localStorage.getItem('pr_name') !=null && localStorage.getItem('pr_name') !=''){
+      this.str = localStorage.getItem('pr_name');
+      this.str = this.str[0].toUpperCase() + this.str.slice(1);
+    }
+    else {
+      this.str = null;
+    }
+    
     this.pr_name.next(this.str);
-    console.log(this.str);  
   }
 }

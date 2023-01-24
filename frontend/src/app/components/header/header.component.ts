@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit  {
   observalble: Subscription;
   subscibe:Subscription;
   subscription : Subscription;
+  subscription1 : Subscription;
   public loggedIn :boolean;
   public practiceLogIn :boolean;
   public user : string=null;
@@ -24,8 +25,6 @@ export class HeaderComponent implements OnInit  {
   public user_role : string=null;
   public touch_count:number;
   @ViewChild('confirm_modal') mymodal: ElementRef;
-
-  public prac_storage;
   public practice_name;
   
   constructor(
@@ -40,8 +39,8 @@ export class HeaderComponent implements OnInit  {
     private Jarwis: JarwisService,
   ) { 
     this.observalble=this.setus.update_role().subscribe(message => {this.user_type = message, this.update_user_role()} );
-
-    this.subscibe=this.notify_service.get_notify_data().subscribe(message => {  this.notify_data = message;
+    
+    this.subscibe=this.notify_service.get_notify_data().subscribe(message => {  this.notify_data = message,
 
       this.process_notify()
       
@@ -108,9 +107,6 @@ update_user_role()
     this.Auth.changePractice();
   }
 
-getpracname(){
-  
-}
 
   ngOnInit() {
     this.Auth.authStatus.subscribe(value => this.loggedIn = value);
@@ -118,11 +114,17 @@ getpracname(){
     this.loadingBar.start();
     this.notify_service.getuser_Id();
 
+    this.setus.get_prname();
+    this.subscription1 = this.setus.pracname.subscribe(data => {
+      console.log(data),
+      this.practice_name = data;
+    });
+    //this.getpracname();
     // this.setus.change.subscribe(value => this.user_type = value,this.update_user_role());
     this.update_user_role();
     this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => { 
     this.touch_count = message });
-    this.setus.pracname.subscribe(data => this.practice_name = data);
+    
     console.log('practice_name', this.practice_name);
   }
 
@@ -154,6 +156,12 @@ getpracname(){
 
   public handleError(error){
 
+  }
+
+  ngOnDestroy(){
+    if (this.subscription1){
+      this.subscription1.unsubscribe;
+    }
   }
 
 }
