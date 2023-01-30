@@ -2222,6 +2222,7 @@ class ImportController extends Controller
 
       // DB::enableQueryLog();
       $claim_data = $claim_data->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->get();
+      $claim_data = $this->arrange_claim_datas($claim_data);
       // $query = DB::getQueryLog();
   
       // dd($query);
