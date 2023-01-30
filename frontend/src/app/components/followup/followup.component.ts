@@ -31,6 +31,8 @@ export class FollowupComponent implements OnInit {
   selectedReAssigin: any;
   selectedClosed: any;
   alwaysShowCalendars: boolean;
+  selectedAge = null;
+  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
   ranges: any = {
     'Today': [moment(), moment()],
     'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -1929,6 +1931,7 @@ getSummary(){
 
     this.assignedClaimsFind = this.formBuilder.group({
       dos: [],
+      age_filter: [],
       claim_no: [],
       acc_no: [],
       patient_name: [],
@@ -1946,6 +1949,7 @@ getSummary(){
 
     this.reassignedClaimsFind = this.formBuilder.group({
       dos: [],
+      age_filter: [],
       claim_no: [],
       acc_no: [],
       patient_name: [],
@@ -1963,6 +1967,7 @@ getSummary(){
 
     this.closedClaimsFind = this.formBuilder.group({
       dos: [],
+      age_filter: [],
       claim_no: [],
       acc_no: [],
       patient_name: [],

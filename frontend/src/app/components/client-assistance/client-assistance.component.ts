@@ -56,6 +56,8 @@ export class ClientAssistanceComponent implements OnInit {
   update_monitor: Subscription;
   isopend=true;
   subscription : Subscription;
+  selectedAge = null;
+  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
 
   
 
@@ -194,6 +196,7 @@ sorting_name;
     if(type=="wo")
     {
       this.table_data=data.data;
+      console.log(this.table_data);
       this.selected_table_data=data.selected_claim_data;
       this.total_claims=data.count;
       // let ca_data=this.table_data;
@@ -206,6 +209,8 @@ sorting_name;
       this.total_rows = data.count;
     }else if(data.type =="wo"){
       this.table_data=data.data;
+      let agedata = data.data.age;
+      console.log(agedata);
       this.selected_table_data=data.selected_claim_data;
       this.total_claims=data.count;
       // let ca_data=this.table_data;
@@ -1369,6 +1374,7 @@ private _toggleMode(): void {
 
     this.claimsFind = this.formBuilder.group({
       dos: [],
+      age_filter: [],
       claim_no: [],
       acc_no: [],
       patient_name: [],

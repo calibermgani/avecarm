@@ -406,49 +406,67 @@
                                     <div class="box-body no-padding">
                                         <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
                                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Find My Search</h3>
+                                                <h3 class="box-title list-heading"><i class="fa fa-filter ar-blue"></i> Filters</h3>
+                                                <div class="box-tools pull-right">
+                                                    <button class="btn btn-box-tool collapsed" data-target="#ca_search" data-toggle="collapse" data-widget="collapse" type="button" aria-expanded="false" aria-controls="ca_search">
+                                                       <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                                    </button>                                                                                                 -->
+                                                 </div>
                                                 <!-- <div class="box-tools pull-right">
                                                     <input type="text" class="form-control pull-right" [formControl]="search_data" placeholder="Search.." style="width:300px;margin-top:1px;font-weight:normal;">
                                                 </div> -->
                                             </div>
-                                            <div class="box-body no-padding" style="margin-top:20px;">
-                                                <form [formGroup]="claimsFind" (ngSubmit)="claims_filter(1,null,null,null,null,null,null,'search')">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                            <label>DOS</label>
-                                                            <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="dos"  [(ngModel)]="selecteds" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
-                                                            <!-- <input type="text" name="field" ng-model="birthDate" ui-date-mask="DD-MM-YYYY"> -->
-                                                        </div>
-                                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                            <label>Claim No</label>
-                                                            <input type="text" class="form-control" formControlName='claim_no'>
-                                                        </div>
-                                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                            <label>Acc No</label>
-                                                            <input type="text" class="form-control" formControlName='acc_no'>
-                                                        </div>
-                                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                            <label>Patient Name</label>
-                                                            <input type="text" class="form-control" formControlName='patient_name'>
+                                            <div id="ca_search" class="collapse">
+                                                <div class="box-body no-padding" style="margin-top:20px;">
+                                                    <form [formGroup]="claimsFind" (ngSubmit)="claims_filter(1,null,null,null,null,null,null,'search')">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <label>DOS</label>
+                                                                <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="dos"  [(ngModel)]="selecteds" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                                <!-- <input type="text" name="field" ng-model="birthDate" ui-date-mask="DD-MM-YYYY"> -->
+                                                            </div>
+                                                            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <label>Age</label>                                                   
+                                                                <select class="form-control ngx-dropdown-button" formControlName="age_filter" aria-hidden="true" [(ngModel)]="selectedAge">
+                                                                   <option [ngValue]="null" selected>--Select Age--</option>
+                                                                   <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>                                                      
+                                                                </select>
+                                                             </div>
+                                                            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <label>Claim No</label>
+                                                                <input type="text" class="form-control" formControlName='claim_no'>
+                                                            </div>                                                        
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                                            <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                            <!-- <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                                                 <label>Total Charge</label>
                                                                 <input type="text" class="form-control" formControlName='total_charge'>
                                                             </div>
                                                             <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                                                 <label>Total AR</label>
                                                                 <input type="text" class="form-control" formControlName='total_ar'>
-                                                            </div>
+                                                            </div> -->
                                                             <!-- <div class="form-group col-lg-3">
                                                                 <label>Claim note</label>
                                                                 <input type="text" class="form-control" formControlName='claim_note'>
                                                             </div> -->
-                                                            <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <label>Acc No</label>
+                                                                <input type="text" class="form-control" formControlName='acc_no'>
+                                                            </div>
+                                                            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <label>Patient Name</label>
+                                                                <input type="text" class="form-control" formControlName='patient_name'>
+                                                            </div>
+                                                            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                                 <label>followup date</label>
                                                                 <input type="text" class="form-control" formControlName='followup_date'>
-                                                            </div>
-                                                            <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                            </div>                                              
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                                 <label>Insurance</label>
                                                                 <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="createWork" formControlName='insurance'>
                                                                 <option value="all" (selected)="createWork='all'">All</option>
@@ -457,77 +475,78 @@
                                                                 <option value="tertiary" (selected)="createWork='tertiary'">Tertiary Insurance</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
-                                                        <div [ngSwitch]="createWork">
-                                                            <div *ngSwitchCase="'primary'">
-                                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                <label>Primary Insurance</label>
-                                                                <input type="text" class="form-control" formControlName='prim_ins_name'>
-                                                                </div>
-                                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                <label>Primary Policy ID</label>
-                                                                <input type="text" class="form-control" formControlName='prim_pol_id'>
-                                                                </div>
-                                                            </div>
-                                                            <div *ngSwitchCase="'secondary'">
-                                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12" >
-                                                                <label>Secondary Insurance</label>
-                                                                <input type="text" class="form-control" formControlName='sec_ins_name'>
-                                                                </div>
-                                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                <label>Secondary Policy ID</label>
-                                                                <input type="text" class="form-control" formControlName='sec_pol_id'>
-                                                                </div>
-                                                            </div>
-                                                            <div *ngSwitchCase="'tertiary'">
-                                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                    <label>Tertiary Insurance</label>
-                                                                    <input type="text" class="form-control" formControlName='ter_ins_name'>
-                                                                </div>
-                                                                <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                    <label>Tertiary Policy ID</label>
-                                                                    <input type="text" class="form-control" formControlName='ter_pol_id'>
-                                                                </div>
-                                                            </div>
-                                                            <div *ngSwitchCase="'all'">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                        <label>Primary Insurance</label>
-                                                                        <input type="text" class="form-control" formControlName='prim_ins_name'>
+                                                            <div [ngSwitch]="createWork">
+                                                                <div *ngSwitchCase="'primary'">
+                                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <label>Primary Insurance</label>
+                                                                    <input type="text" class="form-control" formControlName='prim_ins_name'>
                                                                     </div>
-                                                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                        <label>Primary Policy ID</label>
-                                                                        <input type="text" class="form-control" formControlName='prim_pol_id'>
-                                                                    </div>
-                                                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                        <label>Secondary Insurance</label>
-                                                                        <input type="text" class="form-control" formControlName='sec_ins_name'>
-                                                                    </div>
-                                                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                                        <label>Secondary Policy ID</label>
-                                                                        <input type="text" class="form-control" formControlName='sec_pol_id'>
+                                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <label>Primary Policy ID</label>
+                                                                    <input type="text" class="form-control" formControlName='prim_pol_id'>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                                <div *ngSwitchCase="'secondary'">
+                                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12" >
+                                                                    <label>Secondary Insurance</label>
+                                                                    <input type="text" class="form-control" formControlName='sec_ins_name'>
+                                                                    </div>
+                                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <label>Secondary Policy ID</label>
+                                                                    <input type="text" class="form-control" formControlName='sec_pol_id'>
+                                                                    </div>
+                                                                </div>
+                                                                <div *ngSwitchCase="'tertiary'">
+                                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                                         <label>Tertiary Insurance</label>
                                                                         <input type="text" class="form-control" formControlName='ter_ins_name'>
                                                                     </div>
-                                                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                                         <label>Tertiary Policy ID</label>
                                                                         <input type="text" class="form-control" formControlName='ter_pol_id'>
                                                                     </div>
                                                                 </div>
+                                                                <div *ngSwitchCase="'all'">
+                                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                        <label>Primary Insurance</label>
+                                                                        <input type="text" class="form-control" formControlName='prim_ins_name'>
+                                                                    </div>
+                                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                        <label>Primary Policy ID</label>
+                                                                        <input type="text" class="form-control" formControlName='prim_pol_id'>
+                                                                    </div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">                                                                
+                                                                        <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <label>Secondary Insurance</label>
+                                                                            <input type="text" class="form-control" formControlName='sec_ins_name'>
+                                                                        </div>
+                                                                        <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <label>Secondary Policy ID</label>
+                                                                            <input type="text" class="form-control" formControlName='sec_pol_id'>
+                                                                        </div>
+                                                                        <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <label>Tertiary Insurance</label>
+                                                                            <input type="text" class="form-control" formControlName='ter_ins_name'>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">                                                                
+                                                                        <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <label>Tertiary Policy ID</label>
+                                                                            <input type="text" class="form-control" formControlName='ter_pol_id'>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </form>
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right">
-                                                        <input type="button" class="pull-right btn btn-search" value="Search" (click)="claims_filter(1,null,null,null,null,null,null,'search')">
+                                                        
+                                                    </form>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right">
+                                                            <input type="button" class="pull-right btn btn-search" value="Search" (click)="claims_filter(1,null,null,null,null,null,null,'search')">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -555,6 +574,8 @@
                                                                 <th (click)="order_list('wo','claim_no','null','null')" class="font600  line-height-24">Claim No<i class="fa fa-fw fa-sort"></i></th>
 
                                                                 <th (click)="order_list('wo','dos','null','null')" class="font600 line-height-24">DOS<i class="fa fa-fw fa-sort"></i></th>
+
+                                                                <th class="font600 line-height-24">Age<i class="fa fa-fw fa-sort"></i></th>
 
                                                                 <th (click)="order_list('wo','acct_no','null','null')" class="font600  line-height-24">Acct No<i class="fa fa-fw fa-sort"></i></th>
 
@@ -600,6 +621,8 @@
                                                                     <td [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" class="cur-pointer" (click)="open(claimpage);claimslection(tab_dat);" (mouseover)="tooltip(tab_dat)"><span *ngIf="tab_dat.claim_no==NULL">-Nil-</span><span *ngIf="tab_dat.claim_no!=NULL">{{tab_dat.claim_no}}</span></td>
 
                                                                     <td [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" class="cur-pointer dos-date" (mouseover)="tooltip(tab_dat)"><span *ngIf="tab_dat.dos==NULL">-Nil-</span><span *ngIf="tab_dat.dos!=NULL">{{tab_dat.dos  | date: 'MM/dd/yyyy'}}</span></td>
+
+                                                                    <td class="cur-pointer"><span *ngIf="tab_dat.age==NULL">-Nil-</span><span *ngIf="tab_dat.age!=NULL && tab_dat.age > 0">{{tab_dat.age}}</span><span *ngIf="tab_dat.age <= 0">0</span></td>
 
                                                                     <td [tooltip]="AccNo" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" class="cur-pointer" (click)="open(claimpage);claimslection(tab_dat);" (mouseover)="tooltip(tab_dat)"><span *ngIf="tab_dat.acct_no==NULL">-Nil-</span><span *ngIf="tab_dat.acct_no!=NULL">{{tab_dat.acct_no}}</span></td>
 
@@ -666,7 +689,7 @@
                                         <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
                                             <!-- /.box-header -->
                                             <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                                                <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Find My Search</h3>
+                                                <h3 class="box-title list-heading"><i class="fa fa-filter ar-blue"></i> Filters</h3>
                                                 <div class="box-tools pull-right">
                                                     <input type="text" class="form-control pull-right" style="width:300px;margin-top:1px;font-weight:normal" placeholder="Search..">
                                                 </div>

@@ -45,8 +45,11 @@ export class ClaimsComponent implements OnInit {
   associateCount: any = '';
   filter = '';
   assigned = "";
-  reAssigned = "";
-  claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];
+  reAssigned = "";  
+  status_list:any;
+  selectedAge = null;
+  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
+  claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];  
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -3424,6 +3427,7 @@ export class ClaimsComponent implements OnInit {
 
     this.closedClaimsFind = this.formBuilder.group({
       dos: [],
+      age_filter:[],
       claim_no: [],
       acc_no: [],
       patient_name: [],
@@ -3443,6 +3447,7 @@ export class ClaimsComponent implements OnInit {
     this.createClaimsFind = this.formBuilder.group({
       file_id: [],
       dos: [],
+      age_filter:[],
       claim_no: [],
       acc_no: [],
       patient_name: [],
@@ -3461,6 +3466,7 @@ export class ClaimsComponent implements OnInit {
 
     this.allClaimsFind = this.formBuilder.group({
       dos: [],
+      age_filter:[],
       claim_status: []
     });
 
@@ -3528,7 +3534,7 @@ export class ClaimsComponent implements OnInit {
     //   Validators.required
     // ])
     // });
-
+console.log(this.age_options);
 
 
     const debouncetime = pipe(debounceTime(700));
@@ -3651,6 +3657,17 @@ export class ClaimsComponent implements OnInit {
 
   }
 
+  public reload(){
+    window.location.reload();
+  }
+
+//Get Status codes from Backend
+public get_statuscodes()
+{
+  this.Jarwis.get_status_codes(this.setus.getId(),'all').subscribe(
+    data  => this.status_list = data['status']
+  );
+}
 
   public sort_claims(type) {
     if (type == 'acct_no') {

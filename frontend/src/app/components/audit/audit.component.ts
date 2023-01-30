@@ -19,9 +19,6 @@ import * as moment from 'moment';
   templateUrl: './audit.component.html',
   styleUrls: ['./audit.component.css'],
   encapsulation: ViewEncapsulation.None
-
-
-
 })
 export class AuditComponent implements OnInit {
 
@@ -44,6 +41,9 @@ export class AuditComponent implements OnInit {
   selectedDueDate: any;
   selectedCreatedAt: any;
   alwaysShowCalendars: boolean;
+  realloc_pages:number;
+  selectedAge = null;
+  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
 
   ranges: any = {
     'Today': [moment(), moment()],
@@ -2593,6 +2593,7 @@ graphStatus()
 
     this.auditClaimsFind = this.formBuilder.group({
       dos: [],
+      age_filter: [],
       claim_no: [],
       acc_no: [],
       patient_name: [],
@@ -2610,6 +2611,7 @@ graphStatus()
 
     this.assignedClaimsFind = this.formBuilder.group({
       dos: [],
+      age_filter: [],
       claim_no: [],
       acc_no: [],
       patient_name: [],
@@ -2628,6 +2630,7 @@ graphStatus()
 
     this.closedClaimsFind = this.formBuilder.group({
       dos: [],
+      age_filter: [],
       claim_no: [],
       acc_no: [],
       patient_name: [],
@@ -2792,6 +2795,7 @@ confirm_box()
       error => this.handleError(error)
     );
 }
+
 reassigned_claims(data){
   console.log(data);
   if(this.selected_claim_nos.length==0){
@@ -2806,6 +2810,51 @@ reassigned_claims(data){
     this.toastr.successToastr( 'Claim move to closed.');
   }
 }
+
+
+confirm_boxes(reassign)
+{
+    this.Jarwis.getdata(this.selected_claim_nos,this.setus.getId(),reassign).subscribe(
+      data  => this.reassigned_claims_datas(data),
+      error => this.handleError(error)
+
+    );
+}
+reassigned_claims_datas(data){
+  if(this.selected_claim_nos.length==0){
+      this.toastr.errorToastr('please select Claims');
+    }
+    for(let i=0;i<this.selected_claim_nos.length;i++)
+    {
+      var assigned_to=this.selected_claim_nos[i]['assigned_to'];
+      var assigned_by=this.selected_claim_nos[i]['assigned_by'];
+    }
+      if(data.assigned_to == data.assigned_by)
+      {
+        this.toastr.errorToastr('Unable to Reassign');
+        this.selected_claim_nos=[];
+
+      }
+      else{
+        let page_count=15;
+        // console.log("ip",type);
+        let form_type=null;
+        let type='reallocated';
+        let page = this.realloc_pages;
+              this.tab_load=true;
+        // this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,null,null,'null','null',null,null,null,null).subscribe(
+        //   data  => this.form_table(data,type,form_type),
+        //   error => this.handleError(error)
+        // );
+
+        this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,null,null,null,null,null,null,null,null).subscribe(
+          data  => this.form_table(data,type,form_type),
+          error => this.handleError(error)
+        );
+        this.toastr.successToastr( 'Reassigned Successfully');
+      }
+    }
+
   cancel_claims(){
     this.selected_claim_nos=[];
   }

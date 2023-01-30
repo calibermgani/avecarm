@@ -22,6 +22,7 @@ export class SettingsComponent implements OnInit {
   // userEdit: FormGroup;
   practiceGroup: FormGroup;
   settingSearch: FormGroup;
+  sampling:FormGroup;
   fields: string[];
   values: string[];
   closeResult : string;
@@ -36,13 +37,13 @@ export class SettingsComponent implements OnInit {
   public sub_status_list: string[];
   minDate = {year: 1900, month: 1, day: 1};
 
-
+  
   observalble: Subscription;
   constructor(private Jarwis: JarwisService,private formBuilder:FormBuilder,
     private modalService: NgbModal,private setus: SetUserService,public toastr: ToastrManager,private user_update:UserUpdateService) {
-      this.observalble=this.setus.update_edit_perm().subscribe(message => {this.check_edit_permission(message)} );
+    this.observalble=this.setus.update_edit_perm().subscribe(message => {this.check_edit_permission(message)} );    
 
-     }
+  }
   public form = {};
   field_name=[];
   public displayfields(data)
@@ -629,6 +630,20 @@ set_prac_settings(data)
   });
 }
 
+ //Configuration of Dropdown Search
+ config = {
+  displayKey:"description",
+  search:true,
+  result:'single'
+ }
+
+ get_users_list()
+{
+  this.Jarwis.get_users_list(this.setus.getId()).subscribe(
+    data => console.log(data)
+    );
+}
+
   ngOnInit() {
   this.getfields();
   this.get_category_data();
@@ -763,16 +778,31 @@ set_prac_settings(data)
               search_data: new FormControl('', [
                 Validators.required
               ]),
+            }); 
+            
+            this.sampling = new FormGroup({
+              experience:new FormControl(''),
+              month:new FormControl(''),
+              percentage:new FormControl(''),
+              statuscodes:new FormArray([new FormControl('')]),
             });
-}
-
-
-public onSearchChange(searchValue: string): void {
-  var event="123";
-    this.Jarwis.getfields(event,searchValue).subscribe(
-    data => this.displayfields(data)
-    );
-}
-
+            
+  }
+  public onSearchChange(searchValue: string): void {
+    var event="123";
+      this.Jarwis.getfields(event,searchValue).subscribe(
+      data => this.displayfields(data)
+      );
+  } 
+  
+  get statuscodes(): FormArray {  
+    return this.sampling.get("statuscodes") as FormArray;  
+  }  
+  addStatusField() {  
+    this.statuscodes.push(new FormControl(''));  
+  }    
+  removeStatusField(i:number) {  
+    this.statuscodes.removeAt(i);  
+  }
 
 }
