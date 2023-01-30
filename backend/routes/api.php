@@ -228,4 +228,11 @@ Route::group([
     Route::post('get_fyi_param_codes', 'AuditController@get_fyi_param_codes');
     Route::post('get_sub_error_param_codes', 'AuditController@get_sub_error_param_codes');
 
+    Route::post('import_parameter', 'ImportExportParameterController@importParameter');
+    Route::any('parent_export', 'ImportExportParameterController@parentExport');
+    Route::any('export_sub_parameter', 'ImportExportParameterController@exportSubParameter');
+
+    Route::post('get_sample_claims', 'SampleClaimController@get_sample_claims');
+    Route::post('get_practice_user_list', 'SampleClaimController@get_practice_user_list');
+
 });
