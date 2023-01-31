@@ -1378,8 +1378,6 @@ private _toggleMode(): void {
       claim_no: [],
       acc_no: [],
       patient_name: [],
-      total_charge: [],
-      total_ar: [],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],

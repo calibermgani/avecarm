@@ -37,6 +37,7 @@ export class AuditComponent implements OnInit {
 
   selecteds: any;
   selectedReAssigin: any;
+  selectedAssigin: any;
   selectedClosed: any;
   selectedDueDate: any;
   selectedCreatedAt: any;
