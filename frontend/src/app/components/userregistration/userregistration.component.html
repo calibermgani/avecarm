@@ -23,10 +23,10 @@
                      Special characters are not Allowed.
                   </div>
                   <div *ngIf="formGroup.controls['username'].hasError('minlength')" class="error">
-                     User Name Should Min 5 Numbers.
+                     User Name Should be Min 5 Characters.
                   </div>
                   <div *ngIf="formGroup.controls['username'].hasError('maxlength')" class="error">
-                     User Name Should Max 15 Numbers.
+                     User Name Should be Max 20 Characters.
                   </div>
                </div>
                <!-- <div class="alert-danger" style="font-size: 13px !important" [hidden]="!error">
@@ -45,10 +45,10 @@
                   </div>
                </div>
                <div *ngIf="formGroup.controls['password'].hasError('maxLength')" class="error">
-                  Password max 10 characters long.
+                  Password should be Max 15 characters long.
                </div>
                <div *ngIf="formGroup.controls['password'].hasError('minlength')" class="error">
-                  Password min 5 characters long.
+                  Password should be Min 5 characters long.
                </div>
             </div>
          </div>
@@ -60,6 +60,12 @@
                <div *ngIf="(formGroup.controls['firstname'].touched || submitted)">
                   <div *ngIf="formGroup.controls['firstname'].hasError('required')" class="error">
                      First Name is required
+                  </div>
+                  <div *ngIf="formGroup.controls['firstname'].hasError('minlength')" class="error">
+                     First Name should be Min 2 characters long.
+                  </div>
+                  <div *ngIf="formGroup.controls['firstname'].hasError('maxlength')" class="error">
+                     First Name should be Max 20 characters long.
                   </div>
                </div>
             </div>
@@ -146,7 +152,7 @@
                      City is required
                   </div>
                   <div *ngIf="formGroup.controls['city'].hasError('minlength')" class="error">
-                     City Should be Minimum 5 Characters.
+                     City Should be Minimum 2 Characters.
                   </div>
                </div>
             </div>
@@ -161,7 +167,7 @@
                      State is required
                   </div>
                   <div *ngIf="formGroup.controls['state'].hasError('minlength')" class="error">
-                     State Should be Minimum 5 Characters.
+                     State Should be Minimum 2 Characters.
                   </div>
                </div>
             </div>
@@ -175,8 +181,8 @@
                   <div *ngIf="formGroup.controls['zip'].hasError('required')" class="error">
                      Zip Code is required
                   </div>
-                  <div *ngIf="formGroup.controls['zip'].hasError('pattern')" class="error">
-                     Only Numbers are Allowed.
+                   <div *ngIf="formGroup.controls['zip'].hasError('pattern')" class="error">
+                     Only Numbers are Allowed for ZipCode.
                   </div>
                </div>
             </div>

@@ -264,6 +264,8 @@ ngOnInit() {
     this.formGroup = new FormGroup({
       username: new FormControl('', [
         Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(20),
         
       ]),
       password: new FormControl('', [
@@ -273,10 +275,12 @@ ngOnInit() {
       ]),
       firstname: new FormControl('', [
         Validators.required,
-        Validators.maxLength(10)
+        Validators.minLength(2),
+        Validators.maxLength(20),
       ]),
       lastname: new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.minLength(1)
       ]),
       dob : new FormControl('', [
         Validators.required
@@ -294,12 +298,12 @@ ngOnInit() {
       ]),
       city: new FormControl('', [
         Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(15),
+        Validators.minLength(2),
+        Validators.maxLength(25),
       ]),      
       state: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(2),
       ]),
       zip: new FormControl('', [
         Validators.required,
