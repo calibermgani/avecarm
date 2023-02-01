@@ -443,61 +443,118 @@
                      <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
                         <!-- /.box-header -->
                         <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                           <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Priority Status</h3>                        
+                        </div>
+                        <div class="box-body no-padding"  style="margin: 5px 0 8px 0;">
+                           <form [formGroup]="statusPriority">                         
+                              <div formArrayName="priority">
+                                 <div *ngFor="let prior of priority.controls; let i=index;" class="form-group">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:10px;">
+                                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                                          <label style="font-size:13px;padding:4px 5px 0 0">Select Status Code</label>
+                                       </div>
+                                       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                          <select [formControlName]="i" class="form-control ngx-dropdown-button">
+                                             <option value="">--Select Status--</option>
+                                             <option *ngFor="let data of status_list;" [ngValue]="{priority_level:i+1, id:data.id}">{{ data.description }}</option>
+                                          </select>
+                                       </div>
+                                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                          <span *ngIf="i != 0">
+                                             <button type="button" class="add btn btn-remove btn-xs" style="margin: 3px 10px 0 5px;" aria-label="Remove" (click)="removeStatusField(i)">
+                                                <span aria-hidden="true"><i class="fa fa-trash"></i></span>
+                                             </button>
+                                          </span>
+                                          <!-- <span *ngIf="i != 0" type="button" (click)="removeStatusField(i)"><i class="fa fa-trash" style="font-size:15px;padding:0 5px"></i></span> -->
+                                          <span *ngIf="priority.length == i+1">
+                                             <button type="button" class="add btn btn-add btn-xs" style="margin-top:3px;" aria-label="Add" (click)="addStatusField()">
+                                                <span aria-hidden="true"><i class="fa fa-plus"></i></span>
+                                             </button>
+                                          </span>                                          
+                                       </div>
+                                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                          
+                                       </div>
+                                    </div>                                   
+                                 </div>                                       
+                              </div>
+                           </form>
+                           <!-- {{this.statusPriority.value | json}}   -->
+                        </div>
+                     </div>                  
+                  </div>
+               </div>
+               <div class="box no-shadow no-border no-bottom">
+                  <div class="box-body no-padding" style="margin-bottom:15px">
+                     <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4;padding-bottom:15px;">
+                        <!-- /.box-header -->
+                        <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                            <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Audit Sampling</h3>                        
                         </div>
                         <div class="box-body no-padding"  style="margin-top: 20px;">
-                           <form [formGroup]="sampling">
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:10px">
-                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                    <label>User Name</label>
-                                 </div>
-                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <label>Select Experience</label>
-                                 </div>
-                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <label>For the Month of</label>
-                                 </div>
-                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <label>Audit Percentage</label>
-                                 </div>
-                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                    <label>Priority Status</label>
-                                 </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:10px">
+                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-center">
+                                 <label>User Name</label>
                               </div>
-                              
-                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                    <label>User1</label>
-                                 </div>
-                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" formControlName='experience'>
-                                       <option value="">--Select Experience--</option>
-                                       <option value="Fresher">Fresher</option>
-                                       <option value="Experienced">Experienced</option>
-                                    </select>
-                                 </div>
-                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <input type="text" class="form-control" ngxDaterangepickerMd [(ngModel)]="selecteds" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly formControlName='month'>
-                                 </div>
-                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <input class="form-control" type="text" formControlName='percentage'>
-                                 </div>
-                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                    <div formArrayName="statuscodes">
-                                       <div *ngFor="let statuscode of statuscodes.controls; let i=index" class="form-group">
-                                          <select [formControlName]="i">
-                                             <option *ngFor="let data of status_list" [ngValue]="[data.description,i+1]">{{ data.description }}</option>
-                                          </select>
-                                          <!-- <ngx-select-dropdown formControlName="status" [config]="config" [options]="status_list" style="width:80%;float:left"></ngx-select-dropdown> -->
-                                          
-                                       </div>                                       
-                                    </div> 
-                                    <span type="button" (click)="removeStatusField(i)"><i class="fa fa-trash" style="font-size:15px;color:red"></i></span>
-                                    <span type="button" (click)="addStatusField()"><i class="fa fa-plus-circle" style="font-size:15px"></i></span>                       
-                                 </div>                                 
+                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-center">
+                                 <label>Select Experience</label>
                               </div>
-                           </form>
-                           {{this.sampling.value | json}}  
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-center">
+                                 <label>For the Month of</label>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-center">
+                                 <label>Audit Percentage</label>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-center">
+                              </div>
+                           </div>
+                           <div *ngFor="let user of prac_user_list; let i = index">
+                              <form [formGroup]="sampling">                              
+                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:10px;">                                 
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-center">
+                                       <!-- <label>{{ user.user_name }}</label>    -->
+                                       <input type="hidden" name="user_id" value="user.id" formControlName="user_id" >                                 
+                                       <!-- <input type="hidden" name="SelectedUser" [value]="user.id" placeholder="{{user.user_name}}" [(ngModel)]="selectedUser" disabled formControlName="user"> -->
+                                       <!-- <input type="text" [value]="user.id" formControlName="user_id" placeholder="{{ user.user_name }}"> -->
+                                       <!-- <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" formControlName='user'>
+                                          <option value="">--Select User--</option>
+                                          <option *ngFor="let user of prac_user_list;" [value]="user.id">{{ user.user_name }}</option>
+                                       </select> -->
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                       <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" formControlName='experience'>
+                                          <option value="">--Select Experience--</option>
+                                          <option value="Fresher">Fresher</option>
+                                          <option value="Experienced">Experienced</option>
+                                       </select>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                       <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" formControlName='month'>
+                                          <option value="">--Select Month--</option>
+                                          <option value="January">January</option>
+                                          <option value="February">February</option>
+                                          <option value="March">March</option>
+                                          <option value="April">April</option>
+                                          <option value="May">May</option>
+                                          <option value="June">June</option>
+                                          <option value="July">July</option>
+                                          <option value="August">August</option>
+                                          <option value="September">September</option>
+                                          <option value="October">October</option>
+                                          <option value="November">November</option>
+                                          <option value="December">December</option>
+                                       </select>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                       <input class="form-control" type="text" formControlName='percentage'>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                       <button type="button" class="btn btn-primary btn-sm" (click)="saveSampling()">Save</button>
+                                    </div>
+                                 </div>                                            
+                              </form>
+                           </div>                           
+                           <!-- {{this.sampling.value | json}}   -->
                         </div>
                      </div>                  
                   </div>

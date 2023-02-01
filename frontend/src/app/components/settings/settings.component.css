@@ -99,3 +99,14 @@ td:last-child {
   right: 80px !important;
   top: 7px !important;
 }
+
+.btn-add{
+  color: #ffffff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+.btn-remove{
+  color: #ffffff;
+  background-color: #fd2b2b;
+  border-color: #990000;
+}

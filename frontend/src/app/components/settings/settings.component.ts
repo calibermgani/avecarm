@@ -22,6 +22,7 @@ export class SettingsComponent implements OnInit {
   // userEdit: FormGroup;
   practiceGroup: FormGroup;
   settingSearch: FormGroup;
+  statusPriority: FormGroup;
   sampling:FormGroup;
   fields: string[];
   values: string[];
@@ -35,6 +36,8 @@ export class SettingsComponent implements OnInit {
   statusCodes: FormGroup;
   public status_list: string[];
   public sub_status_list: string[];
+  public prac_user_list: any;
+  selectedUser:Number = 1;
   minDate = {year: 1900, month: 1, day: 1};
 
   
@@ -640,43 +643,50 @@ set_prac_settings(data)
  get_users_list()
 {
   this.Jarwis.get_users_list(this.setus.getId()).subscribe(
-    data => console.log(data)
+    data => {this.prac_user_list = data['user_list']; console.log(this.prac_user_list)}
     );
 }
 
+/* set_user_value(event){  
+  this.selectedUser = this.prac_user_list.find(x => x.id == event.target.value);
+  return this.selectedUser;
+} */
   ngOnInit() {
-  this.getfields();
-  this.get_category_data();
-  this.get_status_data();
-  this.formGroup = new FormGroup({
-    category_name: new FormControl('', [
-      Validators.required
-    ]),
-    label_name: new FormControl('', [
-      Validators.required
-    ]),
-    status: new FormControl('', [
-      Validators.required
-    ])
+    this.getfields();
+    this.get_category_data();
+    this.get_status_data();
+    this.get_users_list();
+    //this.set_user_value();
+    //this.sampling.controls.user_id.setValue(this.prac_user_list.id);
+    this.formGroup = new FormGroup({
+      category_name: new FormControl('', [
+        Validators.required
+      ]),
+      label_name: new FormControl('', [
+        Validators.required
+      ]),
+      status: new FormControl('', [
+        Validators.required
+      ])
     });
-  this.questionGroup = new FormGroup({
-    question: new FormControl('', [
-      Validators.required
-    ]),
-    hint: new FormControl('', [
-      Validators.required
-    ]),
-    field_type: new FormControl('', [
-      Validators.required
-    ]),
-    field_validation: new FormControl('', [
-      Validators.required
-    ]),
-    // date_type: new FormControl('', [
-    // ]),
-    status: new FormControl('', [
-      Validators.required
-    ])
+    this.questionGroup = new FormGroup({
+      question: new FormControl('', [
+        Validators.required
+      ]),
+      hint: new FormControl('', [
+        Validators.required
+      ]),
+      field_type: new FormControl('', [
+        Validators.required
+      ]),
+      field_validation: new FormControl('', [
+        Validators.required
+      ]),
+      // date_type: new FormControl('', [
+      // ]),
+      status: new FormControl('', [
+        Validators.required
+      ])
     });
 
     this.statusCode = new FormGroup({
@@ -693,116 +703,151 @@ set_prac_settings(data)
       aud_chk: new FormControl(),
       ca_chk: new FormControl(),
       rcm_chk: new FormControl()
-      });
+    });
 
-      this.subStatusCode = new FormGroup({
-        state_name: new FormControl('', [
-          Validators.required
-        ]),
-        status_code: new FormControl('', [
-          Validators.required
-        ]),
-        state_status: new FormControl('', [
-          Validators.required
-        ]),
-        foll_chk: new FormControl(),
+    this.subStatusCode = new FormGroup({
+      state_name: new FormControl('', [
+        Validators.required
+      ]),
+      status_code: new FormControl('', [
+        Validators.required
+      ]),
+      state_status: new FormControl('', [
+        Validators.required
+      ]),
+      foll_chk: new FormControl(),
       aud_chk: new FormControl(),
       ca_chk: new FormControl(),
       rcm_chk: new FormControl()
-        });
+    });
 
-//         this.userEdit = new FormGroup({
-//           username: new FormControl('', [
-//             Validators.required,
-//             Validators.pattern(/^[a-zA-Z]+\w*$/)
-//           ]),
-//           // password: new FormControl('', [
-//           //   Validators.required
-//           // ]),
-//           firstname: new FormControl('', [
-//             Validators.required
-//           ]),
-//           lastname: new FormControl('', [
-//             Validators.required
-//           ]),
-//           dob : new FormControl('', [
-//             Validators.required
-//           ]),
-//           phone: new FormControl('', [
-//             Validators.required,
-//             Validators.pattern(/^[0-9-]*$/),
-//             Validators.minLength(10)
+    //         this.userEdit = new FormGroup({
+    //           username: new FormControl('', [
+    //             Validators.required,
+    //             Validators.pattern(/^[a-zA-Z]+\w*$/)
+    //           ]),
+    //           // password: new FormControl('', [
+    //           //   Validators.required
+    //           // ]),
+    //           firstname: new FormControl('', [
+    //             Validators.required
+    //           ]),
+    //           lastname: new FormControl('', [
+    //             Validators.required
+    //           ]),
+    //           dob : new FormControl('', [
+    //             Validators.required
+    //           ]),
+    //           phone: new FormControl('', [
+    //             Validators.required,
+    //             Validators.pattern(/^[0-9-]*$/),
+    //             Validators.minLength(10)
 
-//           ]),
-//           address1: new FormControl('', [
-//             Validators.required
-//           ]),
-//           address2: new FormControl('', [
-//             Validators.required
-//           ]),
-//           city: new FormControl('', [
-//             Validators.required
-//           ]),
-//           state: new FormControl('', [
-//             Validators.required
-//           ]),
-//           zip: new FormControl('', [
-//             Validators.required,
-//              Validators.pattern(/^[0-9-]*$/)
-//           ]),
-//           role: new FormControl('', [
-//             Validators.required
-//           ]),
-//       assign_limit: new FormControl('',[Validators.pattern(/^[0-9-]*$/)]),
-//       caller_benchmark: new FormControl('',[Validators.pattern(/^[0-9-]*$/)])
-//  });
+    //           ]),
+    //           address1: new FormControl('', [
+    //             Validators.required
+    //           ]),
+    //           address2: new FormControl('', [
+    //             Validators.required
+    //           ]),
+    //           city: new FormControl('', [
+    //             Validators.required
+    //           ]),
+    //           state: new FormControl('', [
+    //             Validators.required
+    //           ]),
+    //           zip: new FormControl('', [
+    //             Validators.required,
+    //              Validators.pattern(/^[0-9-]*$/)
+    //           ]),
+    //           role: new FormControl('', [
+    //             Validators.required
+    //           ]),
+    //       assign_limit: new FormControl('',[Validators.pattern(/^[0-9-]*$/)]),
+    //       caller_benchmark: new FormControl('',[Validators.pattern(/^[0-9-]*$/)])
+    //  });
 
-          this.statusCodes = new FormGroup({
-            name: new FormControl('', [
-              Validators.required
-            ]),
-            status: new FormControl('', [
-              Validators.required
-            ])
-            });
+    this.statusCodes = new FormGroup({
+      name: new FormControl('', [
+        Validators.required
+      ]),
+      status: new FormControl('', [
+        Validators.required
+      ])
+    });
 
+    this.practiceGroup = new FormGroup({
+      touch_limit: new FormControl('1', [
+        Validators.required,
+        Validators.pattern(/^[0-9-]*$/)
+      ])
+    });
 
-            this.practiceGroup = new FormGroup({
-              touch_limit: new FormControl('1', [
-                Validators.required,
-                Validators.pattern(/^[0-9-]*$/)
-              ])
-              });
+    this.settingSearch = new FormGroup({
+      search_data: new FormControl('', [
+        Validators.required
+      ]),
+    }); 
 
-            this.settingSearch = new FormGroup({
-              search_data: new FormControl('', [
-                Validators.required
-              ]),
-            }); 
-            
-            this.sampling = new FormGroup({
-              experience:new FormControl(''),
-              month:new FormControl(''),
-              percentage:new FormControl(''),
-              statuscodes:new FormArray([new FormControl('')]),
-            });
-            
+    this.statusPriority = new FormGroup({
+      priority: new FormArray([new FormControl ('')]),
+    });
+      
+    this.sampling = new FormGroup({      
+      user_id:new FormControl(''),
+      experience:new FormControl(''),
+      month:new FormControl(''),
+      percentage:new FormControl(''),
+    });           
   }
+
   public onSearchChange(searchValue: string): void {
     var event="123";
       this.Jarwis.getfields(event,searchValue).subscribe(
       data => this.displayfields(data)
       );
   } 
+
+ /*  addSamplingGroup(): FormGroup {
+    return new FormGroup({
+      user:new FormControl(''),
+      experience:new FormControl(''),
+      month:new FormControl(''),
+      percentage:new FormControl(''),
+    });
+  }
+
+  addSamplingUser(): void {
+    this.sampling_datas.push(this.addSamplingGroup());
+  }
+ 
+  //Remove Fields
+  removeSamplingUser(index: number): void {
+    this.sampling_datas.removeAt(index);
+  }
+  //Fields Array
+  get sampling_datas(): FormArray {
+    return <FormArray>this.sampling.get('sampling_datas');
+  } */
+
+  selectuser(event){
+    this.selectedUser = event.target.value;
+    console.log(this.selectedUser);
+    return this.selectedUser;
+  }
+
+  saveSampling(){
+    console.log(this.sampling.value);
+  }
   
-  get statuscodes(): FormArray {  
-    return this.sampling.get("statuscodes") as FormArray;  
+  get priority(): FormArray {  
+    return this.statusPriority.get("priority") as FormArray;  
   }  
-  addStatusField() {  
-    this.statuscodes.push(new FormControl(''));  
+  addStatusField() { 
+    this.priority.push(new FormControl(''));  
   }    
   removeStatusField(i:number) {  
-    this.statuscodes.removeAt(i);  
-  }
+    this.priority.removeAt(i);  
+  } 
 
 }
