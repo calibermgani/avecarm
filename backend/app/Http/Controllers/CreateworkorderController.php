@@ -2262,7 +2262,7 @@ class CreateworkorderController extends Controller
                         $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
                         $selected_claim_data->where('dos', 'LIKE', '%' . $search_claim_no . '%');
-                      } 
+                      }
 
                     }else{
                         if(!empty($sorting_name)){
@@ -2281,6 +2281,9 @@ class CreateworkorderController extends Controller
 
 
 
+                    
+                    
+                    
                     $claim_data = $claim_data->get();
 
                     $current_total = $claim_data->count();
@@ -2318,7 +2321,7 @@ class CreateworkorderController extends Controller
                       $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
                     })->where('qc_notes.deleted_at', '=', NULL)->whereIn('qc_notes.error_type', ['[2]','[3]'])->where('claim_no',  $values)->where('followup_associate', $user_id)->whereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
                     // $claim_data[] = DB::table('import_fields')->leftJoin('qc_notes', 'qc_notes.claim_id', '=', 'import_fields.claim_no')->WhereIn('qc_notes.error_type', ['[2]','[3]'])->where('claim_no',  $values)->where('assigned_to', $user_id)->WhereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
-                  $quries = DB::getQueryLog();
+                  // $quries = DB::getQueryLog();
                   // dd($quries);
                 }
                   // log::debug($quries);
