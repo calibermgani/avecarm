@@ -50,6 +50,7 @@ export class ClaimsComponent implements OnInit {
   selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];  
+  decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -3436,6 +3437,7 @@ export class ClaimsComponent implements OnInit {
       responsibility: [],
       total_charge: [],
       total_ar: [],
+      rendering_provider:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -3455,7 +3457,10 @@ export class ClaimsComponent implements OnInit {
       patient_name: [],
       responsibility: [],
       total_charge: [],
-      total_ar: [],
+      total_ar: new FormControl('', [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),
       rendering_provider:[],
       claim_note: [],
       insurance: [],
