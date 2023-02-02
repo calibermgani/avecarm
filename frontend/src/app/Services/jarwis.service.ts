@@ -669,6 +669,15 @@ get_users_list(user)
   let data={user_id:user,practicedb_id:localStorage.getItem('practice_id')};
   // console.log(data);
   //return this.http.post(`${this.baseUrl}/get_users_list`, data);
+  let response= this.common_url('get_users_list', data);
+  return response;
+}
+
+get_practice_user_list(user)
+{
+  let data={user_id:user,practicedb_id:localStorage.getItem('practice_id')};
+  // console.log(data);
+  //return this.http.post(`${this.baseUrl}/get_users_list`, data);
   let response= this.common_url('get_practice_user_list', data);
   return response;
 }

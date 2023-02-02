@@ -3456,6 +3456,7 @@ export class ClaimsComponent implements OnInit {
       responsibility: [],
       total_charge: [],
       total_ar: [],
+      rendering_provider:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],

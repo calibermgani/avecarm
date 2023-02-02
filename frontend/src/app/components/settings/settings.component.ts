@@ -1,4 +1,4 @@
-import { Component, OnInit ,ChangeDetectionStrategy,ViewEncapsulation} from '@angular/core';
+import { Component, OnInit ,ChangeDetectionStrategy,ViewEncapsulation, AfterViewInit} from '@angular/core';
 import { JarwisService } from '../../Services/jarwis.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators,FormArray,FormBuilder } from "@angular/forms";
@@ -12,7 +12,7 @@ import { UserUpdateService } from '../../Services/user-update.service';
   styleUrls: ['./settings.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit,AfterViewInit {
   formGroup: FormGroup;
   questionGroup: FormGroup;
   statusCode: FormGroup;
@@ -37,7 +37,7 @@ export class SettingsComponent implements OnInit {
   public status_list: string[];
   public sub_status_list: string[];
   public prac_user_list: any;
-  selectedUser:Number = 1;
+  selectedUser:any;
   minDate = {year: 1900, month: 1, day: 1};
 
   
@@ -640,23 +640,24 @@ set_prac_settings(data)
   result:'single'
  }
 
- get_users_list()
+ get_practice_user_list()
 {
-  this.Jarwis.get_users_list(this.setus.getId()).subscribe(
+  this.Jarwis.get_practice_user_list(this.setus.getId()).subscribe(
     data => {this.prac_user_list = data['user_list']; console.log(this.prac_user_list)}
     );
 }
 
-/* set_user_value(event){  
-  this.selectedUser = this.prac_user_list.find(x => x.id == event.target.value);
-  return this.selectedUser;
-} */
+set_user_value(){
+  console.log(this.prac_user_list);
+      
+    //console.log(this.prac_user_list[0].id); 
+}
   ngOnInit() {
     this.getfields();
     this.get_category_data();
     this.get_status_data();
-    this.get_users_list();
-    //this.set_user_value();
+    this.get_practice_user_list();
+    
     //this.sampling.controls.user_id.setValue(this.prac_user_list.id);
     this.formGroup = new FormGroup({
       category_name: new FormControl('', [
@@ -792,15 +793,20 @@ set_prac_settings(data)
     this.statusPriority = new FormGroup({
       priority: new FormArray([new FormControl ('')]),
     });
-      
+    
     this.sampling = new FormGroup({      
       user_id:new FormControl(''),
       experience:new FormControl(''),
       month:new FormControl(''),
       percentage:new FormControl(''),
-    });           
+    });
+               
   }
 
+
+  ngAfterViewInit(){
+    // this.set_user_value();
+  }
   public onSearchChange(searchValue: string): void {
     var event="123";
       this.Jarwis.getfields(event,searchValue).subscribe(
@@ -837,6 +843,14 @@ set_prac_settings(data)
   }
 
   saveSampling(){
+    /* this.prac_user_list.forEach(value => {
+      let userId = value; 
+      this.selectedUser.push(userId);
+      for(let i =0;i < this.selectedUser.length; i++){
+        this.sampling.get('user_id').setValue(this.selectedUser[i]['id']);
+      }
+    }); */    
+  //this.sampling.get('user_id').setValue(this.selectedUser);
     console.log(this.sampling.value);
   }
   
