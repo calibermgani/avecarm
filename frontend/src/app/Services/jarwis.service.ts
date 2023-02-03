@@ -1174,7 +1174,7 @@ get_setting_importsearch(searchValue){
 
 get_user_role(data){
   let datas={data:data};
-  let response = this.common_url('get_user_role', datas);
+  let response = this.common_url('getroles', datas);
   return response;
  // return this.http.post(`${this.baseUrl}/getroles`,{});
 }

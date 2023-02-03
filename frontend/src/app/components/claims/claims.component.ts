@@ -52,7 +52,10 @@ export class ClaimsComponent implements OnInit {
   claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];  
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
   selectedPayerName= null;
-  payer_list:any = ['insurance1','insurance2','insurance3','insurance4']
+  payer_list:any = ['insurance1','insurance2','insurance3','insurance4'];
+  isSelectedAll = false;
+
+  @ViewChildren('pageRow') private pageRows: QueryList<ElementRef<HTMLTableRowElement>>;
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -1618,6 +1621,14 @@ export class ClaimsComponent implements OnInit {
 
   }
   //Select all Check
+
+  selectAll(isChecked: boolean) {
+    this.isSelectedAll = !this.isSelectedAll;
+    const indices = (this.pageRows.toArray().map(vcr => +vcr.nativeElement.dataset.index));
+    this.table_datas.filter(i => indices.indexOf(i.index) > -1)
+    .forEach(i => i.checked = this.isSelectedAll);
+  }
+
   // public select_all(event)
   // {
   // if(event.target.checked == true)
@@ -1646,6 +1657,7 @@ export class ClaimsComponent implements OnInit {
   //Selected Claim Sorting
   public selected(event, claim, index) {
     console.log(this.selected_claim_nos);
+    
     if (claim == 'all' && event.target.checked == true) {
       // for(let i=0;i<index;i++){
       //   var selected_claim_datas;
@@ -3591,11 +3603,18 @@ console.log(this.age_options);
   user_role: Number = 0;
   user_role_maintainer() {
     let role_id = Number(this.setus.get_role_id());
+    console.log(role_id);
     if (role_id == 5 || role_id == 3 || role_id == 2) {
       this.user_role = 2;
     }
     else if (role_id == 1) {
       this.user_role = 1;
+    }
+    else if (role_id == 16){
+      this.user_role = 16;
+    }
+    else if (role_id == 11){
+      this.user_role = 16;
     }
   }
 

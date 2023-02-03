@@ -6,15 +6,15 @@
             <ngx-loading-bar color="#f39c12"></ngx-loading-bar>
             <div class="tabs nav-tabs-custom">
                <ul class="tabs nav nav-tabs" id="myTab">
-                  <li class="active"><a href="#tab_1" (click)="get_graph_stats()" role="tab" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-file-text"></i> Analytics <span class="tab-divider">|</span></a></li>
-                  <li class=""><a href="#tab_2" (click)="pageChange(1,'claim')" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> Create Work Orders <span class="tab-divider">|</span></a></li>
-                  <li><a href="#tab_4" data-toggle="tab" style="padding-left: 0px;" aria-expanded="true" (click)="get_workorder(null,null,null,1,wo_page_number,null,null,'null','null',null);"><i class="fa fa-list"></i> Work Orders <span class="tab-divider">|</span></a></li>
-                  <li ><a href="#tab_5" data-toggle="tab" style="padding-left: 0px;" aria-expanded="true" (click)="get_workorder('closedClaims',null,null,1,wo_page_number,null,null,'null','null',null,null,null,null);"><i class="fa fa-drivers-license"></i> Closed Claims <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 1 || user_role == 2)"><a href="#rework" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null','null','null');" ><i class="fa fa-check"></i> Rework Claims <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 1 || user_role == 2)"><a href="#assigned" data-toggle="tab" style="padding-left: 0px;" (click)="get_workorder('assignedClaims',null,null,1,wo_page_number,null,null,'null','null',null,null,null,null);" ><i class="fa fa-share"></i> Assigned Claims <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 1 || user_role == 2)"><a href="#re_assigned" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'reallocated','null','null','null','null');"><i class="fa fa-retweet"></i>Reassigned Claims <span class="tab-divider">|</span></a></li>
-                  <li><a href="#tab_3" (click)="reload_datas(1);clear()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-upload"></i> Import <span class="tab-divider">|</span></a></li>
-                  <li class=""><a href="#tab_6" (click)="pageChange(1,'all_claim');get_statuscodes()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> All Claims</a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)" class="active"><a href="#tab_1" (click)="get_graph_stats()" role="tab" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-file-text"></i> Analytics <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)" class=""><a href="#tab_2" (click)="pageChange(1,'claim')" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> Create Work Orders <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)"><a href="#tab_4" data-toggle="tab" style="padding-left: 0px;" aria-expanded="true" (click)="get_workorder(null,null,null,1,wo_page_number,null,null,'null','null',null);"><i class="fa fa-list"></i> Work Orders <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)"><a href="#tab_5" data-toggle="tab" style="padding-left: 0px;" aria-expanded="true" (click)="get_workorder('closedClaims',null,null,1,wo_page_number,null,null,'null','null',null,null,null,null);"><i class="fa fa-drivers-license"></i> Closed Claims <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#rework" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null','null','null');" ><i class="fa fa-check"></i> Rework Claims <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#assigned" data-toggle="tab" style="padding-left: 0px;" (click)="get_workorder('assignedClaims',null,null,1,wo_page_number,null,null,'null','null',null,null,null,null);" ><i class="fa fa-share"></i> Assigned Claims <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#re_assigned" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'reallocated','null','null','null','null');"><i class="fa fa-retweet"></i>Reassigned Claims <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#tab_3" (click)="reload_datas(1);clear()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-upload"></i> Import <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2 || user_role == 16)" class=""><a href="#tab_6" (click)="pageChange(1,'all_claim');get_statuscodes()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> All Claims</a></li>
 
                </ul>
                <div class="tab-content no-padding">
@@ -105,7 +105,7 @@
                                                 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                       <label>Payer Name</label>                                                      
-                                                      <ngx-select-dropdown formControlName="payer_name" [config]="configure" [options]="payer_list" multiple="false" [(ngModel)]="selectedPayerName"></ngx-select-dropdown>
+                                                      <ngx-select-dropdown formControlName="payer_name" [config]="configure" [options]="payer_list" [(ngModel)]="selectedPayerName"></ngx-select-dropdown>
                                                    </div>
                                                 </div>
                                                 <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -186,16 +186,16 @@
                                                    </div>
                                                 </div> -->
                                              </div>
+                                             <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
+                                                   <input type="button" class="pull-right btn btn-search" value="Search" (click)="createClaims_search(1,'claim', 'null', 'null','null','null','null','search')">
+                                                </div>
+                                             </div>
                                           </div>
                                        </form>
                                        <div>
                                           <p>{{roles.file_name}}</p>
-                                       </div>
-                                       <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
-                                          <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
-                                             <input type="button" class="pull-right btn btn-search" value="Search" (click)="createClaims_search(1,'claim', 'null', 'null','null','null','null','search')">
-                                          </div>
-                                       </div>
+                                       </div>                                       
                                     </div>
                                  </div>
                               </div>
@@ -2445,7 +2445,12 @@
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
-                                                   <input type="text" class="form-control" formControlName="total_ar">
+                                                   <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
+                                                   <div *ngIf="(createClaimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                      <div *ngIf="createClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
+                                                         please provide correct format
+                                                      </div>
+                                                   </div>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Rendering Provider</label>
@@ -2525,13 +2530,13 @@
                                                    </div>
                                                 </div>
                                              </div> -->
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
+                                                 <input type="button" class="pull-right btn btn-search" value="Search" (click)="closedClaims_search('closedClaims',0, 0, 1,'null','null','null','null','null','null','search')">
+                                                 </div>
+                                              </div>
                                           </div>
-                                       </form>
-                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                         <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
-                                          <input type="button" class="pull-right btn btn-search" value="Search" (click)="closedClaims_search('closedClaims',0, 0, 1,'null','null','null','null','null','null','search')">
-                                          </div>
-                                       </div>
+                                       </form>                                       
                                     </div>
                                     <!-- <button class="pull-right btn btn-search closedfind-button" (click)="closedClaims_search('closedClaims',0, 0, 1,'null','null','null','null','null','null','search')">Search</button> -->
                                  </div>

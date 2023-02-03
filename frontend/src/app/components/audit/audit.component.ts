@@ -35,7 +35,14 @@ export class AuditComponent implements OnInit {
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
+  public status_codes_data:Array<any> =[];
+  public sub_status_codes_data:string[];
+  public status_options;
+  public sub_options;
   selecteds: any;
+  select_date: any;
+  assigned_select_date: any;
+  closed_select_date: any;
   selectedReAssigin: any;
   selectedAssigin: any;
   selectedClosed: any;
@@ -45,6 +52,7 @@ export class AuditComponent implements OnInit {
   realloc_pages:number;
   selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
+  decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
 
   ranges: any = {
     'Today': [moment(), moment()],
@@ -980,6 +988,147 @@ public process_display_notes(data,type)
       data  => this.display_notes(data,type),
       error => this.handleError(error)
     );
+  }
+
+  //Get Status codes from Backend
+  public get_statuscodes()
+  {
+    this.Jarwis.get_status_codes(this.setus.getId(),'all').subscribe(
+      data  => this.process_codes(data)
+    );
+  }
+
+  public process_codes(data:any)
+  {
+    let status_option=[];
+    this.status_codes_data=data.status;
+    this.sub_status_codes_data=data.sub_status;
+    for(let i=0;i<this.status_codes_data.length;i++)
+    {
+      if(this.status_codes_data[i]['status']==1)
+      {
+        // alert(this.status_codes_data[i]['status_code']);
+        status_option.push({id: this.status_codes_data[i]['id'], description: this.status_codes_data[i]['status_code'] +'-'+ this.status_codes_data[i]['description'] } );
+      }
+    }
+    this.status_options=status_option;
+  }
+
+  public status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.auditClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.auditClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.auditClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  }
+
+  public assign_status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.assignedClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.assignedClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.assignedClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  }
+
+  public closed_status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.closedClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.closedClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.closedClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
   }
 
 get_audit_codes()
@@ -2599,7 +2748,15 @@ graphStatus()
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: [],
+      total_ar: new FormControl('', [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),
+      status_code: new FormControl(''),
+      sub_status_code: new FormControl(''),
+      rendering_provider:[],
+      responsibility: [],
+      date:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -2617,7 +2774,15 @@ graphStatus()
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: [],
+      total_ar: new FormControl('', [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),
+      status_code: new FormControl(''),
+      sub_status_code: new FormControl(''),
+      rendering_provider:[],
+      responsibility: [],
+      date:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -2636,7 +2801,14 @@ graphStatus()
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: [],
+      total_ar: new FormControl('', [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),
+      status_code: new FormControl(''),
+      sub_status_code: new FormControl(''),
+      rendering_provider:[],
+      responsibility: [],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -2714,6 +2886,7 @@ this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
 
 ngAfterViewInit()
 {
+  this.get_statuscodes();
   if(this.touch_count == undefined)
   {
     this.touch_count=this.notify_service.manual_touch_limit();
