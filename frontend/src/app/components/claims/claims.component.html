@@ -102,6 +102,12 @@
                                                    <label>Rendering Provider</label>
                                                    <input type="text" class="form-control" formControlName="rendering_provider">
                                                 </div>
+                                                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
+                                                   <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                      <label>Payer Name</label>                                                      
+                                                      <ngx-select-dropdown formControlName="payer_name" [config]="configure" [options]="payer_list" multiple="false" [(ngModel)]="selectedPayerName"></ngx-select-dropdown>
+                                                   </div>
+                                                </div>
                                                 <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Insurance</label>
                                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="createWork" formControlName="insurance">

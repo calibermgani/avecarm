@@ -51,11 +51,19 @@ export class ClaimsComponent implements OnInit {
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];  
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
+  selectedPayerName= null;
+  payer_list:any = ['insurance1','insurance2','insurance3','insurance4']
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
 
   //selected: any;
+
+  configure = {
+    displayKey:"description",
+    search:true,
+    result:'single'
+   }
 
 
 
@@ -174,6 +182,8 @@ export class ClaimsComponent implements OnInit {
     this.alwaysShowCalendars = true;
   }
 
+  
+
   //Red Alerrt Box
   private _opened: boolean = false;
   private isOpen: boolean = false;
@@ -207,6 +217,8 @@ export class ClaimsComponent implements OnInit {
       this._modeNum = 0;
     }
   }
+
+  
 
   onFileChange(evt: any) {
     /* wire up file reader */
@@ -430,6 +442,8 @@ export class ClaimsComponent implements OnInit {
   handleError(error) {
     console.log(error);
   }
+
+  
 
   // private getclaims()
   // {
@@ -1596,6 +1610,7 @@ export class ClaimsComponent implements OnInit {
   public check_all_assign(page, event) {
     if (event.target.checked == true) {
       this.check_all[page] = true;
+      console.log(this.check_all[page]);
     }
     else {
       this.check_all[page] = false;
@@ -1632,10 +1647,13 @@ export class ClaimsComponent implements OnInit {
   public selected(event, claim, index) {
     console.log(this.selected_claim_nos);
     if (claim == 'all' && event.target.checked == true) {
+      // for(let i=0;i<index;i++){
+      //   var selected_claim_datas;
+      //   selected_claim_datas.push(this.selected_claim_data[i]);
+      // }
       let selected_claim_data = this.selected_claim_data;
       let claim_nos = this.selected_claim_nos;
       let claim_data = this.selected_claims;
-
       selected_claim_data.forEach(function (value) {
         let keys = value;
         if (!claim_nos.includes(keys['claim_no'])) {
@@ -1654,7 +1672,6 @@ export class ClaimsComponent implements OnInit {
         let ind = this.selected_claim_nos.indexOf(claim);
         this.selected_claims.splice(ind, 1);
         this.selected_claim_nos.splice(ind, 1);
-
       }
 
       // this.selected_claims=[];
@@ -3436,7 +3453,10 @@ export class ClaimsComponent implements OnInit {
       patient_name: [],
       responsibility: [],
       total_charge: [],
-      total_ar: [],
+      total_ar: new FormControl('', [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),
       rendering_provider:[],
       claim_note: [],
       insurance: [],
@@ -3462,6 +3482,7 @@ export class ClaimsComponent implements OnInit {
         Validators.pattern(this.decimal_pattern),
       ]),
       rendering_provider:[],
+      payer_name:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -3473,7 +3494,7 @@ export class ClaimsComponent implements OnInit {
     });
 
     this.allClaimsFind = this.formBuilder.group({
-      dos: [],
+      dos: [],      
       age_filter:[],
       claim_status: []
     });

@@ -513,9 +513,9 @@
                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:10px;">                                 
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-center">
                                        <label>{{ user.user_name }}</label>
-                                       <input type="hidden" name="user_id" [value]="user.id" formControlName="user_id" >                                 
+                                       <!-- <input type="hidden" name="user_id" [value]="user.id" formControlName="user_id" > -->
                                        <!-- <input type="hidden" name="SelectedUser" [value]="user.id" placeholder="{{user.user_name}}" [(ngModel)]="selectedUser" disabled formControlName="user"> -->
-                                       <!-- <input type="text" [value]="user.id" formControlName="user_id" placeholder="{{ user.user_name }}"> -->
+                                       <input type="text" [value]="prac_user_list[i].id" formControlName="user_id" placeholder="{{ user.user_name }}" ngModel="{{[value]}}">
                                        <!-- <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" formControlName='user'>
                                           <option value="">--Select User--</option>
                                           <option *ngFor="let user of prac_user_list;" [value]="user.id">{{ user.user_name }}</option>
@@ -546,7 +546,7 @@
                                        </select>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                       <input class="form-control" type="hidden" [value]="10" formControlName='percentage'>
+                                       <input class="form-control" type="text" formControlName='percentage'>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                        <button type="button" class="btn btn-primary btn-sm" (click)="saveSampling()">Save</button>

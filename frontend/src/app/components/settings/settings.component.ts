@@ -643,21 +643,37 @@ set_prac_settings(data)
  get_practice_user_list()
 {
   this.Jarwis.get_practice_user_list(this.setus.getId()).subscribe(
-    data => {this.prac_user_list = data['user_list']; console.log(this.prac_user_list)}
+    data => {
+      this.prac_user_list = data['user_list'];
+      console.log(this.prac_user_list);
+      for(let i=0;i<this.prac_user_list.length;i++){
+        this.sampling = new FormGroup({      
+          user_id:new FormControl(''),
+          experience:new FormControl(''),
+          month:new FormControl(''),
+          percentage:new FormControl(''),
+        });
+        console.log(this.prac_user_list[i].id);
+        //this.sampling.controls.user_id.patchValue(this.prac_user_list[i].id);
+      }
+    }
+    
     );
 }
 
-set_user_value(){
+/* set_user_value(){
   console.log(this.prac_user_list);
-      
-    //console.log(this.prac_user_list[0].id); 
+  for(let i=0;i<this.prac_user_list.length;i++){    
+    this.sampling.controls.user_id.patchValue(this.prac_user_list[i].id);
+  }      
 }
+ */
   ngOnInit() {
     this.getfields();
     this.get_category_data();
     this.get_status_data();
     this.get_practice_user_list();
-    
+    //this.set_user_value();
     //this.sampling.controls.user_id.setValue(this.prac_user_list.id);
     this.formGroup = new FormGroup({
       category_name: new FormControl('', [
@@ -792,14 +808,7 @@ set_user_value(){
 
     this.statusPriority = new FormGroup({
       priority: new FormArray([new FormControl ('')]),
-    });
-    
-    this.sampling = new FormGroup({      
-      user_id:new FormControl(''),
-      experience:new FormControl(''),
-      month:new FormControl(''),
-      percentage:new FormControl(''),
-    });
+    });  
                
   }
 
