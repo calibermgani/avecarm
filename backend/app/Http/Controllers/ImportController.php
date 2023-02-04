@@ -1495,7 +1495,8 @@ class ImportController extends Controller
         $search_responsibility = $searchValue['total_ar'];
         $OriginalString = trim($searchValue['total_ar']);
 	      $tot_ar = explode("-",$OriginalString);
-        $min_tot_ar = $tot_ar[0];
+        
+        $min_tot_ar = $tot_ar[0] - 1.00;
         $max_tot_ar = $tot_ar[1];
 
         if ($action == 'null' && $action != null) {
@@ -2290,7 +2291,6 @@ class ImportController extends Controller
 
       // DB::enableQueryLog();
       $claim_data = $claim_data->where('claim_Status', Null)->orWhere('claim_Status', 'Ready')->get();
-      // $claim_data = $this->arrange_claim_datas($claim_data);
       // $query = DB::getQueryLog();
   
       // dd($query);
