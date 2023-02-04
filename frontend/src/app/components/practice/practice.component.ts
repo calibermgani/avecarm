@@ -158,7 +158,7 @@ export class PracticeComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formGroup.controls.value);
+    console.log(this.formGroup.value);
     this.submitted = true;
     if (this.formGroup.invalid) {
       console.log('error');

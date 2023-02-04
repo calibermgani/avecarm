@@ -383,23 +383,50 @@ public clear(): void {
   //Handle Claim Code Changed event
   public status_code_changed(event:any)
   {
-
- if(event.value!=undefined)
- {
-    let sub_status=this.sub_status_codes_data[event.value.id];
-
-    let sub_status_option=[];
-
-    console.log('sub_status_option');
-
-    if(sub_status == undefined || sub_status =='' )
+    if(event.value!=undefined)
     {
-      this.sub_options=[];
-      this.formGroup.patchValue({
-        sub_status_code: ''
-       });
+      let sub_status=this.sub_status_codes_data[event.value.id];
+
+      let sub_status_option=[];
+
+      console.log('sub_status_option');
+
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.formGroup.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.formGroup.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.formGroup.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      this.modified_stats.push(event);
     }
-    else {
+    if(event.type=="initialisation")
+    {
+      let sub_status=this.sub_status_codes_data[event.status_code];
+      let sub_status_selected=event.sub_status_id;
+      let sub_status_option=[];
       for(let i=0;i<sub_status.length;i++)
       {
         if(sub_status[i]['status']==1)
@@ -407,57 +434,22 @@ public clear(): void {
           sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
         }
 
-        this.sub_options=sub_status_option;
-        if(this.sub_options.length !=0)
-        {
-          this.formGroup.patchValue({
-            sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
-          });
-        }
-        else{
-          this.formGroup.patchValue({
-            sub_status_code: ""
-          });
-        }
+        // this.formGroup.patchValue({
+        //   sub_status_code: sub_status[index]['id']
+        //  });
       }
-    }
-    this.modified_stats.push(event);
-  }
-  if(event.type=="initialisation")
-  {
-    let sub_status=this.sub_status_codes_data[event.status_code];
-    let sub_status_selected=event.sub_status_id;
-    let sub_status_option=[];
-    for(let i=0;i<sub_status.length;i++)
-    {
-      if(sub_status[i]['status']==1)
-      {
-        sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
-      }
-
-      // this.formGroup.patchValue({
-      //   sub_status_code: sub_status[index]['id']
-      //  });
-      }
-
-
       this.sub_options=sub_status_option;
-
       //console.log("Sub Option",this.sub_options,this.selected_claim_data['substatus_code']);
       // console.log("Event",event,this.selected_claim_data,this.sub_options);
       // this.formGroup.get('sub_status_code').setValue(sub_status_selected[0]['id']);
-
       let index=this.sub_options.findIndex(x => x.id == this.selected_claim_data['substatus_code']);
-
       // console.log("SStstus",this.sub_options,sub_status,sub_status[index]['id']);
-
       //  this.formGroup.get('sub_status_code').setValue({id:this.selected_claim_data['substatus_code']});
-
-       this.formGroup.patchValue({
+        this.formGroup.patchValue({
         sub_status_code: {id:this.selected_claim_data['substatus_code'],description:this.sub_options[index]['description']}
       });
-      }
-      }
+    }
+  }
 
  //Configuration of Dropdown Search
  config = {

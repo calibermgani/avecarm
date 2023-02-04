@@ -483,8 +483,17 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Patient Name</label>
                                                    <input type="text" class="form-control" formControlName="patient_name">
-                                                </div>                                             
+                                                </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Total AR</label>
+                                                   <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
+                                                   <div *ngIf="(closedClaimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                      <div *ngIf="closedClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
+                                                         please provide correct format
+                                                      </div>
+                                                   </div>
+                                                </div>                                             
+                                                <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Insurance</label>
                                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="closedWork" [ngModelOptions]="{standalone: true}">
                                                       <option value="all" (selected)="closedWork='all'">All</option>
@@ -492,9 +501,33 @@
                                                       <option value="secondary" (selected)="closedWork='secondary'">Secondary Insurance</option>
                                                       <option value="tertiary" (selected)="closedWork='tertiary'">Tertiary Insurance</option>
                                                    </select>
+                                                </div> -->
+                                             </div>
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Date</label>
+                                                   <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="date"  [(ngModel)]="closed_select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Status Code</label>
+                                                   <ngx-select-dropdown formControlName="status_code" (change)="closed_status_code_changed($event)" [config]="config" [options]="status_options"></ngx-select-dropdown>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Sub Status Code</label>
+                                                   <ngx-select-dropdown formControlName="sub_status_code" [config]="config" [options]="sub_options"></ngx-select-dropdown>
                                                 </div>
                                              </div>
-                                             <div [ngSwitch]="closedWork">
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Rendering Provider</label>
+                                                   <input type="text" class="form-control" formControlName="rendering_provider">
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Responsibility</label>
+                                                   <input type="text" class="form-control" formControlName="responsibility">
+                                                </div>                                                
+                                             </div>
+                                             <!-- <div [ngSwitch]="closedWork">
                                                 <div *ngSwitchCase="'primary'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                       <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -559,7 +592,7 @@
                                                       </div>
                                                    </div>
                                                 </div>
-                                             </div>
+                                             </div> -->
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right">
                                                    <input type="button" class="pull-right btn btn-search" value="Search" (click)="closed_claims_filter(1,'completed',null,null,null,null,null,null,null,null,'search')">
@@ -792,8 +825,17 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Patient Name</label>
                                                    <input type="text" class="form-control" formControlName="patient_name">
-                                                </div>                                             
+                                                </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Total AR</label>
+                                                   <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
+                                                   <div *ngIf="(assignedClaimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                      <div *ngIf="assignedClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
+                                                         please provide correct format
+                                                      </div>
+                                                   </div>
+                                                </div>                                             
+                                                <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Insurance</label>
                                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="assigned" [ngModelOptions]="{standalone: true}">
                                                       <option value="all" (selected)="closedWork='all'">All</option>
@@ -801,9 +843,33 @@
                                                       <option value="secondary" (selected)="closedWork='secondary'">Secondary Insurance</option>
                                                       <option value="tertiary" (selected)="closedWork='tertiary'">Tertiary Insurance</option>
                                                    </select>
+                                                </div> -->
+                                             </div>
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Date</label>
+                                                   <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="date"  [(ngModel)]="assigned_select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Status Code</label>
+                                                   <ngx-select-dropdown formControlName="status_code" (change)="assign_status_code_changed($event)" [config]="config" [options]="status_options"></ngx-select-dropdown>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Sub Status Code</label>
+                                                   <ngx-select-dropdown formControlName="sub_status_code" [config]="config" [options]="sub_options"></ngx-select-dropdown>
                                                 </div>
                                              </div>
-                                             <div [ngSwitch]="assigned">
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Rendering Provider</label>
+                                                   <input type="text" class="form-control" formControlName="rendering_provider">
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Responsibility</label>
+                                                   <input type="text" class="form-control" formControlName="responsibility">
+                                                </div>                                                
+                                             </div>
+                                             <!-- <div [ngSwitch]="assigned">
                                                 <div *ngSwitchCase="'primary'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                       <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -868,7 +934,7 @@
                                                       </div>
                                                    </div>
                                                 </div>
-                                             </div>
+                                             </div> -->
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right">
                                                    <input type="button" class="pull-right btn btn-search" value="Search" (click)="assigned_claims_filter(1,'allocated',null,null,null,null,null,null,null,null,'search')">
@@ -1098,7 +1164,16 @@
                                                    <label>Patient Name</label>
                                                    <input type="text" class="form-control" formControlName="patient_name">
                                                 </div>
-                                                <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Total AR</label>
+                                                   <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
+                                                   <div *ngIf="(auditClaimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                      <div *ngIf="auditClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
+                                                         please provide correct format
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <!-- <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                    <label>Insurance</label>
                                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="createWork" [ngModelOptions]="{standalone: true}">
                                                       <option value="all" (selected)="createWork='all'">All</option>
@@ -1106,7 +1181,31 @@
                                                       <option value="secondary" (selected)="createWork='secondary'">Secondary Insurance</option>
                                                       <option value="tertiary" (selected)="createWork='tertiary'">Tertiary Insurance</option>
                                                    </select>
+                                                </div> -->
+                                             </div>
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Date</label>
+                                                   <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="date"  [(ngModel)]="select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Status Code</label>
+                                                   <ngx-select-dropdown formControlName="status_code" (change)="status_code_changed($event)" [config]="config" [options]="status_options"></ngx-select-dropdown>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Sub Status Code</label>
+                                                   <ngx-select-dropdown formControlName="sub_status_code" [config]="config" [options]="sub_options"></ngx-select-dropdown>
+                                                </div>
+                                             </div>
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Rendering Provider</label>
+                                                   <input type="text" class="form-control" formControlName="rendering_provider">
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Responsibility</label>
+                                                   <input type="text" class="form-control" formControlName="responsibility">
+                                                </div>                                                
                                              </div>
                                                 <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -1122,7 +1221,7 @@
                                                       <input type="text" class="form-control" formControlName="claim_note">
                                                    </div>							
                                                 </div> -->
-                                             <div [ngSwitch]="createWork">
+                                             <!-- <div [ngSwitch]="createWork">
                                                 <div *ngSwitchCase="'primary'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                       <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -1187,7 +1286,7 @@
                                                       </div>
                                                    </div>
                                                 </div>
-                                             </div>
+                                             </div> -->
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right">
                                                    <input type="button" class="pull-right btn btn-search" value="Search" (click)="audit_claims_filter(1,'wo',null,null,null,null,null,null,null,null,'search')">
