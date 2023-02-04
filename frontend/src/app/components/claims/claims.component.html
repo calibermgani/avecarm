@@ -51,12 +51,12 @@
                                                    <input type="text" class="form-control" ngxDaterangepickerMd formControlName="dos" [(ngModel)]="selecteds" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly />
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                   <label>Age</label>                                                   
+                                                   <label>Age</label>
                                                    <select class="form-control ngx-dropdown-button" formControlName="age_filter" aria-hidden="true" [(ngModel)]="selectedAge">
                                                       <option [ngValue]="null" selected>--Select Age--</option>
-                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>                                                      
+                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>
                                                    </select>
-                                                </div>                                                
+                                                </div>
                                              </div>
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <!-- <div class="form-group col-lg-3">
@@ -82,7 +82,7 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Patient Name</label>
                                                    <input type="text" class="form-control" formControlName="patient_name">
-                                                </div>                                                
+                                                </div>
                                              </div>
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -92,7 +92,7 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
                                                    <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                   <div *ngIf="(createClaimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                   <div *ngIf="(createClaimsFind.controls['total_ar'].touched || submitted)">
                                                       <div *ngIf="createClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                          please provide correct format
                                                       </div>
@@ -104,7 +104,7 @@
                                                 </div>
                                                 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                      <label>Payer Name</label>                                                      
+                                                      <label>Payer Name</label>
                                                       <ngx-select-dropdown formControlName="payer_name" [config]="configure" [options]="payer_list" [(ngModel)]="selectedPayerName"></ngx-select-dropdown>
                                                    </div>
                                                 </div>
@@ -128,7 +128,7 @@
                                                             <label>Primary Policy ID</label>
                                                             <input type="text" class="form-control" formControlName="prim_pol_id">
                                                          </div>
-                                                      </div>                                                      
+                                                      </div>
                                                    </div>
                                                    <div *ngSwitchCase="'secondary'">
                                                       <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12" >
@@ -140,7 +140,7 @@
                                                             <label>Secondary Policy ID</label>
                                                             <input type="text" class="form-control" formControlName="sec_pol_id">
                                                          </div>
-                                                      </div>                                                      
+                                                      </div>
                                                    </div>
                                                    <div *ngSwitchCase="'tertiary'">
                                                       <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -152,9 +152,9 @@
                                                             <label>Tertiary Policy ID</label>
                                                             <input type="text" class="form-control" formControlName="ter_pol_id">
                                                          </div>
-                                                      </div>                                                      
+                                                      </div>
                                                    </div>
-                                                   <div *ngSwitchCase="'all'">                                                      
+                                                   <div *ngSwitchCase="'all'">
                                                       <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                          <label>Primary Insurance</label>
                                                          <input type="text" class="form-control" formControlName="prim_ins_name">
@@ -182,7 +182,7 @@
                                                             <label>Tertiary Policy ID</label>
                                                             <input type="text" class="form-control" formControlName="ter_pol_id">
                                                          </div>
-                                                      </div>                                                      
+                                                      </div>
                                                    </div>
                                                 </div> -->
                                              </div>
@@ -195,7 +195,7 @@
                                        </form>
                                        <div>
                                           <p>{{roles.file_name}}</p>
-                                       </div>                                       
+                                       </div>
                                     </div>
                                  </div>
                               </div>
@@ -1254,7 +1254,7 @@
                                  <!--        <input type="file" name="fileupload" [(ngModel)]="fileupload" class="btn btn-info btn-xs pull-right btn-flat" style="margin-top:-2px" (change)="onFileChange($event)">  -->
                                  <div class="box-tools pull-right">
                                     <span class="disabled-tooltip pull-right" tabindex="0" data-toggle="tooltip" title="Please process datas from previous uploaded file"><button class="btn btn-info btn-xs pull-right btn-flat" style="margin-top:4px;" [disabled]="(importProcessed ==0 && importProcessed != null && importProcessed != undefined)"  (click)="open(page1)"><i class="fa fa-upload"></i> Import</button></span>
-                                    
+
                                     <button class="btn btn-info btn-xs pull-right btn-flat" style="margin-top:4px;margin-right:20px;" (click)="template()" ><i class="fa fa-download"></i>Template</button>
                                  </div>
                               </div>
@@ -2417,16 +2417,16 @@
                                                    <input type="text" class="form-control" ngxDaterangepickerMd formControlName="dos" [(ngModel)]="selectedClosed" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                   <label>Age</label>                                                   
+                                                   <label>Age</label>
                                                    <select class="form-control ngx-dropdown-button" formControlName="age_filter" aria-hidden="true" [(ngModel)]="selectedAge">
                                                       <option [ngValue]="null" selected>--Select Age--</option>
-                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>                                                      
+                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>
                                                    </select>
-                                                </div>                                                
+                                                </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Claim No</label>
                                                    <input type="text" class="form-control" formControlName="claim_no">
-                                                </div>                                                
+                                                </div>
                                              </div>
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -2446,7 +2446,7 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
                                                    <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                   <div *ngIf="(createClaimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                   <div *ngIf="(createClaimsFind.controls['total_ar'].touched || submitted)">
                                                       <div *ngIf="createClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                          please provide correct format
                                                       </div>
@@ -2457,7 +2457,7 @@
                                                    <input type="text" class="form-control" formControlName="rendering_provider">
                                                 </div>
                                              </div>
-                                             <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">                                                
+                                             <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Insurance</label>
                                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="page" formControlName="insurance">
@@ -2526,7 +2526,7 @@
                                                             <label>Tertiary Policy ID</label>
                                                             <input type="text" class="form-control" formControlName="ter_pol_id">
                                                          </div>
-                                                      </div>                                                      
+                                                      </div>
                                                    </div>
                                                 </div>
                                              </div> -->
@@ -2536,7 +2536,7 @@
                                                  </div>
                                               </div>
                                           </div>
-                                       </form>                                       
+                                       </form>
                                     </div>
                                     <!-- <button class="pull-right btn btn-search closedfind-button" (click)="closedClaims_search('closedClaims',0, 0, 1,'null','null','null','null','null','null','search')">Search</button> -->
                                  </div>
@@ -2706,7 +2706,7 @@
                                     </div>
                                        <div class="collapse" id ="createAllClaimsSearch">
                                           <form  [formGroup]="allClaimsFind" (ngSubmit)="createClaims_search(1,'all_claim', 'null', 'null','null','null','null','search')">
-                                             <div class="box-body no-padding" style="margin-top:20px;">
+                                              <div class="box-body no-padding" style="margin-top:20px;">
                                                 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                    <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                       <label>Filename</label>
@@ -2723,21 +2723,66 @@
                                                       <input type="text" class="form-control" ngxDaterangepickerMd formControlName="dos" [(ngModel)]="selectedAll" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly />
                                                    </div>
                                                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                      <label>Age</label>                                                   
+                                                      <label>Age</label>
                                                       <select class="form-control ngx-dropdown-button" formControlName="age_filter" aria-hidden="true" [(ngModel)]="selectedAge">
                                                          <option [ngValue]="null" selected>--Select Age--</option>
-                                                         <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>                                                      
+                                                         <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>
                                                       </select>
                                                    </div>
+                                                  <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                    <label>Claim Status</label>
+                                                    <select formControlName="claim_status" class="form-control ngx-dropdown-button" aria-hidden="true">
+                                                        <option [ngValue]="null">-- Select Status--</option>
+                                                        <option *ngFor="let cstatus of claim_statuses" [value]="cstatus">{{cstatus}}</option>
+                                                        <option *ngFor="let scode of status_list" [value]="scode.description">{{scode.description}}</option>
+                                                    </select>
+                                                  </div>
+                                              </div>
+
+                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                   <label>Claim Status</label>
-                                                   <select formControlName="claim_status" class="form-control ngx-dropdown-button" aria-hidden="true">
-                                                      <option [ngValue]="null">-- Select Status--</option>
-                                                      <option *ngFor="let cstatus of claim_statuses" [value]="cstatus">{{cstatus}}</option>
-                                                      <option *ngFor="let scode of status_list" [value]="scode.description">{{scode.description}}</option>
-                                                   </select>
+                                                  <label>Claim No</label>
+                                                  <!-- <input type="text" class="form-control" formControlName="dos"> -->
+                                                   <input type="text" class="form-control" formControlName="claim_no">
                                                 </div>
-                                             </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                  <label>Acc No</label>
+                                                  <input type="text" class="form-control" formControlName="acc_no">
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                  <label>Patient Name </label>
+                                                  <input type="text" class="form-control" formControlName="patient_name">
+                                               </div>
+                                              </div>
+
+                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                  <label>Responsibility</label>
+                                                  <!-- <input type="text" class="form-control" formControlName="dos"> -->
+                                                   <input type="text" class="form-control" formControlName="responsibility">
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Total AR</label>
+                                                  <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
+                                                   <div *ngIf="(createClaimsFind.controls['total_ar'].touched || submitted)">
+                                                      <div *ngIf="createClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
+                                                         please provide correct format
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                  <label>Rendering Provider </label>
+                                                  <input type="text" class="form-control" formControlName="rendering_provider">
+                                               </div>
+                                              </div>
+
+                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                  <label>Payer Name</label>
+                                                  <!-- <input type="text" class="form-control" formControlName="dos"> -->
+                                                  <ngx-select-dropdown formControlName="payer_name" [config]="configure" [options]="payer_list" [(ngModel)]="selectedPayerName"></ngx-select-dropdown>
+                                                </div>
+                                              </div>
                                              <!-- <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding"> -->
                                                 <!-- <div class="form-group col-lg-3">
                                                    <label>Total Charge</label>
@@ -2833,13 +2878,14 @@
                                                    </div>
                                                 </div>
                                              </div> -->
+                                             <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
+                                              <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
+                                                 <input type="button" class="pull-right btn btn-search" value="Search" (click)="createClaims_search(1,'all_claim', 'null', 'null','null','null','null','search')">
+                                              </div>
+                                           </div>
                                           </div>
-                                       </form>                                       
-                                       <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
-                                          <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
-                                             <input type="button" class="pull-right btn btn-search" value="Search" (click)="createClaims_search(1,'all_claim', 'null', 'null','null','null','null','search')">
-                                          </div>
-                                       </div>
+                                       </form>
+
                                     </div>
                                  </div>
                               </div>
