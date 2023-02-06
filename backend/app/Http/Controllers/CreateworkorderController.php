@@ -323,63 +323,63 @@ class CreateworkorderController extends Controller
                 
                       if($sort_data == null && $sort_type == null){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_data == 'null' && $sort_type == 'null'  ){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
                    
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
                        
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       } 
 
                 }
@@ -388,63 +388,63 @@ class CreateworkorderController extends Controller
                 
                       if($sort_data == null && $sort_type == null){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                       if($sort_data == 'null' && $sort_type == 'null'  ){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                       if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
                    
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
                        
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       } 
 
                 }                
@@ -1387,65 +1387,65 @@ class CreateworkorderController extends Controller
 
                       if($sort_data == null && $sort_type == null){
                         
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                      
                       if($sort_data == 'null' && $sort_type == 'null' && !empty($sorting_name) && $sorting_method != 'null'){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
                         
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
                         //dd('4');
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
                        // dd('5');
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       } 
 
                     }
@@ -1454,65 +1454,65 @@ class CreateworkorderController extends Controller
 
                       if($sort_data == null && $sort_type == null){
                         
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                      
                       if($sort_data == 'null' && $sort_type == 'null' && !empty($sorting_name) && $sorting_method != 'null'){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
                         
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
                         //dd('4');
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
                        // dd('5');
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       } 
 
                     }
@@ -2519,63 +2519,63 @@ class CreateworkorderController extends Controller
 
                       if($sort_data == null && $sort_type == null){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_data == 'null' && $sort_type == 'null' && !empty($sorting_method) && empty($sorting_name)){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                         
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
 
                       }else if($sort_data == false  && $sort_type != null){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       } 
 
                       if($sorting_method == true && $sort_data == 'null' && $search == 'search' && !empty($sorting_name) ){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
 
                       }else if($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)){
 
-                        $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('claim_no', $search_claim_no)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                        $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                     }
@@ -2584,63 +2584,63 @@ class CreateworkorderController extends Controller
 
                       if($sort_data == null && $sort_type == null){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acc_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acc_no', $search_acc_no);
                       }
 
                       if($sort_data == 'null' && $sort_type == 'null' && !empty($sorting_method) && empty($sorting_name)){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acc_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acc_no', $search_acc_no);
                       }
 
                       if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acc_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acc_no', $search_acc_no);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                         
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acc_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acc_no', $search_acc_no);
 
                       }else if($sort_data == false  && $sort_type != null){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acc_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acc_no', $search_acc_no);
                       } 
 
                       if($sorting_method == true && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acc_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acc_no', $search_acc_no);
 
                       }else if($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)){
 
-                        $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+                        $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
 
-                        $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                        $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                     }
@@ -4428,56 +4428,56 @@ public function get_workorder(LoginRequest $request)
 
               if($sort_code == 'null' && $sort_code != null){
 
-                $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
-                $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                $claim_count->where('claim_no', $search_claim_no);
 
-                $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                $selected_claim_data->where('claim_no', $search_claim_no);
               }
 
               if($sort_code != 'null' && $sort_code == null && empty($sorting_name)){
 
-                $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')-> offset($skip) ->limit($end);
+                $claim_data->where('claim_no', $search_claim_no)-> offset($skip) ->limit($end);
 
 
-                $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                $claim_count->where('claim_no', $search_claim_no);
 
-                $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                $selected_claim_data->where('claim_no', $search_claim_no);
               }
                 
 
               if($sort_type_close == true && $search == 'search' && $sort_type_close != null && $sort_code != 'null' && $sort_code != null){
 
-                $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_code, 'asc')-> offset($skip) ->limit($end);
+                $claim_data->where('claim_no', $search_claim_no)->orderBy($sort_code, 'asc')-> offset($skip) ->limit($end);
 
-                $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                $claim_count->where('claim_no', $search_claim_no);
 
-                $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                $selected_claim_data->where('claim_no', $search_claim_no);
 
               }else if($sort_type_close == false && $search == 'search' && $sort_type_close != null && $sort_code != 'null' && $sort_code != null){
 
-                  $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sort_code, 'desc')-> offset($skip) ->limit($end);
+                  $claim_data->where('claim_no', $search_claim_no)->orderBy($sort_code, 'desc')-> offset($skip) ->limit($end);
 
-                  $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                  $claim_count->where('claim_no', $search_claim_no);
 
-                  $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                  $selected_claim_data->where('claim_no', $search_claim_no);
               } 
 
               if($sorting_method == true && $sort_type_close == null && $search == 'search' && $sort_code == null && !empty($sorting_name)){
                
-                  $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+                  $claim_data->where('claim_no', $search_claim_no)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
 
-                  $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                  $claim_count->where('claim_no', $search_claim_no);
 
-                  $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                  $selected_claim_data->where('claim_no', $search_claim_no);
 
               }else if($sorting_method == false && $sort_type_close == null && $search == 'search' && !empty($sorting_name)){
 
-                  $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+                  $claim_data->where('claim_no', $search_claim_no)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
 
-                  $claim_count->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                  $claim_count->where('claim_no', $search_claim_no);
 
-                  $selected_claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+                  $selected_claim_data->where('claim_no', $search_claim_no);
 
               }       
 
@@ -4487,57 +4487,57 @@ public function get_workorder(LoginRequest $request)
 
               if($sort_code == 'null' && $sort_code != null){
 
-                $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
 
-                $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                $claim_count->where('acct_no', $search_acc_no);
 
-                $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                $selected_claim_data->where('acct_no', $search_acc_no);
               }
 
               if($sort_code != 'null' && $sort_code == null && empty($sorting_name)){
                   
-                $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')-> offset($skip) ->limit($end);
+                $claim_data->where('acct_no', $search_acc_no)-> offset($skip) ->limit($end);
 
 
-                $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                $claim_count->where('acct_no', $search_acc_no);
 
-                $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                $selected_claim_data->where('acct_no', $search_acc_no);
               }
                 
 
               if($sort_type_close == true && $search == 'search' && $sort_type_close != null && $sort_code != 'null' && $sort_code != null){
 
-                $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_code, 'asc')-> offset($skip) ->limit($end);
+                $claim_data->where('acct_no', $search_acc_no)->orderBy($sort_code, 'asc')-> offset($skip) ->limit($end);
 
-                $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                $claim_count->where('acct_no', $search_acc_no);
 
-                $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                $selected_claim_data->where('acct_no', $search_acc_no);
 
               }else if($sort_type_close == false && $search == 'search' && $sort_type_close != null && $sort_code != 'null' && $sort_code != null){
 
-                  $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sort_code, 'desc')-> offset($skip) ->limit($end);
+                  $claim_data->where('acct_no', $search_acc_no)->orderBy($sort_code, 'desc')-> offset($skip) ->limit($end);
 
-                  $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                  $claim_count->where('acct_no', $search_acc_no);
 
-                  $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                  $selected_claim_data->where('acct_no', $search_acc_no);
               } 
 
               if($sorting_method == true && $sort_type_close == null && $search == 'search' && $sort_code == null && !empty($sorting_name)){
                
-                  $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+                  $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
 
-                  $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                  $claim_count->where('acct_no', $search_acc_no);
 
-                  $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                  $selected_claim_data->where('acct_no', $search_acc_no);
 
               }else if($sorting_method == false && $sort_type_close == null && $search == 'search' && !empty($sorting_name)){
                
-                  $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%')->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+                  $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
 
-                  $claim_count->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                  $claim_count->where('acct_no', $search_acc_no);
 
-                  $selected_claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+                  $selected_claim_data->where('acct_no', $search_acc_no);
 
               } 
 
