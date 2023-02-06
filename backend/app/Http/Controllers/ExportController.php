@@ -66,10 +66,10 @@ class ExportController extends Controller
             $claim_data = Import_field::whereNull('followup_work_order');
 
           if(!empty($search_claim_no)){
-            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+            $claim_data->where('claim_no', $search_claim_no);
           }
           if(!empty($search_acc_no)){
-            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+            $claim_data->where('acct_no', $search_acc_no);
           }
           if(!empty($search_claim_note)){
             $claim_data->where('claim_note', 'LIKE', '%' . $search_claim_note . '%');
@@ -129,10 +129,10 @@ class ExportController extends Controller
             $claim_data = Import_field::whereIN('claim_no',$closed)->where('claim_closing',1);
 
           if(!empty($search_claim_no)){
-            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+            $claim_data->where('claim_no', $search_claim_no );
           }
           if(!empty($search_acc_no)){
-            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+            $claim_data->where('acct_no', $search_acc_no);
           }
           if(!empty($search_claim_note)){
             $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
@@ -185,10 +185,10 @@ class ExportController extends Controller
           $claim_data = Workorder_field::where('work_order_type', $wo_type);
 
           if(!empty($search_claim_no)){
-            $claim_data->where('claim_no', 'LIKE', '%' . $search_claim_no . '%');
+            $claim_data->where('claim_no', $search_claim_no);
           }
           if(!empty($search_acc_no)){
-            $claim_data->where('acct_no', 'LIKE', '%' . $search_acc_no . '%');
+            $claim_data->where('acct_no', $search_acc_no);
           }
           if(!empty($search_claim_note)){
             $claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
