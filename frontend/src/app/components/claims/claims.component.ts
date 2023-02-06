@@ -47,6 +47,10 @@ export class ClaimsComponent implements OnInit {
   assigned = "";
   reAssigned = "";  
   status_list:any;
+  select_date:any;
+  all_select_date: any;
+  
+  closed_select_date: any;
   selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];  
@@ -54,6 +58,10 @@ export class ClaimsComponent implements OnInit {
   selectedPayerName= null;
   payer_list:any = ['insurance1','insurance2','insurance3','insurance4'];
   isSelectedAll = false;
+  public status_codes_data:Array<any> =[];
+  public sub_status_codes_data:string[];
+  public status_options;
+  public sub_options;
 
   @ViewChildren('pageRow') private pageRows: QueryList<ElementRef<HTMLTableRowElement>>;
 
@@ -3465,11 +3473,14 @@ export class ClaimsComponent implements OnInit {
       patient_name: [],
       responsibility: [],
       total_charge: [],
-      total_ar: new FormControl('', [
+      total_ar: new FormControl(null, [
         Validators.required,
         Validators.pattern(this.decimal_pattern),
       ]),
       rendering_provider:[],
+      date:[],
+      status_code: [],
+      sub_status_code: [],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -3489,12 +3500,13 @@ export class ClaimsComponent implements OnInit {
       patient_name: [],
       responsibility: [],
       total_charge: [],
-      total_ar: new FormControl('', [
+      total_ar: new FormControl(null, [
         Validators.required,
         Validators.pattern(this.decimal_pattern),
       ]),
       rendering_provider:[],
       payer_name:[],
+      date:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -3506,9 +3518,22 @@ export class ClaimsComponent implements OnInit {
     });
 
     this.allClaimsFind = this.formBuilder.group({
-      dos: [],      
+      dos: [],
       age_filter:[],
-      claim_status: []
+      claim_no: [],
+      acc_no: [],
+      patient_name: [],
+      responsibility: [],
+      total_charge: [],
+      total_ar: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),
+      rendering_provider:[],
+      payer_name:[],
+      date:[],
+      status_code: [],
+      sub_status_code: [],
     });
 
     this.workOrderFind = this.formBuilder.group({
@@ -3713,9 +3738,103 @@ console.log(this.age_options);
 public get_statuscodes()
 {
   this.Jarwis.get_status_codes(this.setus.getId(),'all').subscribe(
-    data  => this.status_list = data['status']
+    data  => {this.status_list = data['status'], this.process_codes(data)}
   );
 }
+
+public process_codes(data:any)
+  {
+    let status_option=[];
+    this.status_codes_data=data.status;
+    this.sub_status_codes_data=data.sub_status;
+    for(let i=0;i<this.status_codes_data.length;i++)
+    {
+      if(this.status_codes_data[i]['status']==1)
+      {
+        // alert(this.status_codes_data[i]['status_code']);
+        status_option.push({id: this.status_codes_data[i]['id'], description: this.status_codes_data[i]['status_code'] +'-'+ this.status_codes_data[i]['description'] } );
+      }
+    }
+    this.status_options=status_option;
+  }
+
+  public allClaim_status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.allClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.allClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.allClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  }
+
+  public closedClaims_status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.closedClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.closedClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.closedClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  }  
 
   public sort_claims(type) {
     if (type == 'acct_no') {

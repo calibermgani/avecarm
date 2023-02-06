@@ -1370,7 +1370,7 @@ let error_sub_parameter_ids;
 let fyi_parameter_ids;
 let fyi_sub_parameter_ids;
 
-if(this.selectedError != "No Error"){
+if(this.selectedError != "No Error" || this.selectedError != "Clarification"){
   if(error_parameter !=null && error_sub_parameter !=null){
     console.log(error_parameter);
     error_parameter_ids = error_parameter.id;
@@ -2506,7 +2506,7 @@ console.log("AA_Op",this.selected_claim_nos);
 
 dataSource={
   "chart": {
-      "caption": "Sales of Liquor",
+      "caption": "Average Sales",
       "subCaption": "Previous week vs current week",
       "xAxisName": "Day",
       "yAxisName": "Sales (In USD)",
@@ -2752,8 +2752,8 @@ graphStatus()
         Validators.required,
         Validators.pattern(this.decimal_pattern),
       ]),
-      status_code: new FormControl(''),
-      sub_status_code: new FormControl(''),
+      status_code: [],
+      sub_status_code: [],
       rendering_provider:[],
       responsibility: [],
       date:[],
@@ -2778,8 +2778,8 @@ graphStatus()
         Validators.required,
         Validators.pattern(this.decimal_pattern),
       ]),
-      status_code: new FormControl(''),
-      sub_status_code: new FormControl(''),
+      status_code: [],
+      sub_status_code: [],
       rendering_provider:[],
       responsibility: [],
       date:[],
