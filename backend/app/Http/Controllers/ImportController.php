@@ -3782,6 +3782,11 @@ class ImportController extends Controller
         }
 
         $claim_data[$key]['created_ats'] = date('m/d/Y', strtotime($claim_data[$key]['created_ats']));
+
+        $getStatusCode = Statuscode::where('id',$claim_data[$key]['status_code'])->first();
+        $getSubStatusCode = Sub_statuscode::where('id',$claim_data[$key]['substatus_code'])->first();
+        $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA' ;
+        $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
       }
     }
 
