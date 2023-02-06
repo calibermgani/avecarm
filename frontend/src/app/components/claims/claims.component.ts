@@ -2504,6 +2504,11 @@ export class ClaimsComponent implements OnInit {
           this.createClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
           this.createClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
         }
+        if (this.createClaimsFind.value.date.startDate != null && this.createClaimsFind.value.date.endDate != null) {
+          console.log(this.createClaimsFind.controls.date.value);
+          this.createClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
+          this.createClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+        }
         this.Jarwis.get_table_page(sort_data, page, page_count, sort_type, this.sortByAsc, this.sorting_name, this.createClaimsFind.value, this.search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
