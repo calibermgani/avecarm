@@ -3749,6 +3749,7 @@ public get_statuscodes()
 
 public process_codes(data:any)
   {
+    console.log(data);
     let status_option=[];
     this.status_codes_data=data.status;
     this.sub_status_codes_data=data.sub_status;

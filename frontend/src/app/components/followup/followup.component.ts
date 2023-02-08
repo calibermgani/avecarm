@@ -27,11 +27,21 @@ export class FollowupComponent implements OnInit {
   closedWork = "";
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
+  public status_codes_data:Array<any> =[];
+  public sub_status_codes_data:string[];
+  public status_options;
+  public sub_options;
+  decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
   selecteds: any;
   selectedReAssigin: any;
   selectedClosed: any;
   alwaysShowCalendars: boolean;
   selectedAge = null;
+  reassignedSelectedAge = null;
+  closedSelectedAge = null;
+  assigned_select_date: any;
+  reassigned_select_date: any;
+  closed_select_date: any;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
   ranges: any = {
     'Today': [moment(), moment()],
@@ -1922,12 +1932,157 @@ getSummary(){
   //   );
 }
 
+  public get_statuscodes()
+  {
+    this.Jarwis.get_status_codes(this.setus.getId(),'all').subscribe(
+      data  => this.process_codes(data)
+    );
+  }
+  public process_codes(data:any)
+  {
+    console.log(data);
+    let status_option=[];
+    this.status_codes_data=data.status;
+    this.sub_status_codes_data=data.sub_status;
+    for(let i=0;i<this.status_codes_data.length;i++)
+    {
+      if(this.status_codes_data[i]['status']==1)
+      {
+        // alert(this.status_codes_data[i]['status_code']);
+        status_option.push({id: this.status_codes_data[i]['id'], description: this.status_codes_data[i]['status_code'] +'-'+ this.status_codes_data[i]['description'] } );
+      }
+    }
+    this.status_options=status_option;
+  }
+  public assigned_status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.assignedClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.assignedClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.assignedClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  }
+  public reassigned_status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.reassignedClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.reassignedClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.reassignedClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  }
+  public closed_status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.closedClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.closedClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.closedClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  }
+
+  //Configuration of Dropdown Search
+ config = {
+  displayKey:"description",
+  search:true,
+  limitTo: 1000,
+  result:'single'
+ }
 
   ngOnInit() {
     //this.get_insurance();
     this.user_role_maintainer();
     this.getSummary();
     this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null);
+    this.get_statuscodes();
 
     this.assignedClaimsFind = this.formBuilder.group({
       dos: [],

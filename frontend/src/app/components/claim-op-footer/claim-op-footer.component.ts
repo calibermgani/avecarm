@@ -378,6 +378,11 @@ public clear(): void {
       this.note_validation=true;
 
     }
+    if(this.router.url=='/audit')
+    {
+      this.note_validation=true;
+
+    }
   }
 
   //Handle Claim Code Changed event

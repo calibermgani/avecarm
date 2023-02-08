@@ -51,6 +51,8 @@ export class AuditComponent implements OnInit {
   alwaysShowCalendars: boolean;
   realloc_pages:number;
   selectedAge = null;
+  auditselectedAge = null;
+  closedselectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
 
@@ -1358,65 +1360,59 @@ assign_sub_error_codes(data){
     console.log(this.parentId);
 
     let error_types_ids=[];
-    error_type.forEach(ertype => {
+    /* error_type.forEach(ertype => {
     let keys = ertype;
     console.log(keys);
     error_types_ids.push(keys.id);
     console.log(error_types_ids);
-    });
+    }); */
+    let keys = error_type;
+    console.log(keys);
+    error_types_ids.push(keys.id);
+    console.log(error_types_ids);
 
-let error_parameter_ids;
-let error_sub_parameter_ids;
-let fyi_parameter_ids;
-let fyi_sub_parameter_ids;
+    let error_parameter_ids;
+    let error_sub_parameter_ids;
+    let fyi_parameter_ids;
+    let fyi_sub_parameter_ids;
 
-if(this.selectedError != "No Error" || this.selectedError != "Clarification"){
-  if(error_parameter !=null && error_sub_parameter !=null){
-    console.log(error_parameter);
-    error_parameter_ids = error_parameter.id;
-    console.log(error_parameter_ids);
+    if(this.selectedError != "No Error" || this.selectedError != "Clarification"){
+      if(error_parameter !=null && error_sub_parameter !=null){
+        console.log(error_parameter);
+        error_parameter_ids = error_parameter.id;
+        console.log(error_parameter_ids);
 
-    console.log(error_sub_parameter);
-    error_sub_parameter_ids = error_sub_parameter.id;
-    console.log(error_sub_parameter_ids);
+        console.log(error_sub_parameter);
+        error_sub_parameter_ids = error_sub_parameter.id;
+        console.log(error_sub_parameter_ids);
+      }
+      else{
+        error_parameter_ids = null;
+        error_sub_parameter_ids = null;
+      }
+
+      if (fyi_parameter !=null && fyi_sub_parameter !=null){
+        console.log(fyi_parameter);
+        fyi_parameter_ids = fyi_parameter.id;
+        console.log(fyi_parameter_ids);
+
+        console.log(fyi_parameter);
+        fyi_sub_parameter_ids = fyi_sub_parameter.id;
+        console.log(fyi_sub_parameter_ids);
+      }
+      else{
+        fyi_parameter_ids = null;
+        fyi_sub_parameter_ids = null;
+      }
+    }
+    else{
+      error_parameter_ids = null;
+      error_sub_parameter_ids = null;
+      fyi_parameter_ids = null;
+      fyi_sub_parameter_ids = null;
+    }
+    this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:error_parameter_ids,error_sub_parameter:error_sub_parameter_ids,fyi_parameter:fyi_parameter_ids,fyi_sub_parameter:fyi_sub_parameter_ids}
   }
-  else{
-    error_parameter_ids = null;
-    error_sub_parameter_ids = null;
-  }
-
-  if (fyi_parameter !=null && fyi_sub_parameter !=null){
-    console.log(fyi_parameter);
-    fyi_parameter_ids = fyi_parameter.id;
-    console.log(fyi_parameter_ids);
-
-    console.log(fyi_parameter);
-    fyi_sub_parameter_ids = fyi_sub_parameter.id;
-    console.log(fyi_sub_parameter_ids);
-  }
-  else{
-    fyi_parameter_ids = null;
-    fyi_sub_parameter_ids = null;
-  }
-}
-else{
-  error_parameter_ids = null;
-  error_sub_parameter_ids = null;
-  fyi_parameter_ids = null;
-  fyi_sub_parameter_ids = null;
-}
-
-
-
-
-
-
-
-
-this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:error_parameter_ids,error_sub_parameter:error_sub_parameter_ids,fyi_parameter:fyi_parameter_ids,fyi_sub_parameter:fyi_sub_parameter_ids}
-
-  }
-
 
   //Save Notes
   public process_notes_data_list =[];
@@ -1435,54 +1431,52 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
     {
       let index= this.refer_claim_no.indexOf(this.active_claim);
       claim_id=this.refer_claim_det[index];
-      }
-      else{
-        claim_id=this.claim_clicked;
-        console.log(this.claim_clicked);
-        }
-        if(type=='processnotes')
-        {
-          this.Jarwis.process_note(this.setus.getId(),this.processNotes.value['processnotes'],claim_id,'processcreate', 'followup').subscribe(
-            data  => this.display_notes(data,type),
-            error => this.handleError(error)
-          );
-          // this.request_monitor=0;
-          // this.process_notes_data.push({notes:this.processNotes.value['processnotes'],id:claim_id['claim_no']});
-          // this.process_notes_data_list.push(claim_id['claim_no']);
-          // this.notes_hadler.set_notesest(this.setus.getId(),this.processNotes.value['processnotes'],claim_id,'process_create');
-          // this.send_calim_det('footer_data');
-        }
-        else if(type=='claimnotes')
-        {
-          this.Jarwis.claim_note(this.setus.getId(),this.claimNotes.value['claim_notes'],claim_id,'claim_create').subscribe(
-            data  => this.display_notes(data,type),
-            error => this.handleError(error)
-            );
-         }
-        else if(type=='qcnotes')
-        {
-          //console.log(this.qcNotes.value['qc_notes']);
-          console.log('claaim id  :' + claim_id);
+    }
+    else{
+      claim_id=this.claim_clicked;
+      console.log(this.claim_clicked);
+    }
+    if(type=='processnotes')
+    {
+      this.Jarwis.process_note(this.setus.getId(),this.processNotes.value['processnotes'],claim_id,'processcreate', 'followup').subscribe(
+        data  => this.display_notes(data,type),
+        error => this.handleError(error)
+      );
+      // this.request_monitor=0;
+      // this.process_notes_data.push({notes:this.processNotes.value['processnotes'],id:claim_id['claim_no']});
+      // this.process_notes_data_list.push(claim_id['claim_no']);
+      // this.notes_hadler.set_notesest(this.setus.getId(),this.processNotes.value['processnotes'],claim_id,'process_create');
+      // this.send_calim_det('footer_data');
+    }
+    else if(type=='claimnotes')
+    {
+      this.Jarwis.claim_note(this.setus.getId(),this.claimNotes.value['claim_notes'],claim_id,'claim_create').subscribe(
+        data  => this.display_notes(data,type),
+        error => this.handleError(error)
+        );
+    }
+    else if(type=='qcnotes')
+    {
+      //console.log(this.qcNotes.value['qc_notes']);
+      console.log('claaim id  :' + claim_id);
 
-          this.submitted=true;
+      this.submitted=true;
 
-          this.handle_notes_opt();
-          // console.log("QC",this.rc_et_data);
-          this.qc_notes_data.push({notes:this.qcNotes.value['qc_notes'],id:claim_id['claim_no'],notes_opt:this.rc_et_data});
-          this.qc_notes_data_list.push(claim_id['claim_no']);
-          let notes_det={notes:this.qcNotes.value['qc_notes'],notes_opt:this.rc_et_data};
+      this.handle_notes_opt();
+      // console.log("QC",this.rc_et_data);
+      this.qc_notes_data.push({notes:this.qcNotes.value['qc_notes'],id:claim_id['claim_no'],notes_opt:this.rc_et_data});
+      this.qc_notes_data_list.push(claim_id['claim_no']);
+      let notes_det={notes:this.qcNotes.value['qc_notes'],notes_opt:this.rc_et_data};
 
-          // this.Jarwis.qc_note(this.setus.getId(),notes_det,claim_id,'create_qcnotes').subscribe(
-          //   data  => this.display_notes(data,type),
-          //   error => this.handleError(error)
-          //   );
+      // this.Jarwis.qc_note(this.setus.getId(),notes_det,claim_id,'create_qcnotes').subscribe(
+      //   data  => this.display_notes(data,type),
+      //   error => this.handleError(error)
+      //   );
 
-          this.notes_hadler.set_notes(this.setus.getId(),notes_det,claim_id,'create_qcnotes');
-          this.send_calim_det('footer_data');
-            }
-            }
-
-
+      this.notes_hadler.set_notes(this.setus.getId(),notes_det,claim_id,'create_qcnotes');
+      this.send_calim_det('footer_data');
+    }
+  }
 
   //Update Notes
   public updatenotes(type)
@@ -1526,19 +1520,17 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
       }
       else if(type=='qcnotes')
       {
-
-
         let claim_active;
         console.log(this.edit_noteid);
 
-    if(this.main_tab == true)
-    {
-      claim_active=this.claim_clicked;
-      console.log(claim_active);
-    }
-    else{
-      claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
-    }
+        if(this.main_tab == true)
+        {
+          claim_active=this.claim_clicked;
+          console.log(claim_active);
+        }
+        else{
+          claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+        }
         this.Jarwis.check_edit_val(claim_active,'audit').subscribe(
           data  => {this.set_note_edit_validity(data);
             if(this.note_edit_val != undefined)
@@ -1550,41 +1542,32 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
               data  => this.display_notes(data,type),
               error => this.handleError(error)
             );
-          }
-          else{
-            this.toastr.errorToastr('Notes cannot be Updated.', 'Claim Processed.');
-          }
+            }
+            else{
+              this.toastr.errorToastr('Notes cannot be Updated.', 'Claim Processed.');
+            }
           },
           error => this.handleError(error)
         );
-
-
       }
-
     }
     this.editnote_value=null;
   }
-
 
   public closedupdatenotes(type)
   {
     if(this.initial_edit==true)
     {
       this.handle_notes_opt();
-    // console.log("QC",this.rc_et_data);
-    let notes_det={notes:this.qcNotes.value['qc_notes'],notes_opt:this.rc_et_data};
+      // console.log("QC",this.rc_et_data);
+      let notes_det={notes:this.qcNotes.value['qc_notes'],notes_opt:this.rc_et_data};
       this.notes_hadler.set_notes(this.setus.getId(),notes_det,this.edit_noteid,'create_qcnotes');
-
       // this.qc_notes_data[this.edit_noteid['claim_no']]=this.qcNotes.value['qc_notes'];
-
       this.qc_notes_data.find(x => x.id == this.edit_noteid['claim_no']).notes=this.qcNotes.value['qc_notes'];
-
-
       this.initial_edit=false;
       this.send_calim_det('footer_data');
     }
     else{
-
       if(type=='processnotes')
       {
       this.Jarwis.process_note(this.setus.getId(),this.processNotes.value['processnotes'],this.edit_noteid,'processupdate', 'audit-closed').subscribe(
@@ -1601,35 +1584,28 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
       }
       else if(type=='qcnotes')
       {
-
-
         let claim_active;
-
-    if(this.main_tab == true)
-    {
-      claim_active=this.claim_clicked;
-    }
-    else{
-      claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
-    }
-
-
-
+        if(this.main_tab == true)
+        {
+          claim_active=this.claim_clicked;
+        }
+        else{
+          claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+        }
         this.Jarwis.check_edit_val(claim_active,'audit').subscribe(
           data  => {this.set_note_edit_validity(data);
             if(this.note_edit_val != undefined)
             {
               this.handle_notes_opt();
               let notes_det={notes:this.qcNotes.value['qc_notes'],notes_opt:this.rc_et_data};
-
-            this.Jarwis.qc_note(this.setus.getId(),notes_det,this.edit_noteid,'qcupdate').subscribe(
-              data  => this.display_notes(data,type),
-              error => this.handleError(error)
-            );
-          }
-          else{
-            this.toastr.errorToastr('Notes cannot be Updated.', 'Claim Processed.');
-          }
+              this.Jarwis.qc_note(this.setus.getId(),notes_det,this.edit_noteid,'qcupdate').subscribe(
+                data  => this.display_notes(data,type),
+                error => this.handleError(error)
+              );
+            }
+            else{
+              this.toastr.errorToastr('Notes cannot be Updated.', 'Claim Processed.');
+            }
           },
           error => this.handleError(error)
         );
@@ -1637,15 +1613,12 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
     }
     this.editnote_value=null;
   }
-
-
   //Clear ProcessNote
   public clear_notes()
   {
     this.editnote_value=null;
     this.processNotes.reset();
   }
-
   //Open Pop-up
   open(content) {
       this.modalService.open(content, { centered: true,windowClass: 'dark-modal' }).result.then((result) => {
@@ -1654,14 +1627,10 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
         this.closeResult = `${this.getDismissReason()}`;
       });
   }
-
   //Modal Dismiss on Clicking Outside the Modal
   private getDismissReason() {
   this.clear_notes();
   }
-
-
-
   //Send Claim Value to Followup-Template Component on Opening Template
   public send_calim_det(type)
   {
@@ -1695,19 +1664,15 @@ this.rc_et_data={root_cause:null,error_types:error_types_ids,error_parameter:err
   //Collect Response Forom Footer Component after Claim processing
   public collect_response(data)
   {
-    console.log(data);
-
-   if(this.main_tab == true)
-   {
-    this.check_note_edit_validity(this.claim_clicked);
-   }
-   else{
-
-    let claim_detials=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
-    this.check_note_edit_validity(claim_detials);
-   }
-
-
+    //console.log(data);
+    if(this.main_tab == true)
+    {
+      this.check_note_edit_validity(this.claim_clicked);
+    }
+    else{
+      let claim_detials=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+      this.check_note_edit_validity(claim_detials);
+    }
 
     // this.check_note_edit_validity(this.active_claim)
     this.display_notes(data,'qcnotes');
@@ -2748,7 +2713,7 @@ graphStatus()
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: new FormControl('', [
+      total_ar: new FormControl(null, [
         Validators.required,
         Validators.pattern(this.decimal_pattern),
       ]),
@@ -2774,7 +2739,7 @@ graphStatus()
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: new FormControl('', [
+      total_ar: new FormControl(null, [
         Validators.required,
         Validators.pattern(this.decimal_pattern),
       ]),
@@ -2801,12 +2766,12 @@ graphStatus()
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: new FormControl('', [
+      total_ar: new FormControl(null, [
         Validators.required,
         Validators.pattern(this.decimal_pattern),
       ]),
-      status_code: new FormControl(''),
-      sub_status_code: new FormControl(''),
+      status_code: [],
+      sub_status_code: [],
       rendering_provider:[],
       responsibility: [],
       claim_note: [],
@@ -2949,11 +2914,13 @@ public reassign(content){
 }
 
 selectChange(event){
- event.forEach(element => {
+ /* event.forEach(element => {
   this.selectedError = element.description;
- });
+ }); */
+ this.selectedError = event.description;
 console.log(this.selectedValue);
 console.log(this.selectedError);
+this.get_error_param_codes();
 }
 
 selectSubChange(value){

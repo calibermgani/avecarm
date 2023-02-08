@@ -38,6 +38,7 @@ export class SettingsComponent implements OnInit,AfterViewInit {
   public sub_status_list: string[];
   public prac_user_list: any;
   selectedUser:any;
+  p_Users: any[] = [];
   minDate = {year: 1900, month: 1, day: 1};
 
   
@@ -646,34 +647,43 @@ set_prac_settings(data)
     data => {
       this.prac_user_list = data['user_list'];
       console.log(this.prac_user_list);
-      for(let i=0;i<this.prac_user_list.length;i++){
+      this.p_Users = this.prac_user_list;
+      for(let id of this.p_Users){
+        let p_user_id = id.id;
         this.sampling = new FormGroup({      
-          user_id:new FormControl(''),
+          user_id:new FormControl(p_user_id),
           experience:new FormControl(''),
           month:new FormControl(''),
           percentage:new FormControl(''),
         });
-        console.log(this.prac_user_list[i].id);
-        //this.sampling.controls.user_id.patchValue(this.prac_user_list[i].id);
       }
-    }
-    
-    );
+      
+      /* for(let i=0;i<this.p_Users.length;i++){
+        let user = this.p_Users;
+        console.log(user[i]);
+        this.sampling.controls.user_id.patchValue(user[i]['id']);   
+      } */    
+    });    
 }
 
-/* set_user_value(){
+/* set_prac_user_value(){
   console.log(this.prac_user_list);
-  for(let i=0;i<this.prac_user_list.length;i++){    
-    this.sampling.controls.user_id.patchValue(this.prac_user_list[i].id);
-  }      
-}
- */
+  this.p_Users = this.prac_user_list;
+  console.log(this.p_Users);
+  this.p_Users.forEach(element => {
+    console.log(element);
+    console.log(element['id']);    
+    //this.sampling.controls.user_id.patchValue(element['id']);
+    })      
+    
+} */
+
   ngOnInit() {
     this.getfields();
     this.get_category_data();
     this.get_status_data();
     this.get_practice_user_list();
-    //this.set_user_value();
+    //this.set_prac_user_value();
     //this.sampling.controls.user_id.setValue(this.prac_user_list.id);
     this.formGroup = new FormGroup({
       category_name: new FormControl('', [

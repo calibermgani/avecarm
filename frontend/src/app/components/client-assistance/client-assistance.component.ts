@@ -58,6 +58,12 @@ export class ClientAssistanceComponent implements OnInit {
   subscription : Subscription;
   selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
+  select_date:any;
+  public status_codes_data:Array<any> =[];
+  public sub_status_codes_data:string[];
+  public status_options;
+  public sub_options;
+  decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
 
   
 
@@ -1367,8 +1373,79 @@ private _toggleMode(): void {
  }
 }
 
-  ngOnInit() {
+//Configuration of Dropdown Search
+config = {
+  displayKey:"description",
+  search:true,
+  limitTo: 1000,
+  result:'single'
+ }
 
+public get_statuscodes()
+  {
+    this.Jarwis.get_status_codes(this.setus.getId(),'all').subscribe(
+      data  => this.process_codes(data)
+    );
+  }
+
+  public process_codes(data:any)
+  {
+    console.log(data);
+    let status_option=[];
+    this.status_codes_data=data.status;
+    this.sub_status_codes_data=data.sub_status;
+    for(let i=0;i<this.status_codes_data.length;i++)
+    {
+      if(this.status_codes_data[i]['status']==1)
+      {
+        // alert(this.status_codes_data[i]['status_code']);
+        status_option.push({id: this.status_codes_data[i]['id'], description: this.status_codes_data[i]['status_code'] +'-'+ this.status_codes_data[i]['description'] } );
+      }
+    }
+    this.status_options=status_option;
+  }
+
+  public status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.claimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.claimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.claimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  }
+
+  ngOnInit() {
+    this.get_statuscodes();
     this.getclaim_details(1,'wo',null,null,'null','null',null,null);
     // this.get_user_list();
 
@@ -1378,6 +1455,16 @@ private _toggleMode(): void {
       claim_no: [],
       acc_no: [],
       patient_name: [],
+      total_ar: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),
+      status_code: [],
+      sub_status_code: [],
+      rendering_provider:[],
+      responsibility: [],      
+      followup_date: [],
+      date:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -1386,7 +1473,6 @@ private _toggleMode(): void {
       sec_pol_id: [],
       ter_ins_name: [],
       ter_pol_id: [],
-      followup_date: [],
     });
 
 
