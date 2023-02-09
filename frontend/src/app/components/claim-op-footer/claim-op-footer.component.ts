@@ -700,6 +700,7 @@ public clear(): void {
     let input_type:any;
     let claim_details:any;
     let user_data:any;
+    let audit_err;
     if(this.router.url!='/rcm')
     {
       console.log('rcm');
@@ -711,6 +712,7 @@ public clear(): void {
 
      console.log(selected_details);
      user_data = selected_details['note'];
+     
      input_type=selected_details['type'];
      claim_details=selected_details['claim'];
     }
@@ -722,7 +724,16 @@ public clear(): void {
     console.log(claim_details);
     console.log('finish_followup');
     console.log(this.formGroup.value);
-    let data_codes = {status:this.formGroup.value,user_codes:user_data}
+    if (user_data.hasOwnProperty("notes_opt")){
+      let er_data = user_data.notes_opt.error_types;
+      console.log(er_data);
+      audit_err = er_data.toString();      
+      console.log(audit_err);   
+    }
+    else {
+      audit_err = null;
+    }
+    let data_codes = {status:this.formGroup.value,audit_err_code:audit_err}
     // console.log("i\p",input_type,this.formGroup.value,input_type,claim_details)
     this.Jarwis.finish_followup(this.setus.getId(),data_codes,claim_details,input_type).subscribe(
     data  => this.handle_resources(data,this.formGroup.value),
