@@ -62,7 +62,7 @@ export class ClaimOpFooterComponent implements OnInit {
     this.subscription2=this.notes_handler.get_claim_details().subscribe(message => { this.set_status_codes(message) });
     this.subscription3=this.notes_handler.get_notes().subscribe(message => { this.recieve_values(message) });
     this.subscription4=this.notes_handler.process_get_notes().subscribe(message => { this.process_recieve_values(message) });
-    this.subscription5=this.notes_handler.get_notes().subscribe(msg => { console.log(msg);this.receive_error_codes(msg) });
+    this.subscription5=this.notes_handler.get_notes().subscribe(msg => { console.log(msg),this.receive_error_codes(msg) });
 
 
      const current = new Date();
@@ -571,6 +571,7 @@ public clear(): void {
       if(this.router.url != '/rcm')
       {
         let selected_details=this.notes_details.find(x => x.claim_no ==  this.active_tab);
+        //console.log(selected_details);
         let user_notes=selected_details['note'];
         let user=selected_details['user'];
         let input_type=selected_details['type'];
@@ -698,6 +699,7 @@ public clear(): void {
   {
     let input_type:any;
     let claim_details:any;
+    let user_data:any;
     if(this.router.url!='/rcm')
     {
       console.log('rcm');
@@ -708,6 +710,7 @@ public clear(): void {
       console.log(this.active_tab);
 
      console.log(selected_details);
+     user_data = selected_details['note'];
      input_type=selected_details['type'];
      claim_details=selected_details['claim'];
     }
@@ -719,8 +722,9 @@ public clear(): void {
     console.log(claim_details);
     console.log('finish_followup');
     console.log(this.formGroup.value);
+    let data_codes = {status:this.formGroup.value,user_codes:user_data}
     // console.log("i\p",input_type,this.formGroup.value,input_type,claim_details)
-    this.Jarwis.finish_followup(this.setus.getId(),this.formGroup.value,claim_details,input_type).subscribe(
+    this.Jarwis.finish_followup(this.setus.getId(),data_codes,claim_details,input_type).subscribe(
     data  => this.handle_resources(data,this.formGroup.value),
     error => this.handleError(error)
     );

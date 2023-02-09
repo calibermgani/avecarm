@@ -36,7 +36,7 @@ export class AuditComponent implements OnInit {
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
   public status_codes_data:Array<any> =[];
-  public sub_status_codes_data:string[];
+  public sub_status_codes_data:string[];  
   public status_options;
   public sub_options;
   selecteds: any;
@@ -1293,44 +1293,57 @@ assign_sub_error_codes(data){
         }
 
         // console.log(this.audit_codes_list);        
-
+        console.log(this.err_stats);
         let error_det = this.err_stats;
-
+        let selected_err =[];
         let error_param_det = this.err_param_stats;
         let fyi_param_det = this.fyi_param_stats;
         let error_sub_param_det = this.err_sub_param_stats;
 
-        let selecetd_err=[];
+        
 // console.log("ERR_tyoe",error_type);
         error_type.forEach(function (value) {
           let keys = value;
           console.log(keys);
+          console.log(keys.id);
+          console.log(keys['id']);
+          console.log(error_det);
+          
           let error=error_det.find(x => x.id == keys['id'] );
-          selecetd_err.push({id:keys['id'],description:error['name']});
+          console.log(error);
+          console.log(error['name']);
+          selected_err.push({id:keys['id'],description:error['name']});
+          console.log(selected_err);
+          this.qcNotes.patchValue({           
+            error_type: {id:keys['id'],description:error['name']},            
+            });
           });
-          this.err_type_list = selecetd_err;
+          
+          //this.err_type_list = this.selecetd_err;
 
           let selecetd_err_parameter=[];
           let err_param_keys = value.error_parameters;
           let error_param=error_param_det.find(x => x.id == err_param_keys );
           selecetd_err_parameter.push({id:err_param_keys,description:error_param['name']});
-          this.error_param_list = selecetd_err_parameter;
+          this.qcNotes.patchValue({            
+            error_parameter: {id:err_param_keys,description:error_param['name']},
+          });
+          //this.error_param_list = selecetd_err_parameter;
           let selecetd_err_sub_parameter=[];
           let err_sub_param_keys = value.error_sub_parameters;
           let error_sub_param=error_sub_param_det.find(x => x.id == err_sub_param_keys );
           selecetd_err_sub_parameter.push({id:err_sub_param_keys,description:error_sub_param['name']});
-          this.error_sub_param_list = selecetd_err_sub_parameter;
+          this.qcNotes.patchValue({            
+            error_sub_parameter: {id:err_sub_param_keys,description:error_sub_param['name']},
+          });
+          //this.error_sub_param_list = selecetd_err_sub_parameter;
 
         this.qcNotes.patchValue({
-          root_cause: selecetd_root,
-          error_type: selecetd_err,
-          error_parameter: selecetd_err_parameter,
-          error_sub_parameter: selecetd_err_sub_parameter
+          qc_notes: this.editnote_value,
+          root_cause: selecetd_root,  
+                  
           });
       }
-
-
-
 
       this.initial_edit=false;
     }
@@ -1530,6 +1543,7 @@ assign_sub_error_codes(data){
         }
         else{
           claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+          console.log(claim_active);
         }
         this.Jarwis.check_edit_val(claim_active,'audit').subscribe(
           data  => {this.set_note_edit_validity(data);
@@ -2700,8 +2714,6 @@ graphStatus()
 
 
   ngOnInit() {
-
-
     this.user_role_maintainer();
     this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null,null);
     // this.get_auditors();
@@ -2852,6 +2864,7 @@ this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
 ngAfterViewInit()
 {
   this.get_statuscodes();
+  this.get_audit_codes();
   if(this.touch_count == undefined)
   {
     this.touch_count=this.notify_service.manual_touch_limit();

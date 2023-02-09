@@ -1082,7 +1082,7 @@
 
                                                                <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
 
-                                                               <td (mouseover)="tooltip(x)"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats | date: 'MM/dd/yyyy'}}</span></td>
 
                                                             </tr>
                                                             <tr *ngIf="total_allocated==0">
