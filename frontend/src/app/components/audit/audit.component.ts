@@ -39,6 +39,7 @@ export class AuditComponent implements OnInit {
   public sub_status_codes_data:string[];  
   public status_options;
   public sub_options;
+  selected_err_codes;
   selecteds: any;
   select_date: any;
   assigned_select_date: any;
@@ -1312,6 +1313,7 @@ assign_sub_error_codes(data){
           let error=error_det.find(x => x.id == keys['id'] );
           console.log(error);
           console.log(error['name']);
+          this.selected_err_codes = {id:keys['id'],description:error['name']};
           selected_err.push({id:keys['id'],description:error['name']});
           console.log(selected_err);
           this.qcNotes.patchValue({           
@@ -1340,8 +1342,8 @@ assign_sub_error_codes(data){
 
         this.qcNotes.patchValue({
           qc_notes: this.editnote_value,
-          root_cause: selecetd_root,  
-                  
+          root_cause: selecetd_root,
+          error_type: this.selected_err_codes,                  
           });
       }
 

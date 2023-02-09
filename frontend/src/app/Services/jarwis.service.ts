@@ -423,8 +423,8 @@ finish_followup(id,data,claim,type)
 {
   console.log(data);
   console.log(data.status);
-  console.log(data.user_codes);
-data={user_id:id,status_code:data.status,notes_code:data.user_codes,claim_det:claim,followup_type:type};
+  console.log(data.audit_err_code);
+data={user_id:id,status_code:data.status,audit_err_code:data.audit_err_code,claim_det:claim,followup_type:type};
 // return this.http.post(`${this.baseUrl}/create_followup_data`, data);
 let response= this.common_url('create_followup_data',data);
 return response;
