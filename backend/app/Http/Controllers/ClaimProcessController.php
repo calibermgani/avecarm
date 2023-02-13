@@ -24,6 +24,7 @@ use App\Claim_note;
 use App\Qc_note;
 use App\Client_note;
 use App\Claim_history;
+use Illuminate\Support\Facades\Log;
 
 class ClaimProcessController extends Controller
 {
@@ -34,6 +35,7 @@ class ClaimProcessController extends Controller
     }
     public function create_followup(LoginRequest $request)
     {
+        // dd($request->all());
         $user_id = $request->get('user_id');
         $status_data = $request->get('status_code');
         $claim_data = $request->get('claim_det');
@@ -239,8 +241,6 @@ class ClaimProcessController extends Controller
             }
         } else {
             if ($claim_closed == 1) {
-
-
                 $update_claim = DB::table('import_fields')->where('claim_no', $claim_data['claim_no'])->update(array(
                     'claim_Status'          =>  'Closed',
                     'status_code'           =>  $status_data['status_code']['id'],
@@ -266,20 +266,32 @@ class ClaimProcessController extends Controller
 
                 if ($status_data['associates']['id'] == $claim_data['followup_associate']) {
                     $action_type = 2;
-
                     if ($claim_status_code == 1 || $claim_status_code == 2) {
-                        $update_claim = DB::table('import_fields')->where('claim_no', $claim_data['claim_no'])->update(array(
-                            'claim_Status'          =>  $claim_status,
-                            'status_code'           =>  $status_data['status_code']['id'],
-                            'substatus_code'        =>  $status_data['sub_status_code']['id'],
-                            'followup_associate'    =>  $status_data['associates']['id'],
-                            'followup_date'         =>  $date,
-                            'claim_closing'         =>  $claim_closed,
-                            'updated_at'            =>  date('Y-m-d H:i:s'),
-                            // 'assigned_to'       => $status_data['associates']['id'],
-                        ));
-                    } else {
+                        if(isset($audit_err_code) && $audit_err_code != null && $audit_err_code == '4') {         // clarification code this place write,
+                            $update_claim = DB::table('import_fields')->where('claim_no', $claim_data['claim_no'])->update(array(
+                                'claim_Status'          =>  'Auditing',
+                                'status_code'           =>  $status_data['status_code']['id'],
+                                'substatus_code'        =>  $status_data['sub_status_code']['id'],
+                                'followup_associate'    =>  $status_data['associates']['id'],
+                                'followup_date'         =>  $date,
+                                'claim_closing'         =>  $claim_closed,
+                                'updated_at'            =>  date('Y-m-d H:i:s'),
+                                // 'assigned_to'       => $status_data['associates']['id'],
+                            ));
+                        }else {
+                            $update_claim = DB::table('import_fields')->where('claim_no', $claim_data['claim_no'])->update(array(
+                                'claim_Status'          =>  $claim_status,
+                                'status_code'           =>  $status_data['status_code']['id'],
+                                'substatus_code'        =>  $status_data['sub_status_code']['id'],
+                                'followup_associate'    =>  $status_data['associates']['id'],
+                                'followup_date'         =>  $date,
+                                'claim_closing'         =>  $claim_closed,
+                                'updated_at'            =>  date('Y-m-d H:i:s'),
+                                // 'assigned_to'       => $status_data['associates']['id'],
+                            ));
+                        }
 
+                    } else {
                         if(isset($audit_err_code) && $audit_err_code != null && $audit_err_code == '4') {         // clarification code this place write,
                             $update_claim = DB::table('import_fields')->where('claim_no', $claim_data['claim_no'])->update(array(
                                 'claim_Status'          =>  'Auditing',
@@ -657,9 +669,6 @@ class ClaimProcessController extends Controller
         //         ]);
 
         //                 }
-
-
-
 
 
         return response()->json([
