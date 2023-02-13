@@ -279,8 +279,19 @@ class ClaimProcessController extends Controller
                             // 'assigned_to'       => $status_data['associates']['id'],
                         ));
                     } else {
-                        
-                        if($audit_err_code != '4'){         // clarification code this place write,
+
+                        if(isset($audit_err_code) && $audit_err_code != null && $audit_err_code == '4') {         // clarification code this place write,
+                            $update_claim = DB::table('import_fields')->where('claim_no', $claim_data['claim_no'])->update(array(
+                                'claim_Status'          =>  'Auditing',
+                                'status_code'           =>  $status_data['status_code']['id'],
+                                'substatus_code'        =>  $status_data['sub_status_code']['id'],
+                                'followup_associate'    =>  $status_data['associates']['id'],
+                                'followup_date'         =>  $date,
+                                'claim_closing'         =>  $claim_closed,
+                                'updated_at'            =>  date('Y-m-d H:i:s'),
+                                'assigned_to'       => $status_data['associates']['id'],
+                            ));
+                        }else {
                             $update_claim = DB::table('import_fields')->where('claim_no', $claim_data['claim_no'])->update(array(
                                 'claim_Status'          =>  'Assigned',
                                 'status_code'           =>  $status_data['status_code']['id'],
