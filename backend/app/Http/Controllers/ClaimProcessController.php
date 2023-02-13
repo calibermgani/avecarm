@@ -82,7 +82,7 @@ class ClaimProcessController extends Controller
             $work_order_data = Workorder_user_field::where('work_order_id', $claim_data['followup_work_order'])->get();
 
             $work_order_data_id = $claim_data['followup_work_order'];
-        } else if ($followup_type == 'create_qcnotes' || $followup_type == "proess_create") {
+        } else if ($followup_type == 'create_qcnotes' || $followup_type == "proess_create" || $followup_type == "qcupdate") {
 
             if (@$status_data['closed'] == true) {
                 $claim_closed = 1;

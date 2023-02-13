@@ -126,14 +126,20 @@ public clear(): void {
   }
 
   public receive_error_codes(data:any){
-    //console.log(data);
-    this.err_val = data.note.notes_opt.error_types;
+    console.log(data);
+    let user_data =data.note;
+    if (user_data.hasOwnProperty("notes_opt")){
+      this.err_val = data.note.notes_opt.error_types;
     console.log(this.err_val);
     this.err_val.forEach(ertype => {
       this.err_type = ertype;
       console.log(this.err_type);
     });
     this.errorvalues();
+    }
+    else{
+      this.err_val = null;
+    }    
   }
 
   //Set selected claim_details
@@ -378,11 +384,11 @@ public clear(): void {
       this.note_validation=true;
 
     }
-    if(this.router.url=='/audit')
+    /* if(this.router.url=='/audit')
     {
       this.note_validation=true;
 
-    }
+    } */
   }
 
   //Handle Claim Code Changed event
@@ -571,7 +577,7 @@ public clear(): void {
       if(this.router.url != '/rcm')
       {
         let selected_details=this.notes_details.find(x => x.claim_no ==  this.active_tab);
-        //console.log(selected_details);
+        console.log(selected_details);
         let user_notes=selected_details['note'];
         let user=selected_details['user'];
         let input_type=selected_details['type'];
@@ -728,7 +734,8 @@ public clear(): void {
       let er_data = user_data.notes_opt.error_types;
       console.log(er_data);
       audit_err = er_data.toString();      
-      console.log(audit_err);   
+      console.log(audit_err);
+      claim_details.content = user_data.notes;
     }
     else {
       audit_err = null;
