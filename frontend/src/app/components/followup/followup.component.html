@@ -1217,121 +1217,14 @@
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> <i class="fa fa-file-excel-o" style="cursor:pointer;" (click)="export_excel_files('excel', 'Assigned_claims')" title="Excel"></i>
                                                       <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>  --> <!-- <i class="fa fa-file-pdf-o"  (click)="export_pdf_files('PDF', 'assigned_claims')" style="cursor:pointer;" title="PDF"></i> -->
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
-                                                      <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box15">
+                                                      <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="">
                                                       <i class="fa fa-plus"></i>
                                                       </button>
                                                    </p>
                                                    <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                                       </button>                                                                                                 -->
                                                 </div>
-                                             </div>
-                                             <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box15">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 listing-table no-padding">
-                                                   <div class="table table-responsive">
-                                                      <table class="table-striped1 table">
-                                                         <thead>
-                                                            <tr>
-                                                               <!-- <th style="width:1%"></th> -->
-                                                               <th style="width:1%"><input type="checkbox" style="margin-top:0px;" (click)="selected($event,'all','all');check_all_assign(pages,$event)" title="Select All" #checkboxes></th>
-                                                               <th></th>
-
-                                                               <th class="font600  line-height-24" (click) = "order_list('allocated','claim_no','null','null')">Claim No  <i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','dos','null','null')" class="font600 line-height-24">DOS <i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th class="font600 line-height-24">Age <i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','acct_no','null','null')" class="font600  line-height-24">Acct No <i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','patient_name','null','null')">Patient Name <i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','rendering_prov','null','null')" class="font600 line-height-24">Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','responsibility','null','null')" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <!-- <th (click) = "order_list('allocated','prim_ins_name','null','null')" class="font600 line-height-24">Primary Insurance <i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','sec_ins_name','null','null')" class="font600 line-height-24">Secondary Insurance<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','ter_ins_name','null','null')" class="font600 line-height-24">Tertiary Insurance<i class="fa fa-fw fa-sort"></i></th> -->
-
-                                                               <th (click) = "order_list('allocated','total_charges','null','null')" class="font600 line-height-24">Total Charges<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','total_ar','null','null')" class="font600 line-height-24">Total AR<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','claim_Status','null','null')" class="font600 line-height-24">Claim Status<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','claims_notes','null','null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','created_ats','null','null')" class="font600 line-height-24">Assigned To | Date<i class="fa fa-fw fa-sort"></i></th>
-                                                            </tr>
-                                                         </thead>
-                                                         <tbody>
-                                                            <app-atom-spinner
-                                                            *ngIf="tab_load == true && !allocated_claims"
-                                                            [size]="60"
-                                                            [color]="'#1fa5be'"
-                                                            ></app-atom-spinner>
-                                                            <tr *ngFor="let x of allocated_claims | paginate: { id: 'alloc_claims',itemsPerPage: 15, currentPage: alloc_pages, totalItems:total_allocated}"  class="clickable-row cur-pointer" >
-                                                               <td><input type="checkbox" [checked]="selected_claim_nos.includes(x.claim_no)" style="margin-top:0px;" (click)="selected($event,x.claim_no,i)"></td>
-                                                               <td *ngIf="x.touch < touch_count" title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar">{{x.touch}}</span></td>
-                                                               <td *ngIf="x.touch >= touch_count" title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td>
-
-                                                               <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
-
-                                                               <td *ngIf="x.dos != '01/01/1970'" class="cur-pointer dos-date" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.dos==NULL">-Nil-</span><span *ngIf="x.dos!=NULL">{{x.dos | date: 'MM/dd/yyyy'}}</span></span></td>
-
-                                                               <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.age==NULL">-Nil-</span><span *ngIf="x.age!=NULL && x.age > 0">{{x.age}}</span><span *ngIf="x.age <= 0">0</span></span></td>
-
-                                                               <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span [tooltip]="AccNo" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.acct_no==NULL">-Nil-</span><span *ngIf="x.acct_no!=NULL">{{x.acct_no}}</span></span></td>
-
-                                                               <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span [tooltip]="AccNo" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.patient_name==NULL">-Nil-</span><span *ngIf="x.patient_name!=NULL">{{x.patient_name}}</span></span></td>
-
-                                                               <td><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
-
-                                                               <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
-
-                                                               <!-- <td data-toggle="modal" (mouseover)="tooltip(x)"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.prim_ins_name==NULL ">-Nil-</span><span *ngIf="x.prim_ins_name != NULL">{{x.prim_ins_name}}</span></span></td>
-
-                                                               <td (mouseover)="tooltip(x)"><span [tooltip]="SecInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.sec_ins_name==NULL">-Nil-</span><span *ngIf="x.sec_ins_name!=NULL">{{x.sec_ins_name}}</span></span></td>
-
-                                                               <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
-
-                                                               <td class="cur-pointer text-right" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
-
-                                                               <td class="cur-pointer text-right ar-total" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
-
-                                                               <td class="cur-pointer" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
-
-                                                               <td ><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
-
-                                                               <!-- <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);">{{x.assigned_to}}/{{x.assigned_by}}/{{x.created}}</td> -->
-
-                                                               <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats }}</span></td>
-
-                                                            </tr>
-                                                            <tr *ngIf="total_allocated==0">
-                                                               <td colspan="12" align="center"><b>No Records Found</b></td>
-                                                            </tr>
-                                                         </tbody>
-                                                      </table>
-                                                   </div>
-                                                   <div class="row">
-                                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                         <div class="has-text-centered">
-                                                            <pagination-controls id="alloc_claims" (pageChange)="getclaim_details($event,'allocated',null,null);" maxSize="9">
-                                                            </pagination-controls>
-                                                         </div>
-                                                      </div>
-                                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align: right;" class="showing_count"  *ngIf="total_row != 0">
-                                                         <div><span>Showing {{skip_row}}  </span>  <span>to {{current_row}} </span> <span> of {{total_row}} records</span> </div>
-                                                      </div>
-                                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align: right;" class="showing_count" *ngIf="total_row == 0">
-                                                         <div><span>Showing 0  </span>  <span>to 0 </span> <span> of 0 records</span> </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                             </div>
+                                             </div>                                             
                                           </div>
                                        </div>
                                     </div>

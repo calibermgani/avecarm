@@ -39,7 +39,7 @@ export class AuditComponent implements OnInit {
   public sub_status_codes_data:string[];  
   public status_options;
   public sub_options;
-  selected_err_codes;
+  selected_err_codes:any;
   selecteds: any;
   select_date: any;
   assigned_select_date: any;
@@ -77,6 +77,7 @@ export class AuditComponent implements OnInit {
   update_monitor: Subscription;
   isopend=true;
   subscription : Subscription;
+  sub_err_subscription : Subscription;
   constructor(private Jarwis: JarwisService,
     private formBuilder: FormBuilder,
     private setus: SetUserService,
@@ -95,7 +96,7 @@ export class AuditComponent implements OnInit {
         console.log(this.update_monitor);
 
     });
-    this.alwaysShowCalendars = true;
+    this.alwaysShowCalendars = true;    
     }
 
     public root_cause_list=[];
@@ -1199,7 +1200,7 @@ assign_error_codes(data){
     }
   }
   console.log(error_params);
-  console.log(error_params['id']);
+  //console.log(error_params['id']);
   this.error_param_list = error_params;
 
   let fyi_params=[];
@@ -1217,7 +1218,9 @@ assign_error_codes(data){
 get_error_sub_param_codes()
 {  
   this.Jarwis.get_error_sub_param_codes(this.setus.getId(),this.parentId).subscribe(
-    data  => {console.log(data);this.assign_sub_error_codes(data);},
+    data  => {
+      console.log(data),
+      this.assign_sub_error_codes(data)},
     error => this.handleError(error)
   );  
 }
@@ -1241,6 +1244,7 @@ assign_sub_error_codes(data){
   }
   console.log(error_sub_params);
   this.error_sub_param_list = error_sub_params;
+  return error_sub_params;
 }
 
 
@@ -1268,6 +1272,9 @@ assign_sub_error_codes(data){
     else{
       this.editnote_value=value.content;
       this.edit_noteid=id;
+      this.qcNotes.patchValue({
+        qc_notes: this.editnote_value
+      })
 
       if(type=='qcnote')
       {
@@ -1275,6 +1282,8 @@ assign_sub_error_codes(data){
         let error_type= value.error_type;
         let error_parameter = value.error_parameter;
         let error_sub_parameter = value.error_sub_parameter;
+        console.log(error_sub_parameter);
+        this.selected_err_codes = value.error_sub_parameter;
 
         let root_det=this.root_stats;
         let selecetd_root=[];
@@ -1299,57 +1308,75 @@ assign_sub_error_codes(data){
         let selected_err =[];
         let error_param_det = this.err_param_stats;
         let fyi_param_det = this.fyi_param_stats;
-        let error_sub_param_det = this.err_sub_param_stats;
+        
+        let keys;
+        let error;
 
         
 // console.log("ERR_tyoe",error_type);
         error_type.forEach(function (value) {
-          let keys = value;
+          keys = value;
           console.log(keys);
           console.log(keys.id);
           console.log(keys['id']);
           console.log(error_det);
           
-          let error=error_det.find(x => x.id == keys['id'] );
+          error = error_det.find(x => x.id == keys['id'] );
           console.log(error);
           console.log(error['name']);
-          this.selected_err_codes = {id:keys['id'],description:error['name']};
+          //this.selected_err_codes = {id:keys['id'],description:error['name']};
+          //console.log(this.selected_err_codes);
           selected_err.push({id:keys['id'],description:error['name']});
-          console.log(selected_err);
-          this.qcNotes.patchValue({           
-            error_type: {id:keys['id'],description:error['name']},            
-            });
+          console.log(selected_err);          
           });
+          this.qcNotes.patchValue({           
+            error_type: {id: keys['id'], description: error['name']}          
+            });
+          this.selectedError = error['name'];
           
           //this.err_type_list = this.selecetd_err;
-
+          console.log(error_param_det);
           let selecetd_err_parameter=[];
-          let err_param_keys = value.error_parameters;
+          let err_param_keys = error_parameter;
+          console.log(err_param_keys);
           let error_param=error_param_det.find(x => x.id == err_param_keys );
-          selecetd_err_parameter.push({id:err_param_keys,description:error_param['name']});
+          console.log(error_param);
+          selecetd_err_parameter.push({id:err_param_keys,description:error_param['err_params']});
           this.qcNotes.patchValue({            
-            error_parameter: {id:err_param_keys,description:error_param['name']},
+            error_parameter: {id:err_param_keys, description:error_param['err_params']},
           });
-          //this.error_param_list = selecetd_err_parameter;
-          let selecetd_err_sub_parameter=[];
-          let err_sub_param_keys = value.error_sub_parameters;
-          let error_sub_param=error_sub_param_det.find(x => x.id == err_sub_param_keys );
-          selecetd_err_sub_parameter.push({id:err_sub_param_keys,description:error_sub_param['name']});
-          this.qcNotes.patchValue({            
-            error_sub_parameter: {id:err_sub_param_keys,description:error_sub_param['name']},
-          });
-          //this.error_sub_param_list = selecetd_err_sub_parameter;
-
-        this.qcNotes.patchValue({
+          this.parentId = err_param_keys;
+          
+          
+          this.Jarwis.get_error_sub_param_codes(this.setus.getId(),err_param_keys).subscribe(
+            data  => this.set_sub_err_code(data)
+          );    
+          
+          this.qcNotes.patchValue({
           qc_notes: this.editnote_value,
-          root_cause: selecetd_root,
-          error_type: this.selected_err_codes,                  
+          root_cause: selecetd_root                  
           });
       }
 
       this.initial_edit=false;
     }
 
+  }
+
+  set_sub_err_code(data){
+  console.log(data);
+    this.err_sub_param_stats = data.sub_param_datas;
+    let error_sub_param_det = this.err_sub_param_stats;
+    console.log(error_sub_param_det);
+    let selecetd_err_sub_parameter=[];
+    let err_sub_param_keys = this.selected_err_codes;
+    console.log(err_sub_param_keys);
+    let error_sub_param=error_sub_param_det.find(x => x.id == err_sub_param_keys );
+    console.log(error_sub_param);
+    selecetd_err_sub_parameter.push({id:err_sub_param_keys,description:error_sub_param['sub_parameter']});
+    this.qcNotes.patchValue({            
+      error_sub_parameter: {id:err_sub_param_keys, description:error_sub_param['sub_parameter']},
+    });
   }
 
   rc_et_data:any;
@@ -1536,28 +1563,36 @@ assign_sub_error_codes(data){
       else if(type=='qcnotes')
       {
         let claim_active;
+        let claim_id = [];
         console.log(this.edit_noteid);
 
         if(this.main_tab == true)
         {
           claim_active=this.claim_clicked;
+          claim_id = this.claim_clicked;
           console.log(claim_active);
         }
         else{
           claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
           console.log(claim_active);
+          claim_id = this.claim_clicked; 
         }
         this.Jarwis.check_edit_val(claim_active,'audit').subscribe(
           data  => {this.set_note_edit_validity(data);
             if(this.note_edit_val != undefined)
             {
               this.handle_notes_opt();
+              console.log(this.qcNotes.value['qc_notes']);
+              //this.qc_notes_data.push({notes:this.qcNotes.value['qc_notes'],id:claim_active['claim_no'],notes_opt:this.rc_et_data});
               let notes_det={notes:this.qcNotes.value['qc_notes'],notes_opt:this.rc_et_data};
 
-            this.Jarwis.qc_note(this.setus.getId(),notes_det,this.edit_noteid,'qcupdate').subscribe(
+             this.Jarwis.qc_note(this.setus.getId(),notes_det,claim_id,'qcupdate').subscribe(
               data  => this.display_notes(data,type),
               error => this.handleError(error)
-            );
+            ); 
+            //this.qc_notes_data.find(x => x.id == this.edit_noteid['claim_no']).notes=this.qcNotes.value['qc_notes'];
+            this.notes_hadler.set_notes(this.setus.getId(),notes_det,claim_id,'qcupdate');
+            this.send_calim_det('footer_data');
             }
             else{
               this.toastr.errorToastr('Notes cannot be Updated.', 'Claim Processed.');
@@ -1652,6 +1687,7 @@ assign_sub_error_codes(data){
   {
     if(this.main_tab==true)
     {
+      console.log('main');
       if(type == 'followup')
       {
         this.follow.setvalue(this.claim_clicked['claim_no']);
@@ -1664,6 +1700,7 @@ assign_sub_error_codes(data){
     }
     else
     {
+      console.log('Not main')
       if(type == 'followup')
       {
         this.follow.setvalue(this.active_claim);
@@ -1671,6 +1708,7 @@ assign_sub_error_codes(data){
       else{
         this.notes_hadler.selected_tab(this.active_claim);
         let claim_detials=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+        console.log(claim_detials);
         this.notes_hadler.set_claim_details(claim_detials);
         this.claim_active= claim_detials;
       }
@@ -2333,6 +2371,7 @@ check_note_edit_validity(claim)
 note_edit_val:number;
 set_note_edit_validity(data)
 {
+  console.log(data);
   if(data.edit_val == true)
   {
     this.note_edit_val = data.note_id['id'];
@@ -2867,6 +2906,8 @@ ngAfterViewInit()
 {
   this.get_statuscodes();
   this.get_audit_codes();
+  this.get_error_param_codes();
+  this.get_error_sub_param_codes();
   if(this.touch_count == undefined)
   {
     this.touch_count=this.notify_service.manual_touch_limit();
@@ -2942,6 +2983,9 @@ selectSubChange(value){
   console.log(value);
    this.parentId = value.id;
  console.log(this.parentId);
+ if (this.parentId != ''){
+  this.get_error_sub_param_codes();
+ } 
  }
 
 confirm_box()
