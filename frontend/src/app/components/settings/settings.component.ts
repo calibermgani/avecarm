@@ -6,6 +6,7 @@ import { SetUserService } from '../../Services/set-user.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Subscription } from 'rxjs';
 import { UserUpdateService } from '../../Services/user-update.service';
+import { element } from '@angular/core/src/render3/instructions';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -23,7 +24,7 @@ export class SettingsComponent implements OnInit,AfterViewInit {
   practiceGroup: FormGroup;
   settingSearch: FormGroup;
   statusPriority: FormGroup;
-  sampling:FormGroup;
+  audit_sampling:FormGroup;
   fields: string[];
   values: string[];
   closeResult : string;
@@ -648,22 +649,8 @@ set_prac_settings(data)
       this.prac_user_list = data['user_list'];
       console.log(this.prac_user_list);
       this.p_Users = this.prac_user_list;
-      for(let id of this.p_Users){
-        let p_user_id = id.id;
-        this.sampling = new FormGroup({      
-          user_id:new FormControl(p_user_id),
-          experience:new FormControl(''),
-          month:new FormControl(''),
-          percentage:new FormControl(''),
-        });
-      }
-      
-      /* for(let i=0;i<this.p_Users.length;i++){
-        let user = this.p_Users;
-        console.log(user[i]);
-        this.sampling.controls.user_id.patchValue(user[i]['id']);   
-      } */    
-    });    
+      console.log(this.p_Users);       
+    });     
 }
 
 /* set_prac_user_value(){
@@ -683,6 +670,7 @@ set_prac_settings(data)
     this.get_category_data();
     this.get_status_data();
     this.get_practice_user_list();
+    
     //this.set_prac_user_value();
     //this.sampling.controls.user_id.setValue(this.prac_user_list.id);
     this.formGroup = new FormGroup({
@@ -818,60 +806,19 @@ set_prac_settings(data)
 
     this.statusPriority = new FormGroup({
       priority: new FormArray([new FormControl ('')]),
-    });  
-               
+    });     
+    
   }
 
-
   ngAfterViewInit(){
-    // this.set_user_value();
+    // this.set_user_value();    
   }
   public onSearchChange(searchValue: string): void {
     var event="123";
       this.Jarwis.getfields(event,searchValue).subscribe(
       data => this.displayfields(data)
       );
-  } 
-
- /*  addSamplingGroup(): FormGroup {
-    return new FormGroup({
-      user:new FormControl(''),
-      experience:new FormControl(''),
-      month:new FormControl(''),
-      percentage:new FormControl(''),
-    });
-  }
-
-  addSamplingUser(): void {
-    this.sampling_datas.push(this.addSamplingGroup());
-  }
- 
-  //Remove Fields
-  removeSamplingUser(index: number): void {
-    this.sampling_datas.removeAt(index);
-  }
-  //Fields Array
-  get sampling_datas(): FormArray {
-    return <FormArray>this.sampling.get('sampling_datas');
-  } */
-
-  selectuser(event){
-    this.selectedUser = event.target.value;
-    console.log(this.selectedUser);
-    return this.selectedUser;
-  }
-
-  saveSampling(){
-    /* this.prac_user_list.forEach(value => {
-      let userId = value; 
-      this.selectedUser.push(userId);
-      for(let i =0;i < this.selectedUser.length; i++){
-        this.sampling.get('user_id').setValue(this.selectedUser[i]['id']);
-      }
-    }); */    
-  //this.sampling.get('user_id').setValue(this.selectedUser);
-    console.log(this.sampling.value);
-  }
+  }    
   
   get priority(): FormArray {  
     return this.statusPriority.get("priority") as FormArray;  
