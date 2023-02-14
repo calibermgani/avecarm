@@ -2685,7 +2685,7 @@ class AuditController extends Controller
 
         $current_total = $claim_data->count();
 
-        $claim_counts = $claim_count->count();
+        $claim_count = $claim_count->count();
 
         $selected_claim_data = $selected_claim_data->get();
 
@@ -2694,7 +2694,7 @@ class AuditController extends Controller
     }
 
 
-    if ($claim_counts != 0) {
+    if ($claim_count != 0) {
 
 
       foreach ($claim_data as $key => $value) {
@@ -2752,7 +2752,7 @@ class AuditController extends Controller
     $op_data['datas'] = $claim_data;
     return response()->json([
       'data' => $op_data,
-      'count' => $claim_counts,
+      'count' => $claim_count,
       'odata' => $claim_data,
       'claims' => $claim_type,
       'cls'  => $pending,
