@@ -34,13 +34,15 @@ use DateTime;
 use App\Claim_history;
 use App\Error_type;
 use Illuminate\Support\Facades\Log;
+use Exception;
+use Illuminate\Support\Facades\Response;
 
 class CreateworkorderController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['getclaim_details','process_note','getnotes','claim_note','qc_note','create_followup','get_followup','get_associates','create_workorder','check_claims','get_workorder','get_workorder_details','client_note','get_client_notes','fetch_wo_export_data','fetch_export_data', 'followup_process_notes_delete', 'audit_process_notes_delete', 'closed_followup_process_notes_delete', 'reasigned_followup_process_notes_delete', 'closed_audit_process_notes_delete', 'getclaim_details_order_list','team_claims']]);
+        $this->middleware('auth:api', ['except' => ['getclaim_details','process_note','getnotes','claim_note','qc_note','create_followup','get_followup','get_associates','create_workorder','check_claims','get_workorder','get_workorder_details','client_note','get_client_notes','fetch_wo_export_data','fetch_export_data', 'followup_process_notes_delete', 'audit_process_notes_delete', 'closed_followup_process_notes_delete', 'reasigned_followup_process_notes_delete', 'closed_audit_process_notes_delete', 'getclaim_details_order_list','team_claims', 'get_associate_name']]);
     }
 
     public function getclaim_details(LoginRequest $request)
@@ -3901,6 +3903,30 @@ public function get_associates(LoginRequest $request)
     ]);
 
     
+}
+
+
+public function get_associate_name(LoginRequest $request)
+{
+  try {
+      $user_id=$request->get('user_id');
+      $user_name = User::select('id', 'user_name', 'firstname', 'lastname')->where('id', $user_id)->first();
+      if($user_name)
+      {
+          $user_details = array('status'=> 200, 'user_detail' => $user_name);
+
+          return Response::json($user_details);
+      }else
+      {
+        $user_details = array('status'=> 400, 'user_detail' => []);
+
+        return Response::json($user_details);
+      }
+
+  } catch (Exception $e) {
+      Log::debug($e->getMessage());
+  }
+
 }
 
 public function create_workorder(LoginRequest $request)

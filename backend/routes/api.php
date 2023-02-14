@@ -234,5 +234,6 @@ Route::group([
 
     Route::post('get_sample_claims', 'SampleClaimController@get_sample_claims');
     Route::post('get_practice_user_list', 'SampleClaimController@get_practice_user_list');
+    Route::post('get_associate_name', 'CreateworkorderController@get_associate_name');
 
 });
