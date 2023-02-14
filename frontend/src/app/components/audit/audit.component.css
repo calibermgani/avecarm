@@ -203,6 +203,10 @@
 .fa-sort-up {
   margin-bottom: -14px;
 }
+
+.row_red{
+  background-color: #ffcaca;
+}
 /* .ar-total {
   padding: 5px 5px !important;
 } */

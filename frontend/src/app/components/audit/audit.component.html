@@ -1040,7 +1040,7 @@
                                                             [size]="60"
                                                             [color]="'#1fa5be'"
                                                             ></app-atom-spinner>
-                                                            <tr *ngFor="let x of allocated_claims | paginate: { id: 'alloc_claims',itemsPerPage: 15, currentPage: alloc_pages, totalItems:total_allocated}"  class="clickable-row cur-pointer"  >
+                                                            <tr *ngFor="let x of allocated_claims | paginate: { id: 'alloc_claims',itemsPerPage: 15, currentPage: alloc_pages, totalItems:total_allocated}" [ngClass]="{'row_red': x.error_type === '[4]'}" class="clickable-row cur-pointer"  >
 
                                                                <td (mouseover)="tooltip(x)"><input type="checkbox" style="margin-top:0px;" [checked]="selected_claim_nos.includes(x.claim_no)" style="margin-top:0px;" (click)="assigned_selected($event,x.claim_no,i)"></td>
 
