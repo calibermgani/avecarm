@@ -2685,7 +2685,7 @@ class AuditController extends Controller
 
         $current_total = $claim_data->count();
 
-        $claim_count = $claim_count->count();
+        $claim_count = $claim_data->count();
 
         $selected_claim_data = $selected_claim_data->get();
 
