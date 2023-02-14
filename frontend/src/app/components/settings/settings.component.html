@@ -443,10 +443,10 @@
                      <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
                         <!-- /.box-header -->
                         <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                           <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Priority Status Settings</h3>                        
+                           <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Priority Status Settings</h3>
                         </div>
                         <div class="box-body no-padding"  style="margin: 5px 0 8px 0;">
-                           <form [formGroup]="statusPriority">                         
+                           <form [formGroup]="statusPriority">
                               <div formArrayName="priority">
                                  <div *ngFor="let prior of priority.controls; let i=index;" class="form-group">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom:10px;">
@@ -454,12 +454,16 @@
                                           <label style="font-size:13px;padding:4px 5px 0 0">Status Code</label>
                                        </div>
                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 no-padding">
-                                          <select [formControlName]="i" class="form-control ngx-dropdown-button">
+                                          <!-- <select [formControlName]="i" class="form-control ngx-dropdown-button">
                                              <option value="">--Select Status--</option>
                                              <option *ngFor="let data of status_list;" [ngValue]="{priority_level:i+1, id:data.id}">{{ data.description }}</option>
-                                          </select>
+                                          </select> -->
+                                          <select [formControlName]="i" class="form-control ngx-dropdown-button">
+                                            <option value="">--Select Status--</option>
+                                            <option *ngFor="let data of status_list; let j = index;" value="{ {{ j + 1 }} : {{ data.description }} }">{{ data.description }}</option>
+                                         </select>
                                        </div>
-                                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">                                          
+                                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                           <span *ngIf="i != 0">
                                              <button type="button" class="add btn btn-remove btn-xs" style="margin: 3px 10px 0 5px;" aria-label="Remove" (click)="removeStatusField(i)">
                                                 <span aria-hidden="true"><i class="fa fa-trash"></i></span>
@@ -470,15 +474,15 @@
                                                 <span aria-hidden="true"><i class="fa fa-plus"></i></span>
                                              </button>
                                           </span>
-                                          <!-- <span *ngIf="i != 0" type="button" (click)="removeStatusField(i)"><i class="fa fa-trash" style="font-size:15px;padding:0 5px"></i></span> -->                                                                                    
+                                          <!-- <span *ngIf="i != 0" type="button" (click)="removeStatusField(i)"><i class="fa fa-trash" style="font-size:15px;padding:0 5px"></i></span> -->
                                        </div>
-                                    </div>                                   
-                                 </div>                                       
+                                    </div>
+                                 </div>
                               </div>
                            </form>
                            <!-- {{this.statusPriority.value | json}}   -->
                         </div>
-                     </div>                  
+                     </div>
                   </div>
                </div>
                <div class="box no-shadow no-border no-bottom">
@@ -486,7 +490,7 @@
                      <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4;padding-bottom:15px;">
                         <!-- /.box-header -->
                         <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
-                           <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Audit Sampling</h3>                        
+                           <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Audit Sampling</h3>
                         </div>
                         <div class="box-body no-padding"  style="margin-top: 20px;">
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom:10px">
@@ -506,8 +510,8 @@
                               </div>
                            </div>
                            <div *ngFor="let user of prac_user_list; let i = index">
-                              <form [formGroup]="sampling">                              
-                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom:10px;">                                 
+                              <form [formGroup]="sampling">
+                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom:10px;">
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="padding:0 10px;">
                                        <label>{{ user.user_name }}</label>
                                        <!-- <input type="hidden" name="user_id" [value]="p_Users[i]" formControlName="user_id" [(ngModel)]="p_Users[i]['id']"> -->
@@ -549,14 +553,14 @@
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                        <button type="button" class="btn btn-primary btn-sm" (click)="saveSampling()">Save</button>
                                     </div>
-                                 </div>                                            
+                                 </div>
                               </form>
-                           </div>                           
+                           </div>
                            <!-- {{this.sampling.value | json}}   -->
                         </div>
-                     </div>                  
+                     </div>
                   </div>
-               </div>                                                            
+               </div>
             </div>
          </div>
       </div>
