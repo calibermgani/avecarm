@@ -24,7 +24,7 @@ export class SettingsComponent implements OnInit,AfterViewInit {
   practiceGroup: FormGroup;
   settingSearch: FormGroup;
   statusPriority: FormGroup;
-  audit_sampling:FormGroup;
+  audit_sampling: FormGroup;
   fields: string[];
   values: string[];
   closeResult : string;
@@ -40,15 +40,13 @@ export class SettingsComponent implements OnInit,AfterViewInit {
   public prac_user_list: any;
   selectedUser:any;
   p_Users: any[] = [];
-  minDate = {year: 1900, month: 1, day: 1};
-
-  
+  minDate = {year: 1900, month: 1, day: 1};  
   observalble: Subscription;
-  constructor(private Jarwis: JarwisService,private formBuilder:FormBuilder,
-    private modalService: NgbModal,private setus: SetUserService,public toastr: ToastrManager,private user_update:UserUpdateService) {
-    this.observalble=this.setus.update_edit_perm().subscribe(message => {this.check_edit_permission(message)} );    
 
+  constructor(private Jarwis: JarwisService,private formBuilder:FormBuilder, private modalService: NgbModal,private setus: SetUserService,public toastr: ToastrManager,private user_update:UserUpdateService) {
+    this.observalble=this.setus.update_edit_perm().subscribe(message => {this.check_edit_permission(message)} );    
   }
+
   public form = {};
   field_name=[];
   public displayfields(data)
@@ -811,7 +809,10 @@ set_prac_settings(data)
   }
 
   ngAfterViewInit(){
-    // this.set_user_value();    
+    // this.set_user_value(); 
+    /* this.audit_sampling = this.formBuilder.group({
+      sampling: this.formBuilder.array([this.buildForm()]),
+    });  */  
   }
   public onSearchChange(searchValue: string): void {
     var event="123";
@@ -829,5 +830,29 @@ set_prac_settings(data)
   removeStatusField(i:number) {  
     this.priority.removeAt(i);  
   } 
+
+  /* buildForm() {
+    const controlArray = this.audit_sampling.get('sampling') as FormArray;
+    Object.keys(this.obj).forEach((x) => {
+      console.log(this.obj[x].name);
+    }); 
+    Object.keys(this.p_Users).forEach((i) => {
+      controlArray.push(
+        this.formBuilder.group({
+          user_id: this.p_Users[i].id,
+          experience: new FormControl(''),
+          month: new FormControl(''),
+          audit_percentage: new FormControl(''),
+        })
+      );
+    });
+    console.log(controlArray.controls);
+    return controlArray
+  }  
+			   
+ saveSampling(i) {
+    const sampleArray = this.audit_sampling.get('sampling') as FormArray;
+    console.log(sampleArray.controls[i].value);
+  } */
 
 }

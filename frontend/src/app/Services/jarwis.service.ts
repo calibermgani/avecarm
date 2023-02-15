@@ -319,6 +319,12 @@ get_associates(data)
          let response= this.common_url('get_associates',data);
    return response;
 }
+
+get_associate_name(data){
+  data = {user_id:data};
+  let response= this.common_url('get_associate_name',data);
+   return response;
+}
 create_workorder(id,data,claim,wo_type)
 {
   data={id:id,work:data,claim:claim,type:wo_type};

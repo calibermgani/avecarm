@@ -398,8 +398,6 @@ types;
   console.log("ip",type);
   let form_type=null;
   let searchs = this.search;
-
-
   console.log(searchs);
 
   if(type=='wo')
@@ -411,7 +409,6 @@ types;
       data  => this.assign_page_data(data),
       error => this.handleError(error)
       );
-
   }
   else if(type=='completed'){
 
@@ -433,7 +430,7 @@ types;
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
       );
-  }else{
+    }else{
     console.log('com_3');
       this.comp_pages=page;
       this.current_claim_type='completed';
@@ -531,7 +528,7 @@ types;
 
 this.tab_load=true;
 
-if(type=='allocated' ){
+/* if(type=='allocated' ){
   if(sorting_name == 'null' && searchs != 'search'){
     console.log('middle');
     this.alloc_pages=page;
@@ -600,7 +597,7 @@ if(type=='allocated' ){
       error => this.handleError(error)
     );
   }
-}
+} */
 
 
 }

@@ -46,6 +46,8 @@ export class ClaimOpFooterComponent implements OnInit {
   public err_type:any;
   public err_val:any;
   public errorCodeValue;
+  public user:any;
+  public user_name:any;
   minDate = undefined;
   constructor(
     private Jarwis: JarwisService,
@@ -78,17 +80,17 @@ export class ClaimOpFooterComponent implements OnInit {
   public get_statuscodes()
   {
     this.Jarwis.get_status_codes(this.setus.getId(),'all').subscribe(
-      data  => this.process_codes(data)
+      data  => {this.process_codes(data), this.assign_codes(data)}
     );
   }
 
   //Get Associates from backend
-  public get_associates()
+  /* public get_associates()
   {
     this.Jarwis.get_associates(this.setus.getId()).subscribe(
       data  => this.process_associates(data)
     );
-  }
+  } */
 
 model;
 
@@ -96,16 +98,46 @@ public clear(): void {
   this.model = undefined;
 }
 
-
-
+public get_associate_name(data){
+  let data1 = data.associate;
+  this.Jarwis.get_associate_name(data1).subscribe(
+    data  => this.process_associates_name(data)
+    );  
+}
 
   //Set Associates Value
 
-  public process_associates(data:any)
+  public process_associates_name(data:any){    
+    if(data.type == 'Assign')
+    {
+      let associate = data.associate;
+      let index=this.associates_options.findIndex(v => v.id == associate);
+      this.formGroup.patchValue({
+        associates: this.associates_options[index],
+          });
+    }
+    else{
+      let associates=data['user_detail'];
+    let associate_option_data=[];
+    if(associates!=undefined || associates != '')
+    {      
+      associate_option_data.push({id: associates['id'], description: associates['user_name'] })
+    }
+    this.associates_options=associate_option_data;
+    this.formGroup.patchValue({
+      associates: {id: associates['id'], description: associates['user_name'] },
+        });
+    }
+
+    
+  }
+
+  /* public process_associates(data:any)
   {
      console.log("Assoc",data);
     if(data.type == 'Assign')
     {
+      let associates = data.associate
       let index=this.associates_options.findIndex(v => v.id == data.associate);
       this.formGroup.patchValue({
         associates: this.associates_options[index],
@@ -123,7 +155,7 @@ public clear(): void {
       }
       this.associates_options=associate_option_data;
       }
-  }
+  } */
 
   public receive_error_codes(data:any){
     console.log(data);
@@ -155,7 +187,6 @@ public clear(): void {
      // alert('dd0');
       this.assign_codes(data);
     }
-
      this.assign_codes(data);
 
   }
@@ -188,7 +219,7 @@ public clear(): void {
           this.status_code_changed(data);
           let associate_data={type:'Assign',associate:this.selected_claim_data['followup_associate']};
 
-            this.process_associates(associate_data);
+            this.process_associates_name(associate_data);
           
               // this.formGroup.patchValue({
               //   status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
@@ -278,7 +309,7 @@ public clear(): void {
         this.status_code_changed(data);
         let associate_data={type:'Assign',associate:this.selected_claim_data['followup_associate']};
 
-          this.process_associates(associate_data);
+          this.get_associate_name(associate_data);
           if(this.selected_claim_data['followup_date'] == null){
             this.formGroup.patchValue({
               status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
@@ -892,19 +923,19 @@ this.formGroup.controls['closed'].disable();
 // this.formGroup.controls['followup_date'].reset();
 this.formGroup.controls['closed'].enable();
   }
-get_values()
+/* get_values()
 {
   //alert('te');
       //Test of fork join
       this.Jarwis.get_process_associates(this.setus.getId(),this.active_tab,this.router.url).subscribe(
         data  => {
           this.process_codes(data[0]),
-          this.process_associates(data[1]),
+          //this.process_associates(data[1]),
           // this.set_note_details(data[2]),
           this.assign_codes(data);
         }
       );
-}
+} */
 
 errorvalues(){
   if (this.err_type !=null && this.err_type !='' && this.err_type !=undefined){
@@ -923,7 +954,7 @@ public seterrcode(value){
 
 public disableClaim(){
   let disableClaim; 
-  if (this.errorCodeValue == 'Error' || this.errorCodeValue == 'FYI'){
+  if (this.errorCodeValue == 'Error' || this.errorCodeValue == 'FYI' || this.errorCodeValue == 'Clarification'){
     disableClaim = this.formGroup.controls['closed'].disable();
   }
   this.claim_closed =false;
@@ -932,9 +963,9 @@ public disableClaim(){
 
   ngOnInit() {
 
-    this.get_values();
-    // this.get_associates();
-    // this.get_statuscodes();
+    //this.get_values();
+    //this.get_associates();
+    this.get_statuscodes();
    //Observables for claim selection
    if(this.router.url == '/followup'){
      //alert(this.router.url);

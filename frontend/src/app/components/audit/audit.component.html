@@ -1047,7 +1047,7 @@
                                                                <td *ngIf="x.touch < touch_count" title="Touch Count"><span class="ar" (mouseover)="tooltip(x)">{{x.touch}}</span></td>
 
                                                                <td *ngIf="x.touch >= touch_count" title="Touch Count" (mouseover)="tooltip(x)"><span class="ar-red" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();">{{x.touch}}</span></td>
-
+                                                               <td *ngIf="!x.touch" ><span class="ar">--Nil--</span></td>
 
                                                                <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
 
