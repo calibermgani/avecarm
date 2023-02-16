@@ -1313,12 +1313,18 @@
                                                             [size]="60"
                                                             [color]="'#1fa5be'"
                                                             ></app-atom-spinner>
-                                                            <tr *ngFor="let x of allocated_claims | paginate: { id: 'alloc_claims',itemsPerPage: 15, currentPage: alloc_pages, totalItems:total_allocated}"  class="clickable-row cur-pointer" >
+                                                            <tr *ngFor="let x of allocated_claims | paginate: { id: 'alloc_claims',itemsPerPage: 100, currentPage: alloc_pages, totalItems:total_allocated}"  class="clickable-row cur-pointer" >
                                                                <td><input type="checkbox" [checked]="selected_claim_nos.includes(x.claim_no)" style="margin-top:0px;" (click)="selected($event,x.claim_no,i)"></td>
-                                                               <td *ngIf="x.touch < touch_count" title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar">{{x.touch}}</span></td>
-                                                               <td *ngIf="x.touch >= touch_count" title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td>
-                                                               <td *ngIf="!x.touch" ><span class="ar">--Nil--</span></td>
-
+                                                               <!-- <td *ngIf="x.touch < touch_count || x.touch >= touch_count; else no_touch" title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar">{{x.touch}}</span></td>
+                                                               <td *ngIf="x.touch >= touch_count; else no_touch" title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td>
+                                                               <ng-template #no_touch><span class="ar">--Nil--</span></ng-template> -->
+                                                               <ng-template [ngIf]="x.touch < touch_count" [ngIfElse]="second"><td title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar">{{x.touch}}</span></td></ng-template>
+                                                               <ng-template #second>
+                                                                 <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td></ng-template>
+                                                               </ng-template>
+                                                               <ng-template #third>
+                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                               </ng-template>
 
                                                                <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
 
@@ -1640,7 +1646,7 @@
 
                                                                <th (click) = "reassigned_order_list('reallocated','claims_notes', 'null', 'null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
-                                                               <th (click) = "reassigned_order_list('reallocated','created_ats', 'null', 'null')" class="font600 line-height-24">Assigned To|By|Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click) = "reassigned_order_list('reallocated','created_ats', 'null', 'null')" class="font600 line-height-24">Assigned To| Date<i class="fa fa-fw fa-sort"></i></th>
 
                                                             </tr>
                                                          </thead>
@@ -1655,9 +1661,17 @@
 
                                                                <td><input type="checkbox" class="checkbox" [checked]="selected_claim_nos.includes(x.claim_no)" style="margin-top:0px;" (click)="reassigned_selected($event,x.claim_no,i)"></td>
 
-                                                               <td *ngIf="x.touch < touch_count" title="Touch Count" (click)="open(claimpage);reasignedclaimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar">{{x.touch}}</span></td>
-                                                               <td *ngIf="x.touch >= touch_count" title="Touch Count" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td>
+                                                               <!-- <td *ngIf="x.touch < touch_count" title="Touch Count" (click)="open(claimpage);reasignedclaimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar">{{x.touch}}</span></td>
+                                                               <td *ngIf="x.touch >= touch_count" title="Touch Count" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td> -->
 
+                                                               <ng-template [ngIf]="x.touch < touch_count" [ngIfElse]="second"><td title="Touch Count" (click)="open(claimpage);note_refresh();reasignedclaimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar">{{x.touch}}</span></td></ng-template>
+                                                               <ng-template #second>
+                                                                 <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count" (click)="open(claimpage);note_refresh();reasignedclaimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td></ng-template>
+                                                               </ng-template>
+                                                               <ng-template #third>
+                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                               </ng-template>
+                                                               
                                                                <td class="cur-pointer" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
 
                                                                <td class="cur-pointer dos-date" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.dos==NULL">-Nil-</span><span *ngIf="x.dos!=NULL">{{x.dos | date: 'MM/dd/yyyy'}}</span></span></td>
@@ -1686,7 +1700,7 @@
 
                                                                <td><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
 
-                                                               <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.assigned_by ">UA</span><span *ngIf="x.assigned_by">{{x.assigned_by}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
+                                                               <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats}}</span></td>
                                                             </tr>
                                                             <tr *ngIf="reallocate_total_row==0">
                                                                <td colspan="12" align="center"><b>No Records Found</b></td>
@@ -2147,9 +2161,17 @@
                                                             ></app-atom-spinner>
                                                             <tr *ngFor="let x of completed_claims | paginate: { id: 'comp_claims',itemsPerPage: 15, currentPage: comp_pages, totalItems:total_completed_claims}"  class="clickable-row cur-pointer" (click)="open(claimpage);claimslection(x);claim_check(x.touch);" >
                                                             <!-- <td><input type="checkbox" style="margin-top:0px;"></td> -->
-                                                            <td *ngIf="x.touch < touch_count" title="Touch Count"><span class="ar">{{x.touch}}</span></td>
-                                                            <td *ngIf="x.touch >= touch_count" title="Touch Count"><span class="ar-red">{{x.touch}}</span></td>
+                                                            <!-- <td *ngIf="x.touch < touch_count" title="Touch Count"><span class="ar">{{x.touch}}</span></td>
+                                                            <td *ngIf="x.touch >= touch_count" title="Touch Count"><span class="ar-red">{{x.touch}}</span></td> -->
 
+                                                            <ng-template [ngIf]="x.touch < touch_count" [ngIfElse]="second"><td title="Touch Count" ><span class="ar">{{x.touch}}</span></td></ng-template>
+                                                            <ng-template #second>
+                                                               <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count"><span class="ar-red">{{x.touch}}</span></td></ng-template>
+                                                            </ng-template>
+                                                            <ng-template #third>
+                                                               <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                            </ng-template>
+                                                            
                                                             <td class="cur-pointer"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
 
                                                             <td class="cur-pointer dos-date"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.dos==NULL">-Nil-</span><span *ngIf="x.dos!=NULL">{{x.dos | date: 'MM/dd/yyyy'}}</span></span></td>

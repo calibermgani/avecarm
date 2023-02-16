@@ -3009,11 +3009,18 @@
 
                                                    <td><input type="checkbox" class="checkbox" [checked]="selected_claim_nos.includes(x.claim_no)" style="margin-top:0px;" (click)="selected($event,x.claim_no,i)"></td>
 
-                                                   <td *ngIf="x.touch < touch_count" title="Touch Count" (mouseover)="tooltip(x)"><span class="ar">{{x.touch}}</span></td>
-                                                   <td *ngIf="x.touch >= touch_count" title="Touch Count" (mouseover)="tooltip(x)"><span class="ar-red">{{x.touch}}</span></td>
+                                                   <!-- <td *ngIf="x.touch < touch_count" title="Touch Count" (mouseover)="tooltip(x)"><span class="ar">{{x.touch}}</span></td>
+                                                   <td *ngIf="x.touch >= touch_count" title="Touch Count" (mouseover)="tooltip(x)"><span class="ar-red">{{x.touch}}</span></td> -->
 
+                                                   <ng-template [ngIf]="x.touch < touch_count" [ngIfElse]="second"><td title="Touch Count"><span class="ar">{{x.touch}}</span></td></ng-template>
+                                                   <ng-template #second>
+                                                      <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count"><span class="ar-red">{{x.touch}}</span></td></ng-template>
+                                                   </ng-template>
+                                                   <ng-template #third>
+                                                      <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                   </ng-template>
+                                                   
                                                    <td class="cur-pointer" data-toggle="modal" data-target="#claims" (click)="open(claimpage);claimslection(x);"(mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
-
 
                                                    <td *ngIf="x.dos != '01/01/1970'" class="cur-pointer dos-date" data-toggle="modal" data-target="#claims" (click)="open(claimpage);claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.dos==NULL">-Nil-</span><span *ngIf="x.dos!=NULL && x.dos!='11/30/1899'">{{x.dos | date:'MM/dd/yyyy'}}</span><span *ngIf="x.dos =='11-30-1899'">{{01/01/1970 | date:'MM/dd/yyyy'}}</span></span></td>
 
@@ -3401,7 +3408,7 @@
             <table class="table table-striped1 table-bordered" style="border-color: #edf0f7;position: relative;">
                <td class="text-center ar-blue">
                   <select class="form-group details" id="field" (change)="display_selected($event.target.value)" style="width: 27.2%; padding-left: 0px;">
-                     <option>All</option>
+                     <option value="All">All</option>
                      <option *ngFor="let m of mismatch_field_list" value="{{m}}"> {{field_name[m]}}</option>
 
 
@@ -3423,12 +3430,12 @@
                   </tr>
                </thead>
                <tbody>
-                  <tr *ngFor="let r of mismatch_claim_number_sort | paginate: { itemsPerPage: 10, currentPage: page }" >
+                  <tr *ngFor="let r of mismatch_claim_number_sort" >
                      <td  class="text-center ar-blue"> {{r}}</td>
                      <td class="text-center ar-blue">
                         <select class="form-group details" id="field" (change)="displayvalues(r,$event.target.value)">
-                           <option>Select</option>
-                           <option *ngFor="let m of mismatch_claim_data[r] | paginate: { itemsPerPage: 10, currentPage: page }" [selected]="m === mismatch_selected" value="{{m}}" > {{field_name[m]}}</option>
+                           <option value="All">Select</option>
+                           <option *ngFor="let m of mismatch_claim_data[r]" [selected]="m === mismatch_selected" value="{{m}}" > {{field_name[m]}}</option>
                         </select>
                      </td>
                      <td  class="text-center ar-blue" > {{old_value[r]}}</td>

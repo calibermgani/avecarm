@@ -1,4 +1,4 @@
-import { Component,ViewChildren,QueryList,ElementRef, OnInit,Input,ChangeDetectionStrategy,HostListener,ViewEncapsulation } from '@angular/core';
+import { Component,ViewChildren,QueryList,ElementRef, OnInit,Input,ChangeDetectionStrategy,HostListener,ViewEncapsulation, OnDestroy } from '@angular/core';
 import { SetUserService } from '../../Services/set-user.service';
 import { JarwisService } from '../../Services/jarwis.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
@@ -20,7 +20,7 @@ import * as moment from 'moment';
   styleUrls: ['./followup.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class FollowupComponent implements OnInit {
+export class FollowupComponent implements OnInit, OnDestroy {
 
   assigned = "";
   reAssigned = "";
@@ -446,6 +446,7 @@ types;
     if(sorting_name == 'null' && searchs != 'search'){
       this.alloc_pages=page;
       this.current_claim_type='allocated';
+      page_count = 100;
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
@@ -2172,6 +2173,7 @@ getSummary(){
          //this.subscription.unsubscribe();
           this.response_data.unsubscribe();
           this.update_monitor.unsubscribe();
+          this.subscription.unsubscribe();
         }
 		//Create Work Order
 

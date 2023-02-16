@@ -1,4 +1,4 @@
-import { Component, ViewChildren, ElementRef, QueryList, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChildren, ElementRef, QueryList, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output, OnChanges, ViewEncapsulation, AfterViewInit, OnDestroy } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { SetUserService } from '../../Services/set-user.service';
 import { JarwisService } from '../../Services/jarwis.service';
@@ -36,7 +36,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 
 
-export class ClaimsComponent implements OnInit {
+export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
 
   page = "";
   createWork = "";
@@ -3705,6 +3705,7 @@ console.log(this.age_options);
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
+    this.observalble.unsubscribe();
   }
 
 
@@ -3736,7 +3737,8 @@ console.log(this.age_options);
   }
 
   public reload(){
-    window.location.reload();
+    // window.location.reload();
+    this.ngOnInit();
   }
 
 //Get Status codes from Backend

@@ -1,4 +1,4 @@
-import { Component, OnInit,TemplateRef,ViewEncapsulation,Input } from '@angular/core';
+import { Component, OnInit,TemplateRef,ViewEncapsulation,Input, OnDestroy } from '@angular/core';
 import { JarwisService } from '../../Services/jarwis.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { SetUserService } from '../../Services/set-user.service';
@@ -17,7 +17,7 @@ import {NgbDatepickerConfig, NgbCalendar, NgbDate, NgbDateStruct,NgbDateParserFo
   styleUrls: ['./claim-op-footer.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ClaimOpFooterComponent implements OnInit {
+export class ClaimOpFooterComponent implements OnInit, OnDestroy {
     @Input() tab; //Note you need to import Input from @angular/core  
 
     //console.log(tab);
@@ -1029,6 +1029,7 @@ ngOnDestroy(){
   this.subscription.unsubscribe();
   this.subscription2.unsubscribe();
   this.subscription3.unsubscribe();
+  this.subscription4.unsubscribe();
   this.subscription5.unsubscribe();
 
 }

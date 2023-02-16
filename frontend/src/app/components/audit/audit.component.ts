@@ -1,4 +1,4 @@
-import { Component,ViewChildren,ElementRef,QueryList, OnInit,ChangeDetectionStrategy,ViewEncapsulation } from '@angular/core';
+import { Component,ViewChildren,ElementRef,QueryList, OnInit,ChangeDetectionStrategy,ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
 import { SetUserService } from '../../Services/set-user.service';
 import { JarwisService } from '../../Services/jarwis.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
@@ -20,7 +20,7 @@ import * as moment from 'moment';
   styleUrls: ['./audit.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AuditComponent implements OnInit {
+export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
 
   createWork = "";
   assigned = "";
@@ -2917,6 +2917,10 @@ ngAfterViewInit()
 ngOnDestroy(){
   // prevent memory leak when component destroyed
   this.subscription.unsubscribe();
+  this.response_data.unsubscribe();
+  this.observalble.unsubscribe();
+  this.update_monitor.unsubscribe();
+  this.sub_err_subscription.unsubscribe();
 }
 
 //Red Alerrt Box

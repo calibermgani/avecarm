@@ -1,4 +1,4 @@
-import { Component, OnInit ,ChangeDetectionStrategy,ViewEncapsulation, AfterViewInit} from '@angular/core';
+import { Component, OnInit ,ChangeDetectionStrategy,ViewEncapsulation, AfterViewInit, OnDestroy} from '@angular/core';
 import { JarwisService } from '../../Services/jarwis.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators,FormArray,FormBuilder } from "@angular/forms";
@@ -13,7 +13,7 @@ import { element } from '@angular/core/src/render3/instructions';
   styleUrls: ['./settings.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SettingsComponent implements OnInit,AfterViewInit {
+export class SettingsComponent implements OnInit,AfterViewInit,OnDestroy {
   formGroup: FormGroup;
   questionGroup: FormGroup;
   statusCode: FormGroup;
@@ -855,4 +855,7 @@ set_prac_settings(data)
     console.log(sampleArray.controls[i].value);
   } */
 
+  ngOnDestroy(){
+    this.observalble.unsubscribe();
+  }
 }

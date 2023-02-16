@@ -1517,6 +1517,8 @@ ngAfterViewInit()
 ngOnDestroy(){
   // prevent memory leak when component destroyed
   this.subscription.unsubscribe();
+  this.observalble.unsubscribe();
+  this.response_data.unsubscribe();
 }
 public togglecollapse(){
     alert("hi")

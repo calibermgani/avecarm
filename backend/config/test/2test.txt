@@ -1,1 +1,1 @@
-{"total_ar_due":["true","notify"],"patient_name":["true","notify"],"responsibility":["true","notify"]}
+{"patient_name":["true","notify"],"responsibility":["true","notify"],"ssn":[true,"notify"],"insurance_type":[true,"notify"],"primary_insurance_name":[true,"notify"],"primary_policy_id":[true,"notify"],"total_charges":[true,"notify"],"ins_ar":[true,"notify"],"claim_status":[true,"notify"],"claim_note":[true,"notify"]}
