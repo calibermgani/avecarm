@@ -55,6 +55,8 @@
     "ins_ar" : "Insurance AR",
     "total_ar_due" : "Total AR",
     "claim_status" : "Claim Status",
-    "claim_note" : "Claim Note"
+    "claim_note" : "Claim Note",
+    "billedlast_submit_date" : "Billed/Last Submit Date",
+    "denial_code" : "Denial Code"
 
 }
