@@ -57,7 +57,9 @@ return [
     "ins_ar" => "ins_ar",
     "total_ar_due" => "total_ar",
     "claim_status" => "claim_Status",
-    "claim_note" => "claim_note"
+    "claim_note" => "claim_note",
+    "billedlast_submit_date" => "billedlast_submit_date",
+    "denial_code" => "denial_code"
 
 ]
 
