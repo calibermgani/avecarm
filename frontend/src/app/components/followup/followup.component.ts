@@ -179,7 +179,8 @@ reallocate_total_row;
       }
       else if(type=='completed'){
         this.completed_claims=data.data.datas;
-        this.completed_claims_data = data.selected_claim_data;
+        // this.completed_claims_data = data.selected_claim_data;
+        this.completed_claims_data = data.data.datas;
         this.total_completed_claims=data.count;
 
         this.total=data.total;
@@ -193,7 +194,8 @@ reallocate_total_row;
       else if(type=='allocated')
       {
         this.allocated_claims=data.data.datas;
-        this.assigned_claims = data.selected_claim_data;
+        // this.assigned_claims = data.selected_claim_data;
+        this.assigned_claims = data.data.datas;
         this.total_allocated=data.count;
 
         this.total=data.total;
@@ -209,7 +211,8 @@ reallocate_total_row;
       {
         this.reallocated_claims=data.data.datas;
         console.log(this.reallocated_claims);
-        this.reassigned_claims_data = data.selected_claim_data;
+        // this.reassigned_claims_data = data.selected_claim_data;
+        this.reassigned_claims_data = data.data.datas;
         this.total_reallocated=data.count;
 
         this.total=data.total;
@@ -248,7 +251,8 @@ reallocate_total_row;
       {
     // console.log(data);
         this.allocated_claims=data.data.datas;
-        this.assigned_claims = data.selected_claim_data;
+        // this.assigned_claims = data.selected_claim_data;
+        this.assigned_claims = data.data.datas;
         console.log(this.assigned_claims);
         this.total_allocated=data.count;
         if(this.claim_active != undefined)
@@ -260,7 +264,8 @@ reallocate_total_row;
       {
         // console.log(data);
         this.reallocated_claims=data.data.datas;
-        this.reassigned_claims_data = data.selected_claim_data;
+        // this.reassigned_claims_data = data.selected_claim_data;
+        this.reassigned_claims_data = data.data.datas;
         this.total_reallocated=data.count;
         if(this.claim_active != undefined)
         {
@@ -269,7 +274,8 @@ reallocate_total_row;
       }
       else if(type=='completed'){
         this.completed_claims=data.data.datas;
-        this.completed_claims_data = data.selected_claim_data;
+        // this.completed_claims_data = data.selected_claim_data;
+        this.completed_claims_data = data.data.datas;
         this.total_completed_claims=data.count;
         if(this.claim_active != undefined)
         {
@@ -1031,6 +1037,7 @@ public getnotes(claim)
           this.claim_notes=data.data.claim;
           this.qc_notes=data.data.qc;
           this.client_notes=data.data.client;
+          console.log(this.claim_notes);
         }
     }
     this.loading=false;
@@ -1081,6 +1088,10 @@ public savenotes(type)
     //   data  => this.display_notes(data,type),
     //   error => this.handleError(error)
     //   );
+
+    if(this.editnote_value!=null || this.editnote_value!=undefined){
+      this.claimNotes.value['claim_notes'] = this.editnote_value;
+    }
     this.request_monitor=0;
     this.claim_notes_data.push({notes:this.claimNotes.value['claim_notes'],id:claim_id['claim_no']});
     this.claim_notes_data_list.push(claim_id['claim_no']);
@@ -1114,8 +1125,17 @@ public editnotes(type,value,id)
     this.proess_initial_edit=true;
   }
   else{
+    console.log(type);
+    console.log(value);
+    console.log(id);
     this.editnote_value=value;
     this.edit_noteid=id;
+
+    if(type=='claimnotes'){
+      this.claimNotes.patchValue({
+        claim_notes: this.editnote_value,
+      });
+    } 
     this.initial_edit=false;
   }
 
@@ -1181,6 +1201,7 @@ public updatenotes(type){
   else if(type == 'claimnotes')
   {
     let claim_active;
+    let claim_id = [];
 
     // if(this.main_tab == true)
     // {
@@ -1188,27 +1209,40 @@ public updatenotes(type){
     // }
     // else{
     //   claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
-
     // }
-
-
-
-
     // console.log("cc",claim_active ,);
     // this.check_note_edit_validity(this.claim_clicked);
+
+    if(this.main_tab == true)
+        {
+          claim_active=this.claim_clicked;
+          claim_id = this.claim_clicked;
+          console.log(claim_active);
+        }
+        else{
+          console.log(this.refer_claim_det);
+          claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+          console.log(claim_active);
+          claim_id = this.claim_clicked; 
+        }
 
     this.Jarwis.check_edit_val(claim_active,'followup').subscribe(
       data  => {
         // console.log("ched",data);
       this.set_note_edit_validity(data);
-        // console.log("Note _edit",this.note_edit_val);
+        console.log("Note _edit",this.note_edit_val);
         if(this.note_edit_val != undefined)
         {
+          if(this.editnote_value !=null || this.editnote_value!=undefined){
+            this.claimNotes.value['claim_notes'] = this.editnote_value;
+          }
           // console.log("Inside",this.claimNotes.value,this.edit_noteid);
-          this.Jarwis.claim_note(this.setus.getId(),this.claimNotes.value['claim_notes'],this.edit_noteid,'claimupdate').subscribe(
+          this.Jarwis.claim_note(this.setus.getId(),this.claimNotes.value['claim_notes'],claim_id,'claimupdate').subscribe(
             data  => this.display_notes(data,type),
             error => this.handleError(error)
           );
+          this.notes_hadler.set_notes(this.setus.getId(),this.claimNotes.value['claim_notes'],claim_id,'claimupdate');
+    this.send_calim_det('footer_data');
         }
         else
         {
@@ -1246,9 +1280,10 @@ public clear_notes()
 public send_calim_det(type)
 {
   console.log(type);
-  console.log(this.main_tab);
+  
   if(this.main_tab==true)
   {
+    console.log(this.main_tab);
     if(type == 'followup')
     {
        console.log(this.claim_clicked['claim_no']);
@@ -1270,6 +1305,7 @@ public send_calim_det(type)
 
       this.notes_hadler.selected_tab(this.active_claim);
       let claim_detials=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+      console.log(claim_detials);
       this.notes_hadler.set_claim_details(claim_detials);
       this.claim_active=this.active_claim;
     }
@@ -1424,7 +1460,7 @@ after_reassign(data,claim)
 check_reassign_alloc(claim)
 {
 
-  // console.log("Here REassign",claim,already_re);
+  console.log("Here REassign",claim);
   if(this.setus.get_role_id() == '1' && claim['followup_work_order'] != null)
   {
     let already_re=this.curr_reassigned_claims.indexOf(claim.claim_no);
@@ -1446,7 +1482,7 @@ check_reassign_alloc(claim)
 
 check_note_edit_validity(claim)
 {
-  // console.log("Check i/p",claim);
+  console.log("Check",claim);
   this.Jarwis.check_edit_val(claim,'followup').subscribe(
     data  => this.set_note_edit_validity(data),
     error => this.handleError(error)
@@ -1457,17 +1493,18 @@ check_note_edit_validity(claim)
 note_edit_val:number;
 set_note_edit_validity(data)
 {
-  // console.log("Validity",data);
+  console.log("Validity",data);
   if(data.edit_val == true)
   {
     // console.log(data.note_id['id']);
     this.note_edit_val = data.note_id['id'];
+    console.log(this.note_edit_val);
   }
   else
   {
     this.note_edit_val=undefined;
   }
-  // console.log(this.note_edit_val);
+  console.log(this.note_edit_val);
 }
 
 reload_data()
@@ -1784,6 +1821,7 @@ public selected(event,claim,index)
       });
       this.selected_claim_nos=claim_nos;
       this.selected_claims=claim_data;
+      console.log(this.selected_claims);
   }
   else if(claim == 'all' && event.target.checked == false)
   {

@@ -3736,10 +3736,7 @@ console.log(this.age_options);
 
   }
 
-  public reload(){
-    // window.location.reload();
-    this.ngOnInit();
-  }
+  
 
 //Get Status codes from Backend
 public get_statuscodes()
