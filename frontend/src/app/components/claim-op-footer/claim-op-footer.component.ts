@@ -833,7 +833,7 @@ public get_associate_name(data){
 
     this.claim_data=data;
 
-    //console.log(this.claim_data);
+    console.log(this.claim_data);
     // console.log("Claim_datra",this.claim_data);
   }
 

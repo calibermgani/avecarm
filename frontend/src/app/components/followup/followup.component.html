@@ -1210,8 +1210,8 @@
                                                 <div class="box-tools pull-right">
                                                    <p class="red" style="margin-top:5px;">
                                                       <span class="fa fa-refresh" style="cursor:pointer;" title="Refresh Values" (click)="reload_data()" ></span>
-                                                      <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
-                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> <!-- reassign()-->
+                                                      <span *ngIf="!user_role==1" style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
+                                                      <span *ngIf="!user_role==1" class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> <!-- reassign()-->
                                                       <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> -->
                                                       <!-- <span class="fa fa-print" style="cursor:pointer;" title="Print" (click)="export_files('print')"></span> -->
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> <i class="fa fa-file-excel-o" style="cursor:pointer;" (click)="export_excel_files('excel', 'Assigned_claims')" title="Excel"></i>
@@ -1251,8 +1251,8 @@
                                                 <div class="box-tools pull-right">
                                                    <p class="red" style="margin-top:5px;">
                                                       <span class="fa fa-refresh" style="cursor:pointer;" title="Refresh Values" (click)="reload_data()" ></span>
-                                                      <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
-                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> <!-- reassign()-->
+                                                      <span *ngIf="!user_role==1" style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
+                                                      <span *ngIf="!user_role==1" class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> <!-- reassign()-->
                                                       <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> -->
                                                       <!-- <span class="fa fa-print" style="cursor:pointer;" title="Print" (click)="export_files('print')"></span> -->
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> <i class="fa fa-file-excel-o" style="cursor:pointer;" (click)="export_excel_files('excel', 'Assigned_claims')" title="Excel"></i>
@@ -1596,8 +1596,8 @@
                                              <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Reassigned Claims</h3>
                                                 <div class="box-tools pull-right">
-                                                   <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(reassign_confirmation)"></span>
-                                                   <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span><!-- <span class="fa fa-print" style="cursor:pointer;" title="Print" (click)="export_files('print')"></span>
+                                                   <span *ngIf="!user_role==1" class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(reassign_confirmation)"></span>
+                                                   <span *ngIf="!user_role==1" style="margin-left:10px;color:#ccc;margin-right:10px;">|</span><!-- <span class="fa fa-print" style="cursor:pointer;" title="Print" (click)="export_files('print')"></span>
                                                    <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> --> <i class="fa fa-file-excel-o" style="cursor:pointer;" (click)="export_excel_files('excel', 'Reassigned_claims')" title="Excel"></i>
                                                    <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>  <i class="fa fa-file-pdf-o"  (click)="export_pdf_files('PDF','reassigned_claims')" style="cursor:pointer;" title="PDF"></i> -->
                                                    <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
@@ -1672,7 +1672,7 @@
                                                                  <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
                                                                </ng-template>
                                                                
-                                                               <td class="cur-pointer" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
+                                                               <td class="cur-pointer" (click)="open(claimpage);claimslection(x);claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
 
                                                                <td class="cur-pointer dos-date" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.dos==NULL">-Nil-</span><span *ngIf="x.dos!=NULL">{{x.dos | date: 'MM/dd/yyyy'}}</span></span></td>
 
