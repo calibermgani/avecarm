@@ -41,10 +41,8 @@ class AllClaimsController extends Controller
 
         if ($searchValue == null && $search != 'search') {
             if (($action == null || $action == 'null') && $sorting_method == null && $searchValue == null) {
-
                 $skip = ($page_no - 1) * $page_count;
                 $end = $page_count;
-
                 $claim_data = Import_field::orderBy('created_at', 'desc')->offset($skip)->limit($end)->get();
                 $current_total = $claim_data->count();
 
@@ -58,13 +56,10 @@ class AllClaimsController extends Controller
                 );
                 $claim_count = $claim_count->count();
             } elseif ($sorting_method != null && $action == null && $searchValue == null) {
-
                 $skip = ($page_no - 1) * $page_count;
                 $end = $page_count;
-
                 if ($sorting_name == true) {
                     //dd('2');
-
                     $claim_data = Import_field::offset($skip)->limit($end)->get();
                     $claim_count = Import_field::orderBy(
                         'id',
@@ -73,9 +68,7 @@ class AllClaimsController extends Controller
                     $claim_count = $claim_count->count();
                     $current_total = $claim_data->count();
                 } else if ($sorting_name == false) {
-
                     $claim_data = Import_field::offset($skip)->limit($end)->get();
-
                     $claim_count = Import_field::orderBy(
                         'id',
                         'asc'
@@ -83,29 +76,22 @@ class AllClaimsController extends Controller
                     $claim_count = $claim_count->count();
                     $current_total = $claim_data->count();
                 }
-
                 $claim_data = $this->arrange_claim_datas($claim_data);
-
                 $selected_claim_data = Import_field::orderBy('created_at', 'desc')->get();
                 $selected_count = $selected_claim_data->count();
             } elseif ($sorting_method == 'null' && $action != "null" && $searchValue == null) {
                 $skip = ($page_no - 1) * $page_count;
                 $end = $page_count;
-
                 if ($sort_data == true) {
-
                     $claim_data = Import_field::orderBy($action, 'desc')->offset($skip)->limit($end)->get();
                     $claim_count = Import_field::orderBy(
                         'id',
                         'desc'
                     );
                     $claim_count = $claim_count->count();
-
                     $current_total = $claim_data->count();
                 } else if ($sort_data == false) {
-
                     $claim_data = Import_field::orderBy($action, 'asc')->offset($skip)->limit($end)->get();
-
                     $claim_count = Import_field::orderBy(
                         'id',
                         'asc'
@@ -113,152 +99,144 @@ class AllClaimsController extends Controller
                     $claim_count = $claim_count->count();
                     $current_total = $claim_data->count();
                 }
-
                 $claim_data = $this->arrange_claim_datas($claim_data);
-
                 $selected_claim_data = Import_field::orderBy('created_at', 'desc')->get();
                 $selected_count = $selected_claim_data->count();
             }
         }
 
         if ($searchValue != null &&  $search == 'search') {
-
             $skip = ($page_no - 1) * $page_count;
             $end = $page_count;
-
             // DB::enableQueryLog();
-
             $claim_data = Import_field::orderBy('id', 'asc');
-
             $claim_count = Import_field::orderBy('id', 'asc');
-
             $selected_claim_data = Import_field::orderBy('id', 'asc');
+            if (!empty($searchValue['claim_no']) && isset($searchValue['claim_no'])) {
 
-            // if (!empty($searchValue['claim_no']) && isset($searchValue['claim_no'])) {
+                $search_claim_no = $searchValue['claim_no'];
 
-            //     $search_claim_no = $searchValue['claim_no'];
+                if ($action == 'null' && $action != null) {
 
-            //     if ($action == 'null' && $action != null) {
+                    $claim_data->where('claim_no', '=',  $search_claim_no)->offset($skip)->limit($end);
 
-            //         $claim_data->where('claim_no', '=',  $search_claim_no)->offset($skip)->limit($end);
+                    $claim_count->where('claim_no', '=',  $search_claim_no);
 
-            //         $claim_count->where('claim_no', '=',  $search_claim_no);
+                    $selected_claim_data->where('claim_no', '=', $search_claim_no);
+                }
 
-            //         $selected_claim_data->where('claim_no', '=', $search_claim_no);
-            //     }
+                if ($action != 'null' && $action != null && empty($sorting_name)) {
 
-            //     if ($action != 'null' && $action != null && empty($sorting_name)) {
+                    $claim_data->where('claim_no', '=',  $search_claim_no)->offset($skip)->limit($end);
 
-            //         $claim_data->where('claim_no', '=',  $search_claim_no)->offset($skip)->limit($end);
+                    $claim_count->where('claim_no', '=', $search_claim_no);
 
-            //         $claim_count->where('claim_no', '=', $search_claim_no);
+                    $selected_claim_data->where('claim_no', '=', $search_claim_no);
+                }
 
-            //         $selected_claim_data->where('claim_no', '=', $search_claim_no);
-            //     }
+                if ($sort_data == true && $search == null && $sorting_name == 'null') {
 
-            //     if ($sort_data == true && $search == null && $sorting_name == 'null') {
+                    $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($action, 'asc')->offset($skip)->limit($end);
 
-            //         $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($action, 'asc')->offset($skip)->limit($end);
+                    $claim_count->where('claim_no', '=', $search_claim_no);
 
-            //         $claim_count->where('claim_no', '=', $search_claim_no);
+                    $selected_claim_data->where('claim_no', '=', $search_claim_no);
+                } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
 
-            //         $selected_claim_data->where('claim_no', '=', $search_claim_no);
-            //     } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+                    $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($action, 'desc')->offset($skip)->limit($end);
 
-            //         $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($action, 'desc')->offset($skip)->limit($end);
+                    $claim_count->where('claim_no', '=', $search_claim_no);
 
-            //         $claim_count->where('claim_no', '=', $search_claim_no);
-
-            //         $selected_claim_data->where('claim_no', '=', $search_claim_no);
-            //     }
-
-
-            //     if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
-
-            //         $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($action, 'asc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('claim_no', '=', $search_claim_no);
-
-            //         $selected_claim_data->where('claim_no', '=', $search_claim_no);
-            //     } else if ($sort_data == false && $search == 'search'  && $action != null) {
-
-            //         $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($action, 'desc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('claim_no', '=', $search_claim_no);
-
-            //         $selected_claim_data->where('claim_no', '=', $search_claim_no);
-            //     }
-
-            //     if ($sorting_name == true && $sort_data == null && $search == 'search' && $action == null) {
-
-            //         $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($sorting_method, 'asc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('claim_no', '=', $search_claim_no);
-
-            //         $selected_claim_data->where('claim_no', '=', $search_claim_no);
-            //     } else if ($sorting_name == false && $sort_data == null && $search == 'search') {
-
-            //         $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($sorting_method, 'desc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('claim_no', '=', $search_claim_no);
-
-            //         $selected_claim_data->where('claim_no', '=', $search_claim_no);
-            //     }
-            // }
-
-            // if (!empty($searchValue['acc_no']) && isset($searchValue['acc_no'])) {
-            //     $search_acc_no = $searchValue['acc_no'];
-            //     if ($action == 'null' && $action != null) {
-            //         $claim_data->where('acct_no', $search_acc_no)->offset($skip)->limit($end);
-            //         $claim_count->where('acct_no', $search_acc_no);
-            //         $selected_claim_data->where('acct_no', $search_acc_no);
-            //     }
-
-            //     if ($action != 'null' && $action == null && empty($sorting_name)) {
-            //         $claim_data->where('acct_no', $search_acc_no)->offset($skip)->limit($end);
-            //         $claim_count->where('acct_no', $search_acc_no);
-            //         $selected_claim_data->where('acct_no', $search_acc_no);
-            //     }
-
-            //     if ($sort_data == true && $search == null && $sorting_name == 'null') {
-            //         $claim_data->where('acct_no', $search_acc_no)->orderBy($action, 'asc')->offset($skip)->limit($end);
-            //         $claim_count->where('acct_no', $search_acc_no);
-            //         $selected_claim_data->where('acct_no', $search_acc_no);
-            //     } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
-            //         $claim_data->where('acct_no', $search_acc_no)->orderBy($action, 'desc')->offset($skip)->limit($end);
-            //         $claim_count->where('acct_no', $search_acc_no);
-            //         $selected_claim_data->where('acct_no', $search_acc_no);
-            //     }
+                    $selected_claim_data->where('claim_no', '=', $search_claim_no);
+                }
 
 
-            //     if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
+                if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
 
-            //         $claim_data->where('acct_no', $search_acc_no)->orderBy($action, 'asc')->offset($skip)->limit($end);
-            //         $claim_count->where('acct_no', $search_acc_no);
-            //         $selected_claim_data->where('acct_no', $search_acc_no);
-            //     } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
-            //         $claim_data->where('acct_no', $search_acc_no)->orderBy($action, 'desc')->offset($skip)->limit($end);
-            //         $claim_count->where('acct_no', $search_acc_no);
-            //         $selected_claim_data->where('acct_no', $search_acc_no);
-            //     }
+                    $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($action, 'asc')->offset($skip)->limit($end);
 
-            //     if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
+                    $claim_count->where('claim_no', '=', $search_claim_no);
 
-            //         $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+                    $selected_claim_data->where('claim_no', '=', $search_claim_no);
+                } else if ($sort_data == false && $search == 'search'  && $action != null) {
 
-            //         $claim_count->where('acct_no', $search_acc_no);
+                    $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($action, 'desc')->offset($skip)->limit($end);
 
-            //         $selected_claim_data->where('acct_no', $search_acc_no);
-            //     } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+                    $claim_count->where('claim_no', '=', $search_claim_no);
+
+                    $selected_claim_data->where('claim_no', '=', $search_claim_no);
+                }
+
+                if ($sorting_name == true && $sort_data == null && $search == 'search' && $action == null) {
+
+                    $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($sorting_method, 'asc')->offset($skip)->limit($end);
+
+                    $claim_count->where('claim_no', '=', $search_claim_no);
+
+                    $selected_claim_data->where('claim_no', '=', $search_claim_no);
+                } else if ($sorting_name == false && $sort_data == null && $search == 'search') {
+
+                    $claim_data->where('claim_no', '=', $search_claim_no)->orderBy($sorting_method, 'desc')->offset($skip)->limit($end);
+
+                    $claim_count->where('claim_no', '=', $search_claim_no);
+
+                    $selected_claim_data->where('claim_no', '=', $search_claim_no);
+                }
+            }
+
+            if (!empty($searchValue['acc_no']) && isset($searchValue['acc_no'])) {
+                $search_acc_no = $searchValue['acc_no'];
+                if ($action == 'null' && $action != null) {
+                    $claim_data->where('acct_no', $search_acc_no)->offset($skip)->limit($end);
+                    $claim_count->where('acct_no', $search_acc_no);
+                    $selected_claim_data->where('acct_no', $search_acc_no);
+                }
+
+                if ($action != 'null' && $action == null && empty($sorting_name)) {
+                    $claim_data->where('acct_no', $search_acc_no)->offset($skip)->limit($end);
+                    $claim_count->where('acct_no', $search_acc_no);
+                    $selected_claim_data->where('acct_no', $search_acc_no);
+                }
+
+                if ($sort_data == true && $search == null && $sorting_name == 'null') {
+                    $claim_data->where('acct_no', $search_acc_no)->orderBy($action, 'asc')->offset($skip)->limit($end);
+                    $claim_count->where('acct_no', $search_acc_no);
+                    $selected_claim_data->where('acct_no', $search_acc_no);
+                } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+                    $claim_data->where('acct_no', $search_acc_no)->orderBy($action, 'desc')->offset($skip)->limit($end);
+                    $claim_count->where('acct_no', $search_acc_no);
+                    $selected_claim_data->where('acct_no', $search_acc_no);
+                }
 
 
-            //         $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+                if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
 
-            //         $claim_count->where('acct_no', $search_acc_no);
+                    $claim_data->where('acct_no', $search_acc_no)->orderBy($action, 'asc')->offset($skip)->limit($end);
+                    $claim_count->where('acct_no', $search_acc_no);
+                    $selected_claim_data->where('acct_no', $search_acc_no);
+                } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
+                    $claim_data->where('acct_no', $search_acc_no)->orderBy($action, 'desc')->offset($skip)->limit($end);
+                    $claim_count->where('acct_no', $search_acc_no);
+                    $selected_claim_data->where('acct_no', $search_acc_no);
+                }
 
-            //         $selected_claim_data->where('acct_no', $search_acc_no);
-            //     }
-            // }
+                if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
+
+                    $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+                    $claim_count->where('acct_no', $search_acc_no);
+
+                    $selected_claim_data->where('acct_no', $search_acc_no);
+                } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+
+                    $claim_data->where('acct_no', $search_acc_no)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+                    $claim_count->where('acct_no', $search_acc_no);
+
+                    $selected_claim_data->where('acct_no', $search_acc_no);
+                }
+            }
 
             if (!empty($searchValue['dos']) && $searchValue['dos']['startDate'] != null) {
                 $search_dos = $searchValue['dos'];
@@ -742,6 +720,11 @@ class AllClaimsController extends Controller
                 }
               }
 
+            if(!isset($searchValue['claim_status']))
+            {
+              $searchValue['claim_status'] = null;
+            }
+
             if (!empty($searchValue['claim_status'] && isset($searchValue['claim_status']))) {
                 $search_claim_status = $searchValue['claim_status'];
                 if ($action == 'null' && $action != null) {
@@ -811,157 +794,208 @@ class AllClaimsController extends Controller
                 }
             }
 
-            // if (!empty($searchValue['patient_name'] && isset($searchValue['patient_name']))) {
-            //     $search_patient_name = $searchValue['patient_name'];
-            //     if ($action == 'null' && $action != null) {
+            if (!empty($searchValue['patient_name'] && isset($searchValue['patient_name']))) {
+                $search_patient_name = $searchValue['patient_name'];
+                if ($action == 'null' && $action != null) {
 
-            //         $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->offset($skip)->limit($end);
+                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->offset($skip)->limit($end);
 
 
-            //         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-            //         $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-            //     }
+                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                }
 
-            //     if ($action != 'null' && $action == null && empty($sorting_name)) {
+                if ($action != 'null' && $action == null && empty($sorting_name)) {
 
 
-            //         $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->offset($skip)->limit($end);
+                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->offset($skip)->limit($end);
 
 
-            //         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-            //         $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-            //     }
+                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                }
 
-            //     if ($sort_data == true && $search == null && $sorting_name == 'null') {
+                if ($sort_data == true && $search == null && $sorting_name == 'null') {
 
-            //         $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
+                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
 
-            //         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-            //         $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-            //     } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
 
-            //         $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
+                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
 
-            //         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-            //         $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-            //     }
+                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                }
 
 
-            //     if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
+                if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
 
 
-            //         $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
+                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
 
-            //         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-            //         $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-            //     } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
+                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
 
-            //         $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
+                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
 
-            //         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-            //         $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-            //     }
-            //     //dd($sort_data); echo "</br>"; false sort_type_close
-            //     // print_r($action); echo "</br>"; exit(); patient_name sort_code
+                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                }
+                //dd($sort_data); echo "</br>"; false sort_type_close
+                // print_r($action); echo "</br>"; exit(); patient_name sort_code
 
-            //     if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
+                if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
 
-            //         $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
 
-            //         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-            //         $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-            //     } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
 
 
-            //         $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+                    $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
 
-            //         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                    $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-            //         $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
-            //     }
-            // }
+                    $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                }
+            }
 
-            // if (!empty($searchValue['responsibility'] && isset($searchValue['responsibility']))) {
-            //     $search_responsibility = $searchValue['responsibility'];
-            //     if ($action == 'null' && $action != null) {
+            if (!empty($searchValue['responsibility'] && isset($searchValue['responsibility']))) {
+                $search_responsibility = $searchValue['responsibility'];
+                if ($action == 'null' && $action != null) {
 
-            //         $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
+                    $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
 
 
-            //         $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                    $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
 
-            //         $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-            //     }
+                    $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                }
 
-            //     if ($action != 'null' && $action == null && empty($sorting_name)) {
+                if ($action != 'null' && $action == null && empty($sorting_name)) {
 
 
-            //         $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
+                    $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
 
 
-            //         $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                    $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
 
-            //         $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-            //     }
+                    $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                }
 
-            //     if ($sort_data == true && $search == null && $sorting_name == 'null') {
-
-            //         $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-
-            //         $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-            //     } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
-
-            //         $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-
-            //         $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-            //     }
-
-
-            //     if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
-
-
-            //         $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-
-            //         $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-            //     } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
-
-            //         $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-
-            //         $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-            //     }
-
-            //     if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
-
-            //         $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-
-            //         $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-            //     } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
-
-
-            //         $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
-
-            //         $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-
-            //         $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
-            //     }
-            // }
+                if ($sort_data == true && $search == null && $sorting_name == 'null') {
+
+                    $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
+
+                    $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+                    $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+
+                    $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
+
+                    $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+                    $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                }
+
+
+                if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
+
+
+                    $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
+
+                    $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+                    $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
+
+                    $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
+
+                    $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+                    $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                }
+
+                if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
+
+                    $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+
+                    $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+                    $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+
+
+                    $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+
+                    $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+
+                    $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+                }
+            }
+
+            if (!empty($searchValue['total_ar'] && isset($searchValue['total_ar']))) {
+              $search_responsibility = $searchValue['total_ar'];
+              $OriginalString = trim($searchValue['total_ar']);
+              $tot_ar = explode("-",$OriginalString);
+              
+              $min_tot_ar = $tot_ar[0] - 1.00;
+              $max_tot_ar = $tot_ar[1];
+      
+              if ($action == 'null' && $action != null) {
+                $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+                $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+                $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+              }
+      
+              if ($action != 'null' && $action == null && empty($sorting_name)) {
+                $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+                $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+                $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+              }
+      
+              if ($sort_data == true && $search == null && $sorting_name == 'null') {
+                $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($action, 'asc')->offset($skip)->limit($end);
+                $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+                $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+              } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+                $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($action, 'desc')->offset($skip)->limit($end);
+                $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+                $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+              }
+      
+              if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
+                $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($action, 'asc')->offset($skip)->limit($end);
+                $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+                $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+              } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
+                $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($action, 'desc')->offset($skip)->limit($end);
+                $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+                $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+              }
+      
+              if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
+                $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+                $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+                $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+              } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+                $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+                $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+                $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+              }
+            }
 
             // if (!empty($searchValue['prim_ins_name']) && isset($searchValue['prim_ins_name'])) {
 
