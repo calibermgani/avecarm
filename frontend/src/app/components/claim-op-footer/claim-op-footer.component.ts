@@ -196,6 +196,10 @@ public get_associate_name(data){
     console.log(data);
 
     console.log(this.selected_claim_data);
+    console.log(this.notes_details);
+    if(this.router.url=='/followup'){
+      this.note_validation=true;      
+    }
         
     if(this.selected_claim_data['claim_closing'] == 1)
     {
@@ -607,6 +611,21 @@ public get_associate_name(data){
     {
       if(this.router.url != '/rcm')
       {
+        if(this.router.url=='/followup'){
+          console.log(this.selected_claim_data['claim_note']);
+          let note_val;
+          if(this.selected_claim_data['claim_note'] !='' && this.selected_claim_data['claim_note'] != undefined && this.selected_claim_data['claim_note'] != null){        
+            note_val = this.selected_claim_data['claim_note'];            
+          }
+          else if(this.selected_claim_data['claims_notes'] !='' && this.selected_claim_data['claims_notes'] != undefined && this.selected_claim_data['claims_notes'] != null){
+            note_val = this.selected_claim_data['claims_notes'];
+          }
+          this.notes_details.push({note:note_val,claim:this.selected_claim_data,type:'claimpresent',claim_no:this.selected_claim_data['claim_no']});
+            //this.notes_details.patchValue({user:user_id,note:notes,claim:claim_id,type:command_type,claim_no:claim_id['claim_no']});
+            this.note_validation=true;
+        }
+        console.log(this.notes_details);
+        
         let selected_details=this.notes_details.find(x => x.claim_no ==  this.active_tab);
         console.log(selected_details);
         let user_notes=selected_details['note'];
@@ -619,14 +638,7 @@ public get_associate_name(data){
                 data  => this.set_note_update_val(data),
                 error => this.handleError(error)
                 );
-            // }
-            // else if(input_type=='create_qcnotes')
-            // {
-            //   this.Jarwis.check_notes_update(claim_details,'qc_notes',this.claim_data['claim_note']).subscribe(
-            //     data  => this.set_note_update_val(data),
-            //     error => console.log(error)
-            //     );
-            // }
+            // }        
       }
 
     }
@@ -661,6 +673,20 @@ public get_associate_name(data){
     }
      this.get_note_details();
     }
+    else if(data.updated ==false && this.router.url=='/followup'){
+      console.log('landed here');
+      let selected_data=this.notes_details.find(x => x.claim_no ==  this.active_tab);
+      if(selected_data['type'] == 'claimpresent'){
+        this.finish_followup();
+      }
+      else{
+      console.log('other type');
+      this.note_update_monitor= false;
+      this.followup_process();
+      this.finish_followup();
+      this.followup_process_notes();
+      }
+    }
     else
     {
       this.note_update_monitor= false;
@@ -677,19 +703,19 @@ public get_associate_name(data){
 
   public followup_process_notes()
   {
-          let selected_details=this.process.find(x => x.claim_no ==  this.active_tab);
-          let user_notes=selected_details['note'];
-          let user=selected_details['user'];
-          let input_type=selected_details['type'];
-          let claim_details=selected_details['claim'];
-          // this.Jarwis.claim_note(this.setus.getId(),user_notes,claim_details,'claim_create').subscribe(
-          //   data  => this.response_handler(data,'followup'),
-          //   error => this.handleError(error)
-          // );
-          this.Jarwis.process_note(this.setus.getId(), user_notes, claim_details, 'processcreate', 'followup').subscribe(
-            data  => this.response_handler(data,'followup'),
-            error => this.handleError(error)
-          );
+    let selected_details=this.process.find(x => x.claim_no ==  this.active_tab);
+    let user_notes=selected_details['note'];
+    let user=selected_details['user'];
+    let input_type=selected_details['type'];
+    let claim_details=selected_details['claim'];
+    // this.Jarwis.claim_note(this.setus.getId(),user_notes,claim_details,'claim_create').subscribe(
+    //   data  => this.response_handler(data,'followup'),
+    //   error => this.handleError(error)
+    // );
+    this.Jarwis.process_note(this.setus.getId(), user_notes, claim_details, 'processcreate', 'followup').subscribe(
+      data  => this.response_handler(data,'followup'),
+      error => this.handleError(error)
+    );
   }
 
   //Create Notes after Validation of Notes and Status Code
@@ -773,10 +799,20 @@ public get_associate_name(data){
     }
     let data_codes = {status:this.formGroup.value,audit_err_code:audit_err}
     // console.log("i\p",input_type,this.formGroup.value,input_type,claim_details)
-    this.Jarwis.finish_followup(this.setus.getId(),data_codes,claim_details,input_type).subscribe(
-    data  => this.handle_resources(data,this.formGroup.value),
-    error => this.handleError(error)
-    );
+    if(input_type == 'claimpresent'){
+      let i_type = 'claim_create'
+      this.Jarwis.finish_followup(this.setus.getId(),data_codes,claim_details,i_type).subscribe(
+        data  => this.handle_resources(data,this.formGroup.value),
+        error => this.handleError(error)
+        );
+    }
+    else{
+      this.Jarwis.finish_followup(this.setus.getId(),data_codes,claim_details,input_type).subscribe(
+        data  => this.handle_resources(data,this.formGroup.value),
+        error => this.handleError(error)
+        );
+    }
+    
   }
   public submit_tab_types:Array <any>=[];
   public message:string;

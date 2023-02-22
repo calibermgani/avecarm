@@ -2862,8 +2862,12 @@ graphStatus()
         error_type: new FormControl('', [
             Validators.required
             ]),
-            error_parameter:new FormControl(''),
-            error_sub_parameter:new FormControl(''),
+            error_parameter:new FormControl('',[
+              Validators.required
+              ]),
+            error_sub_parameter:new FormControl('',[
+              Validators.required
+              ]),
               fyi_parameter:new FormControl(''),
               fyi_sub_parameter:new FormControl('')
         });

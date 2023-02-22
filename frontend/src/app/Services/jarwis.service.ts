@@ -427,13 +427,10 @@ update_sub_status_code(data,id,user)
 
 finish_followup(id,data,claim,type)
 {
-  console.log(data);
-  console.log(data.status);
-  console.log(data.audit_err_code);
-data={user_id:id,status_code:data.status,audit_err_code:data.audit_err_code,claim_det:claim,followup_type:type};
-// return this.http.post(`${this.baseUrl}/create_followup_data`, data);
-let response= this.common_url('create_followup_data',data);
-return response;
+  data={user_id:id,status_code:data.status,audit_err_code:data.audit_err_code,claim_det:claim,followup_type:type};
+  // return this.http.post(`${this.baseUrl}/create_followup_data`, data);
+  let response= this.common_url('create_followup_data',data);
+  return response;
 }
 
 get_audit_claim_details(id,page,page_count,claim_type,sort_code,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search)

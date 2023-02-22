@@ -2735,12 +2735,18 @@
                         <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
                            <label>Parameter</label>
                            <ngx-select-dropdown formControlName="error_parameter" [config]="config" [options]="error_param_list" (ngModelChange)="selectSubChange($event)" (click)="get_error_sub_param_codes();"></ngx-select-dropdown>
+                           <div *ngIf="submitted && v.error_parameter.errors" class="invalid-feedback">
+                              <div *ngIf="v.error_parameter.errors.required">Choose Error Parameter</div>
+                           </div>
                         </div>                        
                      </div>
                      <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                         <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
                            <label>Sub Parameter</label>
                            <ngx-select-dropdown formControlName="error_sub_parameter" [config]="config" [options]="error_sub_param_list"></ngx-select-dropdown>
+                           <div *ngIf="submitted && v.error_sub_parameter.errors" class="invalid-feedback">
+                              <div *ngIf="v.error_sub_parameter.errors.required">Choose Error Sub Parameter</div>
+                           </div>
                         </div>
                      </div>
                   </div>

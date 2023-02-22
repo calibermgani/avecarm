@@ -1201,7 +1201,6 @@ public updatenotes(type){
   else if(type == 'claimnotes')
   {
     let claim_active;
-    let claim_id = [];
 
     // if(this.main_tab == true)
     // {
@@ -1213,36 +1212,18 @@ public updatenotes(type){
     // console.log("cc",claim_active ,);
     // this.check_note_edit_validity(this.claim_clicked);
 
-    if(this.main_tab == true)
-        {
-          claim_active=this.claim_clicked;
-          claim_id = this.claim_clicked;
-          console.log(claim_active);
-        }
-        else{
-          console.log(this.refer_claim_det);
-          claim_active=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
-          console.log(claim_active);
-          claim_id = this.claim_clicked; 
-        }
-
     this.Jarwis.check_edit_val(claim_active,'followup').subscribe(
       data  => {
         // console.log("ched",data);
       this.set_note_edit_validity(data);
-        console.log("Note _edit",this.note_edit_val);
+        // console.log("Note _edit",this.note_edit_val);
         if(this.note_edit_val != undefined)
         {
-          if(this.editnote_value !=null || this.editnote_value!=undefined){
-            this.claimNotes.value['claim_notes'] = this.editnote_value;
-          }
           // console.log("Inside",this.claimNotes.value,this.edit_noteid);
-          this.Jarwis.claim_note(this.setus.getId(),this.claimNotes.value['claim_notes'],claim_id,'claimupdate').subscribe(
+          this.Jarwis.claim_note(this.setus.getId(),this.claimNotes.value['claim_notes'],this.edit_noteid,'claimupdate').subscribe(
             data  => this.display_notes(data,type),
             error => this.handleError(error)
           );
-          this.notes_hadler.set_notes(this.setus.getId(),this.claimNotes.value['claim_notes'],claim_id,'claimupdate');
-    this.send_calim_det('footer_data');
         }
         else
         {
