@@ -3865,27 +3865,34 @@ public function get_associates(LoginRequest $request)
 
         if(isset($count)){
 
-            foreach($count as $values){
+            // foreach($count as $values){
 
-            $claim_data[] = Import_field::where('claim_no',  $values)->where('assigned_to', $associates['id'])->where('claim_status', 'Assigned')->get()->toArray();
+            // $claim_data[] = Import_field::where('claim_no',  $values)->where('assigned_to', $associates['id'])->where('claim_status', 'Assigned')->get()->toArray();
 
-            }  
+            // }  
 
-            $claim_array = array_filter(array_map('array_filter', $claim_data));
+            // $claim_array = array_filter(array_map('array_filter', $claim_data));
 
-            $multi_claim_data = $claim_array;
+            // $multi_claim_data = $claim_array;
 
-            $merge_claim_data = array_reduce($multi_claim_data, 'array_merge', array());
+            // $merge_claim_data = array_reduce($multi_claim_data, 'array_merge', array());
 
-            $assign = array_column($merge_claim_data, 'claim_no');
+            // $assign = array_column($merge_claim_data, 'claim_no');
 
 
-            $assigned_count= Import_field::leftjoin(DB::raw("(SELECT
-                    claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                  AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                })->whereIN('claim_no', $assign)->where('assigned_to', $associates['id'])->count();
+            // $assigned_count= Import_field::leftjoin(DB::raw("(SELECT
+            //         claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+            //       AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            //     })->whereIN('claim_no', $assign)->where('assigned_to', $associates['id'])->count();
+
+            // $assigned_count = Import_field::leftJoin("claim_notes", "claim_notes.claim_id", "=", "import_fields.claim_no")
+            // ->select('import_fields.*','claim_notes.claim_id','claim_notes.content as claims_notes')
+            // ->groupBy('claim_notes.claim_id')
+            // ->max('claim_notes.id')
+            // ->whereIn('claim_no',$assign)
+            // ->where('assigned_to', $associates['id'])->count();
            
-           //$assigned_count=Import_field::where('assigned_to', $associates['id'])->where('claim_Status','Assigned')->count();
+           $assigned_count=Import_field::where('assigned_to', $associates['id'])->where('claim_Status','Assigned')->count();
            
            $assign_limit=User_work_profile::where('user_id', $associates['id'])->orderBy('id','desc')->first();
            //dd($assign_limit);
