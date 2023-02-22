@@ -3892,7 +3892,7 @@ public function get_associates(LoginRequest $request)
             // ->whereIn('claim_no',$assign)
             // ->where('assigned_to', $associates['id'])->count();
            
-           $assigned_count=Import_field::where('assigned_to', $associates['id'])->where('claim_Status','Assigned')->count();
+           $assigned_count=Import_field::where('assigned_to', $associates['id'])->where('claim_Status','Assigned')->orWhere('claim_Status','Client Assistance')->count();
            
            $assign_limit=User_work_profile::where('user_id', $associates['id'])->orderBy('id','desc')->first();
            //dd($assign_limit);
