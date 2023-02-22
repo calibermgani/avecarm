@@ -1375,15 +1375,15 @@ class CreateworkorderController extends Controller
                           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                       })->whereIN('claim_no', $assign)->where('assigned_to', $user_id);
 
-                    $selected_claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                        claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                      AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                    })->leftjoin(DB::raw("(SELECT
-                          claim_histories.claim_id,claim_histories.created_at as created_ats
-                        FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                        ) as claim_histories"), function($join) {
-                          $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                      })->whereIN('claim_no', $assign)->where('assigned_to', $user_id);
+                    // $selected_claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                    //     claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                    //   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) { $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+                    // })->leftjoin(DB::raw("(SELECT
+                    //       claim_histories.claim_id,claim_histories.created_at as created_ats
+                    //     FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                    //     ) as claim_histories"), function($join) {
+                    //       $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+                    //   })->whereIN('claim_no', $assign)->where('assigned_to', $user_id);
 
                     if(!empty($search_claim_no)){
 
@@ -1393,7 +1393,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', $search_claim_no);
+                        // $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                      
@@ -1403,7 +1403,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', $search_claim_no);
+                        // $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -1412,7 +1412,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', $search_claim_no);
+                        // $selected_claim_data->where('claim_no', $search_claim_no);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -1421,7 +1421,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', $search_claim_no);
+                        // $selected_claim_data->where('claim_no', $search_claim_no);
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -1429,7 +1429,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', $search_claim_no);
+                        // $selected_claim_data->where('claim_no', $search_claim_no);
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -1438,7 +1438,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', $search_claim_no);
+                        // $selected_claim_data->where('claim_no', $search_claim_no);
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -1447,7 +1447,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claim_no', $search_claim_no);
 
-                        $selected_claim_data->where('claim_no', $search_claim_no);
+                        // $selected_claim_data->where('claim_no', $search_claim_no);
                       } 
 
                     }
@@ -1460,7 +1460,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', $search_acc_no);
+                        // $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                      
@@ -1470,7 +1470,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', $search_acc_no);
+                        // $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -1479,7 +1479,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', $search_acc_no);
+                        // $selected_claim_data->where('acct_no', $search_acc_no);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -1488,7 +1488,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', $search_acc_no);
+                        // $selected_claim_data->where('acct_no', $search_acc_no);
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -1496,7 +1496,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', $search_acc_no);
+                        // $selected_claim_data->where('acct_no', $search_acc_no);
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -1505,7 +1505,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', $search_acc_no);
+                        // $selected_claim_data->where('acct_no', $search_acc_no);
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -1514,7 +1514,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('acct_no', $search_acc_no);
 
-                        $selected_claim_data->where('acct_no', $search_acc_no);
+                        // $selected_claim_data->where('acct_no', $search_acc_no);
                       } 
 
                     }
@@ -1527,7 +1527,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-                        $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                        // $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
                       }
 
                      
@@ -1537,7 +1537,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-                        $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                        // $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -1546,7 +1546,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-                        $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                        // $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -1555,7 +1555,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-                        $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                        // $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -1563,7 +1563,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-                        $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                        // $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -1572,7 +1572,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-                        $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+                        // $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -1581,7 +1581,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
-                        $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_claim_no . '%');
+                        // $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_claim_no . '%');
                       } 
 
                     }
@@ -1594,7 +1594,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_charges', '=', $search_total_charge);
 
-                        $selected_claim_data->where('total_charges', '=', $search_total_charge);
+                        // $selected_claim_data->where('total_charges', '=', $search_total_charge);
                       }
 
                      
@@ -1604,7 +1604,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_charges', '=', $search_total_charge);
 
-                        $selected_claim_data->where('total_charges', '=', $search_total_charge);
+                        // $selected_claim_data->where('total_charges', '=', $search_total_charge);
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -1613,7 +1613,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_charges', '=', $search_total_charge);
 
-                        $selected_claim_data->where('total_charges', '=', $search_total_charge);
+                        // $selected_claim_data->where('total_charges', '=', $search_total_charge);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -1622,7 +1622,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_charges', '=', $search_total_charge);
 
-                        $selected_claim_data->where('total_charges', '=', $search_total_charge);
+                        // $selected_claim_data->where('total_charges', '=', $search_total_charge);
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -1630,7 +1630,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_charges', '=', $search_total_charge);
 
-                        $selected_claim_data->where('total_charges', '=', $search_total_charge);
+                        // $selected_claim_data->where('total_charges', '=', $search_total_charge);
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -1639,7 +1639,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_charges', '=', $search_total_charge);
 
-                        $selected_claim_data->where('total_charges', '=', $search_total_charge);
+                        // $selected_claim_data->where('total_charges', '=', $search_total_charge);
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -1648,7 +1648,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_charges', '=', $search_total_charge);
 
-                        $selected_claim_data->where('total_charges', '=', $search_total_charge);
+                        // $selected_claim_data->where('total_charges', '=', $search_total_charge);
                       } 
 
                     }
@@ -1661,7 +1661,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_ar', '=', $search_total_ar);
 
-                        $selected_claim_data->where('total_ar', '=', $search_total_ar);
+                        // $selected_claim_data->where('total_ar', '=', $search_total_ar);
                       }
 
                      
@@ -1671,7 +1671,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_ar', '=', $search_total_ar);
 
-                        $selected_claim_data->where('total_ar', '=', $search_total_ar);
+                        // $selected_claim_data->where('total_ar', '=', $search_total_ar);
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -1680,7 +1680,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_ar', '=', $search_total_ar);
 
-                        $selected_claim_data->where('total_ar', '=', $search_total_ar);
+                        // $selected_claim_data->where('total_ar', '=', $search_total_ar);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -1689,7 +1689,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_ar', '=', $search_total_ar);
 
-                        $selected_claim_data->where('total_ar', '=', $search_total_ar);
+                        // $selected_claim_data->where('total_ar', '=', $search_total_ar);
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -1697,7 +1697,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_ar', '=', $search_total_ar);
 
-                        $selected_claim_data->where('total_ar', '=', $search_total_ar);
+                        // $selected_claim_data->where('total_ar', '=', $search_total_ar);
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -1706,7 +1706,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_ar', '=', $search_total_ar);
 
-                        $selected_claim_data->where('total_ar', '=', $search_total_ar);
+                        // $selected_claim_data->where('total_ar', '=', $search_total_ar);
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -1715,7 +1715,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('total_ar', '=', $search_total_ar);
 
-                        $selected_claim_data->where('total_ar', '=', $search_total_ar);
+                        // $selected_claim_data->where('total_ar', '=', $search_total_ar);
                       } 
 
                     }
@@ -1728,7 +1728,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
-                        $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+                        // $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
                       }
 
                      
@@ -1738,7 +1738,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
-                        $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+                        // $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -1747,7 +1747,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
-                        $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+                        // $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -1756,7 +1756,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
-                        $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+                        // $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -1764,7 +1764,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
-                        $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+                        // $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -1773,7 +1773,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
-                        $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+                        // $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -1782,7 +1782,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
-                        $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_no . '%');
+                        // $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_no . '%');
                       } 
 
                     }
@@ -1795,7 +1795,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
 
-                        $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+                        // $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
                       }
 
                      
@@ -1805,7 +1805,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
 
-                        $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+                        // $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -1814,7 +1814,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
 
-                        $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+                        // $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -1823,7 +1823,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
 
-                        $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+                        // $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -1831,7 +1831,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
 
-                        $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+                        // $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -1840,7 +1840,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
 
-                        $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+                        // $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -1849,7 +1849,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
 
-                        $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_claim_no . '%');
+                        // $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_claim_no . '%');
                       } 
 
                     }
@@ -1862,7 +1862,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
 
-                        $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+                        // $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
                       }
 
                      
@@ -1872,7 +1872,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
 
-                        $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+                        // $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -1881,7 +1881,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
 
-                        $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+                        // $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -1890,7 +1890,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
 
-                        $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+                        // $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -1898,7 +1898,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
 
-                        $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+                        // $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -1907,7 +1907,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
 
-                        $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+                        // $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -1916,7 +1916,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
 
-                        $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_claim_no . '%');
+                        // $selected_claim_data->where('prim_pol_id', 'LIKE', '%' . $search_claim_no . '%');
                       } 
 
                     }
@@ -1929,7 +1929,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
-                        $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+                        // $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
                       }
 
                      
@@ -1939,7 +1939,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
-                        $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+                        // $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -1948,7 +1948,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
-                        $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+                        // $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -1957,7 +1957,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
-                        $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+                        // $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -1965,7 +1965,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
-                        $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+                        // $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -1974,7 +1974,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
-                        $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+                        // $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -1983,7 +1983,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
 
-                        $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_claim_no . '%');
+                        // $selected_claim_data->where('sec_ins_name', 'LIKE', '%' . $search_claim_no . '%');
                       } 
 
                     }
@@ -1996,7 +1996,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
 
-                        $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+                        // $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
                       }
 
                      
@@ -2006,7 +2006,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
 
-                        $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+                        // $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -2015,7 +2015,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
 
-                        $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+                        // $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -2024,7 +2024,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
 
-                        $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+                        // $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -2032,7 +2032,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
 
-                        $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+                        // $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -2041,7 +2041,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
 
-                        $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+                        // $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -2050,7 +2050,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
 
-                        $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_claim_no . '%');
+                        // $selected_claim_data->where('sec_pol_id', 'LIKE', '%' . $search_claim_no . '%');
                       } 
 
                     }
@@ -2063,7 +2063,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
 
-                        $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+                        // $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
                       }
 
                      
@@ -2073,7 +2073,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
 
-                        $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+                        // $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -2082,7 +2082,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
 
-                        $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+                        // $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -2091,7 +2091,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
 
-                        $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+                        // $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -2099,7 +2099,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
 
-                        $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+                        // $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -2108,7 +2108,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
 
-                        $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+                        // $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -2117,7 +2117,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
 
-                        $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_claim_no . '%');
+                        // $selected_claim_data->where('ter_ins_name', 'LIKE', '%' . $search_claim_no . '%');
                       } 
 
                     }
@@ -2130,7 +2130,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
 
-                        $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+                        // $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
                       }
 
                      
@@ -2140,7 +2140,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
 
-                        $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+                        // $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -2149,7 +2149,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
 
-                        $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+                        // $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -2158,7 +2158,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
 
-                        $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+                        // $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -2166,7 +2166,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
 
-                        $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+                        // $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -2175,7 +2175,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
 
-                        $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+                        // $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -2184,7 +2184,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
 
-                        $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_claim_no . '%');
+                        // $selected_claim_data->where('ter_pol_id', 'LIKE', '%' . $search_claim_no . '%');
                       } 
 
                     }
@@ -2209,7 +2209,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
-                        $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+                        // $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
                       }
 
                      
@@ -2219,7 +2219,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
-                        $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+                        // $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
                       }
 
                       if($sort_type == null && $sort_type == null &&  $sorting_method != 'null'){
@@ -2228,7 +2228,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
-                        $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+                        // $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
                       }
 
                       if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
@@ -2237,7 +2237,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
-                        $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+                        // $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
                       }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
                        
@@ -2245,7 +2245,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
-                        $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+                        // $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
                       } 
 
                       if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
@@ -2254,7 +2254,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
-                        $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+                        // $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
                       }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
 
@@ -2263,7 +2263,7 @@ class CreateworkorderController extends Controller
 
                         $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
 
-                        $selected_claim_data->where('dos', 'LIKE', '%' . $search_claim_no . '%');
+                        // $selected_claim_data->where('dos', 'LIKE', '%' . $search_claim_no . '%');
                       }
 
                     }else{
@@ -2292,9 +2292,9 @@ class CreateworkorderController extends Controller
 
                     $claim_count = $claim_count->count();
 
-                    $selected_claim_data = $selected_claim_data->get();
+                    // $selected_claim_data = $selected_claim_data->get();
                     
-                    $selected_count = $selected_claim_data->count();
+                    // $selected_count = $selected_claim_data->count();
 
                 }
                 
@@ -3416,26 +3416,25 @@ class CreateworkorderController extends Controller
         foreach($claim_data as $key=>$value)
         {
        
-           $dos = strtotime($claim_data[$key]['dos']);
+          //  $dos = strtotime($claim_data[$key]['dos']);
 
-            if(!empty($dos) && $dos != 0000-00-00){
-              $claim_data[$key]['dos'] = date('m-d-Y',$dos);
-            }
+          //   if(!empty($dos) && $dos != 0000-00-00){
+          //     $claim_data[$key]['dos'] = date('m-d-Y',$dos);
+          //   }
 
-            if($dos == 0000-00-00){
-              $claim_data[$key]['dos'] = 01-01-1970;
-            }
+          //   if($dos == 0000-00-00){
+          //     $claim_data[$key]['dos'] = 01-01-1970;
+          //   }
 
+          $dob = $claim_data[$key]['dos'];
 
-        $dob=@$claim_data[$key]['dos'];
-        
-          $from= DateTime::createFromFormat('m/d/Y', date('m/d/Y',strtotime($dob)));
-        
-           $to= date('d/m/Y');
-        $to= new DateTime;
-          $age = $to->diff($from);
+            $from = DateTime::createFromFormat('m/d/Y', date('m/d/Y', strtotime($dob)));
 
-          $claim_data[$key]['age']=$age->days;
+            $to = date('d/m/Y');
+            $to = new DateTime;
+            $age = $to->diff($from);
+
+            $claim_data[$key]['age'] = $age->days;
 
 
 
@@ -3479,7 +3478,8 @@ class CreateworkorderController extends Controller
             'count'=> $claim_count,
             'current_total' => $current_total,
             'skip' => $skip,
-            'selected_claim_data' => $selected_claim_data,
+            // 'selected_claim_data' => $selected_claim_data,
+            'selected_claim_data' => [],
         ]);
     }
 
@@ -3552,9 +3552,7 @@ public function claim_note(LoginRequest $request)
 
             $claim_no = Claim_note::where('id', $claim_data) ->pluck('claim_id');
     }
-  $claim_note= Claim_note::
-  where('claim_id', $claim_no)
-->whereIn('state', ['Active', 'Edited']) ->get()->toArray();
+  $claim_note= Claim_note::where('claim_id', $claim_no)->whereIn('state', ['Active', 'Edited'])->get()->toArray();
 
 foreach($claim_note as $key => $data)
 {
