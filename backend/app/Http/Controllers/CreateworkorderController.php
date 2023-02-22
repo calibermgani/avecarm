@@ -3830,7 +3830,7 @@ public function get_associates(LoginRequest $request)
 
     // $users_filter = User_work_profile::where('practice_id',$request->get('practice_dbid'))->where('status','Active')->pluck('user_id');   
 //    $users= User::whereIN('id', $users_filter)->select('id','firstname', 'lastname')->get();
-   $users= User::whereIN('role_id', [1,2,3])->select('id','firstname', 'lastname')->get();
+   $users= User::whereIN('role_id', [1,2])->select('id','firstname', 'lastname')->get();
    
 
 
