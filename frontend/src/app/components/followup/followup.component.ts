@@ -535,7 +535,7 @@ types;
 
 this.tab_load=true;
 
-/* if(type=='allocated' ){
+if(type=='allocated' ){
   if(sorting_name == 'null' && searchs != 'search'){
     console.log('middle');
     this.alloc_pages=page;
@@ -604,7 +604,7 @@ this.tab_load=true;
       error => this.handleError(error)
     );
   }
-} */
+}
 
 
 }
