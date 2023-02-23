@@ -109,8 +109,18 @@
                                                    </div>
                                                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                       <label>Date</label>
-                                                      <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="date"  [(ngModel)]="select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                      <input type="text" class="form-control" ngxDaterangepickerMd formControlName="date"  [(ngModel)]="select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                    </div>
+                                                   <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                      <label>Billed/Last Submit Date</label>
+                                                      <input type="text" class="form-control" ngxDaterangepickerMd formControlName="bill_submit_date" [(ngModel)]="submit_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                   </div>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
+                                                  <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                    <label>Denial Code</label>
+                                                    <input type="text" class="form-control" formControlName="denial_code">
+                                                  </div>
                                                 </div>
                                                 <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Insurance</label>
@@ -279,6 +289,13 @@
 
                                                    <th (click)="order_list('claim_Status','claim','null','null',null,null)" class="font600 line-height-24">Claim Status<i class="fa fa-fw fa-sort"></i></th>
 
+                                                   <th (click)="order_list('denial_code','claim','null','null',null,null)" class="font600 line-height-24">Denial Code<i class="fa fa-fw fa-sort"></i></th>
+
+                                                   <th class="font600 line-height-24">Submit Date <span class="sort-table">
+                                                    <i class="fa fa-sort-desc" (click)="desort('bill_submit_date')" aria-hidden="true"></i>
+                                                    <i class="fa fa-sort-asc" aria-hidden="true" (click)="sort('bill_submit_date')"></i></span>
+                                                  </th>
+
                                                    <th (click)="order_list('claim_note','claim','null','null',null,null)" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
                                                    <th (click)="order_list('created_at','claim','null','null',null,null)" class="font600 line-height-24">Assigned To | Date<i class="fa fa-fw fa-sort"></i></th>
@@ -328,7 +345,8 @@
                                                       <span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" *ngIf="x.total_ar != NULL">{{x.total_ar | number:'1.2-2'}}</span></td>
 
                                                    <td ><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
-
+                                                   <td class="cur-pointer" data-toggle="modal" data-target="#claims" (click)="open(claimpage);claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.denial_code==NULL">-Nil-</span><span *ngIf="x.denial_code!=NULL">{{x.denial_code}}</span></span></td>
+                                                   <td *ngIf="x.billed_submit_date != '01/01/1970'" class="cur-pointer dos-date" data-toggle="modal" data-target="#claims" (click)="open(claimpage);claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.billed_submit_date==NULL || x.billed_submit_date=='' ">-Nil-</span><span *ngIf="x.billed_submit_date!=NULL && x.dos!='11/30/1899'">{{x.billed_submit_date | date:'MM/dd/yyyy'}}</span><span *ngIf="x.dos =='11-30-1899'">{{01/01/1970 | date:'MM/dd/yyyy'}}</span></span></td>
                                                    <td (mouseover)="tooltip(x)"><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claim_note!=NULL">{{x.claim_note}}</span></td>
 
 
@@ -1532,13 +1550,13 @@
                                         </button>
                                         /not required
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                           </button>    
-                                          not required /                                                                                            
+                                           </button>
+                                          not required /
                                      </div>
                                      /not required
                                        <div class="box-tools pull-right">
                                           <input type="text" class="form-control pull-right" [formControl]="search_data" placeholder="Search.." style="width:300px;margin-top:1px;font-weight:normal;">
-                                       </div>  not required / 
+                                       </div>  not required /
                                     </div>
                                     <div id="rework_search" class="collapse">
                                         <form [formGroup]="assignedClaimsFind" (ngSubmit)="assigned_claims_filter(assigned_claims_filter(1,'reallocated',null,null,null,null,null,null,'search'))">
@@ -1562,7 +1580,7 @@
                                                  </div>
                                               </div>
                                               <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
-                                                /not required 
+                                                /not required
                                                  <div class="form-group col-lg-3">
                                                     <label>Total Charge</label>
                                                     <input type="text" class="form-control" formControlName='total_charge'>
@@ -1574,7 +1592,7 @@
                                                  <div class="form-group col-lg-3">
                                                     <label>Claim note</label>
                                                     <input type="text" class="form-control" formControlName='claim_note'>
-                                                 </div> not required / 
+                                                 </div> not required /
                                                  <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12">
                                                     <label>Insurance</label>
                                                     <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="closedWork" formControlName='insurance'>
@@ -1683,7 +1701,7 @@
                                                    <p class="red" style="margin-top:5px;">
                                                       <span class="fa fa-refresh" style="cursor:pointer;" title="Refresh Values" (click)="reload_data()" ></span>
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
-                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> 
+                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span>
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> <i class="fa fa-file-excel-o" style="cursor:pointer;" (click)="export_excel_files('excel', 'Assigned_claims')" title="Excel"></i>
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
                                                       <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box15">
@@ -1745,7 +1763,7 @@
 
                                                                <td><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
 
-                                                               <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>                                                               
+                                                               <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
 
                                                                <td class="cur-pointer text-right" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
@@ -1934,7 +1952,7 @@
                                                    <p class="red" style="margin-top:5px;">
                                                       <span class="fa fa-refresh" style="cursor:pointer;" title="Refresh Values" (click)="reload_data()" ></span>
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
-                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> 
+                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span>
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> <i class="fa fa-file-excel-o" style="cursor:pointer;" (click)="export_excel_files('excel', 'Assigned_claims')" title="Excel"></i>
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
                                                       <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box15">
@@ -2412,7 +2430,7 @@
                                                    <ngx-select-dropdown formControlName="sub_status_code" [config]="config" [options]="sub_options"></ngx-select-dropdown>
                                                 </div>
                                              </div> -->
-                                             
+
                                              <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Insurance</label>
@@ -2737,7 +2755,7 @@
                                                   <label>Payer Name</label>
                                                   <!-- <input type="text" class="form-control" formControlName="dos"> -->
                                                   <ngx-select-dropdown formControlName="payer_name" [config]="configure" [options]="payer_list" [(ngModel)]="selectedPayerName"></ngx-select-dropdown>
-                                                </div>                                                
+                                                </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Status Code</label>
                                                    <ngx-select-dropdown formControlName="status_code" (change)="allClaim_status_code_changed($event)" [config]="config" [options]="status_options"></ngx-select-dropdown>
@@ -2752,7 +2770,7 @@
                                                    <label>Date</label>
                                                    <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="date"  [(ngModel)]="all_select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
-                                              </div>                                              
+                                              </div>
                                              <!-- <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding"> -->
                                                 <!-- <div class="form-group col-lg-3">
                                                    <label>Total Charge</label>
@@ -2956,7 +2974,7 @@
                                                    <ng-template #third>
                                                       <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
                                                    </ng-template>
-                                                   
+
                                                    <td class="cur-pointer" data-toggle="modal" data-target="#claims" (click)="open(claimpage);claimslection(x);"(mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
 
                                                    <td *ngIf="x.dos != '01/01/1970'" class="cur-pointer dos-date" data-toggle="modal" data-target="#claims" (click)="open(claimpage);claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.dos==NULL">-Nil-</span><span *ngIf="x.dos!=NULL && x.dos!='11/30/1899'">{{x.dos | date:'MM/dd/yyyy'}}</span><span *ngIf="x.dos =='11-30-1899'">{{01/01/1970 | date:'MM/dd/yyyy'}}</span></span></td>
