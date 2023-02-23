@@ -660,10 +660,9 @@ public get_associate_name(data){
     if(data.updated ==true && this.router.url=='/followup'){
       console.log('update true - landed here');
       let selected_data=this.notes_details.find(x => x.claim_no ==  this.active_tab);
+      console.log(selected_data);
       if(selected_data['type'] == 'claimpresent'){
         this.finish_followup();
-        this.process.push(data);
-        this.followup_process_notes();
       }
       else{
       console.log('update true - other type');
@@ -691,10 +690,9 @@ public get_associate_name(data){
     else if(data.updated ==false && this.router.url=='/followup'){
       console.log('landed here');
       let selected_data=this.notes_details.find(x => x.claim_no ==  this.active_tab);
+      console.log(selected_data);
       if(selected_data['type'] == 'claimpresent'){
         this.finish_followup();
-        this.process.push(data);
-        this.followup_process_notes();
       }
       else{
       console.log('other type');
@@ -721,6 +719,7 @@ public get_associate_name(data){
   public followup_process_notes()
   {
     let selected_details=this.process.find(x => x.claim_no ==  this.active_tab);
+    console.log(selected_details);
     let user_notes=selected_details['note'];
     let user=selected_details['user'];
     let input_type=selected_details['type'];
@@ -820,7 +819,7 @@ public get_associate_name(data){
     if(input_type == 'claimpresent'){
       let i_type = 'claim_create'
       this.Jarwis.finish_followup(this.setus.getId(),data_codes,claim_details,i_type).subscribe(
-        data  => this.handle_resources(data,this.formGroup.value),
+        data  => {console.log(data),this.handle_resources(data,this.formGroup.value),this.response_handler(data,'followup')},
         error => this.handleError(error)
         );
     }
@@ -879,6 +878,7 @@ public get_associate_name(data){
   //Handling Response after creation of followup trigerring functoions in other components
   public response_handler(data,type)
   {
+    console.log(data);
     this.notes_handler.set_response(data,type);
   }
 
