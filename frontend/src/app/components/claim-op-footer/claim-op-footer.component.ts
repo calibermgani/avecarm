@@ -657,11 +657,26 @@ public get_associate_name(data){
   set_note_update_val(data)
   {
     console.log("Its goods",data);
-    if(data.updated == true)
+    if(data.updated ==true && this.router.url=='/followup'){
+      console.log('update true - landed here');
+      let selected_data=this.notes_details.find(x => x.claim_no ==  this.active_tab);
+      if(selected_data['type'] == 'claimpresent'){
+        this.finish_followup();
+        this.process.push(data);
+        this.followup_process_notes();
+      }
+      else{
+      console.log('update true - other type');
+      this.note_update_monitor= false;
+      this.followup_process();
+      this.finish_followup();
+      this.followup_process_notes();
+      }
+    }
+    else if(data.updated == true && this.router.url!='/followup')
     {
       this.note_update_monitor = true;
     this.open(this.confirm_modal);
-
     if(data.cc == true)
     {
       this.notes_handler.refresh_notes('all');
@@ -678,6 +693,8 @@ public get_associate_name(data){
       let selected_data=this.notes_details.find(x => x.claim_no ==  this.active_tab);
       if(selected_data['type'] == 'claimpresent'){
         this.finish_followup();
+        this.process.push(data);
+        this.followup_process_notes();
       }
       else{
       console.log('other type');
@@ -708,6 +725,7 @@ public get_associate_name(data){
     let user=selected_details['user'];
     let input_type=selected_details['type'];
     let claim_details=selected_details['claim'];
+    console.log(claim_details);
     // this.Jarwis.claim_note(this.setus.getId(),user_notes,claim_details,'claim_create').subscribe(
     //   data  => this.response_handler(data,'followup'),
     //   error => this.handleError(error)
@@ -821,6 +839,7 @@ public get_associate_name(data){
   public handle_resources(data:any,form_value)
   {
     console.log(data.message);
+    console.log(data);
 
     if(data.message==1)
     {
@@ -1015,7 +1034,9 @@ public disableClaim(){
         associates: new FormControl('', [
           Validators.required
         ]),
-        followup_date: new FormControl('',[]),
+        followup_date: new FormControl('',[
+          Validators.required
+        ]),
         closed: new FormControl('', [
         ])
       }); 

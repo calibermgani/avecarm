@@ -37,19 +37,11 @@
                 <div class="form-group" style="margin-bottom: 10px;" *ngIf="router.url == '/followup'">
                    <label>Followup Date<span class="ar-red">*</span></label>
                     <input class="form-control followupDateField" id="myInput" placeholder="MM-DD-YYYY" formControlName="followup_date"  [minDate]="minDate" [(ngModel)]="model" ngbDatepicker #followup_date="ngbDatepicker" (click)="followup_date.toggle()" (click)="followup_closed();" [minDate]="minDate" autocomplete="off"  [disabled]="claimed()">
-                    <span class="reset"  onclick="document.getElementById('myInput').value = ''">&times;</span>
-                    <div class="error" *ngIf="(formGroup.controls['followup_date'].touched || submitted)">
-                      please provide followup date
-                    </div>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 10px;" *ngIf="router.url != '/followup'">
                     <label>Followup Date<span class="ar-red">*</span></label>                   
                     <input class="form-control followupDateField" id="myInput" placeholder="MM-DD-YYYY" [disabled]="claimed()" formControlName="followup_date"  [minDate]="minDate" [(ngModel)]="model" ngbDatepicker #followup_date="ngbDatepicker" (click)="followup_date.toggle()" (click)="followup_closed();" [minDate]="minDate" autocomplete="off"  [disabled]="claimed() || fclaim()">                    
-                    <span class="reset" (click)="followtoggle()" onclick="document.getElementById('myInput').value = ''">&times;</span>
-                    <div class="error" *ngIf="(formGroup.controls['followup_date'].touched || submitted)">
-                      please provide followup date
-                    </div>
                 </div>
 
             </div>

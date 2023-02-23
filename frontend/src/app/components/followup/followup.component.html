@@ -1323,7 +1323,7 @@
                                                                  <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td></ng-template>
                                                                </ng-template>
                                                                <ng-template #third>
-                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
                                                                </ng-template>
 
                                                                <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
@@ -1669,7 +1669,7 @@
                                                                  <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count" (click)="open(claimpage);note_refresh();reasignedclaimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td></ng-template>
                                                                </ng-template>
                                                                <ng-template #third>
-                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
                                                                </ng-template>
                                                                
                                                                <td class="cur-pointer" (click)="open(claimpage);claimslection(x);claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
@@ -2169,7 +2169,7 @@
                                                                <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count"><span class="ar-red">{{x.touch}}</span></td></ng-template>
                                                             </ng-template>
                                                             <ng-template #third>
-                                                               <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                               <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
                                                             </ng-template>
                                                             
                                                             <td class="cur-pointer"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
@@ -2661,7 +2661,9 @@
                         <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box42">
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div  *ngFor="let x of qc_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
-                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> <span> {{x.content}}. </span><span class="ar-blue font600 ">Error Types: </span> {{x.root.name}}.<span class="ar-blue font600 ">Root Causes: </span><span *ngFor="let x of x.error_type" >{{x.name}}. </span> </p>
+                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span></span><span class="ar-blue font600 ">Notes: </span><span class="font600">{{x.content}}.</span><span class="ar-blue font600 ">Error Types: </span>
+                                    <span class="font600" *ngFor="let x of x.error_type" >{{x.name}}. </span><i *ngIf="edit_permission==true && note_edit_val == x.id" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="get_audit_codes();open(qcnotes);editnotes('qcnote',x,x.id);get_error_param_codes();get_error_sub_param_codes();" ></i>
+                                 </p>
                               </div>
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!qc_notes.length'>
                                  <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>

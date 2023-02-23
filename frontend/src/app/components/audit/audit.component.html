@@ -703,7 +703,7 @@
                                                                  <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count"><span class="ar-red">{{x.touch}}</span></td></ng-template>
                                                                </ng-template>
                                                                <ng-template #third>
-                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
                                                                </ng-template>
                                                                
                                                                <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
@@ -1061,7 +1061,7 @@
                                                                  <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count"><span class="ar-red">{{x.touch}}</span></td></ng-template>
                                                                </ng-template>
                                                                <ng-template #third>
-                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                                 <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
                                                                </ng-template>
 
                                                                <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
