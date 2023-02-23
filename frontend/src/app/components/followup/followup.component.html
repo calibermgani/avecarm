@@ -2550,7 +2550,7 @@
                                           <!-- <td class=""><span *ngIf="x.ins_ar == 0">-</span><span *ngIf="x.ins_ar != 0">{{x.ins_ar}}</span></td> -->
                                           <td class=""><span *ngIf="claim_clicked.total_charges == 0">-</span><span *ngIf="claim_clicked.total_charges != 0">{{claim_clicked.total_charges | number:'1.2-2'}}</span></td>
                                           <td class=""><span *ngIf="x.total_ar_due == 0">-</span><span *ngIf="x.total_ar_due != 0">{{x.total_ar_due | number:'1.2-2'}}</span></td>
-                                          <td class="">09/17/18</td>
+                                          <td class=""><span *ngIf="x.closed_claim_date ==null">-</span><span *ngIf="x.closed_claim_date != null">{{x.closed_claim_date}}</span></td>
                                           <td class=""><span class="ar-red">{{claim_clicked.touch}}</span></td>
                                        </tr>
                                        <!-- <tr>
@@ -2597,6 +2597,9 @@
                   <a aria-expanded="false" class="cur-pointer collapsed" data-target="#Claim_Note" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="Claim Notes">
                      <span style="text-decoration: underline">Claim Notes</span>
                   </a>
+                  <a *ngIf="type == 'reallocated'" aria-expanded="false" class="cur-pointer collapsed" data-target="#QC_Note" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="QC Notes">
+                     <span style="text-decoration: underline">QC Notes</span>
+                  </a>
                   <a data-toggle="collapse" data-target="#followupview" class="cur-pointer collapsed" title="Followup View" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det('followup')"><i class="fa fa-external-link-square" title="Followup Template View" ></i> <span style="text-decoration: underline">F.Template View</span></a>
                   <span *ngIf="curr_reassigned_claims.includes(claim_clicked.claim_no) == false">
                   <a *ngIf="edit_permission==true" data-toggle="collapse" data-target="#followup-list3" (click)="send_calim_det('followup')" class="cur-pointer collapsed" title="Followup Template" style="margin-right: 15px;font-size: 16px;" aria-expanded="false"><i class="fa fa-headphones" title="Followup Template"></i> <span style="text-decoration: underline">F.Template</span></a>
@@ -2642,14 +2645,14 @@
                   </div>
                </div>
             </div>
-            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-top:15px solid #e9ecf3;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding collapse" id="QC_Note" style="border-top:15px solid #e9ecf3;">
                <div class="box no-shadow no-border" style="margin-top:10px">
                   <div class="box-body no-padding">
                      <div class="box no-shadow no-bottom no-border">
                         <div class="box-header" style="border-bottom: 1px solid #f3eee9;">
                            <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> QC Notes</h3>
                            <div class="box-tools pull-right">
-                              <a data-toggle="modal" data-target="#process-notes" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a>
+                              <!-- <a data-toggle="modal" data-target="#process-notes" class="cur-pointer" style="font-size:16px;"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New Note</span></a> -->
                               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box42" style="margin-left: 10px;">
                               <i class="fa fa-plus"></i>
                               </button>
@@ -2668,7 +2671,7 @@
                      </div>
                   </div>
                </div>
-            </div> -->
+            </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding collapse" id="Claim_Note" style="border-top:15px solid #e9ecf3;">
                <div class="box no-shadow no-border" style="margin-top:10px">
                   <!-- /.box-header -->

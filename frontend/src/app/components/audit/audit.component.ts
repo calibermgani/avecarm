@@ -2924,7 +2924,7 @@ ngOnDestroy(){
   this.response_data.unsubscribe();
   this.observalble.unsubscribe();
   this.update_monitor.unsubscribe();
-  this.sub_err_subscription.unsubscribe();
+  //this.sub_err_subscription.unsubscribe();
 }
 
 //Red Alerrt Box
