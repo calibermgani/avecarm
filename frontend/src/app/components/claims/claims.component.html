@@ -10,8 +10,8 @@
                   <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)" class=""><a href="#tab_2" (click)="pageChange(1,'claim');get_statuscodes()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> Create Work Orders <span class="tab-divider">|</span></a></li>
                   <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)"><a href="#tab_4" data-toggle="tab" style="padding-left: 0px;" aria-expanded="true" (click)="get_workorder(null,null,null,1,wo_page_number,null,null,'null','null',null);"><i class="fa fa-list"></i> Work Orders <span class="tab-divider">|</span></a></li>
                   <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)"><a href="#tab_5" data-toggle="tab" style="padding-left: 0px;" aria-expanded="true" (click)="get_workorder('closedClaims',null,null,1,wo_page_number,null,null,'null','null',null,null,null,null);get_statuscodes()"><i class="fa fa-drivers-license"></i> Closed Claims <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#rework" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null','null','null');" ><i class="fa fa-check"></i> Rework Claims <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#assigned" data-toggle="tab" style="padding-left: 0px;" (click)="get_workorder('assignedClaims',null,null,1,wo_page_number,null,null,'null','null',null,null,null,null);" ><i class="fa fa-share"></i> Assigned Claims <span class="tab-divider">|</span></a></li>
+                  <!-- <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#rework" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null','null','null');" ><i class="fa fa-check"></i> Rework Claims <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#assigned" data-toggle="tab" style="padding-left: 0px;" (click)="get_workorder('assignedClaims',null,null,1,wo_page_number,null,null,'null','null',null,null,null,null);" ><i class="fa fa-share"></i> Assigned Claims <span class="tab-divider">|</span></a></li> -->
                   <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#re_assigned" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'reallocated','null','null','null','null');"><i class="fa fa-retweet"></i>Reassigned Claims <span class="tab-divider">|</span></a></li>
                   <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#tab_3" (click)="reload_datas(1);clear()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-upload"></i> Import <span class="tab-divider">|</span></a></li>
                   <li *ngIf="(user_role == 1 || user_role == 2 || user_role == 16)" class=""><a href="#tab_6" (click)="pageChange(1,'all_claim');get_statuscodes()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> All Claims</a></li>
@@ -1518,7 +1518,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="tab-pane" id="rework">
+                  <!-- <div class="tab-pane" id="rework">
                      <div class="box no-shadow no-border">
                         <div class="box-body no-padding">
                            <div class="row">
@@ -1530,12 +1530,15 @@
                                         <button class="btn btn-box-tool collapsed" data-target="#rework_search" data-toggle="collapse" data-widget="collapse" type="button" aria-expanded="false" aria-controls="assigned_search">
                                            <i class="fa fa-plus"></i>
                                         </button>
-                                        <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                           </button>                                                                                                 -->
+                                        /not required
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                           </button>    
+                                          not required /                                                                                            
                                      </div>
-                                       <!-- <div class="box-tools pull-right">
+                                     /not required
+                                       <div class="box-tools pull-right">
                                           <input type="text" class="form-control pull-right" [formControl]="search_data" placeholder="Search.." style="width:300px;margin-top:1px;font-weight:normal;">
-                                       </div> -->
+                                       </div>  not required / 
                                     </div>
                                     <div id="rework_search" class="collapse">
                                         <form [formGroup]="assignedClaimsFind" (ngSubmit)="assigned_claims_filter(assigned_claims_filter(1,'reallocated',null,null,null,null,null,null,'search'))">
@@ -1559,7 +1562,8 @@
                                                  </div>
                                               </div>
                                               <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
-                                                 <!-- <div class="form-group col-lg-3">
+                                                /not required 
+                                                 <div class="form-group col-lg-3">
                                                     <label>Total Charge</label>
                                                     <input type="text" class="form-control" formControlName='total_charge'>
                                                  </div>
@@ -1570,7 +1574,7 @@
                                                  <div class="form-group col-lg-3">
                                                     <label>Claim note</label>
                                                     <input type="text" class="form-control" formControlName='claim_note'>
-                                                 </div> -->
+                                                 </div> not required / 
                                                  <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12">
                                                     <label>Insurance</label>
                                                     <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="closedWork" formControlName='insurance'>
@@ -1666,36 +1670,26 @@
                         </div>
                      </div>
                      <div class="box no-shadow no-border">
-                        <!-- /.box-header -->
                         <div class="box-body no-padding">
                            <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                              <!-- /.box-header -->
                               <div class="box-body no-padding">
-                                 <!-- <h4 class="list-heading" style="background: #e2e6ef;padding: 10px 10px;margin-top: 0px;margin-bottom:0px;border-bottom: 2px solid #fff;border-radius: 2px 2px 0px 0px;"> Assigned Claims </h4> -->
                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding listing-table">
                                     <div class="box no-shadow no-border">
-                                       <!-- /.box-header -->
                                        <div class="box-body no-padding">
                                           <div class="no-shadow no-bottom">
-                                             <!-- /.box-header -->
                                              <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Reworks/Call back/Pending Claims </h3>
                                                 <div class="box-tools pull-right">
                                                    <p class="red" style="margin-top:5px;">
                                                       <span class="fa fa-refresh" style="cursor:pointer;" title="Refresh Values" (click)="reload_data()" ></span>
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
-                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> <!-- reassign()-->
-                                                      <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> -->
-                                                      <!-- <span class="fa fa-print" style="cursor:pointer;" title="Print" (click)="export_files('print')"></span> -->
+                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> 
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> <i class="fa fa-file-excel-o" style="cursor:pointer;" (click)="export_excel_files('excel', 'Assigned_claims')" title="Excel"></i>
-                                                      <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>  --> <!-- <i class="fa fa-file-pdf-o"  (click)="export_pdf_files('PDF', 'assigned_claims')" style="cursor:pointer;" title="PDF"></i> -->
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
                                                       <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box15">
                                                       <i class="fa fa-plus"></i>
                                                       </button>
                                                    </p>
-                                                   <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                                      </button>                                                                                                 -->
                                                 </div>
                                              </div>
                                              <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box15">
@@ -1704,7 +1698,6 @@
                                                       <table class="table-striped1 table">
                                                          <thead>
                                                             <tr>
-                                                               <!-- <th style="width:1%"></th> -->
                                                                <th style="width:1%"><input type="checkbox" style="margin-top:0px;" (click)="selected($event,'all','all');check_all_assign(pages,$event)" title="Select All" #checkboxes></th>
                                                                <th></th>
 
@@ -1719,12 +1712,6 @@
                                                                <th (click) = "order_list('allocated','rendering_prov','null','null')" class="font600 line-height-24">Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <th (click) = "order_list('allocated','responsibility','null','null')" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <!-- <th (click) = "order_list('allocated','prim_ins_name','null','null')" class="font600 line-height-24">Primary Insurance <i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','sec_ins_name','null','null')" class="font600 line-height-24">Secondary Insurance<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','ter_ins_name','null','null')" class="font600 line-height-24">Tertiary Insurance<i class="fa fa-fw fa-sort"></i></th> -->
 
                                                                <th (click) = "order_list('allocated','total_charges','null','null')" class="font600 line-height-24">Total Charges<i class="fa fa-fw fa-sort"></i></th>
 
@@ -1758,13 +1745,7 @@
 
                                                                <td><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
 
-                                                               <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
-
-                                                               <!-- <td data-toggle="modal" (mouseover)="tooltip(x)"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.prim_ins_name==NULL ">-Nil-</span><span *ngIf="x.prim_ins_name != NULL">{{x.prim_ins_name}}</span></span></td>
-
-                                                               <td (mouseover)="tooltip(x)"><span [tooltip]="SecInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.sec_ins_name==NULL">-Nil-</span><span *ngIf="x.sec_ins_name!=NULL">{{x.sec_ins_name}}</span></span></td>
-
-                                                               <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
+                                                               <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>                                                               
 
                                                                <td class="cur-pointer text-right" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
@@ -1774,8 +1755,6 @@
 
                                                                <td ><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span>
                                                                </td>
-
-                                                               <!-- <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);">{{x.assigned_to}}/{{x.assigned_by}}/{{x.created}}</td> -->
 
                                                                <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats }}</span></td>
 
@@ -1810,8 +1789,8 @@
                            </div>
                         </div>
                      </div>
-                  </div>
-                  <div class="tab-pane" id="assigned">
+                  </div> -->
+                  <!-- <div class="tab-pane" id="assigned">
                      <div class="box no-shadow no-border">
                         <div class="box-body no-padding">
                            <div class="row">
@@ -1823,12 +1802,7 @@
                                           <button class="btn btn-box-tool collapsed" data-target="#assigned_search" data-toggle="collapse" data-widget="collapse" type="button" aria-expanded="false" aria-controls="assigned_search">
                                              <i class="fa fa-plus"></i>
                                           </button>
-                                        <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                           </button>                                                                                                 -->
                                        </div>
-                                       <!-- <div class="box-tools pull-right">
-                                          <input type="text" class="form-control pull-right" [formControl]="search_data" placeholder="Search.." style="width:300px;margin-top:1px;font-weight:normal;">
-                                       </div> -->
                                     </div>
                                     <div id="assigned_search" class="collapse">
                                        <form [formGroup]="assignedClaimsFind" (ngSubmit)="assigned_claims_filter(assigned_claims_filter(1,'reallocated',null,null,null,null,null,null,'search'))">
@@ -1852,18 +1826,6 @@
                                                 </div>
                                              </div>
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
-                                                <!-- <div class="form-group col-lg-3">
-                                                   <label>Total Charge</label>
-                                                   <input type="text" class="form-control" formControlName='total_charge'>
-                                                </div>
-                                                <div class="form-group col-lg-3">
-                                                   <label>Total AR</label>
-                                                   <input type="text" class="form-control" formControlName='total_ar'>
-                                                </div>
-                                                <div class="form-group col-lg-3">
-                                                   <label>Claim note</label>
-                                                   <input type="text" class="form-control" formControlName='claim_note'>
-                                                </div> -->
                                                 <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12">
                                                    <label>Insurance</label>
                                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="closedWork" formControlName='insurance'>
@@ -1959,36 +1921,26 @@
                         </div>
                      </div>
                      <div class="box no-shadow no-border">
-                        <!-- /.box-header -->
                         <div class="box-body no-padding">
                            <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
-                              <!-- /.box-header -->
                               <div class="box-body no-padding">
-                                 <!-- <h4 class="list-heading" style="background: #e2e6ef;padding: 10px 10px;margin-top: 0px;margin-bottom:0px;border-bottom: 2px solid #fff;border-radius: 2px 2px 0px 0px;"> Assigned Claims </h4> -->
                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding listing-table">
                                     <div class="box no-shadow no-border">
-                                       <!-- /.box-header -->
                                        <div class="box-body no-padding">
                                           <div class="no-shadow no-bottom">
-                                             <!-- /.box-header -->
                                              <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Assigned Claims</h3>
                                                 <div class="box-tools pull-right">
                                                    <p class="red" style="margin-top:5px;">
                                                       <span class="fa fa-refresh" style="cursor:pointer;" title="Refresh Values" (click)="reload_data()" ></span>
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
-                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> <!-- reassign()-->
-                                                      <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> -->
-                                                      <!-- <span class="fa fa-print" style="cursor:pointer;" title="Print" (click)="export_files('print')"></span> -->
+                                                      <span class="fa fa-user-o" style="cursor:pointer;" title="Reassign" (click)="reassign(confirmation)"></span> 
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span> <i class="fa fa-file-excel-o" style="cursor:pointer;" (click)="export_excel_files('excel', 'Assigned_claims')" title="Excel"></i>
-                                                      <!-- <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>  --> <!-- <i class="fa fa-file-pdf-o"  (click)="export_pdf_files('PDF', 'assigned_claims')" style="cursor:pointer;" title="PDF"></i> -->
                                                       <span style="margin-left:10px;color:#ccc;margin-right:10px;">|</span>
                                                       <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box15">
                                                       <i class="fa fa-plus"></i>
                                                       </button>
                                                    </p>
-                                                   <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                                      </button>                                                                                                 -->
                                                 </div>
                                              </div>
                                              <div class="box-body no-padding collapse in" style="margin-top:20px;" id="box15">
@@ -1997,7 +1949,6 @@
                                                       <table class="table-striped1 table">
                                                          <thead>
                                                             <tr>
-                                                               <!-- <th style="width:1%"></th> -->
                                                                <th style="width:1%"><input type="checkbox" style="margin-top:0px;" (click)="selected($event,'all','all');check_all_assign(pages,$event)" title="Select All" #checkboxes></th>
                                                                <th></th>
 
@@ -2012,12 +1963,6 @@
                                                                <th (click) = "order_list('allocated','rendering_prov','null','null')" class="font600 line-height-24">Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <th (click) = "order_list('allocated','responsibility','null','null')" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <!-- <th (click) = "order_list('allocated','prim_ins_name','null','null')" class="font600 line-height-24">Primary Insurance <i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','sec_ins_name','null','null')" class="font600 line-height-24">Secondary Insurance<i class="fa fa-fw fa-sort"></i></th>
-
-                                                               <th (click) = "order_list('allocated','ter_ins_name','null','null')" class="font600 line-height-24">Tertiary Insurance<i class="fa fa-fw fa-sort"></i></th> -->
 
                                                                <th (click) = "order_list('allocated','total_charges','null','null')" class="font600 line-height-24">Total Charges<i class="fa fa-fw fa-sort"></i></th>
 
@@ -2053,12 +1998,6 @@
 
                                                                <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
 
-                                                               <!-- <td data-toggle="modal" (mouseover)="tooltip(x)"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.prim_ins_name==NULL ">-Nil-</span><span *ngIf="x.prim_ins_name != NULL">{{x.prim_ins_name}}</span></span></td>
-
-                                                               <td (mouseover)="tooltip(x)"><span [tooltip]="SecInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.sec_ins_name==NULL">-Nil-</span><span *ngIf="x.sec_ins_name!=NULL">{{x.sec_ins_name}}</span></span></td>
-
-                                                               <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
-
                                                                <td class="cur-pointer text-right" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
                                                                <td class="cur-pointer text-right ar-total" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
@@ -2067,8 +2006,6 @@
 
                                                                <td ><span *ngIf="x.claim_note==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span>
                                                                </td>
-
-                                                               <!-- <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);">{{x.assigned_to}}/{{x.assigned_by}}/{{x.created}}</td> -->
 
                                                                <td (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats }}</span></td>
 
@@ -2103,7 +2040,7 @@
                            </div>
                         </div>
                      </div>
-                  </div>
+                  </div> -->
                   <div class="tab-pane" id="re_assigned">
                      <div class="box no-shadow no-border">
                         <div class="box-body no-padding">
@@ -2465,7 +2402,7 @@
                                                    <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="date"  [(ngModel)]="closed_select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
                                              </div>
-                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                             <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Status Code</label>
                                                    <ngx-select-dropdown formControlName="status_code" (change)="closedClaims_status_code_changed($event)" [config]="config" [options]="status_options"></ngx-select-dropdown>
@@ -2474,7 +2411,7 @@
                                                    <label>Sub Status Code</label>
                                                    <ngx-select-dropdown formControlName="sub_status_code" [config]="config" [options]="sub_options"></ngx-select-dropdown>
                                                 </div>
-                                             </div>
+                                             </div> -->
                                              
                                              <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -3017,7 +2954,7 @@
                                                       <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count"><span class="ar-red">{{x.touch}}</span></td></ng-template>
                                                    </ng-template>
                                                    <ng-template #third>
-                                                      <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar">--Nil--</span></td></ng-template>
+                                                      <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
                                                    </ng-template>
                                                    
                                                    <td class="cur-pointer" data-toggle="modal" data-target="#claims" (click)="open(claimpage);claimslection(x);"(mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
