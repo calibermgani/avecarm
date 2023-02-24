@@ -277,11 +277,11 @@
                                                    <th (click)="order_list('responsibility','claim','null','null',null,null)" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
 
 
-                                                   <!-- <th (click)="order_list('prim_ins_name','claim','null','null',null,null)" class="font600 line-height-24">Primary Insurance <span class="sort-table"><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i></span></th>
+                                                   <th (click)="order_list('prim_ins_name','claim','null','null',null,null)" class="font600 line-height-24">Primary<span class="sort-table"><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i></span></th>
 
-                                                   <th (click)="order_list('sec_ins_name','claim','null','null',null,null)" class="font600 line-height-24">Secondary Insurance Name<span class="sort-table"><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i></span></th>
+                                                   <th (click)="order_list('sec_ins_name','claim','null','null',null,null)" class="font600 line-height-24">Secondary<span class="sort-table"><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i></span></th>
 
-                                                   <th (click)="order_list('ter_ins_name','claim','null','null',null,null)" class="font600 line-height-24">Tertiary Insurance Name<span class="sort-table"><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i></span></th> -->
+                                                   <th (click)="order_list('ter_ins_name','claim','null','null',null,null)" class="font600 line-height-24">Tertiary<span class="sort-table"><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i></span></th>
 
                                                    <th (click)="order_list('total_charges','claim','null','null',null,null)" class="font600 line-height-24">Total Charges<i class="fa fa-fw fa-sort"></i></th>
 
@@ -328,11 +328,11 @@
 
                                                    <td (mouseover)="tooltip(x)"><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
 
-                                                   <!-- <td data-toggle="modal" (mouseover)="tooltip(x)"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.prim_ins_name == NULL ">-Nil-</span><span *ngIf="x.prim_ins_name != NULL">{{x.prim_ins_name}}</span></span></td>
+                                                   <td data-toggle="modal" (mouseover)="tooltip(x)"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.prim_ins_name == NULL ">-Nil-</span><span *ngIf="x.prim_ins_name != NULL">{{x.prim_ins_name}}</span></span></td>
 
                                                    <td (mouseover)="tooltip(x)"><span [tooltip]="SecInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.sec_ins_name==NULL">-Nil-</span><span *ngIf="x.sec_ins_name!=NULL">{{x.sec_ins_name}}</span></span></td>
 
-                                                   <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
+                                                   <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td>
 
                                                    <td>
                                                       <span *ngIf="x.total_charges == NULL" >-Nil-</span>
