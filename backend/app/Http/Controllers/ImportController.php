@@ -6833,7 +6833,7 @@ class ImportController extends Controller
                     ->where('claim_Status', NULL)
                     ->orWhere('claim_Status', 'Ready')
                     ->pluck('ter_ins_name')->toArray();
-      $payer_name = array_merge($prim_ins_name,$sec_ins_name,$ter_ins_name);
+      $payer_name = array_values(array_unique(array_merge($prim_ins_name,$sec_ins_name,$ter_ins_name)));
       if($payer_name)
       {
         $payer_details = array('status'=> 200, 'payer_names' => $payer_name);
