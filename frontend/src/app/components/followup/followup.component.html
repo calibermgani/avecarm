@@ -2623,7 +2623,7 @@
                         <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                            <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Process Notes</h3>
                            <div class="box-tools pull-right">
-                              <a  class="cur-pointer" style="font-size:16px;" (click)="open(processnotes)"><i class="fa fa-plus-circle"></i>&nbsp;<span style="text-decoration: underline">New</span></a>
+                              <a *ngIf="type !='completed'" class="cur-pointer" style="font-size:16px;" (click)="open(processnotes)"><i class="fa fa-plus-circle"></i>&nbsp;<span style="text-decoration: underline">New</span></a>
                               <!-- <span><a  class="cur-pointer" [hidden]="process_notes_data_list.includes(claim_clicked.claim_no) " style="font-size:16px;" (click)="open(processnotes)"><i class="fa fa-plus-circle"></i>&nbsp;<span style="text-decoration: underline">New</span></a>
                               <a  class="cur-pointer" [hidden]="!process_notes_data_list.includes(claim_clicked.claim_no) " style="font-size:16px;" (click)="open(processnotes);editnotes('process_notes_init','none',claim_clicked);"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">Edit</span></a></span> -->
                               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box41" style="margin-left: 10px;">
@@ -2634,7 +2634,7 @@
                         <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box41">
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div  *ngFor="let x of process_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
-                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}. <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(processnotes);editnotes('processnote',x.content,x.id)" ></i></p>
+                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}. <i *ngIf="type !='completed'" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(processnotes);editnotes('processnote',x.content,x.id)" ></i></p>
                               </div>
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!process_notes.length'>
                                  <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
@@ -2688,7 +2688,7 @@
                               <!-- <a data-toggle="collapse" data-target="#followup-list3" class="cur-pointer collapsed" title="Followup Template" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det('followup')"><i class="fa fa-headphones" title="Followup Template"></i>&nbsp;<span style="text-decoration: underline">F.Template</span></a> -->
 
                               <!-- <a *ngIf="reassign_allocation == true && refer_claim_editable" class="cur-pointer" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="open(confirm_modal);confirm_reassign(claim_clicked)"><i class="fa fa-exchange" title="Assign to Manager / TL"></i> &nbsp;<span style="text-decoration: underline">Re-Assign</span></a> -->
-                              <a  class="cur-pointer" [hidden]="claim_notes_data_list.includes(claim_clicked.claim_no) " style="font-size:16px;" (click)="open(claimnotes)"><i class="fa fa-plus-circle"></i>&nbsp;<span style="text-decoration: underline">New</span></a>
+                              <a *ngIf="type !='completed'" class="cur-pointer" [hidden]="claim_notes_data_list.includes(claim_clicked.claim_no) " style="font-size:16px;" (click)="open(claimnotes)"><i class="fa fa-plus-circle"></i>&nbsp;<span style="text-decoration: underline">New</span></a>
                               <a  class="cur-pointer" [hidden]="!claim_notes_data_list.includes(claim_clicked.claim_no) " style="font-size:16px;" (click)="open(claimnotes);editnotes('claim_notes_init','none',claim_clicked);"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">Edit</span></a></span>
                               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="collapse" data-target="#box43" style="margin-left: 10px;">
                               <i class="fa fa-plus"></i>

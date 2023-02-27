@@ -49,6 +49,7 @@ export class ClaimOpFooterComponent implements OnInit, OnDestroy {
   public user:any;
   public user_name:any;
   minDate = undefined;
+  followdate_invalid:boolean = false;
   constructor(
     private Jarwis: JarwisService,
     private setus: SetUserService,
@@ -336,6 +337,16 @@ public get_associate_name(data){
                   followup_date: {year:this.selected_claim_data['followup_date'][2],month:this.selected_claim_data['followup_date'][1],day:this.selected_claim_data['followup_date'][0]},
                   closed: 0
                 });
+                let f_date = this.formGroup.controls.followup_date.value;
+                if(f_date.year < this.minDate.year){
+                  this.followdate_invalid = true;
+                }
+                else if(f_date.month < this.minDate.month){
+                  this.followdate_invalid = true;
+                }
+                else if(f_date.day <= this.minDate.day){
+                  this.followdate_invalid = true;
+                }
              }
             } else {
              console.log('Not an array');
@@ -360,6 +371,16 @@ public get_associate_name(data){
                   followup_date: {year:Number(this.selected_claim_data['followup_date'][0]),month:Number(this.selected_claim_data['followup_date'][1]),day:Number(this.selected_claim_data['followup_date'][2])},
                   closed: 0
                 });
+                let f_date = this.formGroup.controls.followup_date.value;
+                if(f_date.year < this.minDate.year){
+                  this.followdate_invalid = true;
+                }
+                else if(f_date.month < this.minDate.month){
+                  this.followdate_invalid = true;
+                }
+                else if(f_date.day <= this.minDate.day){
+                  this.followdate_invalid = true;
+                }
               } 
             }
 
