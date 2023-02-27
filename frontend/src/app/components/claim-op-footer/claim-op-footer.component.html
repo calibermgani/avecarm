@@ -37,11 +37,13 @@
                 <div class="form-group" style="margin-bottom: 10px;" *ngIf="router.url == '/followup'">
                    <label>Followup Date<span class="ar-red">*</span></label>
                     <input class="form-control followupDateField" id="myInput" placeholder="MM-DD-YYYY" formControlName="followup_date"  [minDate]="minDate" [(ngModel)]="model" ngbDatepicker #followup_date="ngbDatepicker" (click)="followup_date.toggle()" (click)="followup_closed();" [minDate]="minDate" autocomplete="off"  [disabled]="claimed()">
+                    <div class="error" *ngIf="followdate_invalid==true">Please Change followup Date</div>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 10px;" *ngIf="router.url != '/followup'">
                     <label>Followup Date<span class="ar-red">*</span></label>                   
-                    <input class="form-control followupDateField" id="myInput" placeholder="MM-DD-YYYY" [disabled]="claimed()" formControlName="followup_date"  [minDate]="minDate" [(ngModel)]="model" ngbDatepicker #followup_date="ngbDatepicker" (click)="followup_date.toggle()" (click)="followup_closed();" [minDate]="minDate" autocomplete="off"  [disabled]="claimed() || fclaim()">                    
+                    <input class="form-control followupDateField" id="myInput" placeholder="MM-DD-YYYY" [disabled]="claimed()" formControlName="followup_date"  [minDate]="minDate" [(ngModel)]="model" ngbDatepicker #followup_date="ngbDatepicker" (click)="followup_date.toggle()" (click)="followup_closed();" [minDate]="minDate" autocomplete="off"  [disabled]="claimed() || fclaim()">
+                    <div class="error" *ngIf="followdate_invalid=='true'">Please Change followup Date</div>                  
                 </div>
 
             </div>
