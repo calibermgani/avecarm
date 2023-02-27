@@ -6818,24 +6818,21 @@ class ImportController extends Controller
 
   public function get_payer_name(LoginRequest $request){
     try{
-      $prim_ins_name = Import_field::select('prim_ins_name',)
-                    ->whereNull('followup_work_order')
+      $prim_ins_name = Import_field::whereNull('followup_work_order')
                     ->where('prim_ins_name', '<>', NULL)
                     ->where('claim_Status', NULL)
                     ->orWhere('claim_Status', 'Ready')
-                    ->get()->toArray();
-      $sec_ins_name = Import_field::select('sec_ins_name',)
-                    ->whereNull('followup_work_order')
+                    ->pluck('prim_ins_name')->toArray();
+      $sec_ins_name = Import_field::whereNull('followup_work_order')
                     ->Where('sec_ins_name', '<>', NULL)
                     ->where('claim_Status', NULL)
                     ->orWhere('claim_Status', 'Ready')
-                    ->get()->toArray();
-      $ter_ins_name = Import_field::select('ter_ins_name',)
-                    ->whereNull('followup_work_order')
+                    ->pluck('sec_ins_name')->toArray();
+      $ter_ins_name = Import_field::whereNull('followup_work_order')
                     ->Where('ter_ins_name', '<>', NULL)
                     ->where('claim_Status', NULL)
                     ->orWhere('claim_Status', 'Ready')
-                    ->get()->toArray();
+                    ->pluck('ter_ins_name')->toArray();
       $payer_name = array_merge($prim_ins_name,$sec_ins_name,$ter_ins_name);
       if($payer_name)
       {
