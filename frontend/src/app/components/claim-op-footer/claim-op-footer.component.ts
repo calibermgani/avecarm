@@ -224,7 +224,7 @@ public get_associate_name(data){
           this.status_code_changed(data);
           let associate_data={type:'Assign',associate:this.selected_claim_data['followup_associate']};
 
-            this.process_associates_name(associate_data);
+            this.get_associate_name(associate_data);
           
               // this.formGroup.patchValue({
               //   status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
