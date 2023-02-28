@@ -1466,7 +1466,7 @@ public get_statuscodes()
       status_code: [],
       sub_status_code: [],
       rendering_provider:[],
-      responsibility: [],      
+      responsibility: [],
       followup_date: [],
       date:[],
       payer_name:[],
@@ -1478,6 +1478,9 @@ public get_statuscodes()
       sec_pol_id: [],
       ter_ins_name: [],
       ter_pol_id: [],
+      total_charge: [],
+      bill_submit_date: [],
+      denial_code: []
     });
 
 
@@ -1605,7 +1608,7 @@ searchOnKeyUp(event) {
   }
   else{
     this.isValueSelected = false;
-  }    
+  }
 }
 searchFromArray(arr, regex) {
   let matches = [], i;
@@ -1623,7 +1626,7 @@ onselectvalue(value) {
   this.selected_val = value;
   }
   else{
-    this.selected_val = '';      
+    this.selected_val = '';
     this.isValueSelected = false;
   }
 }
