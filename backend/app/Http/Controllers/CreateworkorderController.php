@@ -4342,7 +4342,6 @@ public function get_workorder(LoginRequest $request)
                 $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->count();
             }    
         }elseif($searchValue != null && $search == 'search'){
-            dd('helkki hi everyone');
            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
               claim_notes.claim_id,claim_notes.content as claims_notes
             FROM claim_notes WHERE claim_notes.deleted_at IS NULL
