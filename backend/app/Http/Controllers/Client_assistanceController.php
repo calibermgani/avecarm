@@ -24,13 +24,16 @@ use App\Action;
 use App\User_work_profile;
 use DateTime;
 use App\Claim_history;
+use Illuminate\Support\Facades\Response;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class Client_assistanceController extends Controller
 {
   //
   public function __construct()
   {
-    $this->middleware('auth:api', ['except' => ['get_ca_claims', 'get_user_list', 'create_ca_workorder', 'fetch_export_data']]);
+    $this->middleware('auth:api', ['except' => ['get_ca_claims', 'get_user_list', 'create_ca_workorder', 'fetch_export_data', 'get_ca_payer_name']]);
   }
 
   public function get_ca_claims(LoginRequest $request)
@@ -64,6 +67,9 @@ class Client_assistanceController extends Controller
       $search_ter_pol_id = $searchValue['ter_pol_id'];
       $search_total_ar = $searchValue['total_ar'];
       $search_total_charge = $searchValue['total_charge'];
+      $search_denial_code = $searchValue['denial_code'];
+      $search_bill_submit_date = $searchValue['bill_submit_date'];
+      $search_payer_name = $searchValue['payer_name'];
     }
 
     $search = $request->get('search');
@@ -1079,7 +1085,92 @@ class Client_assistanceController extends Controller
           }
         }
 
+        if (!empty($search_denial_code)) {
+          if ($sort_data == null && $sort_type == null) {
+            $claim_data->where('denial_code', $search_denial_code)->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+            $claim_data->where('denial_code', $search_denial_code)->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+        }
+
+        if (!empty($search_bill_submit_date) && $search_bill_submit_date['startDate'] != null) {
+
+          $create_sart_date = date('Y-m-d', strtotime($search_bill_submit_date['startDate']));
+          $create_end_date = date('Y-m-d', strtotime($search_bill_submit_date['endDate']));
+          
+
+          if ($create_sart_date == $create_end_date) {
+            $bill_start_date = date('Y-m-d', strtotime($search_bill_submit_date['startDate'] . "+ 1 day"));
+            $bill_end_date = date('Y-m-d', strtotime($search_bill_submit_date['endDate'] . "+ 1 day"));
+          } elseif ($create_sart_date != $create_end_date) {
+            $bill_start_date = date('Y-m-d', strtotime($search_bill_submit_date['startDate'] . "+ 1 day"));
+            $bill_end_date = date('Y-m-d', strtotime($search_bill_submit_date['endDate']));
+          }
+
+          if ($sort_data == null && $sort_type == null) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+        }
+
+        // DB::enableQueryLog();
         $claim_data = $claim_data->get();
+        // $query = DB::getQueryLog();
+        // dd($query);
+
         foreach ($claim_data as $key => $claim_datas) {
           $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
           $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
@@ -2053,7 +2144,7 @@ class Client_assistanceController extends Controller
           }
         }
 
-        $claim_data = $claim_data->get();
+        $claim_data = $claim_data->get();        
         foreach ($claim_data as $key => $claim_datas) {
           $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
           $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
@@ -2292,5 +2383,54 @@ class Client_assistanceController extends Controller
     return response()->json([
       'data'  => $claim_data
     ]);
+  }
+
+  public function get_ca_payer_name(LoginRequest $request){
+    try{
+      // DB::enableQueryLog();
+      $prim_ins_name = Import_field::leftJoin('claim_notes', 'claim_notes.claim_id', '=', 'import_fields.claim_no')
+                      ->leftJoin('claim_histories', 'claim_histories.claim_id', '=', 'import_fields.claim_no')
+                      ->leftJoin('qc_notes', 'qc_notes.claim_id', '=', 'import_fields.claim_no')
+                      ->where('qc_notes.error_type', '=', '[1]') 
+                      ->where('import_fields.claim_Status', 'Client Assistance')
+                      ->distinct('claim_histories.claim_no')
+                      ->where('prim_ins_name', '<>', NULL)
+                      ->pluck('prim_ins_name')->toArray();
+      $sec_ins_name = Import_field::leftJoin('claim_notes', 'claim_notes.claim_id', '=', 'import_fields.claim_no')
+                      ->leftJoin('claim_histories', 'claim_histories.claim_id', '=', 'import_fields.claim_no')
+                      ->leftJoin('qc_notes', 'qc_notes.claim_id', '=', 'import_fields.claim_no')
+                      ->where('qc_notes.error_type', '=', '[1]') 
+                      ->where('import_fields.claim_Status', 'Client Assistance')
+                      ->distinct('claim_histories.claim_no')
+                      ->where('sec_ins_name', '<>', NULL)
+                      ->pluck('sec_ins_name')->toArray();
+      $ter_ins_name = Import_field::leftJoin('claim_notes', 'claim_notes.claim_id', '=', 'import_fields.claim_no')
+                      ->leftJoin('claim_histories', 'claim_histories.claim_id', '=', 'import_fields.claim_no')
+                      ->leftJoin('qc_notes', 'qc_notes.claim_id', '=', 'import_fields.claim_no')
+                      ->where('qc_notes.error_type', '=', '[1]') 
+                      ->where('import_fields.claim_Status', 'Client Assistance')
+                      ->distinct('claim_histories.claim_no')
+                      ->where('ter_ins_name', '<>', NULL)
+                      ->pluck('ter_ins_name')->toArray();
+      
+      // $query = DB::getQueryLog();
+      // dd($query);
+      $payer_name = array_values(array_unique(array_merge($prim_ins_name,$sec_ins_name,$ter_ins_name)));
+      if($payer_name && $payer_name != null)
+      {
+        $payer_details = array('status'=> 200, 'payer_names' => $payer_name);
+        return Response::json($payer_details);
+      }else
+      {
+        $payer_details = array('status'=> 400, 'payer_names' => []);
+        return Response::json($payer_details);
+      }
+    }
+    catch(Exception $e)
+    {
+      log::debug($e->getMessage());
+    }
+
+
   }
 }

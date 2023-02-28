@@ -6932,7 +6932,7 @@ class ImportController extends Controller
                     ->orWhere('claim_Status', 'Ready')
                     ->pluck('ter_ins_name')->toArray();
       $payer_name = array_values(array_unique(array_merge($prim_ins_name,$sec_ins_name,$ter_ins_name)));
-      if($payer_name)
+      if($payer_name && $payer_name != null)
       {
         $payer_details = array('status'=> 200, 'payer_names' => $payer_name);
         return Response::json($payer_details);

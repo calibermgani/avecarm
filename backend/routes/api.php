@@ -236,5 +236,6 @@ Route::group([
     Route::post('get_practice_user_list', 'SampleClaimController@get_practice_user_list');
     Route::post('get_associate_name', 'CreateworkorderController@get_associate_name');
     Route::post('get_payer_name', 'ImportController@get_payer_name');
+    Route::post('get_ca_payer_name', 'Client_assistanceController@get_ca_payer_name');
 
 });
