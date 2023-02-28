@@ -1166,6 +1166,91 @@ class Client_assistanceController extends Controller
           }
         }
 
+        if (!empty($search_payer_name)) {
+          if ($sort_data == null && $sort_type == null) {
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%')->offset($skip)->limit($end);
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%')->offset($skip)->limit($end);
+            $claim_count->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%')->offset($skip)->limit($end);
+            $claim_count->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+          }
+
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%')->offset($skip)->limit($end);
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%')->offset($skip)->limit($end);
+            $claim_count->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%')->offset($skip)->limit($end);
+            $claim_count->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            
+          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->where('prim_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+
+            $claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+            $selected_claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $search_payer_name . '%');
+          }
+        }
+
+
         // DB::enableQueryLog();
         $claim_data = $claim_data->get();
         // $query = DB::getQueryLog();
