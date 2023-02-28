@@ -53,7 +53,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   closed_select_date: any;
   selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
-  claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];
+  claim_statuses :any = ['Closed', 'Assigned', 'Auditing', 'Audit'];
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
   selectedPayerName= null;
   payer_list:any = ['insurance1','insurance2','insurance3','insurance4'];
@@ -3543,6 +3543,9 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       ]),
       rendering_provider:[],
       payer_name:[],
+      claim_status:[],
+      bill_submit_date: [],
+      denial_code: [],
       date:[],
       status_code: [],
       sub_status_code: [],

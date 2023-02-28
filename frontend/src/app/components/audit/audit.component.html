@@ -452,16 +452,16 @@
                                                    <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="dos"  [(ngModel)]="selectedClosed" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                   <label>Age</label>                                                   
+                                                   <label>Age</label>
                                                    <select class="form-control ngx-dropdown-button" formControlName="age_filter" aria-hidden="true" [(ngModel)]="closedselectedAge">
                                                       <option [ngValue]="null" selected>--Select Age--</option>
-                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>                                                      
+                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>
                                                    </select>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Claim No</label>
                                                    <input type="text" class="form-control" formControlName="claim_no">
-                                                </div>                                             
+                                                </div>
                                              </div>
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -487,12 +487,12 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
                                                    <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                   <div *ngIf="(closedClaimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                   <div *ngIf="(closedClaimsFind.controls['total_ar'].touched || submitted)">
                                                       <div *ngIf="closedClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                          please provide correct format
                                                       </div>
                                                    </div>
-                                                </div>                                             
+                                                </div>
                                                 <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Insurance</label>
                                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="closedWork" [ngModelOptions]="{standalone: true}">
@@ -525,7 +525,7 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Responsibility</label>
                                                    <input type="text" class="form-control" formControlName="responsibility">
-                                                </div>                                                
+                                                </div>
                                              </div>
                                              <!-- <div [ngSwitch]="closedWork">
                                                 <div *ngSwitchCase="'primary'">
@@ -538,7 +538,7 @@
                                                          <label>Primary Policy ID</label>
                                                          <input type="text" class="form-control" formControlName="prim_pol_id">
                                                       </div>
-                                                   </div>                                                
+                                                   </div>
                                                 </div>
                                                 <div *ngSwitchCase="'secondary'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -550,7 +550,7 @@
                                                          <label>Secondary Policy ID</label>
                                                          <input type="text" class="form-control" formControlName="sec_pol_id">
                                                       </div>
-                                                   </div>                                                
+                                                   </div>
                                                 </div>
                                                 <div *ngSwitchCase="'tertiary'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -562,7 +562,7 @@
                                                          <label>Tertiary Policy ID</label>
                                                          <input type="text" class="form-control" formControlName="ter_pol_id">
                                                       </div>
-                                                   </div>                                                
+                                                   </div>
                                                 </div>
                                                 <div *ngSwitchCase="'all'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -600,7 +600,7 @@
                                              </div>
                                           </div>
                                        </form>
-                                    </div>                                                                        
+                                    </div>
                                  </div>
                               </div>
                               <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
@@ -611,7 +611,7 @@
                                     </div>
                                  </div>
                               </div>
-                           </div>                           
+                           </div>
                         </div>
                      </div>
                      <div class="box no-shadow no-border mb-3">
@@ -705,7 +705,7 @@
                                                                <ng-template #third>
                                                                  <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
                                                                </ng-template>
-                                                               
+
                                                                <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
 
                                                                <td class="cur-pointer" (mouseover)="tooltip(x)" class="dos-date"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.dos==NULL">-Nil-</span><span *ngIf="x.dos!=NULL">{{x.dos | date: 'MM/dd/yyyy'}}</span></span></td>
@@ -802,16 +802,16 @@
                                                    <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="dos"  [(ngModel)]="selectedAssign" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                   <label>Age</label>                                                   
+                                                   <label>Age</label>
                                                    <select class="form-control ngx-dropdown-button" formControlName="age_filter" aria-hidden="true" [(ngModel)]="selectedAge">
                                                       <option [ngValue]="null" selected>--Select Age--</option>
-                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>                                                      
+                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>
                                                    </select>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Claim No</label>
                                                    <input type="text" class="form-control" formControlName="claim_no">
-                                                </div>                                             
+                                                </div>
                                              </div>
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -837,12 +837,12 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
                                                    <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                   <div *ngIf="(assignedClaimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                   <div *ngIf="(assignedClaimsFind.controls['total_ar'].touched || submitted)">
                                                       <div *ngIf="assignedClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                          please provide correct format
                                                       </div>
                                                    </div>
-                                                </div>                                             
+                                                </div>
                                                 <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Insurance</label>
                                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="assigned" [ngModelOptions]="{standalone: true}">
@@ -875,7 +875,17 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Responsibility</label>
                                                    <input type="text" class="form-control" formControlName="responsibility">
-                                                </div>                                                
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                  <label>Billed/Last Submit Date</label>
+                                                  <input type="text" class="form-control" ngxDaterangepickerMd formControlName="bill_submit_date" [(ngModel)]="submit_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                               </div>
+                                             </div>
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                  <label>Denial Code</label>
+                                                  <input type="text" class="form-control" formControlName="denial_code">
+                                                </div>
                                              </div>
                                              <!-- <div [ngSwitch]="assigned">
                                                 <div *ngSwitchCase="'primary'">
@@ -888,7 +898,7 @@
                                                          <label>Primary Policy ID</label>
                                                          <input type="text" class="form-control" formControlName="prim_pol_id">
                                                       </div>
-                                                   </div>                                                
+                                                   </div>
                                                 </div>
                                                 <div *ngSwitchCase="'secondary'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -900,7 +910,7 @@
                                                          <label>Secondary Policy ID</label>
                                                          <input type="text" class="form-control" formControlName="sec_pol_id">
                                                       </div>
-                                                   </div>                                                
+                                                   </div>
                                                 </div>
                                                 <div *ngSwitchCase="'tertiary'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -912,7 +922,7 @@
                                                          <label>Tertiary Policy ID</label>
                                                          <input type="text" class="form-control" formControlName="ter_pol_id">
                                                       </div>
-                                                   </div>                                                
+                                                   </div>
                                                 </div>
                                                 <div *ngSwitchCase="'all'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -950,7 +960,7 @@
                                              </div>
                                           </div>
                                        </form>
-                                    </div>                                                                        
+                                    </div>
                                  </div>
                               </div>
                               <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
@@ -961,7 +971,7 @@
                                     </div>
                                  </div>
                               </div>
-                           </div>                   
+                           </div>
                         </div>
                      </div>
                      <div class="box no-shadow no-border mb-3">
@@ -1027,7 +1037,7 @@
                                                                <th (click)="assigned_order_list(1,'allocated','ter_ins_name','null','null')" class="font600 line-height-24">Tertiary Insurance<i class="fa fa-fw fa-sort"></i></th> -->
 
                                                                <th (click)="assigned_order_list('allocated','status_code','null','null')" class="font600 line-height-24">Status Code<i class="fa fa-fw fa-sort"></i></th>
-                                                               
+
                                                                <th (click)="assigned_order_list('allocated','sub_status_code','null','null')" class="font600 line-height-24">Sub Status Code<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <th (click)="assigned_order_list('allocated','total_charges','null','null')" class="font600 line-height-24">Total Charges<i class="fa fa-fw fa-sort"></i></th>
@@ -1159,10 +1169,10 @@
                                                    <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="dos"  [(ngModel)]="selecteds" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                   <label>Age</label>                                                   
+                                                   <label>Age</label>
                                                    <select class="form-control ngx-dropdown-button" formControlName="age_filter" aria-hidden="true" [(ngModel)]="auditselectedAge">
                                                       <option [ngValue]="null" selected>--Select Age--</option>
-                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>                                                      
+                                                      <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>
                                                    </select>
                                                 </div>
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -1182,7 +1192,7 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
                                                    <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                   <div *ngIf="(auditClaimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                   <div *ngIf="(auditClaimsFind.controls['total_ar'].touched || submitted)">
                                                       <div *ngIf="auditClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                          please provide correct format
                                                       </div>
@@ -1220,7 +1230,17 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Responsibility</label>
                                                    <input type="text" class="form-control" formControlName="responsibility">
-                                                </div>                                                
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                  <label>Billed/Last Submit Date</label>
+                                                  <input type="text" class="form-control" ngxDaterangepickerMd formControlName="bill_submit_date" [(ngModel)]="submit_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                               </div>
+                                             </div>
+                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                              <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                <label>Denial Code</label>
+                                                <input type="text" class="form-control" formControlName="denial_code">
+                                              </div>
                                              </div>
                                                 <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -1234,7 +1254,7 @@
                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                       <label>Claim note</label>
                                                       <input type="text" class="form-control" formControlName="claim_note">
-                                                   </div>							
+                                                   </div>
                                                 </div> -->
                                              <!-- <div [ngSwitch]="createWork">
                                                 <div *ngSwitchCase="'primary'">
@@ -1247,7 +1267,7 @@
                                                          <label>Primary Policy ID</label>
                                                          <input type="text" class="form-control" formControlName="prim_pol_id">
                                                       </div>
-                                                   </div>							
+                                                   </div>
                                                 </div>
                                                 <div *ngSwitchCase="'secondary'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -1259,7 +1279,7 @@
                                                          <label>Secondary Policy ID</label>
                                                          <input type="text" class="form-control" formControlName="sec_pol_id">
                                                       </div>
-                                                   </div>							
+                                                   </div>
                                                 </div>
                                                 <div *ngSwitchCase="'tertiary'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -1271,7 +1291,7 @@
                                                          <label>Tertiary Policy ID</label>
                                                          <input type="text" class="form-control" formControlName="ter_pol_id">
                                                       </div>
-                                                   </div>							
+                                                   </div>
                                                 </div>
                                                 <div *ngSwitchCase="'all'">
                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -1307,9 +1327,9 @@
                                                    <input type="button" class="pull-right btn btn-search" value="Search" (click)="audit_claims_filter(1,'wo',null,null,null,null,null,null,null,null,'search')">
                                                 </div>
                                              </div>
-                                          </div>					
+                                          </div>
                                        </form>
-                                    </div>                                    
+                                    </div>
                                  </div>
                               </div>
                               <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
@@ -1942,7 +1962,7 @@
                   <a *ngIf="edit_permission==true" data-toggle="collapse" data-target="#followup-list3" (click)="send_calim_det('followup')" class="cur-pointer collapsed" title="Followup Template" style="margin-right: 15px;font-size: 16px;" aria-expanded="false"><i class="fa fa-headphones" title="Followup Template"></i> <span style="text-decoration: underline">F.Template</span></a>
                   </span>
                   <!-- <a data-toggle="collapse" href="#y{{x.id}}" class="cur-pointer collapsed" title="Followup View" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det('followup')">
-                     <i class="fa fa-external-link-square" title="Followup Template View"></i> 
+                     <i class="fa fa-external-link-square" title="Followup Template View"></i>
                      <span style="text-decoration: underline"> F.Template View</span>
                   </a> -->
                   <!-- <a aria-expanded="false" class="cur-pointer collapsed" data-target="#followupview" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="Followup View">
@@ -1965,8 +1985,8 @@
                         <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box23">
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div  *ngFor="let x of process_notes" class="col-lg-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
-                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}. 
-                                    
+                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}.
+
                                  </p>
                               </div>
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!process_notes.length'>
@@ -2048,7 +2068,7 @@
                         <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box25">
                            <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div *ngFor="let y of claim_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
-                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}. 
+                                 <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}.
                                     <!-- <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(claimnotes);editnotes('claimnotes',y.content,y.id)" ></i> -->
                                  </p>
                               </div>
@@ -2377,7 +2397,7 @@
                   <a *ngIf="edit_permission==true" data-toggle="collapse" data-target="#followup-list3" (click)="send_calim_det('followup')" class="cur-pointer collapsed" title="Followup Template" style="margin-right: 15px;font-size: 16px;" aria-expanded="false"><i class="fa fa-headphones" title="Followup Template"></i> <span style="text-decoration: underline">F.Template</span></a>
                   </span>
                <!-- <a data-toggle="collapse" href="#y{{x.id}}" class="cur-pointer collapsed" title="Followup View" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det('followup')">
-                  <i class="fa fa-external-link-square" title="Followup Template View"></i> 
+                  <i class="fa fa-external-link-square" title="Followup Template View"></i>
                   <span style="text-decoration: underline"> F.Template View</span>
                </a> -->
                <!-- <a aria-expanded="false" class="cur-pointer collapsed" data-target="#followupview" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="Followup View">
@@ -2401,7 +2421,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                            <div  *ngFor="let x of active_refer_process" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;" >
                               <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{x.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{x.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{x.content}}.  </p>
-                              
+
                            </div>
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!active_refer_process.length'>
                               <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>
@@ -2452,7 +2472,7 @@
                      <!-- /.box-header -->
                      <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                         <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Claim Notes</h3>
-                        <div class="box-tools pull-right">                           
+                        <div class="box-tools pull-right">
                            <!-- <a data-toggle="collapse" *ngIf="edit_permission==true" href="#x{{x.id}}" (click)="send_calim_det('followup')" class="cur-pointer collapsed" title="Followup Template" style="margin-right: 15px;font-size: 16px;" aria-expanded="false"><i class="fa fa-headphones" title="Followup Template"></i> <span style="text-decoration: underline"> F.Template</span></a> -->
                            <!-- <a  class="cur-pointer" style="font-size:16px;" (click)="open(claimnotes)"><i class="fa fa-plus-circle"></i> <span style="text-decoration: underline">New</span></a> -->
                            <button type="button" class="btn btn-box-tool" data-widget="collapse" style="margin-left: 10px;"><i class="fa fa-minus"></i>
@@ -2715,21 +2735,21 @@
                      <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;" >
                         <label>Audit Status<span class="ar-red">*</span></label>
                         <!-- <select class="form-control ngx-dropdown-button" formControlName="error_type" style="width:100%" aria-hidden="true" [(ngModel)]="selectedValue" (ngModelChange)="selectChange($event)" #errortype>
-                           <option *ngFor="let err of err_type_list" [ngValue]="err">{{err.description}} </option>                
+                           <option *ngFor="let err of err_type_list" [ngValue]="err">{{err.description}} </option>
                         </select> -->
                         <ngx-select-dropdown formControlName="error_type" [config]="config" [options]="err_type_list" (ngModelChange)="selectChange($event)" #errortype
                         [ngClass]="{ 'is-invalid': submitted && v.error_type.errors }"></ngx-select-dropdown>
                         <div *ngIf="submitted && v.error_type.errors" class="invalid-feedback">
                            <div *ngIf="v.error_type.errors.required">Choose Audit Status</div>
-                        </div>  
-                                            
+                        </div>
+
                         <!-- <div *ngIf="qcNotes.controls['error_type'].touched">
                            <div *ngIf="qcNotes.controls['error_type'].hasError('required')" class="error">
                                Choose Error type
                              </div>
                              </div> -->
                      </div>
-                  </div>                  
+                  </div>
                   <div *ngIf="selectedError =='Error'">
                      <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12" >
                         <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
@@ -2738,7 +2758,7 @@
                            <div *ngIf="submitted && v.error_parameter.errors" class="invalid-feedback">
                               <div *ngIf="v.error_parameter.errors.required">Choose Error Parameter</div>
                            </div>
-                        </div>                        
+                        </div>
                      </div>
                      <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                         <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
