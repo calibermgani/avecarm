@@ -225,6 +225,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
 
   public closed_claims_filter(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search){
     this.search = search;
+    console.log(search);
     console.log(type);
     this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search);
   }
@@ -240,7 +241,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
     let form_type=null;
     let searchs = this.search;
 
-    console.log(this.type);
+    console.log(this.type);    
 
     this.type = type;
 
@@ -267,6 +268,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
         }
     }
     else if(type=='completed'){
+      console.log(searchs);
       this.comp_pages=page;
       this.current_claim_type='completed';
       if(sorting_name == 'null' && searchs != 'search'){
@@ -288,6 +290,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
     }
     else if(type=='allocated')
     {
+      console.log(searchs);
       this.alloc_pages=page;
       this.current_claim_type='allocated';
 

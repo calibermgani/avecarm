@@ -64,7 +64,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   isValueSelected:boolean = false;
   results: any[] = [];
   searchResults: any[] = [];
-  selected_val:any;
+  selected_val:any = null;
 
   @ViewChildren('pageRow') private pageRows: QueryList<ElementRef<HTMLTableRowElement>>;
 
@@ -2560,10 +2560,10 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
           error => this.handleError(error)
         );
       } else if (searchs == 'search') {
-        if (this.allClaimsFind.value.dos !=null) {
-          // console.log(this.allClaimsFind.value);
+        if (this.allClaimsFind.value.dos.startDate !=null && this.allClaimsFind.value.dos.endDate !=null) {
+          console.log(this.allClaimsFind.value);
           this.allClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
-          this.allClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+          this.allClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');          
         }
         this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, this.sortByAsc, this.sorting_name, this.allClaimsFind.value, this.search).subscribe(
           data => this.assign_page_data(data),
@@ -4026,7 +4026,7 @@ public process_codes(data:any)
     this.selected_val = value;
     }
     else{
-      this.selected_val = '';      
+      this.selected_val = null;      
       this.isValueSelected = false;
     }
   }
