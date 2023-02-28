@@ -2786,7 +2786,7 @@
                                                     <select formControlName="claim_status" class="form-control ngx-dropdown-button" aria-hidden="true">
                                                         <option [ngValue]="null">-- Select Status--</option>
                                                         <option *ngFor="let cstatus of claim_statuses" [value]="cstatus">{{cstatus}}</option>
-                                                        <option *ngFor="let scode of status_list" [value]="scode.description">{{scode.description}}</option>
+                                                        <!-- <option *ngFor="let scode of status_list" [value]="scode.description">{{scode.description}}</option> -->
                                                     </select>
                                                   </div>
                                               </div>
@@ -2852,6 +2852,14 @@
                                                    <label>Date</label>
                                                    <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="date"  [(ngModel)]="all_select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                  <label>Billed/Last Submit Date</label>
+                                                  <input type="text" class="form-control" ngxDaterangepickerMd formControlName="bill_submit_date" [(ngModel)]="submit_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                               </div>
+                                               <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                <label>Denial Code</label>
+                                                <input type="text" class="form-control" formControlName="denial_code">
+                                              </div>
                                               </div>
                                              <!-- <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding"> -->
                                                 <!-- <div class="form-group col-lg-3">

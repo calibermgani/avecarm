@@ -15,7 +15,7 @@ use App\Import_field;
 use Carbon\Carbon;
 use App\Claim_note;
 use App\Action;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Record_claim_history;
 use App\Statuscode;
 use App\Sub_statuscode;
@@ -75,7 +75,10 @@ class AuditController extends Controller
       $search_ter_pol_id = $closedSearchValue['ter_pol_id'];
       $search_total_ar = $closedSearchValue['total_ar'];
       $search_total_charge = $closedSearchValue['total_charge'];
+      $search_status_code = $closedSearchValue['status_code'];
       $search_rendering_provider = $closedSearchValue['rendering_provider'];
+      $search_denial_code = $closedSearchValue['denial_code'];
+      $search_bill_submit_date = $closedSearchValue['bill_submit_date'];
     }
 
 
@@ -94,7 +97,10 @@ class AuditController extends Controller
       $search_ter_pol_id = $aignSearchValue['ter_pol_id'];
       $search_total_ar = $aignSearchValue['total_ar'];
       $search_total_charge = $aignSearchValue['total_charge'];
+      $search_status_code = $aignSearchValue['status_code'];
       $search_rendering_provider = $aignSearchValue['rendering_provider'];
+      $search_denial_code = $aignSearchValue['denial_code'];
+      $search_bill_submit_date = $aignSearchValue['bill_submit_date'];
     }
 
     //search_claim_no
@@ -1370,6 +1376,151 @@ class AuditController extends Controller
           }
         }
 
+        if (!empty($search_status_code) && $search_status_code['id'] != null) {
+          $status_code = $search_status_code['id'];
+          if ($sort_type == null && $sort_data == null) {
+            $claim_data->where('status_code', $status_code)->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            $claim_data->where('status_code', $status_code)->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            $claim_data->where('status_code', $status_code)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            $claim_data->where('status_code', $status_code)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where('status_code', $status_code)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            $claim_data->where('status_code', $status_code)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && $sort_type == 'null' && !empty($sorting_name)) {
+            $claim_data->where('status_code', $status_code)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where('status_code', $status_code)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+        }
+
+        if (!empty($search_denial_code)) {
+          if ($sort_type == null && $sort_data == null) {
+            $claim_data->where('denial_code', $search_denial_code)->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            $claim_data->where('denial_code', $search_denial_code)->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && $sort_type == 'null' && !empty($sorting_name)) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+        }
+
+        if (!empty($search_bill_submit_date) && $search_bill_submit_date['startDate'] != null) {
+
+          $assign_sart_date = date('Y-m-d', strtotime($search_bill_submit_date['startDate']));
+          $assign_end_date = date('Y-m-d', strtotime($search_bill_submit_date['endDate']));
+
+          if ($assign_sart_date == $assign_end_date) {
+            $bill_start_date = date('Y-m-d', strtotime($search_bill_submit_date['startDate'] . "+ 1 day"));
+            $bill_end_date = date('Y-m-d', strtotime($search_bill_submit_date['endDate'] . "+ 1 day"));
+          } elseif ($assign_sart_date != $assign_end_date) {
+            $bill_start_date = date('Y-m-d', strtotime($search_bill_submit_date['startDate'] . "+ 1 day"));
+            $bill_end_date = date('Y-m-d', strtotime($search_bill_submit_date['endDate']));
+          }
+
+          if ($sort_type == null && $sort_data == null) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && $sort_type == 'null' && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+        }
+
         if (!empty($search_ter_pol_id)) {
 
 
@@ -2582,6 +2733,151 @@ class AuditController extends Controller
           }
         }
 
+        if (!empty($search_status_code) && $search_status_code['id'] != null) {
+          $status_code = $search_status_code['id'];
+          if ($sort_type == null && $sort_data == null) {
+            $claim_data->where('status_code', $status_code)->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            $claim_data->where('status_code', $status_code)->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            $claim_data->where('status_code', $status_code)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            $claim_data->where('status_code', $status_code)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where('status_code', $status_code)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            $claim_data->where('status_code', $status_code)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && $sort_type == 'null' && !empty($sorting_name)) {
+            $claim_data->where('status_code', $status_code)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where('status_code', $status_code)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('status_code', $status_code);
+            $selected_claim_data->where('status_code', $status_code);
+          }
+        }
+
+        if (!empty($search_denial_code)) {
+          if ($sort_type == null && $sort_data == null) {
+            $claim_data->where('denial_code', $search_denial_code)->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            $claim_data->where('denial_code', $search_denial_code)->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && $sort_type == 'null' && !empty($sorting_name)) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where('denial_code', $search_denial_code)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('denial_code', $search_denial_code);
+            $selected_claim_data->where('denial_code', $search_denial_code);
+          }
+        }
+
+        if (!empty($search_bill_submit_date) && $search_bill_submit_date['startDate'] != null) {
+
+          $assign_sart_date = date('Y-m-d', strtotime($search_bill_submit_date['startDate']));
+          $assign_end_date = date('Y-m-d', strtotime($search_bill_submit_date['endDate']));
+
+          if ($assign_sart_date == $assign_end_date) {
+            $bill_start_date = date('Y-m-d', strtotime($search_bill_submit_date['startDate'] . "+ 1 day"));
+            $bill_end_date = date('Y-m-d', strtotime($search_bill_submit_date['endDate'] . "+ 1 day"));
+          } elseif ($assign_sart_date != $assign_end_date) {
+            $bill_start_date = date('Y-m-d', strtotime($search_bill_submit_date['startDate'] . "+ 1 day"));
+            $bill_end_date = date('Y-m-d', strtotime($search_bill_submit_date['endDate']));
+          }
+
+          if ($sort_type == null && $sort_data == null) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && $sort_type == 'null' && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+            $selected_claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+          }
+        }
+
         if (!empty($search_ter_pol_id)) {
 
 
@@ -2669,8 +2965,12 @@ class AuditController extends Controller
         }
 
 
-
+        // DB::enableQueryLog();
         $claim_data = $claim_data->get();
+        // $query = DB::getQueryLog();
+        // dd($query);
+
+
         /** Developer : Sathish
          *  Date: 29/12/2022
          *  Purpose : To Get Status and Substatus Name
