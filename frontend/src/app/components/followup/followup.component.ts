@@ -25,6 +25,12 @@ export class FollowupComponent implements OnInit, OnDestroy {
   assigned = "";
   reAssigned = "";
   closedWork = "";
+
+  isValueSelected:boolean = false;
+  results: any[] = [];
+  searchResults: any[] = [];
+  selected_val:any;
+
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
   public status_codes_data:Array<any> =[];
@@ -42,7 +48,7 @@ export class FollowupComponent implements OnInit, OnDestroy {
   assigned_select_date: any;
   reassigned_select_date: any;
   closed_select_date: any;
-  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
+  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   ranges: any = {
     'Today': [moment(), moment()],
     'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -2096,6 +2102,7 @@ getSummary(){
 
   ngOnInit() {
     //this.get_insurance();
+    this.getSearchResults();
     this.user_role_maintainer();
     this.getSummary();
     this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null);
@@ -2108,7 +2115,6 @@ getSummary(){
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: [],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -2117,6 +2123,16 @@ getSummary(){
       sec_pol_id: [],
       ter_ins_name: [],
       ter_pol_id: [],
+      total_ar: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),      
+      responsibility: [],
+      rendering_provider:[],
+      payer_name:[],
+      date:[],
+      status_code: [],
+      sub_status_code: [],
     });
 
     this.reassignedClaimsFind = this.formBuilder.group({
@@ -2126,7 +2142,6 @@ getSummary(){
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: [],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -2135,6 +2150,16 @@ getSummary(){
       sec_pol_id: [],
       ter_ins_name: [],
       ter_pol_id: [],
+      total_ar: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),      
+      responsibility: [],
+      rendering_provider:[],
+      payer_name:[],
+      date:[],
+      status_code: [],
+      sub_status_code: [],
     });
 
     this.closedClaimsFind = this.formBuilder.group({
@@ -2144,7 +2169,6 @@ getSummary(){
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: [],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -2153,6 +2177,16 @@ getSummary(){
       sec_pol_id: [],
       ter_ins_name: [],
       ter_pol_id: [],
+      total_ar: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),      
+      responsibility: [],
+      rendering_provider:[],
+      payer_name:[],
+      date:[],
+      status_code: [],
+      sub_status_code: [],
     });
 
     this.processNotes = new FormGroup({
@@ -2522,8 +2556,43 @@ public export_pdf_files(type, table_name)
 }
 
 export_Excel_handler(){
-
 }
 
-
+getSearchResults(): void {
+  this.Jarwis.get_payer_name().subscribe(sr => {
+    this.searchResults = sr['payer_names'];
+    console.log(this.searchResults);
+  });
+}
+searchOnKeyUp(event) {
+  let input = event.target.value;
+  console.log('event.target.value: ' + input);
+  console.log('this.searchResults: ' + this.searchResults);
+  if (input.length > 0) {
+    this.results = this.searchFromArray(this.searchResults, input);
+  }
+  else{
+    this.isValueSelected = false;
+  }    
+}
+searchFromArray(arr, regex) {
+  let matches = [], i;
+  for (i = 0; i < arr.length; i++) {
+    if (arr[i].match(regex)) {
+      matches.push(arr[i]);
+    }
+  }
+  console.log('matches: ' + matches);
+  return matches;
+};
+onselectvalue(value) {
+  if(value !='' || value !=null){
+    this.isValueSelected = true;
+  this.selected_val = value;
+  }
+  else{
+    this.selected_val = '';      
+    this.isValueSelected = false;
+  }
+}
 }

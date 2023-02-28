@@ -65,7 +65,10 @@ export class ClientAssistanceComponent implements OnInit {
   public sub_options;
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
 
-  
+  isValueSelected:boolean = false;
+  results: any[] = [];
+  searchResults: any[] = [];
+  selected_val:any;
 
   constructor(
   private formBuilder: FormBuilder,
@@ -1445,6 +1448,7 @@ public get_statuscodes()
   }
 
   ngOnInit() {
+    this.getSearchResults();
     this.get_statuscodes();
     this.getclaim_details(1,'wo',null,null,'null','null',null,null);
     // this.get_user_list();
@@ -1465,6 +1469,7 @@ public get_statuscodes()
       responsibility: [],      
       followup_date: [],
       date:[],
+      payer_name:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -1583,7 +1588,43 @@ public export_pdf_files(type, table_name)
   );
 }
 
-error_handler(error){
+error_handler(error){}
 
+getSearchResults(): void {
+  this.Jarwis.get_payer_name().subscribe(sr => {
+    this.searchResults = sr['payer_names'];
+    console.log(this.searchResults);
+  });
+}
+searchOnKeyUp(event) {
+  let input = event.target.value;
+  console.log('event.target.value: ' + input);
+  console.log('this.searchResults: ' + this.searchResults);
+  if (input.length > 0) {
+    this.results = this.searchFromArray(this.searchResults, input);
+  }
+  else{
+    this.isValueSelected = false;
+  }    
+}
+searchFromArray(arr, regex) {
+  let matches = [], i;
+  for (i = 0; i < arr.length; i++) {
+    if (arr[i].match(regex)) {
+      matches.push(arr[i]);
+    }
+  }
+  console.log('matches: ' + matches);
+  return matches;
+};
+onselectvalue(value) {
+  if(value !='' || value !=null){
+    this.isValueSelected = true;
+  this.selected_val = value;
+  }
+  else{
+    this.selected_val = '';      
+    this.isValueSelected = false;
+  }
 }
 }

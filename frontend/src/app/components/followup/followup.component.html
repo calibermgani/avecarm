@@ -9,7 +9,7 @@
                   <li *ngIf="(user_role == 1 || user_role == 2)" [ngClass]="class_change.tab1" (click)="get_month_details()"><a href="#tab_4" data-toggle="tab"><i class="fa fa-dashboard"></i> Dashboard <span class="tab-divider">|</span></a> </li>
                   <li *ngIf="(user_role == 1 || !user_role == 2)" ><a href="#tab_5" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null','null','null');" ><i class="fa fa-share"></i> Assigned Claims <span class="tab-divider">|</span></a></li>
                   <li *ngIf="(!user_role == 2 || user_role == 1)"><a href="#tab_6" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'reallocated','null','null','null','null');"><i class="fa fa-retweet"></i>Reassigned Claims <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 1 || !user_role == 2)"><a href="#tab_3" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'completed','null','null','null','null');"><i class="fa fa-drivers-license"></i>Closed Claims<span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || !user_role == 2)"><a href="#tab_3" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'completed','null','null','null','null');"><i class="fa fa-stop-circle-o"></i>Closed Claims<span class="tab-divider">|</span></a></li>
                   <!--<li *ngIf="user_role == 2" [ngClass]="class_change.tab2"><a href="#tab_2" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'wo','null','null');"><i class="fa fa-file-text"></i> Claim Status <span class="tab-divider">|</span></a></li>
                      <li *ngIf="user_role == 2"><a href="#tab_5" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null');"><i class="fa fa-retweet"></i>Assigned Claims <span class="tab-divider">|</span></a></li>
 
@@ -1170,6 +1170,15 @@
                                                    <label>Sub Status Code</label>
                                                    <ngx-select-dropdown formControlName="sub_status_code" [config]="config" [options]="sub_options"></ngx-select-dropdown>
                                                 </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Payer Name</label>                                                   
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="searchOnKeyUp($event)" list="SearchResults">
+                                                   <div *ngIf="(isValueSelected == false) && (selected_val != '')">  
+                                                      <div *ngFor="let res of results">  
+                                                          <a (click)="onselectvalue(res)">{{res}}</a>  
+                                                      </div>             
+                                                   </div>
+                                                </div>
                                              </div>
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
@@ -1557,6 +1566,15 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Sub Status Code</label>
                                                    <ngx-select-dropdown formControlName="sub_status_code" [config]="config" [options]="sub_options"></ngx-select-dropdown>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Payer Name</label>                                                   
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="searchOnKeyUp($event)" list="SearchResults">
+                                                   <div *ngIf="(isValueSelected == false) && (selected_val != '')">  
+                                                      <div *ngFor="let res of results">  
+                                                          <a (click)="onselectvalue(res)">{{res}}</a>  
+                                                      </div>             
+                                                   </div>
                                                 </div>
                                              </div>
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
@@ -2061,6 +2079,15 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Sub Status Code</label>
                                                    <ngx-select-dropdown formControlName="sub_status_code" [config]="config" [options]="sub_options"></ngx-select-dropdown>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Payer Name</label>                                                   
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="searchOnKeyUp($event)" list="SearchResults">
+                                                   <div *ngIf="(isValueSelected == false) && (selected_val != '')">  
+                                                      <div *ngFor="let res of results">  
+                                                          <a (click)="onselectvalue(res)">{{res}}</a>  
+                                                      </div>             
+                                                   </div>
                                                 </div>
                                              </div>
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
