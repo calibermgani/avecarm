@@ -1223,5 +1223,11 @@ all_claim_list(data,page,page_count,type,sorting_name,sorting_method,createsearc
    return response;
 }
 
+get_payer_name(){
+  let data={practice_dbid : localStorage.getItem('practice_id')};
+  let response= this.common_url('get_payer_name',data);
+   return response;
+}
+
 }
 

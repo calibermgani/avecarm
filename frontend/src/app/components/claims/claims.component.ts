@@ -49,19 +49,22 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   status_list:any;
   select_date:any;
   all_select_date: any;
-
+  resaaigned_select_date:any;
   closed_select_date: any;
   selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   claim_statuses :any = ['Closed', 'Assigned', 'Auditing', 'Audit'];
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
-  selectedPayerName= null;
-  payer_list:any = ['insurance1','insurance2','insurance3','insurance4'];
   isSelectedAll = false;
   public status_codes_data:Array<any> =[];
   public sub_status_codes_data:string[];
   public status_options;
   public sub_options;
+
+  isValueSelected:boolean = false;
+  results: any[] = [];
+  searchResults: any[] = [];
+  selected_val:any;
 
   @ViewChildren('pageRow') private pageRows: QueryList<ElementRef<HTMLTableRowElement>>;
 
@@ -131,6 +134,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   allClaimsFind: FormGroup;
   workOrderFind: FormGroup;
   autoclose_claim: FormGroup;
+  reassignedClaimsFind:FormGroup;
   // formGroup: FormGroup;
   submitted = false;
   modalform: FormGroup;
@@ -149,6 +153,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   selecteds: any;
   selectedClosed:any;
   selectedAll:any;
+  selectedReasssign:any;
   selectedDueDate: any;
   selectedCreatedAt: any;
   alwaysShowCalendars: boolean;
@@ -3459,6 +3464,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   ngOnInit() {
 
     // this.getclaims();
+    this.getSearchResults();
     this.user_role_maintainer();
     this.formValidators();
     this.claimValidators();
@@ -3491,6 +3497,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       date:[],
       status_code: [],
       sub_status_code: [],
+      payer_name:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -3549,6 +3556,24 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       date:[],
       status_code: [],
       sub_status_code: [],
+    });
+
+    this.reassignedClaimsFind = this.formBuilder.group({
+      dos: [],
+      age_filter:[],
+      claim_no: [],
+      acc_no: [],
+      patient_name: [],
+      responsibility: [],
+      total_ar: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),
+      rendering_provider:[],
+      date:[],
+      status_code: [],
+      sub_status_code: [],
+      payer_name:[],      
     });
 
     this.workOrderFind = this.formBuilder.group({
@@ -3850,6 +3875,45 @@ public process_codes(data:any)
       // this.modified_stats.push(event);
     }
   }
+  
+  public reassignedClaims_status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.reassignedClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.reassignedClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.reassignedClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  }
 
   public sort_claims(type) {
     if (type == 'acct_no') {
@@ -3932,6 +3996,41 @@ public process_codes(data:any)
   //   'background-color': '#9ad9e4'
   //   };
 
-
-
+  getSearchResults(): void {
+    this.Jarwis.get_payer_name().subscribe(sr => {
+      this.searchResults = sr['payer_names'];
+      console.log(this.searchResults);
+    });
+  }
+  searchOnKeyUp(event) {
+		let input = event.target.value;
+		console.log('event.target.value: ' + input);
+		console.log('this.searchResults: ' + this.searchResults);
+		if (input.length > 0) {
+			this.results = this.searchFromArray(this.searchResults, input);
+		}
+    else{
+      this.isValueSelected = false;
+    }    
+	}
+	searchFromArray(arr, regex) {
+		let matches = [], i;
+		for (i = 0; i < arr.length; i++) {
+			if (arr[i].match(regex)) {
+				matches.push(arr[i]);
+			}
+		}
+		console.log('matches: ' + matches);
+		return matches;
+	};
+  onselectvalue(value) {
+    if(value !='' || value !=null){
+      this.isValueSelected = true;
+    this.selected_val = value;
+    }
+    else{
+      this.selected_val = '';      
+      this.isValueSelected = false;
+    }
+  }
 }
