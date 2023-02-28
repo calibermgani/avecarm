@@ -14,7 +14,7 @@
                   <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#assigned" data-toggle="tab" style="padding-left: 0px;" (click)="get_workorder('assignedClaims',null,null,1,wo_page_number,null,null,'null','null',null,null,null,null);" ><i class="fa fa-share"></i> Assigned Claims <span class="tab-divider">|</span></a></li> -->
                   <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#re_assigned" data-toggle="tab" style="padding-left: 0px;" (click)="get_statuscodes();getclaim_details(1,'reallocated','null','null','null','null');"><i class="fa fa-retweet"></i>Reassigned Claims <span class="tab-divider">|</span></a></li>
                   <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#tab_3" (click)="reload_datas(1);clear()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-upload"></i> Import <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 1 || user_role == 2 || user_role == 16)" class=""><a href="#tab_6" (click)="pageChange(1,'all_claim');get_statuscodes()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> All Claims</a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2 || user_role == 16)" class=""><a href="#tab_6" (click)="get_statuscodes();pageChange(1,'all_claim');" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> All Claims</a></li>
 
                </ul>
                <div class="tab-content no-padding">
