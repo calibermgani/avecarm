@@ -45,7 +45,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   associateCount: any = '';
   filter = '';
   assigned = "";
-  reAssigned = "";  
+  reAssigned = "";
   status_list:any;
   select_date:any;
   all_select_date: any;
@@ -53,7 +53,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   closed_select_date: any;
   selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
-  claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];  
+  claim_statuses :any = ['Closed', 'Assigned', 'Auditing'];
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
   isSelectedAll = false;
   public status_codes_data:Array<any> =[];
@@ -198,7 +198,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     this.alwaysShowCalendars = true;
   }
 
-  
+
 
   //Red Alerrt Box
   private _opened: boolean = false;
@@ -234,7 +234,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     }
   }
 
-  
+
 
   onFileChange(evt: any) {
     /* wire up file reader */
@@ -440,11 +440,11 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     console.log(this.roles);
     this.latest_id = data.latest_id;
     this.importedfile = (data.message.filter(x => x.id == this.latest_id));
-    console.log(this.importedfile); 
+    console.log(this.importedfile);
     this.importedfile.forEach(element => {
       this.importProcessed = element.processed;
      });
-    console.log(this.importProcessed);    
+    console.log(this.importProcessed);
     this.datas = this.tabdat;
     this.upload_total = data.count;
     this.total = data.count;
@@ -459,7 +459,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     console.log(error);
   }
 
-  
+
 
   // private getclaims()
   // {
@@ -1670,7 +1670,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   //Selected Claim Sorting
   public selected(event, claim, index) {
     console.log(this.selected_claim_nos);
-    
+
     if (claim == 'all' && event.target.checked == true) {
       // for(let i=0;i<index;i++){
       //   var selected_claim_datas;
@@ -2513,6 +2513,11 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
           console.log(this.createClaimsFind.controls.date.value);
           this.createClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
           this.createClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+        }
+        if (this.createClaimsFind.value.bill_submit_date.startDate != null && this.createClaimsFind.value.bill_submit_date.endDate != null) {
+          // console.log(this.createClaimsFind.controls.bill_submit_date.value);
+          this.createClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
+          this.createClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
         }
         this.Jarwis.get_table_page(sort_data, page, page_count, sort_type, this.sortByAsc, this.sorting_name, this.createClaimsFind.value, this.search).subscribe(
           data => this.assign_page_data(data),
@@ -3527,6 +3532,8 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       sec_pol_id: [],
       ter_ins_name: [],
       ter_pol_id: [],
+      bill_submit_date: [],
+      denial_code: []
     });
 
     this.allClaimsFind = this.formBuilder.group({
@@ -3761,7 +3768,7 @@ console.log(this.age_options);
 
   }
 
-  
+
 
 //Get Status codes from Backend
 public get_statuscodes()

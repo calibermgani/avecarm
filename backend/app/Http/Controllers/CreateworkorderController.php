@@ -3830,7 +3830,7 @@ public function get_associates(LoginRequest $request)
 
     // $users_filter = User_work_profile::where('practice_id',$request->get('practice_dbid'))->where('status','Active')->pluck('user_id');   
 //    $users= User::whereIN('id', $users_filter)->select('id','firstname', 'lastname')->get();
-   $users= User::whereIN('role_id', [1,2])->select('id','firstname', 'lastname')->get();
+   $users= User::whereIN('role_id', [1,2,3])->select('id','firstname', 'lastname')->get();
    
 
 
@@ -4342,7 +4342,7 @@ public function get_workorder(LoginRequest $request)
                 $claim_count=Import_field::whereIN('claim_no',$closed)->where('claim_closing',1)->orWhere('claim_Status', 'auto_close')->count();
             }    
         }elseif($searchValue != null && $search == 'search'){
-
+            dd('helkki hi everyone');
            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
               claim_notes.claim_id,claim_notes.content as claims_notes
             FROM claim_notes WHERE claim_notes.deleted_at IS NULL
