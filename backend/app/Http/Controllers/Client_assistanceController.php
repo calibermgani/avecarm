@@ -1589,7 +1589,7 @@ class Client_assistanceController extends Controller
           }
         }
 
-        if (!empty($search_dos)) {
+        if (!empty($search_dos) && $search_dos['startDate'] != null) {
 
           $search_date = explode('-', $search_dos);
           $dos_sart_date = date('Y-m-d', strtotime($search_date[0]));
