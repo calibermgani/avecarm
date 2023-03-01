@@ -1467,7 +1467,7 @@ public get_statuscodes()
       status_code: [],
       sub_status_code: [],
       rendering_provider:[],
-      responsibility: [],      
+      responsibility: [],
       followup_date: [],
       date:[],
       payer_name:[],
@@ -1609,7 +1609,7 @@ searchOnKeyUp(event) {
   else{
     this.selected_val = null;
     this.isValueSelected = false;
-  }    
+  }
 }
 searchFromArray(arr, regex) {
   let matches = [], i;

@@ -430,16 +430,16 @@
                                                                         <!-- <input type="text" name="field" ng-model="birthDate" ui-date-mask="DD-MM-YYYY"> -->
                                                                     </div>
                                                                     <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                                        <label>Age</label>                                                   
+                                                                        <label>Age</label>
                                                                         <select class="form-control ngx-dropdown-button" formControlName="age_filter" aria-hidden="true" [(ngModel)]="selectedAge">
                                                                            <option [ngValue]="null" selected>--Select Age--</option>
-                                                                           <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>                                                      
+                                                                           <option *ngFor="let agerange of age_options" [ngValue]="{from_age:agerange.from_age,to_age:agerange.to_age}">{{agerange.from_age +'-'+ agerange.to_age}}</option>
                                                                         </select>
                                                                      </div>
                                                                     <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                                         <label>Claim No</label>
                                                                         <input type="text" class="form-control" formControlName='claim_no'>
-                                                                    </div>                                                        
+                                                                    </div>
                                                                 </div>
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                                     <!-- <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -465,7 +465,7 @@
                                                                     <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                                         <label>followup date</label>
                                                                         <input type="text" class="form-control" formControlName='followup_date'>
-                                                                    </div>                                              
+                                                                    </div>
                                                                 </div>
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                                     <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -479,7 +479,7 @@
                                                                      <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                                         <label>Total AR</label>
                                                                         <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                                        <div *ngIf="(claimsFind.controls['total_ar'].touched || submitted)">                                                      
+                                                                        <div *ngIf="(claimsFind.controls['total_ar'].touched || submitted)">
                                                                            <div *ngIf="claimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                                               please provide correct format
                                                                            </div>
@@ -502,14 +502,22 @@
                                                                  </div>
                                                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                                     <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                                        <label>Payer Name</label>                                                   
+                                                                        <label>Payer Name</label>
                                                                         <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="searchOnKeyUp($event)" list="SearchResults">
-                                                                        <div *ngIf="(isValueSelected == false) && (selected_val != '')">  
-                                                                           <div *ngFor="let res of results">  
-                                                                               <a (click)="onselectvalue(res)">{{res}}</a>  
-                                                                           </div>             
+                                                                        <div *ngIf="(isValueSelected == false) && (selected_val != '')">
+                                                                           <div *ngFor="let res of results">
+                                                                               <a (click)="onselectvalue(res)">{{res}}</a>
+                                                                           </div>
                                                                         </div>
-                                                                     </div>
+                                                                    </div>
+                                                                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                                      <label>Billed/Last Submit Date</label>
+                                                                      <input type="text" class="form-control" ngxDaterangepickerMd formControlName="bill_submit_date" [(ngModel)]="submit_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                                    </div>
+                                                                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                                      <label>Denial Code</label>
+                                                                      <input type="text" class="form-control" formControlName="denial_code">
+                                                                    </div>
                                                                  </div>
                                                                 <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                                     <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -561,7 +569,7 @@
                                                                                 <label>Primary Policy ID</label>
                                                                                 <input type="text" class="form-control" formControlName='prim_pol_id'>
                                                                             </div>
-                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">                                                                
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                                                 <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                                                     <label>Secondary Insurance</label>
                                                                                     <input type="text" class="form-control" formControlName='sec_ins_name'>
@@ -575,7 +583,7 @@
                                                                                     <input type="text" class="form-control" formControlName='ter_ins_name'>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">                                                                
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                                                 <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                                                     <label>Tertiary Policy ID</label>
                                                                                     <input type="text" class="form-control" formControlName='ter_pol_id'>
@@ -583,7 +591,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div> -->                                                                
+                                                                </div> -->
                                                             </form>
                                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                                 <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right">
@@ -591,7 +599,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>                                            
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
@@ -602,7 +610,7 @@
                                                    </div>
                                                 </div>
                                              </div>
-                                        </div>                                        
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="box no-shadow no-border">
@@ -1009,15 +1017,15 @@
                 {{associate_error}}
             </span>
             <div *ngIf="selected_claim_nos.length > 0 && selected_claim_nos.length >= assigned_claim_nos">
-                <span><b>Selected Claims: {{selected_claim_nos.length}}</b></span> &nbsp;&nbsp;&nbsp; 
+                <span><b>Selected Claims: {{selected_claim_nos.length}}</b></span> &nbsp;&nbsp;&nbsp;
                 <span><b>Assigned Claims: {{assigned_claim_nos}}</b></span>
             </div>
             <div *ngIf="selected_claim_nos.length == 0">
-                <span style="color:red"><b>Selected Claims: {{selected_claim_nos.length}}</b></span> &nbsp;&nbsp;&nbsp; 
+                <span style="color:red"><b>Selected Claims: {{selected_claim_nos.length}}</b></span> &nbsp;&nbsp;&nbsp;
                 <span><b>Assigned Claims: 0</b></span>
             </div>
             <div *ngIf="selected_claim_nos.length > 0 && selected_claim_nos.length < assigned_claim_nos">
-                <span><b>Selected Claims: {{selected_claim_nos.length}}</b></span> &nbsp;&nbsp;&nbsp; 
+                <span><b>Selected Claims: {{selected_claim_nos.length}}</b></span> &nbsp;&nbsp;&nbsp;
                 <span style="color:red"><b>Assigned Claims: {{assigned_claim_nos}}</b></span>
             </div>
             <table class="table no-border no-bottom">
@@ -1230,9 +1238,9 @@
                           <span *ngIf="curr_reassigned_claims.includes(claim_clicked.claim_no) == false">
                           <a *ngIf="edit_permission==true" data-toggle="collapse" data-target="#followup-list3" (click)="send_calim_det('followup')" class="cur-pointer collapsed" title="Followup Template" style="margin-right: 15px;font-size: 16px;" aria-expanded="false"><i class="fa fa-headphones" title="Followup Template"></i> <span style="text-decoration: underline">F.Template</span></a>
                           </span>
-                       
+
                        <!-- <a data-toggle="collapse" href="#y{{x.id}}" class="cur-pointer collapsed" title="Followup View" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det('followup')">
-                          <i class="fa fa-external-link-square" title="Followup Template View"></i> 
+                          <i class="fa fa-external-link-square" title="Followup Template View"></i>
                           <span style="text-decoration: underline"> F.Template View</span>
                        </a> -->
                        <!-- <a aria-expanded="false" class="cur-pointer collapsed" data-target="#followupview" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="Followup View">
@@ -1300,7 +1308,7 @@
                              <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box25">
                                 <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                    <div *ngFor="let y of claim_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
-                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}. 
+                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}.
                                          <!-- <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(claimnotes);editnotes('claimnotes',y.content,y.id)" ></i> -->
                                       </p>
                                    </div>
@@ -1585,9 +1593,9 @@
                           <span *ngIf="curr_reassigned_claims.includes(claim_clicked.claim_no) == false">
                           <a *ngIf="edit_permission==true" data-toggle="collapse" data-target="#followup-list3" (click)="send_calim_det('followup')" class="cur-pointer collapsed" title="Followup Template" style="margin-right: 15px;font-size: 16px;" aria-expanded="false"><i class="fa fa-headphones" title="Followup Template"></i> <span style="text-decoration: underline">F.Template</span></a>
                           </span>
-                       
+
                        <!-- <a data-toggle="collapse" href="#y{{x.id}}" class="cur-pointer collapsed" title="Followup View" style="margin-right: 15px;font-size: 16px;" aria-expanded="false" (click)="send_calim_det('followup')">
-                          <i class="fa fa-external-link-square" title="Followup Template View"></i> 
+                          <i class="fa fa-external-link-square" title="Followup Template View"></i>
                           <span style="text-decoration: underline"> F.Template View</span>
                        </a> -->
                        <!-- <a aria-expanded="false" class="cur-pointer collapsed" data-target="#followupview" data-toggle="collapse" style="margin-right: 15px;font-size: 16px;" title="Followup View">
@@ -1645,7 +1653,7 @@
                              <div class="box-body no-padding collapse in" style="margin-top:10px;" id="box25">
                                 <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                    <div *ngFor="let y of claim_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
-                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}. 
+                                      <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}.
                                          <!-- <i class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(claimnotes);editnotes('claimnotes',y.content,y.id)" ></i> -->
                                       </p>
                                    </div>
