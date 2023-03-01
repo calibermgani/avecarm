@@ -435,7 +435,7 @@ finish_followup(id,data,claim,type)
 
 get_audit_claim_details(id,page,page_count,claim_type,sort_code,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search)
 {
-  let data={user_id:id,page_no:page,count:page_count,type:claim_type,sort_code:sort_code,sort_type:sort_type,sorting_name:sorting_name,sorting_method:sorting_method,assign_claim_searh:assign_claim_searh,reassign_claim_searh:reassign_claim_searh,closed_claim_searh:closed_claim_searh,search};
+  let data={user_id:id,page_no:page,count:page_count,type:claim_type,sort_code:sort_code,sort_type:sort_type,sorting_name:sorting_name,sorting_method:sorting_method,assign_claim_searh:assign_claim_searh,reassign_claim_searh:reassign_claim_searh,closed_claim_searh:closed_claim_searh,audit_claim_search:audit_claim_search,search};
   // return this.http.post(`${this.baseUrl}/get_audit_claim_details`, data);
   let response= this.common_url('get_audit_claim_details',data);
 
@@ -1229,5 +1229,10 @@ get_payer_name(){
    return response;
 }
 
+get_ca_payer_name(){
+  let data={practice_dbid : localStorage.getItem('practice_id')};
+  let response= this.common_url('get_ca_payer_name',data);
+   return response;
+}
 }
 

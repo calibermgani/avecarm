@@ -68,7 +68,7 @@ export class ClientAssistanceComponent implements OnInit {
   isValueSelected:boolean = false;
   results: any[] = [];
   searchResults: any[] = [];
-  selected_val:any;
+  selected_val:any = null;
 
   constructor(
   private formBuilder: FormBuilder,
@@ -1459,6 +1459,7 @@ public get_statuscodes()
       claim_no: [],
       acc_no: [],
       patient_name: [],
+      total_charge:[],
       total_ar: new FormControl(null, [
         Validators.required,
         Validators.pattern(this.decimal_pattern),
@@ -1470,6 +1471,8 @@ public get_statuscodes()
       followup_date: [],
       date:[],
       payer_name:[],
+      denial_code:[],
+      bill_submit_date:[],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -1591,7 +1594,7 @@ public export_pdf_files(type, table_name)
 error_handler(error){}
 
 getSearchResults(): void {
-  this.Jarwis.get_payer_name().subscribe(sr => {
+  this.Jarwis.get_ca_payer_name().subscribe(sr => {
     this.searchResults = sr['payer_names'];
     console.log(this.searchResults);
   });
@@ -1604,6 +1607,7 @@ searchOnKeyUp(event) {
     this.results = this.searchFromArray(this.searchResults, input);
   }
   else{
+    this.selected_val = null;
     this.isValueSelected = false;
   }    
 }
@@ -1623,7 +1627,7 @@ onselectvalue(value) {
   this.selected_val = value;
   }
   else{
-    this.selected_val = '';      
+    this.selected_val = null;      
     this.isValueSelected = false;
   }
 }

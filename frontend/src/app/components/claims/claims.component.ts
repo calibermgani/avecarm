@@ -52,6 +52,9 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   resaaigned_select_date:any;
   closed_select_date: any;
   selectedAge = null;
+  all_selectedAge = null;
+  closed_selectedAge = null;
+  reassigned_selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   claim_statuses :any = ['Closed', 'Assigned', 'Auditing', 'Audit'];
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
@@ -2473,9 +2476,10 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   // }
 
 
-  createClaims_search(page: number, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, search) {
-    this.search = search;
-    this.pageChange(page, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, search);
+  createClaims_search(page: number, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, searchdata) {
+    this.search = searchdata;
+    console.log(searchdata);
+    this.pageChange(page, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, searchdata);
   }
 
 
@@ -2487,9 +2491,10 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   claim_sub_status_codes = [];
   searchs;
   public pageChange(page: number, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, search) {
-
+    console.log(search);
+    this.search = search;
     let searchs = this.search;
-
+    console.log(createsearch);
     this.searchValue = this.search;
 
     let page_count = 15;
@@ -2555,7 +2560,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     else if (table == 'all_claim') {
       this.pages = page;
       if (sorting_name == 'null' && searchs == null) {
-        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, sorting_name, sorting_method, createsearch, search).subscribe(
+        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, sorting_name, sorting_method, null, search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
@@ -2570,7 +2575,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
           error => this.handleError(error)
         );
       } else {
-        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, this.sortByAsc, this.sorting_name, createsearch, this.search).subscribe(
+        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, this.sortByAsc, this.sorting_name, null, this.search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
@@ -2830,9 +2835,9 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
 
   search;
 
-  closedClaims_search(filter, from, to, type, sort_type, sort_data, sorting_name, sorting_method, closedsearch, workordersearch, search) {
-    this.search = search;
-    this.get_workorder(filter, from, to, type, this.closed_pages, sort_type, this.sortByAsc, sorting_name, sorting_method, this.closedClaimsFind.value, null, search);
+  closedClaims_search(filter, from, to, type, sort_type, sort_data, sorting_name, sorting_method, closedsearch, workordersearch, searchdata) {
+    this.search = searchdata;
+    this.get_workorder(filter, from, to, type, this.closed_pages, sort_type, this.sortByAsc, sorting_name, sorting_method, this.closedClaimsFind.value, null, this.search);
   }
 
 
@@ -4003,26 +4008,27 @@ public process_codes(data:any)
     });
   }
   searchOnKeyUp(event) {
-		let input = event.target.value;
-		console.log('event.target.value: ' + input);
-		console.log('this.searchResults: ' + this.searchResults);
-		if (input.length > 0) {
-			this.results = this.searchFromArray(this.searchResults, input);
-		}
+    let input = event.target.value;
+    console.log('event.target.value: ' + input);
+    console.log('this.searchResults: ' + this.searchResults);
+    if (input.length > 0) {
+      this.results = this.searchFromArray(this.searchResults, input);
+    }
     else{
+      this.selected_val = null;
       this.isValueSelected = false;
     }    
-	}
-	searchFromArray(arr, regex) {
-		let matches = [], i;
-		for (i = 0; i < arr.length; i++) {
-			if (arr[i].match(regex)) {
-				matches.push(arr[i]);
-			}
-		}
-		console.log('matches: ' + matches);
-		return matches;
-	};
+  }
+  searchFromArray(arr, regex) {
+    let matches = [], i;
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i].match(regex)) {
+        matches.push(arr[i]);
+      }
+    }
+    console.log('matches: ' + matches);
+    return matches;
+  };
   onselectvalue(value) {
     if(value !='' || value !=null){
       this.isValueSelected = true;

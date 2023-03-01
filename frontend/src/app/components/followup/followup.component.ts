@@ -29,7 +29,7 @@ export class FollowupComponent implements OnInit, OnDestroy {
   isValueSelected:boolean = false;
   results: any[] = [];
   searchResults: any[] = [];
-  selected_val:any;
+  selected_val:any = null;
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -404,7 +404,7 @@ type;
 types;
   public getclaim_details(page:number,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,search)
 {
-
+  this.search = search;
   this.type = type;
   let page_count=15;
   console.log("ip",type);
@@ -2591,7 +2591,7 @@ onselectvalue(value) {
   this.selected_val = value;
   }
   else{
-    this.selected_val = '';      
+    this.selected_val = null;      
     this.isValueSelected = false;
   }
 }

@@ -223,11 +223,11 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
     this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search);
   }
 
-  public closed_claims_filter(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search){
-    this.search = search;
-    console.log(search);
+  public closed_claims_filter(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,searchdata){
+    this.search = searchdata;
+    console.log(searchdata);
     console.log(type);
-    this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search);
+    this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,this.search);
   }
 
 
@@ -236,6 +236,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
   search;
   public getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search)
   {
+    this.search = search;
     console.log(assign_claim_searh);
     let page_count=15;
     let form_type=null;
