@@ -26,10 +26,16 @@ export class FollowupComponent implements OnInit, OnDestroy {
   reAssigned = "";
   closedWork = "";
 
-  isValueSelected:boolean = false;
-  results: any[] = [];
+  assignedSelected:boolean = false;
+  reassignedSelected:boolean = false;
+  closedSelected:boolean = false;
+  assigned_results: any[] = [];
+  reassigned_results: any[] = [];
+  closed_results: any[] = [];
   searchResults: any[] = [];
-  selected_val:any = null;
+  assigned_selected_val:any = null;
+  reassigned_selected_val:any = null;
+  closed_selected_val:any = null;
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -482,11 +488,8 @@ types;
   else if(type=='reallocated')
   {
     this.types='reallocated';
-
     if(sorting_name == 'null' && searchs != 'search'){
-
       console.log(searchs);
-
       this.realloc_pages=page;
       this.current_claim_type='reallocated';
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
@@ -530,89 +533,84 @@ types;
       {
         page=this.alloc_pages;
       }
-	  else if(type=='reallocated')
+	    else if(type=='reallocated')
       {
         page=this.realloc_pages;
       }
-
+    }
+    if(type=='allocated' ){
+      if(sorting_name == 'null' && searchs != 'search'){
+        console.log('middle');
+        this.alloc_pages=page;
+          this.current_claim_type='allocated';
+        this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
+          data  => this.form_table(data,type,form_type),
+          error => this.handleError(error)
+        );
+      }else if(searchs == 'search'){
+          console.log('middle');
+           this.alloc_pages=page;
+          this.current_claim_type='allocated';
+          this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.sorting_name,this.sortByAsc,this.assignedClaimsFind.value,null,null,this.search).subscribe(
+            data  => this.form_table(data,type,form_type),
+            error => this.handleError(error)
+          );
+        }else if(sorting_name != 'null'){
+          console.log('last');
+         this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.sorting_name,this.sortByAsc,null,null,null,search).subscribe(
+          data  => this.form_table(data,type,form_type),
+          error => this.handleError(error)
+        );
+      }
+    }else if(type=='reallocated'){
+      console.log('com'+type);
+      if(sorting_name == 'null' && searchs != 'search'){
+        console.log('first');
+        this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
+          data  => this.form_table(data,type,form_type),
+          error => this.handleError(error)
+        );
+      }else if(searchs == 'search'){
+        console.log('-----------');
+           this.alloc_pages=page;
+        this.current_claim_type='reallocated';
+        this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.reassigned_sorting_name,this.sortByAsc,null,this.reassignedClaimsFind.value,null,this.search).subscribe(
+          data  => this.form_table(data,type,form_type),
+          error => this.handleError(error)
+        );
+      }else if(sorting_name != 'null'){
+        console.log('second');
+         this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.reassigned_sorting_name,this.sortByAsc,null,null,null,this.search).subscribe(
+          data  => this.form_table(data,type,form_type),
+          error => this.handleError(error)
+        );
+      }
+    }else if(type=='completed'){
+      console.log('com'+type);
+      if(sorting_name == 'null'  && searchs != 'search'){
+        this.comp_pages=page;
+        this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
+          data  => this.form_table(data,type,form_type),
+          error => this.handleError(error)
+        );
+      }else if(searchs == 'search'){
+           this.comp_pages=page;
+        this.current_claim_type='reallocated';
+        this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.closed_sorting_name,this.sortByAsc,null,null,this.closedClaimsFind.value,this.search).subscribe(
+          data  => this.form_table(data,type,form_type),
+          error => this.handleError(error)
+        );
+      }else if(sorting_name != 'null'){
+        this.comp_pages=page;
+         this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.closed_sorting_name,this.sortByAsc,null,null,null,this.search).subscribe(
+          data  => this.form_table(data,type,form_type),
+          error => this.handleError(error)
+        );
+      }
     }
   }
   console.log(type);
-
-this.tab_load=true;
-
-if(type=='allocated' ){
-  if(sorting_name == 'null' && searchs != 'search'){
-    console.log('middle');
-    this.alloc_pages=page;
-      this.current_claim_type='allocated';
-    this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
-      data  => this.form_table(data,type,form_type),
-      error => this.handleError(error)
-    );
-  }else if(searchs == 'search'){
-      console.log('middle');
-       this.alloc_pages=page;
-      this.current_claim_type='allocated';
-      this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.sorting_name,this.sortByAsc,this.assignedClaimsFind.value,null,null,this.search).subscribe(
-        data  => this.form_table(data,type,form_type),
-        error => this.handleError(error)
-      );
-    }else if(sorting_name != 'null'){
-      console.log('last');
-     this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.sorting_name,this.sortByAsc,null,null,null,search).subscribe(
-      data  => this.form_table(data,type,form_type),
-      error => this.handleError(error)
-    );
-  }
-}else if(type=='reallocated'){
-  console.log('com'+type);
-  if(sorting_name == 'null' && searchs != 'search'){
-    console.log('first');
-    this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
-      data  => this.form_table(data,type,form_type),
-      error => this.handleError(error)
-    );
-  }else if(searchs == 'search'){
-    console.log('-----------');
-       this.alloc_pages=page;
-    this.current_claim_type='reallocated';
-    this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.reassigned_sorting_name,this.sortByAsc,null,this.reassignedClaimsFind.value,null,this.search).subscribe(
-      data  => this.form_table(data,type,form_type),
-      error => this.handleError(error)
-    );
-  }else if(sorting_name != 'null'){
-    console.log('second');
-     this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.reassigned_sorting_name,this.sortByAsc,null,null,null,this.search).subscribe(
-      data  => this.form_table(data,type,form_type),
-      error => this.handleError(error)
-    );
-  }
-}else if(type=='completed'){
-  console.log('com'+type);
-  if(sorting_name == 'null'  && searchs != 'search'){
-    this.comp_pages=page;
-    this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
-      data  => this.form_table(data,type,form_type),
-      error => this.handleError(error)
-    );
-  }else if(searchs == 'search'){
-       this.comp_pages=page;
-    this.current_claim_type='reallocated';
-    this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.closed_sorting_name,this.sortByAsc,null,null,this.closedClaimsFind.value,this.search).subscribe(
-      data  => this.form_table(data,type,form_type),
-      error => this.handleError(error)
-    );
-  }else if(sorting_name != 'null'){
-    this.comp_pages=page;
-     this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.closed_sorting_name,this.sortByAsc,null,null,null,this.search).subscribe(
-      data  => this.form_table(data,type,form_type),
-      error => this.handleError(error)
-    );
-  }
-}
-
-
+  this.tab_load=true;
 }
 
 selected_status_code=[];
@@ -1245,68 +1243,60 @@ public updatenotes(type){
 
   }
   this.editnote_value=null;
-
   }
-
 
   public close_clear_data()
   {
     this.editnote_value=null;
   }
-
-
-//Clear ProcessNote
-public clear_notes()
-{
-  this.editnote_value=null;
-  this.processNotes.reset();
-}
-
-//Send Claim Value to Followup-Template Component on Opening Template
-// active_sent_claim:string[];
-public send_calim_det(type)
-{
-  console.log(type);
-
-  if(this.main_tab==true)
+  //Clear ProcessNote
+  public clear_notes()
   {
-    console.log(this.main_tab);
-    if(type == 'followup')
+    this.editnote_value=null;
+    this.processNotes.reset();
+  }
+  //Send Claim Value to Followup-Template Component on Opening Template
+  // active_sent_claim:string[];
+  public send_calim_det(type)
+  {
+    console.log(type);
+
+    if(this.main_tab==true)
     {
-       console.log(this.claim_clicked['claim_no']);
-      this.follow.setvalue(this.claim_clicked['claim_no']);
+      console.log(this.main_tab);
+      if(type == 'followup')
+      {
+        console.log(this.claim_clicked['claim_no']);
+        this.follow.setvalue(this.claim_clicked['claim_no']);
+      }
+      else{
+        this.notes_hadler.selected_tab(this.claim_clicked['claim_no']);
+        this.notes_hadler.set_claim_details(this.claim_clicked);
+        this.claim_active=this.claim_clicked;
+      }
     }
-    else{
-      this.notes_hadler.selected_tab(this.claim_clicked['claim_no']);
-      this.notes_hadler.set_claim_details(this.claim_clicked);
-      this.claim_active=this.claim_clicked;
+    else
+    {
+      if(type == 'followup')
+      {
+        this.follow.setvalue(this.active_claim);
+      }
+      else{
+
+        this.notes_hadler.selected_tab(this.active_claim);
+        let claim_detials=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+        console.log(claim_detials);
+        this.notes_hadler.set_claim_details(claim_detials);
+        this.claim_active=this.active_claim;
+      }
     }
   }
-  else
-  {
-    if(type == 'followup')
-    {
-      this.follow.setvalue(this.active_claim);
-    }
-    else{
 
-      this.notes_hadler.selected_tab(this.active_claim);
-      let claim_detials=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
-      console.log(claim_detials);
-      this.notes_hadler.set_claim_details(claim_detials);
-      this.claim_active=this.active_claim;
-    }
-
-  }
-
- }
-
- claimid;
- active_data;
- followup_data;
- followup_question_data;
-
- public get_followup_details()
+  claimid;
+  active_data;
+  followup_data;
+  followup_question_data;
+  public get_followup_details()
   {
     let claim=this.follow.getvalue();
     if(this.claimid.includes(claim) )
@@ -1335,625 +1325,584 @@ public send_calim_det(type)
     console.log('2' +this.active_data);
   }
 
- public collect_response(data)
- {
- console.log("collect",data);
-
-   if(this.main_tab == true)
-   {
-    this.check_note_edit_validity(this.claim_clicked);
-   }
-   else{
-
-    let claim_detials=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
-    this.check_note_edit_validity(claim_detials);
-   }
-
-
-
-
-   this.display_notes(data,'claimnotes');
-   this.getclaim_details(1,'refresh','null','null','null','null',null,null,null,null);
-
-  //  console.log("Dta List Brf",this.claim_notes_data_list);
-
-   let index =  this.claim_notes_data_list.indexOf(this.active_claim);
-   this.claim_notes_data_list.splice(index, 1);
-
-   let index1 =  this.process_notes_data_list.indexOf(this.active_claim);
-   this.process_notes_data_list.splice(index1, 1);
-   //console.log("Dta List AFTT",this.claim_notes_data_list);
-  }
-
-public get_line_items(claim)
-{
-  // console.log("Get line",claim);
-  this.check_note_edit_validity(claim);
-let stat=0;
-
-for(let i=0;i<this.line_item_data.length;i++)
-{
-  let array=this.line_item_data[i];
-  let x =  array.find(x => x.claim_id == claim['claim_no']);
-  if(x!=undefined)
-  {
-    this.line_data=array;
-    stat=1;
-  }
-
-}
-
-if(stat ==0)
-{
-  this.Jarwis.get_line_items(claim).subscribe(
-    data  => this.assign_line_data(data) ,
-    error => this.handleError(error)
-  );
-}
-}
-//error_handler
-error_handler(error)
-{
-  //console.log(error)
-  if(error.error.exception == "Illuminate\Database\QueryException"){
-    this.toastr.warningToastr("File can not be Deleted",'Foreign key Constraint');
-  }
-  else{
-    this.toastr.errorToastr(error.error.exception, "Error!");
-  }
-}
-
-line_item_data=[];
-assign_line_data(data)
-{
-  this.line_item_data.push(data.data);
-  this.line_data=data.data;
-}
-
-confirmation_type:string;
-reassign_claim:string;
-curr_reassigned_claims=[];
-
-confirm_reassign(claim:any)
-{
-  this.confirmation_type='Reassign';
-this.reassign_claim=claim;
-}
-
-confirm_action(type)
-{
-if(type == 'Reassign')
-{
-  let mod_type='followup';
-
-  this.Jarwis.reassign_calim(this.reassign_claim,this.setus.getId(),mod_type).subscribe(
-    data  => this.after_reassign(data,this.reassign_claim['claim_no']) ,
-    error => this.handleError(error)
-  );
-
-}
-}
-
-reassign_allocation:boolean=true;
-after_reassign(data,claim)
-{
-  // console.log(data,claim);
-  this.curr_reassigned_claims.push(claim);
-  // this.getclaim_details(this.alloc_pages,'allocated');
-  this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null);
-  this.reassign_allocation=false;
-}
-
-check_reassign_alloc(claim)
-{
-
-  console.log("Here REassign",claim);
-  if(this.setus.get_role_id() == '1' && claim['followup_work_order'] != null)
-  {
-    let already_re=this.curr_reassigned_claims.indexOf(claim.claim_no);
-    if(already_re<0)
+  public collect_response(data)
+  {    
+    if(this.main_tab == true)
     {
-      this.reassign_allocation=true;
+      this.check_note_edit_validity(this.claim_clicked);
     }
-    else
+    else{
+
+      let claim_detials=this.refer_claim_det.find(x => x.claim_no == this.active_claim);
+      this.check_note_edit_validity(claim_detials);
+    }
+    this.display_notes(data,'claimnotes');
+    this.getclaim_details(1,'refresh','null','null','null','null',null,null,null,null);
+    //  console.log("Dta List Brf",this.claim_notes_data_list);
+    let index =  this.claim_notes_data_list.indexOf(this.active_claim);
+    this.claim_notes_data_list.splice(index, 1);
+    let index1 =  this.process_notes_data_list.indexOf(this.active_claim);
+    this.process_notes_data_list.splice(index1, 1);
+    //console.log("Dta List AFTT",this.claim_notes_data_list);
+  }
+
+  public get_line_items(claim)
+  {
+    // console.log("Get line",claim);
+    this.check_note_edit_validity(claim);
+    let stat=0;
+
+    for(let i=0;i<this.line_item_data.length;i++)
     {
+      let array=this.line_item_data[i];
+      let x =  array.find(x => x.claim_id == claim['claim_no']);
+      if(x!=undefined)
+      {
+        this.line_data=array;
+        stat=1;
+      }
+
+    }
+    if(stat ==0)
+    {
+      this.Jarwis.get_line_items(claim).subscribe(
+        data  => this.assign_line_data(data) ,
+        error => this.handleError(error)
+      );
+    }
+  }
+  //error_handler
+  error_handler(error)
+  {
+    //console.log(error)
+    if(error.error.exception == "Illuminate\Database\QueryException"){
+      this.toastr.warningToastr("File can not be Deleted",'Foreign key Constraint');
+    }
+    else{
+      this.toastr.errorToastr(error.error.exception, "Error!");
+    }
+  }
+
+  line_item_data=[];
+  assign_line_data(data)
+  {
+    this.line_item_data.push(data.data);
+    this.line_data=data.data;
+  }
+
+  confirmation_type:string;
+  reassign_claim:string;
+  curr_reassigned_claims=[];
+
+  confirm_reassign(claim:any)
+  {
+    this.confirmation_type='Reassign';
+  this.reassign_claim=claim;
+  }
+
+  confirm_action(type)
+  {
+    if(type == 'Reassign')
+    {
+      let mod_type='followup';
+      this.Jarwis.reassign_calim(this.reassign_claim,this.setus.getId(),mod_type).subscribe(
+        data  => this.after_reassign(data,this.reassign_claim['claim_no']) ,
+        error => this.handleError(error)
+      );
+    }
+  }
+
+  reassign_allocation:boolean=true;
+  after_reassign(data,claim)
+  {
+    // console.log(data,claim);
+    this.curr_reassigned_claims.push(claim);
+    // this.getclaim_details(this.alloc_pages,'allocated');
+    this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null);
+    this.reassign_allocation=false;
+  }
+
+  check_reassign_alloc(claim)
+  {
+
+    console.log("Here REassign",claim);
+    if(this.setus.get_role_id() == '1' && claim['followup_work_order'] != null)
+    {
+      let already_re=this.curr_reassigned_claims.indexOf(claim.claim_no);
+      if(already_re<0)
+      {
+        this.reassign_allocation=true;
+      }
+      else
+      {
+        this.reassign_allocation=false;
+      }
+
+    }
+    else{
       this.reassign_allocation=false;
     }
 
   }
-  else{
-    this.reassign_allocation=false;
-  }
 
-}
-
-check_note_edit_validity(claim)
-{
-  console.log("Check",claim);
-  this.Jarwis.check_edit_val(claim,'followup').subscribe(
-    data  => this.set_note_edit_validity(data),
-    error => this.handleError(error)
-  );
-
-}
-
-note_edit_val:number;
-set_note_edit_validity(data)
-{
-  console.log("Validity",data);
-  if(data.edit_val == true)
+  check_note_edit_validity(claim)
   {
-    // console.log(data.note_id['id']);
-    this.note_edit_val = data.note_id['id'];
-    console.log(this.note_edit_val);
-  }
-  else
-  {
-    this.note_edit_val=undefined;
-  }
-  console.log(this.note_edit_val);
-}
-
-reload_data()
-{
-  this.loading=true;
-  if(this.modalService.hasOpenModals() == false)
-  {
-    this.getclaim_details(this.pages,'allocated',null,null,'null','null',null,null,null,null);
-
-    for(let i=0;i<this.assigned_claims.length;i++)
-    {
-      let claim=this.assigned_claims[i]['claim_no'];
-      let ind = this.selected_claim_nos.indexOf(claim);
-      this.selected_claims.splice(ind,1);
-      this.selected_claim_nos.splice(ind,1);
-
-    }
-
-    let page_count=15;
-
-    this.pages=1;
-    this.Jarwis.get_table_page(null,this.pages,page_count,null,'null','null','null','null').subscribe(
-      data  => this.assign_page_data(data),
+    console.log("Check",claim);
+    this.Jarwis.check_edit_val(claim,'followup').subscribe(
+      data  => this.set_note_edit_validity(data),
       error => this.handleError(error)
     );
 
-    this.checkboxes.forEach((element) => {
-      element.nativeElement.checked = false;
+  }
+
+  note_edit_val:number;
+  set_note_edit_validity(data)
+  {
+    console.log("Validity",data);
+    if(data.edit_val == true)
+    {
+      // console.log(data.note_id['id']);
+      this.note_edit_val = data.note_id['id'];
+      console.log(this.note_edit_val);
+    }
+    else
+    {
+      this.note_edit_val=undefined;
+    }
+    console.log(this.note_edit_val);
+  }
+
+  reload_data()
+  {
+    this.loading=true;
+    if(this.modalService.hasOpenModals() == false)
+    {
+      this.getclaim_details(this.pages,'allocated',null,null,'null','null',null,null,null,null);
+
+      for(let i=0;i<this.assigned_claims.length;i++)
+      {
+        let claim=this.assigned_claims[i]['claim_no'];
+        let ind = this.selected_claim_nos.indexOf(claim);
+        this.selected_claims.splice(ind,1);
+        this.selected_claim_nos.splice(ind,1);
+
+      }
+
+      let page_count=15;
+
+      this.pages=1;
+      this.Jarwis.get_table_page(null,this.pages,page_count,null,'null','null','null','null').subscribe(
+        data  => this.assign_page_data(data),
+        error => this.handleError(error)
+      );
+
+      this.checkboxes.forEach((element) => {
+        element.nativeElement.checked = false;
+      });
+
+    }
+  }
+  // get_touch_limit()
+  // {
+  //   this.Jarwis.get_practice_stats().subscribe(
+  //     data =>this.set_prac_settings(data)
+  //     );
+  // }
+  touch_count:number;
+  // set_prac_settings(data)
+  // {
+  //   let prac_data=data.data;
+  //   this.touch_count=prac_data.touch_limit;
+  //   console.log(this.touch_count);
+  // }
+  claim_check(count)
+  {
+    if(Number(count)>this.touch_count)
+    {
+      this.toastr.errorToastr('Claim Exceeds '+ this.touch_count+ ' Touches', 'Exceeds!!');
+
+    }else if(Number(count) == (this.touch_count -1))
+    {
+      this.toastr.warningToastr('Claim Nearing '+ this.touch_count+ ' Touches.', 'Warning!')
+    }
+    else if(Number(count) == this.touch_count)
+    {
+      this.toastr.errorToastr('Claim Reaches '+ this.touch_count+ ' Touches', 'Count Limit!!');
+    }
+  }
+  chart_val={
+    "chart": {
+        // "caption": "Split of Top Products Sold",
+        // "subCaption": "Last Quarter",
+        "basefontsize": "10",
+        "pieFillAlpha": "70",
+        "pieBorderThickness": "2",
+        "hoverFillColor": "#cccccc",
+        "pieBorderColor": "#ffffff",
+        "showPercentInTooltip": "0",
+        "numberPrefix": "$",
+        "plotTooltext": "$label, $$valueK, $percentValue",
+        "theme": "fusion"
+    },
+    "category": [
+        {
+            "label": "My Report",
+            "color": "#ffffff",
+            "value": "150",
+            "category": [
+                {
+                    "label": "0-30",
+                    "color": "#f8bd19",
+                    "category": [
+                        {
+                            "label": "Breads",
+                            "color": "#f8bd19",
+                            "value": "11.1"
+                        },
+                        {
+                            "label": "Juice",
+                            "color": "#f8bd19",
+                            "value": "27.75"
+                        },
+                        {
+                            "label": "Noodles",
+                            "color": "#f8bd19",
+                            "value": "9.99"
+                        },
+                        {
+                            "label": "Seafood",
+                            "color": "#f8bd19",
+                            "value": "6.66"
+                        }
+                    ]
+                },
+                {
+                    "label": "31-60",
+                    "color": "#e44a00",
+                    "category": [
+                        {
+                            "label": "Sun Glasses",
+                            "color": "#e44a00",
+                            "value": "10.08"
+                        },
+                        {
+                            "label": "Clothing",
+                            "color": "#e44a00",
+                            "value": "18.9"
+                        },
+                        {
+                            "label": "Handbags",
+                            "color": "#e44a00",
+                            "value": "6.3"
+                        },
+                        {
+                            "label": "Shoes",
+                            "color": "#e44a00",
+                            "value": "6.72"
+                        }
+                    ]
+                },
+                {
+                    "label": "61-90",
+                    "color": "#008ee4",
+                    "category": [
+                        {
+                            "label": "Bath &{br}Grooming",
+                            "color": "#008ee4",
+                            "value": "9.45"
+                        },
+                        {
+                            "label": "Feeding",
+                            "color": "#008ee4",
+                            "value": "6.3"
+                        },
+                        {
+                            "label": "Diapers",
+                            "color": "#008ee4",
+                            "value": "6.75"
+                        }
+                    ]
+                },
+                {
+                    "label": "120+",
+                    "color": "#33bdda",
+                    "category": [
+                        {
+                            "label": "Laptops",
+                            "color": "#33bdda",
+                            "value": "8.1"
+                        },
+                        {
+                            "label": "Televisions",
+                            "color": "#33bdda",
+                            "value": "10.5"
+                        },
+                        {
+                            "label": "SmartPhones",
+                            "color": "#33bdda",
+                            "value": "11.4"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+  }
+
+  user_role:Number=0;
+  class_change=[];
+  class_change_tab=[];
+  user_role_maintainer()
+  {
+    let role_id=Number(this.setus.get_role_id());
+    //console.log("User Role",role_id);
+    if(role_id == 5 || role_id == 3 || role_id == 2)
+    {
+      this.user_role=2;
+      this.class_change['tab1']='active';
+      this.class_change['tab2']='';
+
+      this.class_change_tab['tab1']='tab-pane active';
+      this.class_change_tab['tab2']='tab-pane'
+
+    }
+    else if(role_id == 1)
+    {
+      this.user_role=1;
+
+      this.class_change['tab1']='active';
+      this.class_change['tab2']='';
+
+      this.class_change_tab['tab1']='tab-pane active';
+      this.class_change_tab['tab2']='tab-pane'
+
+      this.get_month_details();
+    }
+  }
+  weeks=[];
+  days=[];
+  get_month_details()
+  {
+    this.Jarwis.get_month_details().subscribe(
+      data  => this.set_month_det(data),
+      error => this.handleError(error)
+    );
+  }
+  col_span=[];
+  set_month_det(data)
+  {
+    // console.log(data.working,"WEE",data.weeks);
+    this.weeks=data.weeks;
+    this.days=data.working;
+    //For SATURDAY
+    let week_length=[];
+    data.weeks.forEach(element => {
+
+      if(element.length == undefined)
+      {
+        week_length.push(1);
+      }
+      else{
+        week_length.push(element.length);
+      }
+
     });
-
+    this.col_span=week_length;
+    // console.log("len",this.col_span)
+    this.get_prod_qual();
   }
-}
-
-
-// get_touch_limit()
-// {
-//   this.Jarwis.get_practice_stats().subscribe(
-//     data =>this.set_prac_settings(data)
-//     );
-// }
-
-touch_count:number;
-// set_prac_settings(data)
-// {
-//   let prac_data=data.data;
-//   this.touch_count=prac_data.touch_limit;
-
-//   console.log(this.touch_count);
-
-// }
-
-claim_check(count)
-{
-  if(Number(count)>this.touch_count)
+  get_prod_qual()
   {
-    this.toastr.errorToastr('Claim Exceeds '+ this.touch_count+ ' Touches', 'Exceeds!!');
-
-  }else if(Number(count) == (this.touch_count -1))
-  {
-    this.toastr.warningToastr('Claim Nearing '+ this.touch_count+ ' Touches.', 'Warning!')
+    this.Jarwis.get_prod_qual(this.setus.getId(),this.days).subscribe(
+      data  => this.assign_prod_qual(data),
+      error => this.handleError(error)
+    );
   }
-  else if(Number(count) == this.touch_count)
+  assigned_target=[];
+  achieved_target=[];
+  achi_targ_per=[];
+  assign_prod_qual(data)
   {
-    this.toastr.errorToastr('Claim Reaches '+ this.touch_count+ ' Touches', 'Count Limit!!');
+    //console.log('o/p',data);
+    this.assigned_target=data.assigned;
+    this.achieved_target = data.worked;
+    this.achi_targ_per = data.work_per;
   }
-}
+  public check_all: Array<any> =[];
+  public selected_claims=[];
+  public selected_claim_nos=[];
 
-
-
-chart_val={
-  "chart": {
-      // "caption": "Split of Top Products Sold",
-      // "subCaption": "Last Quarter",
-      "basefontsize": "10",
-      "pieFillAlpha": "70",
-      "pieBorderThickness": "2",
-      "hoverFillColor": "#cccccc",
-      "pieBorderColor": "#ffffff",
-      "showPercentInTooltip": "0",
-      "numberPrefix": "$",
-      "plotTooltext": "$label, $$valueK, $percentValue",
-      "theme": "fusion"
-  },
-  "category": [
-      {
-          "label": "My Report",
-          "color": "#ffffff",
-          "value": "150",
-          "category": [
-              {
-                  "label": "0-30",
-                  "color": "#f8bd19",
-                  "category": [
-                      {
-                          "label": "Breads",
-                          "color": "#f8bd19",
-                          "value": "11.1"
-                      },
-                      {
-                          "label": "Juice",
-                          "color": "#f8bd19",
-                          "value": "27.75"
-                      },
-                      {
-                          "label": "Noodles",
-                          "color": "#f8bd19",
-                          "value": "9.99"
-                      },
-                      {
-                          "label": "Seafood",
-                          "color": "#f8bd19",
-                          "value": "6.66"
-                      }
-                  ]
-              },
-              {
-                  "label": "31-60",
-                  "color": "#e44a00",
-                  "category": [
-                      {
-                          "label": "Sun Glasses",
-                          "color": "#e44a00",
-                          "value": "10.08"
-                      },
-                      {
-                          "label": "Clothing",
-                          "color": "#e44a00",
-                          "value": "18.9"
-                      },
-                      {
-                          "label": "Handbags",
-                          "color": "#e44a00",
-                          "value": "6.3"
-                      },
-                      {
-                          "label": "Shoes",
-                          "color": "#e44a00",
-                          "value": "6.72"
-                      }
-                  ]
-              },
-              {
-                  "label": "61-90",
-                  "color": "#008ee4",
-                  "category": [
-                      {
-                          "label": "Bath &{br}Grooming",
-                          "color": "#008ee4",
-                          "value": "9.45"
-                      },
-                      {
-                          "label": "Feeding",
-                          "color": "#008ee4",
-                          "value": "6.3"
-                      },
-                      {
-                          "label": "Diapers",
-                          "color": "#008ee4",
-                          "value": "6.75"
-                      }
-                  ]
-              },
-              {
-                  "label": "120+",
-                  "color": "#33bdda",
-                  "category": [
-                      {
-                          "label": "Laptops",
-                          "color": "#33bdda",
-                          "value": "8.1"
-                      },
-                      {
-                          "label": "Televisions",
-                          "color": "#33bdda",
-                          "value": "10.5"
-                      },
-                      {
-                          "label": "SmartPhones",
-                          "color": "#33bdda",
-                          "value": "11.4"
-                      }
-                  ]
-              }
-          ]
-      }
-  ]
-}
-
-user_role:Number=0;
-class_change=[];
-class_change_tab=[];
-user_role_maintainer()
-{
-let role_id=Number(this.setus.get_role_id());
-
-//console.log("User Role",role_id);
-
-  if(role_id == 5 || role_id == 3 || role_id == 2)
+  public check_all_assign(page,event)
   {
-    this.user_role=2;
-    this.class_change['tab1']='active';
-    this.class_change['tab2']='';
-
-    this.class_change_tab['tab1']='tab-pane active';
-    this.class_change_tab['tab2']='tab-pane'
-
-  }
-  else if(role_id == 1)
-  {
-    this.user_role=1;
-
-    this.class_change['tab1']='active';
-    this.class_change['tab2']='';
-
-    this.class_change_tab['tab1']='tab-pane active';
-    this.class_change_tab['tab2']='tab-pane'
-
-    this.get_month_details();
-  }
-
-
-
-}
-
-weeks=[];
-days=[];
-
-get_month_details()
-{
-  this.Jarwis.get_month_details().subscribe(
-    data  => this.set_month_det(data),
-    error => this.handleError(error)
-  );
-}
-col_span=[];
-set_month_det(data)
-{
-  // console.log(data.working,"WEE",data.weeks);
-this.weeks=data.weeks;
-this.days=data.working;
-
-//For SATURDAY
-let week_length=[];
-data.weeks.forEach(element => {
-
-  if(element.length == undefined)
-  {
-    week_length.push(1);
-  }
-  else{
-    week_length.push(element.length);
-  }
-
-});
-this.col_span=week_length;
-// console.log("len",this.col_span)
-this.get_prod_qual();
-}
-
-
-
-get_prod_qual()
-{
-  this.Jarwis.get_prod_qual(this.setus.getId(),this.days).subscribe(
-    data  => this.assign_prod_qual(data),
-    error => this.handleError(error)
-  );
-}
-
-assigned_target=[];
-achieved_target=[];
-achi_targ_per=[];
-assign_prod_qual(data)
-{
-  //console.log('o/p',data);
-this.assigned_target=data.assigned;
-this.achieved_target = data.worked;
-this.achi_targ_per = data.work_per;
-
-}
-
-public check_all: Array<any> =[];
-public selected_claims=[];
-public selected_claim_nos=[];
-
-public check_all_assign(page,event)
-{
-if( event.target.checked == true)
-{
-  this.check_all[page]==true;
-}
-else{
-  this.check_all[page]==false;
-}
-}
-//Selected Claim Sorting
-public selected(event,claim,index)
-{
-
-  if(claim == 'all' && event.target.checked == true )
-  {
-    let assigned_claims = this.assigned_claims;
-
-    let claim_nos=this.selected_claim_nos;
-    let claim_data= this.selected_claims;
-
-    assigned_claims.forEach(function (value) {
-      let keys = value;
-      if(!claim_nos.includes(keys['claim_no']))
-      {
-      claim_nos.push(keys['claim_no']);
-      claim_data.push(keys);
-      }
-      });
-      this.selected_claim_nos=claim_nos;
-      this.selected_claims=claim_data;
-      console.log(this.selected_claims);
-  }
-  else if(claim == 'all' && event.target.checked == false)
-  {
-
-    for(let i=0;i<this.assigned_claims.length;i++)
+    if( event.target.checked == true)
     {
-      let claim=this.assigned_claims[i]['claim_no'];
+      this.check_all[page]==true;
+    }
+    else{
+      this.check_all[page]==false;
+    }
+  }
+  //Selected Claim Sorting
+  public selected(event,claim,index)
+  {
+
+    if(claim == 'all' && event.target.checked == true )
+    {
+      let assigned_claims = this.assigned_claims;
+
+      let claim_nos=this.selected_claim_nos;
+      let claim_data= this.selected_claims;
+
+      assigned_claims.forEach(function (value) {
+        let keys = value;
+        if(!claim_nos.includes(keys['claim_no']))
+        {
+        claim_nos.push(keys['claim_no']);
+        claim_data.push(keys);
+        }
+        });
+        this.selected_claim_nos=claim_nos;
+        this.selected_claims=claim_data;
+        console.log(this.selected_claims);
+    }
+    else if(claim == 'all' && event.target.checked == false)
+    {
+
+      for(let i=0;i<this.assigned_claims.length;i++)
+      {
+        let claim=this.assigned_claims[i]['claim_no'];
+        let ind = this.selected_claim_nos.indexOf(claim);
+        this.selected_claims.splice(ind,1);
+        this.selected_claim_nos.splice(ind,1);
+
+      }
+
+      // this.selected_claims=[];
+      // this.selected_claim_nos=[];
+    }
+    else if(event.target.checked == true)
+    {
+    this.selected_claims.push(this.table_datas[index]);
+    this.selected_claim_nos.push(claim);
+    }
+    else if(event.target.checked == false)
+    {
       let ind = this.selected_claim_nos.indexOf(claim);
       this.selected_claims.splice(ind,1);
       this.selected_claim_nos.splice(ind,1);
 
     }
-
-    // this.selected_claims=[];
-    // this.selected_claim_nos=[];
   }
-else if(event.target.checked == true)
-{
-this.selected_claims.push(this.table_datas[index]);
-this.selected_claim_nos.push(claim);
-}
-else if(event.target.checked == false)
-{
-  let ind = this.selected_claim_nos.indexOf(claim);
-  this.selected_claims.splice(ind,1);
-  this.selected_claim_nos.splice(ind,1);
-
-}
-}
-
-
-public reassigned_selected(event,claim,index)
-{
-
-  if(claim == 'all' && event.target.checked == true )
-  {
-    let reassigned_claims_data = this.reassigned_claims_data;
-
-    let claim_nos=this.selected_claim_nos;
-    let claim_data= this.selected_claims;
-
-    reassigned_claims_data.forEach(function (value) {
-      let keys = value;
-      if(!claim_nos.includes(keys['claim_no']))
-      {
-      claim_nos.push(keys['claim_no']);
-      claim_data.push(keys);
-      }
-      });
-      this.selected_claim_nos=claim_nos;
-      this.selected_claims=claim_data;
-  }
-  else if(claim == 'all' && event.target.checked == false)
+  public reassigned_selected(event,claim,index)
   {
 
-    for(let i=0;i<this.reassigned_claims_data.length;i++)
+    if(claim == 'all' && event.target.checked == true )
     {
-      let claim=this.reassigned_claims_data[i]['claim_no'];
+      let reassigned_claims_data = this.reassigned_claims_data;
+
+      let claim_nos=this.selected_claim_nos;
+      let claim_data= this.selected_claims;
+
+      reassigned_claims_data.forEach(function (value) {
+        let keys = value;
+        if(!claim_nos.includes(keys['claim_no']))
+        {
+        claim_nos.push(keys['claim_no']);
+        claim_data.push(keys);
+        }
+        });
+        this.selected_claim_nos=claim_nos;
+        this.selected_claims=claim_data;
+    }
+    else if(claim == 'all' && event.target.checked == false)
+    {
+
+      for(let i=0;i<this.reassigned_claims_data.length;i++)
+      {
+        let claim=this.reassigned_claims_data[i]['claim_no'];
+        let ind = this.selected_claim_nos.indexOf(claim);
+        this.selected_claims.splice(ind,1);
+        this.selected_claim_nos.splice(ind,1);
+
+      }
+
+      // this.selected_claims=[];
+      // this.selected_claim_nos=[];
+    }
+    else if(event.target.checked == true)
+    {
+    this.selected_claims.push(this.reassigned_claims_data[index]);
+    this.selected_claim_nos.push(claim);
+    }
+    else if(event.target.checked == false)
+    {
       let ind = this.selected_claim_nos.indexOf(claim);
       this.selected_claims.splice(ind,1);
       this.selected_claim_nos.splice(ind,1);
 
     }
-
-    // this.selected_claims=[];
-    // this.selected_claim_nos=[];
   }
-else if(event.target.checked == true)
-{
-this.selected_claims.push(this.reassigned_claims_data[index]);
-this.selected_claim_nos.push(claim);
-}
-else if(event.target.checked == false)
-{
-  let ind = this.selected_claim_nos.indexOf(claim);
-  this.selected_claims.splice(ind,1);
-  this.selected_claim_nos.splice(ind,1);
-
-}
-}
 
 
-public completed_selected(event,claim,index)
-{
-
-  if(claim == 'all' && event.target.checked == true )
-  {
-    let completed_claims_data = this.completed_claims_data;
-
-    let claim_nos=this.selected_claim_nos;
-    let claim_data= this.selected_claims;
-
-    completed_claims_data.forEach(function (value) {
-      let keys = value;
-      if(!claim_nos.includes(keys['claim_no']))
-      {
-      claim_nos.push(keys['claim_no']);
-      claim_data.push(keys);
-      }
-      });
-      this.selected_claim_nos=claim_nos;
-      this.selected_claims=claim_data;
-  }
-  else if(claim == 'all' && event.target.checked == false)
+  public completed_selected(event,claim,index)
   {
 
-    for(let i=0;i<this.completed_claims_data.length;i++)
+    if(claim == 'all' && event.target.checked == true )
     {
-      let claim=this.completed_claims_data[i]['claim_no'];
+      let completed_claims_data = this.completed_claims_data;
+
+      let claim_nos=this.selected_claim_nos;
+      let claim_data= this.selected_claims;
+
+      completed_claims_data.forEach(function (value) {
+        let keys = value;
+        if(!claim_nos.includes(keys['claim_no']))
+        {
+        claim_nos.push(keys['claim_no']);
+        claim_data.push(keys);
+        }
+        });
+        this.selected_claim_nos=claim_nos;
+        this.selected_claims=claim_data;
+    }
+    else if(claim == 'all' && event.target.checked == false)
+    {
+
+      for(let i=0;i<this.completed_claims_data.length;i++)
+      {
+        let claim=this.completed_claims_data[i]['claim_no'];
+        let ind = this.selected_claim_nos.indexOf(claim);
+        this.selected_claims.splice(ind,1);
+        this.selected_claim_nos.splice(ind,1);
+
+      }
+
+      // this.selected_claims=[];
+      // this.selected_claim_nos=[];
+    }
+    else if(event.target.checked == true)
+    {
+    this.selected_claims.push(this.table_datas[index]);
+    this.selected_claim_nos.push(claim);
+    }
+    else if(event.target.checked == false)
+    {
       let ind = this.selected_claim_nos.indexOf(claim);
       this.selected_claims.splice(ind,1);
       this.selected_claim_nos.splice(ind,1);
-
     }
-
-    // this.selected_claims=[];
-    // this.selected_claim_nos=[];
   }
-else if(event.target.checked == true)
-{
-this.selected_claims.push(this.table_datas[index]);
-this.selected_claim_nos.push(claim);
-}
-else if(event.target.checked == false)
-{
-  let ind = this.selected_claim_nos.indexOf(claim);
-  this.selected_claims.splice(ind,1);
-  this.selected_claim_nos.splice(ind,1);
+  summary_total_assigned:Number=0;
+  setSummaryInfo(data){
+    this.summary_total_assigned = data.summary.total_assigned;
+  }
+  getSummary(){
 
-}
-}
-
-summary_total_assigned:Number=0;
-setSummaryInfo(data){
-	this.summary_total_assigned = data.summary.total_assigned;
-
-}
-
-getSummary(){
-
-	 // this.Jarwis.getSummaryDetails(this.setus.getId()).subscribe(
-  //     data  => this.setSummaryInfo(data),
-  //     error => this.handleError(error)
-  //   );
-}
+    // this.Jarwis.getSummaryDetails(this.setus.getId()).subscribe(
+    //     data  => this.setSummaryInfo(data),
+    //     error => this.handleError(error)
+    //   );
+  }
 
   public get_statuscodes()
   {
@@ -2093,19 +2042,19 @@ getSummary(){
   }
 
   //Configuration of Dropdown Search
- config = {
+  config = {
   displayKey:"description",
   search:true,
   limitTo: 1000,
   result:'single'
- }
+  }
 
   ngOnInit() {
     //this.get_insurance();
     this.getSearchResults();
     this.user_role_maintainer();
     this.getSummary();
-    this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null);
+    //this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null);
     this.get_statuscodes();
 
     this.assignedClaimsFind = this.formBuilder.group({
@@ -2219,63 +2168,59 @@ getSummary(){
   }
 
 
-        ngAfterViewInit()
-        {
-          if(this.touch_count == undefined)
-          {
-            this.touch_count=this.notify_service.manual_touch_limit();
-          }
-        }
+  ngAfterViewInit()
+  {
+    if(this.touch_count == undefined)
+    {
+      this.touch_count=this.notify_service.manual_touch_limit();
+    }
+  }
 
-        ngOnDestroy(){
-          // prevent memory leak when component destroyed
-         //this.subscription.unsubscribe();
-          this.response_data.unsubscribe();
-          this.update_monitor.unsubscribe();
-          this.subscription.unsubscribe();
-        }
+  ngOnDestroy(){
+    // prevent memory leak when component destroyed
+    //this.subscription.unsubscribe();
+    this.response_data.unsubscribe();
+    this.update_monitor.unsubscribe();
+    this.subscription.unsubscribe();
+  }
 		//Create Work Order
-
-
-
-
-// public reassign(){
-//      this.Jarwis.getdata(this.selected_claim_nos,this.setus.getId()).subscribe(
-//     data  => this.reassigned_claims(data),
-//     error => this.handleError(error),
-//    )}
-//     reassigned_claims(data){
-//       if(data.status =='success'){
-//         console.log(data.status);
-//        this.toastr.successToastr('Assigned Successfully.','Successfully');
-//       }
-//       else{
-//        this.toastr.errorToastr( 'Some thing went wrong.');
-//       }
-//     }
-public reassign(content){
-  if(this.selected_claim_nos.length==0){
-    this.toastr.errorToastr('Please select Claims');
+  // public reassign(){
+  //      this.Jarwis.getdata(this.selected_claim_nos,this.setus.getId()).subscribe(
+  //     data  => this.reassigned_claims(data),
+  //     error => this.handleError(error),
+  //    )}
+  //     reassigned_claims(data){
+  //       if(data.status =='success'){
+  //         console.log(data.status);
+  //        this.toastr.successToastr('Assigned Successfully.','Successfully');
+  //       }
+  //       else{
+  //        this.toastr.errorToastr( 'Some thing went wrong.');
+  //       }
+  //     }
+  public reassign(content){
+    if(this.selected_claim_nos.length==0){
+      this.toastr.errorToastr('Please select Claims');
+    }
+    else{
+      this.modalService.open(content, { centered: true ,windowClass:'custom-class'}).result.then((result) => {
+        this.closeResult = `${result}`;
+      }, (reason) => {
+        this.closeResult = `${this.getDismissReason()}`;
+      });
+    }
   }
-  else{
-    this.modalService.open(content, { centered: true ,windowClass:'custom-class'}).result.then((result) => {
-      this.closeResult = `${result}`;
-    }, (reason) => {
-      this.closeResult = `${this.getDismissReason()}`;
-    });
-  }
-}
 
- confirm_box(confirmation)
-{
+  confirm_box(confirmation)
+  {
     this.Jarwis.getdata(this.selected_claim_nos,this.setus.getId(),confirmation).subscribe(
       data  => this.reassigned_claims(data),
       error => this.handleError(error)
 
     );
-}
-reassigned_claims(data){
-  if(this.selected_claim_nos.length==0){
+  }
+  reassigned_claims(data){
+    if(this.selected_claim_nos.length==0){
       this.toastr.errorToastr('please select Claims');
     }
     for(let i=0;i<this.selected_claim_nos.length;i++)
@@ -2283,38 +2228,38 @@ reassigned_claims(data){
       var assigned_to=this.selected_claim_nos[i]['assigned_to'];
       var assigned_by=this.selected_claim_nos[i]['assigned_by'];
     }
-      if(data.assigned_to == data.assigned_by)
-      {
-        this.toastr.errorToastr('Unable to Reassign');
-        this.selected_claim_nos=[];
+    if(data.assigned_to == data.assigned_by)
+    {
+      this.toastr.errorToastr('Unable to Reassign');
+      this.selected_claim_nos=[];
 
-      }
-      else{
-        let page_count=15;
-        // console.log("ip",type);
-        let form_type=null;
-        let type='allocated';
-        let page = this.alloc_pages;
-              this.tab_load=true;
-        this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,null,null,null,null,null,null,null,null).subscribe(
-          data  => this.form_table(data,type,form_type),
-          error => this.handleError(error)
-        );
-        this.toastr.successToastr( 'Reassigned Successfully');
-      }
     }
+    else{
+      let page_count=15;
+      // console.log("ip",type);
+      let form_type=null;
+      let type='allocated';
+      let page = this.alloc_pages;
+            this.tab_load=true;
+      this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,null,null,null,null,null,null,null,null).subscribe(
+        data  => this.form_table(data,type,form_type),
+        error => this.handleError(error)
+      );
+      this.toastr.successToastr( 'Reassigned Successfully');
+    }
+  }
 
 
-confirm_boxes(reassign)
-{
-    this.Jarwis.getdata(this.selected_claim_nos,this.setus.getId(),reassign).subscribe(
-      data  => this.reassigned_claims_datas(data),
-      error => this.handleError(error)
+  confirm_boxes(reassign)
+  {
+      this.Jarwis.getdata(this.selected_claim_nos,this.setus.getId(),reassign).subscribe(
+        data  => this.reassigned_claims_datas(data),
+        error => this.handleError(error)
 
-    );
-}
-reassigned_claims_datas(data){
-  if(this.selected_claim_nos.length==0){
+      );
+  }
+  reassigned_claims_datas(data){
+    if(this.selected_claim_nos.length==0){
       this.toastr.errorToastr('please select Claims');
     }
     for(let i=0;i<this.selected_claim_nos.length;i++)
@@ -2322,31 +2267,31 @@ reassigned_claims_datas(data){
       var assigned_to=this.selected_claim_nos[i]['assigned_to'];
       var assigned_by=this.selected_claim_nos[i]['assigned_by'];
     }
-      if(data.assigned_to == data.assigned_by)
-      {
-        this.toastr.errorToastr('Unable to Reassign');
-        this.selected_claim_nos=[];
+    if(data.assigned_to == data.assigned_by)
+    {
+      this.toastr.errorToastr('Unable to Reassign');
+      this.selected_claim_nos=[];
 
-      }
-      else{
-        let page_count=15;
-        // console.log("ip",type);
-        let form_type=null;
-        let type='reallocated';
-        let page = this.realloc_pages;
-              this.tab_load=true;
-        // this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,null,null,'null','null',null,null,null,null).subscribe(
-        //   data  => this.form_table(data,type,form_type),
-        //   error => this.handleError(error)
-        // );
-
-        this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,null,null,null,null,null,null,null,null).subscribe(
-          data  => this.form_table(data,type,form_type),
-          error => this.handleError(error)
-        );
-        this.toastr.successToastr( 'Reassigned Successfully');
-      }
     }
+    else{
+      let page_count=15;
+      // console.log("ip",type);
+      let form_type=null;
+      let type='reallocated';
+      let page = this.realloc_pages;
+            this.tab_load=true;
+      // this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,null,null,'null','null',null,null,null,null).subscribe(
+      //   data  => this.form_table(data,type,form_type),
+      //   error => this.handleError(error)
+      // );
+
+      this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,null,null,null,null,null,null,null,null).subscribe(
+        data  => this.form_table(data,type,form_type),
+        error => this.handleError(error)
+      );
+      this.toastr.successToastr( 'Reassigned Successfully');
+    }
+  }
 
 
   cancel_claims(){
@@ -2514,91 +2459,139 @@ reassigned_claims_datas(data){
       );
     }
 
-claim_data;
-age;
-showAge;
-calculateAge;
+  claim_data;
+  age;
+  showAge;
+  calculateAge;
 
-public handleClaimsTooltip(data){
-  this.claim_data = data.claim_data;
-  this.age = data.claim_data.dob;
+  public handleClaimsTooltip(data){
+    this.claim_data = data.claim_data;
+    this.age = data.claim_data.dob;
 
-  const convertAge = new Date(this.age);
-  const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-  this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-  this.calculateAge = this.showAge;
-  console.log(this.calculateAge);
-}
+    const convertAge = new Date(this.age);
+    const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+    this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+    this.calculateAge = this.showAge;
+    console.log(this.calculateAge);
+  }
 
-public searchClaims;
+  public searchClaims;
 
-public export_excel_files(type, table_name)
-{
-  console.log(table_name);
- if(table_name == 'Assigned_claims'){
-   this.searchClaims = this.assignedClaimsFind.value;
-   console.log(this.searchClaims);
- }else if(table_name == 'Reassigned_claims'){
-   this.searchClaims = this.reassignedClaimsFind.value;
- }else if(table_name == 'Closed_claims'){
-   this.searchClaims = this.closedClaimsFind.value;
- }
+  public export_excel_files(type, table_name)
+  {
+    console.log(table_name);
+  if(table_name == 'Assigned_claims'){
+    this.searchClaims = this.assignedClaimsFind.value;
+    console.log(this.searchClaims);
+  }else if(table_name == 'Reassigned_claims'){
+    this.searchClaims = this.reassignedClaimsFind.value;
+  }else if(table_name == 'Closed_claims'){
+    this.searchClaims = this.closedClaimsFind.value;
+  }
 
- this.Jarwis.fetch_followup_claims_export_data(this.setus.getId(), table_name, this.search, this.searchClaims).subscribe(
-    data  => this.export_handler.create_claim_export_excel(data),
-    error => this.error_handler(error)
+  this.Jarwis.fetch_followup_claims_export_data(this.setus.getId(), table_name, this.search, this.searchClaims).subscribe(
+      data  => this.export_handler.create_claim_export_excel(data),
+      error => this.error_handler(error)
+      );
+  }
+
+  public export_pdf_files(type, table_name)
+  {
+    let filter='all claims';
+    let s_code='adjustment';
+
+    this.Jarwis.fetch_followup_claims_export_data_pdf(this.setus.getId(), table_name).subscribe(
+      data  => this.export_handler.sort_export_data(data,type,'claim'),
+      error => this.error_handler(error)
     );
-}
-
-public export_pdf_files(type, table_name)
-{
-  let filter='all claims';
-  let s_code='adjustment';
-
-  this.Jarwis.fetch_followup_claims_export_data_pdf(this.setus.getId(), table_name).subscribe(
-    data  => this.export_handler.sort_export_data(data,type,'claim'),
-    error => this.error_handler(error)
-  );
-}
-
-export_Excel_handler(){
-}
-
-getSearchResults(): void {
-  this.Jarwis.get_payer_name().subscribe(sr => {
-    this.searchResults = sr['payer_names'];
-    console.log(this.searchResults);
-  });
-}
-searchOnKeyUp(event) {
-  let input = event.target.value;
-  console.log('event.target.value: ' + input);
-  console.log('this.searchResults: ' + this.searchResults);
-  if (input.length > 0) {
-    this.results = this.searchFromArray(this.searchResults, input);
   }
-  else{
-    this.isValueSelected = false;
+
+  export_Excel_handler(){
   }
-}
-searchFromArray(arr, regex) {
-  let matches = [], i;
-  for (i = 0; i < arr.length; i++) {
-    if (arr[i].match(regex)) {
-      matches.push(arr[i]);
+
+  getSearchResults(): void {
+    this.Jarwis.get_payer_name().subscribe(sr => {
+      this.searchResults = sr['payer_names'];
+      console.log(this.searchResults);
+    });
+  }
+  searchFromArray(arr, regex) {
+    let matches = [], i;
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i].match(regex)) {
+        matches.push(arr[i]);
+      }
+    }
+    console.log('matches: ' + matches);
+    return matches;
+  };
+  //For Assigned
+  assignedSearchOnKeyUp(event) {
+    let input = event.target.value;
+    console.log('event.target.value: ' + input);
+    console.log('this.searchResults: ' + this.searchResults);
+    if (input.length > 0) {
+      this.assigned_results = this.searchFromArray(this.searchResults, input);
+    }
+    else{
+      this.assigned_selected_val = null;
+      this.assignedSelected = false;
     }
   }
-  console.log('matches: ' + matches);
-  return matches;
-};
-onselectvalue(value) {
-  if(value !='' || value !=null){
-    this.isValueSelected = true;
-  this.selected_val = value;
+  assignedSelectvalue(value) {
+    if(value !='' || value !=null){
+      this.assignedSelected = true;
+    this.assigned_selected_val = value;
+    }
+    else{
+      this.assigned_selected_val = null;
+      this.assignedSelected = false;
+    }
   }
-  else{
-    this.selected_val = null;
-    this.isValueSelected = false;
+  //For Reassigned
+  reassignedSearchOnKeyUp(event) {
+    let input = event.target.value;
+    console.log('event.target.value: ' + input);
+    console.log('this.searchResults: ' + this.searchResults);
+    if (input.length > 0) {
+      this.reassigned_results = this.searchFromArray(this.searchResults, input);
+    }
+    else{
+      this.reassigned_selected_val = null;
+      this.reassignedSelected = false;
+    }
   }
-}
+  reassignedSelectvalue(value) {
+    if(value !='' || value !=null){
+      this.reassignedSelected = true;
+    this.reassigned_selected_val = value;
+    }
+    else{
+      this.reassigned_selected_val = null;
+      this.reassignedSelected = false;
+    }
+  }
+  //For Closed
+  closedSearchOnKeyUp(event) {
+    let input = event.target.value;
+    console.log('event.target.value: ' + input);
+    console.log('this.searchResults: ' + this.searchResults);
+    if (input.length > 0) {
+      this.closed_results = this.searchFromArray(this.searchResults, input);
+    }
+    else{
+      this.closed_selected_val = null;
+      this.closedSelected = false;
+    }
+  }
+  closedSelectvalue(value) {
+    if(value !='' || value !=null){
+      this.closedSelected = true;
+    this.closed_selected_val = value;
+    }
+    else{
+      this.closed_selected_val = null;
+      this.closedSelected = false;
+    }
+  }
 }
