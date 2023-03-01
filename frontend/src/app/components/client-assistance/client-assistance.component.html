@@ -705,9 +705,9 @@
 
                                                                     <td class="cur-pointer text-center"><span *ngIf="tab_dat.substatuscode==NULL">-Nil-</span><span *ngIf="tab_dat.substatuscode!=NULL">{{tab_dat.substatuscode}}</span></td>
 
-                                                                    <td class="cur-pointer text-right"><span *ngIf="tab_dat.total_charges==NULL">-Nil-</span><span *ngIf="tab_dat.total_charges!=NULL">{{tab_dat.total_charges | number:'1.2-2'}}</span></td>
+                                                                    <td class="cur-pointer text-center"><span *ngIf="tab_dat.total_charges==NULL">-Nil-</span><span *ngIf="tab_dat.total_charges!=NULL">{{tab_dat.total_charges | number:'1.2-2'}}</span></td>
 
-                                                                    <td [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" class="cur-pointer text-right" (mouseover)="tooltip(tab_dat)"><span *ngIf="tab_dat.total_ar==NULL">-Nil-</span><span *ngIf="tab_dat.total_ar!=NULL">{{tab_dat.total_ar | number:'1.2-2'}}</span></td>
+                                                                    <td [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" class="cur-pointer text-center" (mouseover)="tooltip(tab_dat)"><span *ngIf="tab_dat.total_ar==NULL">-Nil-</span><span *ngIf="tab_dat.total_ar!=NULL">{{tab_dat.total_ar | number:'1.2-2'}}</span></td>
 
                                                                     <td class="cur-pointer"><span *ngIf="tab_dat.claim_Status==NULL">-Nil-</span><span *ngIf="tab_dat.claim_Status!=NULL">{{tab_dat.claim_Status}}</span></td>
 

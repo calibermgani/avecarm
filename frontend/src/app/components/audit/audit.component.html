@@ -731,9 +731,9 @@
 
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL">{{x.substatuscode}}</span></td>
 
-                                                               <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
+                                                               <td (mouseover)="tooltip(x)" class="cur-pointer text-center"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
-                                                               <td (mouseover)="tooltip(x)" class="cur-pointer ar-total"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                                               <td (mouseover)="tooltip(x)" class="cur-pointer text-center ar-total"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
 
                                                                <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
@@ -1099,9 +1099,9 @@
 
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL">{{x.substatuscode}}</span></td>
 
-                                                               <td class="cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
+                                                               <td class="cur-pointer text-center" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
-                                                               <td class="cur-pointer ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                                               <td class="cur-pointer text-center ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
 
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="x.claim_Status==NULL">-Nil-</span> <span *ngIf="x.claim_Status!=NULL"></span>{{x.claim_Status}}</td>
 
@@ -1448,9 +1448,9 @@
 
                                                 <td><span *ngIf="x.substatus_code==NULL">-Nil-</span><span *ngIf="x.substatus_code!=NULL" (mouseover)="tooltip(x)">{{x.substatuscode}}</span></td>
 
-                                                <td  class="cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
+                                                <td  class="cur-pointer text-center" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
-                                                <td  class="cur-pointer ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                                <td  class="cur-pointer text-center ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
 
                                                 <td><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 

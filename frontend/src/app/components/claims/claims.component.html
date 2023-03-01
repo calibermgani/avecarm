@@ -340,13 +340,13 @@
 
                                                    <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td>
 
-                                                   <td>
+                                                   <td class="text-center">
                                                       <span *ngIf="x.total_charges == NULL" >-Nil-</span>
                                                       <span *ngIf="x.total_charges != NULL " data-toggle="modal" class="cur-pointer" (mouseover)="tooltip(x)">{{x.total_charges | number:'1.2-2'}}</span>
                                                    </td>
 
 
-                                                   <td  data-toggle="modal" class="cur-pointer ar-total" (mouseover)="tooltip(x)">
+                                                   <td  data-toggle="modal" class="cur-pointer text-center ar-total" (mouseover)="tooltip(x)">
                                                       <span *ngIf="x.total_ar == NULL"></span>
                                                       <span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" *ngIf="x.total_ar != NULL">{{x.total_ar | number:'1.2-2'}}</span></td>
 
@@ -2363,9 +2363,9 @@
 
                                                                <td><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                                               <td class="cur-pointer text-right" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
+                                                               <td class="cur-pointer text-center" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
-                                                               <td class="cur-pointer text-right ar-total" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                                               <td class="cur-pointer text-center ar-total" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
 
                                                                <td class="cur-pointer" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
@@ -2700,10 +2700,10 @@
 
                                                    <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                                   <td data-toggle="modal" class="cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
+                                                   <td data-toggle="modal" class="cur-pointer text-center" (mouseover)="tooltip(x)"><span *ngIf="x.total_charges==NULL">-Nil-</span><span *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
 
-                                                   <td data-toggle="modal" class="cur-pointer ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                                   <td data-toggle="modal" class="cur-pointer text-center ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
 
                                                    <td data-toggle="modal" class="cur-pointer" (mouseover)="tooltip(x)"><span *ngIf="x.claim_Status==NULL">-Nil-</span><span *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
@@ -3085,13 +3085,13 @@
 
                                                    <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                                   <td>
+                                                   <td class="text-center">
                                                       <span *ngIf="x.total_charges == NULL" >-Nil-</span>
                                                       <span *ngIf="x.total_charges != NULL " data-toggle="modal" class="cur-pointer" (mouseover)="tooltip(x)">{{x.total_charges | number:'1.2-2'}}</span>
                                                    </td>
 
 
-                                                   <td  data-toggle="modal" class="cur-pointer ar-total" (mouseover)="tooltip(x)">
+                                                   <td  data-toggle="modal" class="cur-pointer text-center ar-total" (mouseover)="tooltip(x)">
                                                       <span *ngIf="x.total_ar == NULL"></span>
                                                       <span [tooltip]="TotalAr" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" *ngIf="x.total_ar != NULL">{{x.total_ar | number:'1.2-2'}}</span></td>
 
