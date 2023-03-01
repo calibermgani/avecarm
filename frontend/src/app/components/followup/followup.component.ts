@@ -1141,7 +1141,7 @@ public editnotes(type,value,id)
       this.claimNotes.patchValue({
         claim_notes: this.editnote_value,
       });
-    } 
+    }
     this.initial_edit=false;
   }
 
@@ -1267,7 +1267,7 @@ public clear_notes()
 public send_calim_det(type)
 {
   console.log(type);
-  
+
   if(this.main_tab==true)
   {
     console.log(this.main_tab);
@@ -2126,13 +2126,15 @@ getSummary(){
       total_ar: new FormControl(null, [
         Validators.required,
         Validators.pattern(this.decimal_pattern),
-      ]),      
+      ]),
       responsibility: [],
       rendering_provider:[],
       payer_name:[],
       date:[],
       status_code: [],
       sub_status_code: [],
+      bill_submit_date: [],
+      denial_code: [],
     });
 
     this.reassignedClaimsFind = this.formBuilder.group({
@@ -2153,13 +2155,15 @@ getSummary(){
       total_ar: new FormControl(null, [
         Validators.required,
         Validators.pattern(this.decimal_pattern),
-      ]),      
+      ]),
       responsibility: [],
       rendering_provider:[],
       payer_name:[],
       date:[],
       status_code: [],
       sub_status_code: [],
+      bill_submit_date: [],
+      denial_code: [],
     });
 
     this.closedClaimsFind = this.formBuilder.group({
@@ -2180,13 +2184,15 @@ getSummary(){
       total_ar: new FormControl(null, [
         Validators.required,
         Validators.pattern(this.decimal_pattern),
-      ]),      
+      ]),
       responsibility: [],
       rendering_provider:[],
       payer_name:[],
       date:[],
       status_code: [],
       sub_status_code: [],
+      bill_submit_date: [],
+      denial_code: [],
     });
 
     this.processNotes = new FormGroup({
@@ -2573,7 +2579,7 @@ searchOnKeyUp(event) {
   }
   else{
     this.isValueSelected = false;
-  }    
+  }
 }
 searchFromArray(arr, regex) {
   let matches = [], i;
@@ -2591,7 +2597,7 @@ onselectvalue(value) {
   this.selected_val = value;
   }
   else{
-    this.selected_val = null;      
+    this.selected_val = null;
     this.isValueSelected = false;
   }
 }
