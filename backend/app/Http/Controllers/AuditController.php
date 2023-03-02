@@ -1619,10 +1619,13 @@ class AuditController extends Controller
          *  Date : 29/12/2022
          *  Purpose : To get Status and Sub Status Code
          */
-        $getStatusCode = Statuscode::where('id', $claim_data->status_code)->first();
-        $getSubStatusCode = Sub_statuscode::where('id', $claim_data->substatus_code)->first();
-        $op_data['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
-        $op_data['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+        foreach ($claim_data as $key => $claim_datas) {
+          $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
+          $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
+
+          $getSubStatusCode = Sub_statuscode::where('id', $claim_datas['substatus_code'])->first();
+          $claim_data[$key]['substatuscode'] = $getSubStatusCode->status_code ? $getSubStatusCode->status_code : 'NA';
+        }
         /** End */
 
         $current_total = $claim_data->count();
