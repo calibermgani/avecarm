@@ -81,6 +81,7 @@ class CreateworkorderController extends Controller
             $search_denial_code = $assignSearchValue['denial_code'];
             $search_bill_submit_date = $assignSearchValue['bill_submit_date'];
             $search_payer_name = $assignSearchValue['payer_name'];
+            $search_date = $assignSearchValue['date'];
         }
 
         if($reassignSearchValue != null){
@@ -101,6 +102,7 @@ class CreateworkorderController extends Controller
             $search_denial_code = $reassignSearchValue['denial_code'];
             $search_bill_submit_date = $reassignSearchValue['bill_submit_date'];
             $search_payer_name = $reassignSearchValue['payer_name'];
+            $search_date = $reassignSearchValue['date'];
         }
 
         if($closedSearchValue != null){
@@ -121,6 +123,7 @@ class CreateworkorderController extends Controller
             $search_denial_code = $closedSearchValue['denial_code'];
             $search_bill_submit_date = $closedSearchValue['bill_submit_date'];
             $search_payer_name = $closedSearchValue['payer_name'];
+            $search_date = $closedSearchValue['date'];
         }
 
         $search = $request->get('search');
@@ -533,6 +536,61 @@ class CreateworkorderController extends Controller
 
                         $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
                       } 
+
+                }
+
+                if(!empty($search_date) && $search_date['startDate'] != null){
+
+                  $closed_sart_date = date('Y-m-d', strtotime($search_date['startDate']));
+                  $closed_end_date = date('Y-m-d', strtotime($search_date['endDate']));
+
+                  if($closed_sart_date == $closed_end_date){
+                    $created_start_date = date('Y-m-d', strtotime($search_date['startDate']. "+ 1 day"));
+                    $created_end_date = date('Y-m-d', strtotime($search_date['endDate']. "+ 1 day"));
+                  }elseif($closed_sart_date != $closed_end_date){
+                    $created_start_date = date('Y-m-d', strtotime($search_date['startDate']. "+ 1 day"));
+                    $created_end_date = date('Y-m-d', strtotime($search_date['endDate']));
+                  }
+            
+                  if($sort_data == null && $sort_type == null){
+                    $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)-> offset($skip) ->limit($end);
+                    $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                    $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                  }
+
+                  if($sort_data == 'null' && $sort_type == 'null'  ){
+                    $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)-> offset($skip) ->limit($end);
+                    $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                    $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                  }
+
+                  if($sort_type != 'null' && $sort_type == null && empty($sorting_name)){
+                    $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)-> offset($skip) ->limit($end);
+                    $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                    $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                  }
+
+                  if($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
+                    $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'asc')-> offset($skip) ->limit($end);
+                    $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                    $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+
+                  }else if($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null){
+                    $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'desc')-> offset($skip) ->limit($end);
+                    $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                    $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                  } 
+
+                  if($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)){
+                    $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sorting_name, 'asc')-> offset($skip) ->limit($end);
+                    $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                    $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+
+                  }else if($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)){
+                    $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sorting_name, 'desc')-> offset($skip) ->limit($end);
+                    $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                    $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+                  } 
 
                 }
 
