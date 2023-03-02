@@ -3011,21 +3011,21 @@ class AuditController extends Controller
 
       foreach ($claim_data as $key => $value) {
 
-        $claim_data[$key]['created_ats'] = date('m/d/Y', strtotime($claim_data[$key]['created_ats']));
+        // $claim_data[$key]['created_ats'] = date('m/d/Y', strtotime($claim_data[$key]['created_ats']));
 
-        $dos = strtotime($claim_data[$key]['dos']);
+        // $dos = strtotime($claim_data[$key]['dos']);
 
-        if (!empty($dos) && $dos != 0000 - 00 - 00 && $dos != 01 - 01 - 1970) {
-          $claim_data[$key]['dos'] = date('m-d-Y', $dos);
-        }
+        // if (!empty($dos) && $dos != 0000 - 00 - 00 && $dos != 01 - 01 - 1970) {
+        //   $claim_data[$key]['dos'] = date('m-d-Y', $dos);
+        // }
 
-        if ($dos == 0000 - 00 - 00) {
-          $claim_data[$key]['dos'] = 01 - 01 - 1970;
-        }
+        // if ($dos == 0000 - 00 - 00) {
+        //   $claim_data[$key]['dos'] = 01 - 01 - 1970;
+        // }
 
-        if ($dos == 01 - 01 - 1970) {
-          $claim_data[$key]['dos'] = 01 - 01 - 1970;
-        }
+        // if ($dos == 01 - 01 - 1970) {
+        //   $claim_data[$key]['dos'] = 01 - 01 - 1970;
+        // }
 
         $dob = $claim_data[$key]['dos'];
 
