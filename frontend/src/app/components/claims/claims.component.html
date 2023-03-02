@@ -2464,8 +2464,8 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
                                                    <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                   <div *ngIf="(createClaimsFind.controls['total_ar'].touched || submitted)">
-                                                      <div *ngIf="createClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
+                                                   <div *ngIf="(closedClaimsFind.controls['total_ar'].touched || submitted)">
+                                                      <div *ngIf="closedClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                          please provide correct format
                                                       </div>
                                                    </div>
@@ -2816,8 +2816,8 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
                                                   <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                   <div *ngIf="(createClaimsFind.controls['total_ar'].touched || submitted)">
-                                                      <div *ngIf="createClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
+                                                   <div *ngIf="(allClaimsFind.controls['total_ar'].touched || submitted)">
+                                                      <div *ngIf="allClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                          please provide correct format
                                                       </div>
                                                    </div>

@@ -57,7 +57,7 @@ export class ClientAssistanceComponent implements OnInit {
   isopend=true;
   subscription : Subscription;
   selectedAge = null;
-  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
+  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   select_date:any;
   public status_codes_data:Array<any> =[];
   public sub_status_codes_data:string[];

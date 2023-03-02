@@ -33,6 +33,20 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
   selectedError:any;
   parentId:any;
 
+  assigned_results: any[] = [];  
+  reassigned_results: any[] = [];
+  closed_results: any[] = [];
+  auditQueue_results: any[] = [];
+  searchResults: any[] = [];
+  assignedSelected:boolean = false;
+  assigned_selected_val:any = null;
+  reassignedSelected:boolean = false;
+  reassigned_selected_val:any = null;
+  closedSelected:boolean = false;
+  closed_selected_val:any = null;
+  auditQueueSelected:boolean = false;
+  auditQueue_selected_val:any = null;
+
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
   public status_codes_data:Array<any> =[];
@@ -54,7 +68,11 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
   selectedAge = null;
   auditselectedAge = null;
   closedselectedAge = null;
-  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 }];
+  assigned_submit_date:any;
+  audit_submit_date:any;
+  closed_submit_date:any;
+  reassigned_submit_date:any;
+  age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
 
   ranges: any = {
@@ -1509,7 +1527,7 @@ assign_sub_error_codes(data){
       this.submitted=true;
 
       this.handle_notes_opt();
-      // console.log("QC",this.rc_et_data);
+      console.log("QC",this.rc_et_data);
       this.qc_notes_data.push({notes:this.qcNotes.value['qc_notes'],id:claim_id['claim_no'],notes_opt:this.rc_et_data});
       this.qc_notes_data_list.push(claim_id['claim_no']);
       let notes_det={notes:this.qcNotes.value['qc_notes'],notes_opt:this.rc_et_data};
@@ -2770,10 +2788,7 @@ graphStatus()
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(this.decimal_pattern),
-      ]),
+      total_ar: new FormControl(null, [Validators.required, Validators.pattern(this.decimal_pattern),]),
       status_code: [],
       sub_status_code: [],
       rendering_provider:[],
@@ -2798,10 +2813,7 @@ graphStatus()
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(this.decimal_pattern),
-      ]),
+      total_ar: new FormControl(null, [Validators.required, Validators.pattern(this.decimal_pattern),]),
       status_code: [],
       sub_status_code: [],
       rendering_provider:[],
@@ -2827,10 +2839,7 @@ graphStatus()
       acc_no: [],
       patient_name: [],
       total_charge: [],
-      total_ar: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(this.decimal_pattern),
-      ]),
+      total_ar: new FormControl(null, [Validators.required, Validators.pattern(this.decimal_pattern),]),
       status_code: [],
       sub_status_code: [],
       rendering_provider:[],
@@ -2843,6 +2852,8 @@ graphStatus()
       sec_pol_id: [],
       ter_ins_name: [],
       ter_pol_id: [],
+      bill_submit_date: [],
+      denial_code: []
     });
 
     this.workOrderFind = this.formBuilder.group({
@@ -2853,47 +2864,27 @@ graphStatus()
     });
 
     this.processNotes = new FormGroup({
-      processnotes: new FormControl('', [
-        Validators.required
-      ])
+      processnotes: new FormControl('', [Validators.required])
     });
     this.claimNotes = new FormGroup({
-      claim_notes: new FormControl('', [
-        Validators.required
-        ])
-        });
+      claim_notes: new FormControl('', [Validators.required])
+    });
     this.qcNotes = new FormGroup({
-      qc_notes: new FormControl('', [
-        Validators.required
-        ]),
-        root_cause: new FormControl(null),
-        error_type: new FormControl('', [
-            Validators.required
-            ]),
-            error_parameter:new FormControl('',[
-              Validators.required
-              ]),
-            error_sub_parameter:new FormControl('',[
-              Validators.required
-              ]),
-              fyi_parameter:new FormControl(''),
-              fyi_sub_parameter:new FormControl('')
-        });
+      qc_notes: new FormControl('', [Validators.required]),
+      root_cause: new FormControl(null),
+      error_type: new FormControl('', [Validators.required]),
+      error_parameter:new FormControl('',[Validators.required]),
+      error_sub_parameter:new FormControl('',[Validators.required]),
+      fyi_parameter:new FormControl('',[Validators.required]),
+      fyi_sub_parameter:new FormControl('',[Validators.required])
+    });
 
 
 this.workOrder = new FormGroup({
-  workorder_name: new FormControl('', [
-Validators.required
-]),
-due_date: new FormControl('', [
-  Validators.required
-]),
-priority: new FormControl('', [
-  Validators.required
-]),
-wo_notes: new FormControl('', [
-  Validators.required
-])
+  workorder_name: new FormControl('', [Validators.required]),
+  due_date: new FormControl('', [Validators.required]),
+  priority: new FormControl('', [Validators.required]),
+  wo_notes: new FormControl('', [Validators.required])
 });
 
 const debouncetime = pipe(debounceTime(700));
@@ -2908,10 +2899,7 @@ this.filter_option.valueChanges
 );
 this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
   this.touch_count = message });
-
   this.graphStatus();
-
-
 }
 
 ngAfterViewInit()
@@ -2923,7 +2911,7 @@ ngAfterViewInit()
   if(this.touch_count == undefined)
   {
     this.touch_count=this.notify_service.manual_touch_limit();
-  }
+  }  
 }
 
 ngOnDestroy(){
@@ -2992,6 +2980,44 @@ selectChange(event){
  this.selectedError = event.description;
 console.log(this.selectedValue);
 console.log(this.selectedError);
+if(event.description == 'No Error' || event.description=='Clarification'){
+  this.qcNotes.controls.error_parameter.clearValidators();
+  this.qcNotes.controls.error_parameter.setValidators(null);
+  this.qcNotes.controls.error_parameter.updateValueAndValidity();
+
+  this.qcNotes.controls.error_sub_parameter.clearValidators();  
+  this.qcNotes.controls.error_sub_parameter.setValidators(null);  
+  this.qcNotes.controls.error_sub_parameter.updateValueAndValidity();
+
+  this.qcNotes.controls.fyi_parameter.clearValidators();
+  this.qcNotes.controls.fyi_parameter.setValidators(null);
+  this.qcNotes.controls.fyi_parameter.updateValueAndValidity();
+
+  this.qcNotes.controls.fyi_sub_parameter.clearValidators();  
+  this.qcNotes.controls.fyi_sub_parameter.setValidators(null);  
+  this.qcNotes.controls.fyi_sub_parameter.updateValueAndValidity();
+
+  this.qcNotes.valid;
+}
+else if(event.description=='FYI'){
+  this.qcNotes.controls.error_parameter.clearValidators();
+  this.qcNotes.controls.error_parameter.setValidators(null);
+  this.qcNotes.controls.error_parameter.updateValueAndValidity();
+
+  this.qcNotes.controls.error_sub_parameter.clearValidators();  
+  this.qcNotes.controls.error_sub_parameter.setValidators(null);  
+  this.qcNotes.controls.error_sub_parameter.updateValueAndValidity();
+}
+else{
+  this.qcNotes.controls.fyi_parameter.clearValidators();
+  this.qcNotes.controls.fyi_parameter.setValidators(null);
+  this.qcNotes.controls.fyi_parameter.updateValueAndValidity();
+
+  this.qcNotes.controls.fyi_sub_parameter.clearValidators();  
+  this.qcNotes.controls.fyi_sub_parameter.setValidators(null);  
+  this.qcNotes.controls.fyi_sub_parameter.updateValueAndValidity();
+}
+console.log(this.qcNotes.value);
 this.get_error_param_codes();
 }
 
@@ -3369,5 +3395,108 @@ reassigned_claims_datas(data){
       // this.assigned_claims_details=[];
       // this.assign_claims.reset();
     //}
-   }
+
+
+    getSearchResults(): void {
+      this.Jarwis.get_payer_name().subscribe(sr => {
+        this.searchResults = sr['payer_names'];
+      });
+    }  
+    searchFromArray(arr, regex) {
+      let matches = [], i;
+      for (i = 0; i < arr.length; i++) {
+        if (arr[i].match(regex)) {
+          matches.push(arr[i]);
+        }
+      }
+      return matches;
+    };
+    //For AuditQueue
+    auditQueueSearchOnKeyUp(event) {
+      let input = event.target.value;
+      if (input.length > 0) {
+        this.auditQueue_results = this.searchFromArray(this.searchResults, input);
+      }
+      else{
+        this.auditQueue_selected_val = null;
+        this.auditQueueSelected = false;
+      }    
+    }
+    auditQueueSelectvalue(value) {
+      if(value !='' || value !=null){
+        this.auditQueueSelected = true;
+        this.auditQueue_selected_val = value;
+      }
+      else{
+        this.auditQueue_selected_val = null;      
+        this.auditQueueSelected = false;
+      }
+    }
+
+    //For AssignedClaim
+    assignedSearchOnKeyUp(event) {
+      let input = event.target.value;
+      if (input.length > 0) {
+        this.assigned_results = this.searchFromArray(this.searchResults, input);
+      }
+      else{
+        this.assigned_selected_val = null;
+        this.assignedSelected = false;
+      }    
+    }
+    assignedSelectvalue(value) {
+      if(value !='' || value !=null){
+        this.assignedSelected = true;
+      this.assigned_selected_val = value;
+      }
+      else{
+        this.assigned_selected_val = null;      
+        this.assignedSelected = false;
+      }
+    }
+  
+    //For ReAssignedClaim
+    reassignedSearchOnKeyUp(event) {
+      let input = event.target.value;
+      if (input.length > 0) {
+        this.reassigned_results = this.searchFromArray(this.searchResults, input);
+      }
+      else{
+        this.reassigned_selected_val = null;
+        this.reassignedSelected = false;
+      }    
+    }
+    reassignedSelectvalue(value) {
+      if(value !='' || value !=null){
+        this.reassignedSelected = true;
+        this.reassigned_selected_val = value;
+      }
+      else{
+        this.reassigned_selected_val = null;      
+        this.reassignedSelected = false;
+      }
+    }
+  
+    //For ClosedClaim
+    closedSearchOnKeyUp(event) {
+      let input = event.target.value;
+      if (input.length > 0) {
+        this.closed_results = this.searchFromArray(this.searchResults, input);
+      }
+      else{
+        this.closed_selected_val = null;
+        this.closedSelected = false;
+      }    
+    }
+    closedSelectvalue(value) {
+      if(value !='' || value !=null){
+        this.closedSelected = true;
+      this.closed_selected_val = value;
+      }
+      else{
+        this.closed_selected_val = null;      
+        this.closedSelected = false;
+      }
+    }    
+  }
 

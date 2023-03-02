@@ -526,6 +526,15 @@
                                                    <label>Responsibility</label>
                                                    <input type="text" class="form-control" formControlName="responsibility">
                                                 </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Payer Name</label>                                                   
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="closed_selected_val" (keyup)="closedSearchOnKeyUp($event)" list="SearchResults">
+                                                   <div *ngIf="(closedSelected == false) && (closed_selected_val != '')">  
+                                                      <div *ngFor="let res of closed_results">  
+                                                          <a (click)="closedSelectvalue(res)">{{res}}</a>  
+                                                      </div>             
+                                                   </div>
+                                                </div>
                                              </div>
                                              <!-- <div [ngSwitch]="closedWork">
                                                 <div *ngSwitchCase="'primary'">
@@ -646,7 +655,7 @@
                                                          <thead>
                                                             <tr>
                                                               <!--  <th style="width:1%">  <input type="checkbox" style="margin-top:0px;" [checked]="check_all[pages]==true" (click)="closed_selected($event,'all','all');check_all_assign(pages,$event)" title="Select All"></th> -->
-                                                               <th></th>
+                                                               <!-- <th></th> -->
 
                                                                <th (click)="closed_order_list('completed','claim_no','null','null')" class="font600  line-height-24">Claim No <i class="fa fa-fw fa-sort"></i ></th>
 
@@ -661,6 +670,8 @@
                                                                <th (click)="closed_order_list('completed','rendering_prov','null','null')" class="font600 line-height-24">Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <th (click)="closed_order_list('completed','responsibility','null','null')" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click)="closed_order_list('completed','billed_submit_date','null','null')" class="font600 line-height-24">BillSubmit Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click)="closed_order_list('completed','denial_code','null','null')" class="font600 line-height-24">Denial Code<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <!-- <th (click)="closed_order_list('completed','prim_ins_name','null','null')" class="font600 line-height-24">Primary Insurance <i class="fa fa-fw fa-sort"></i></th>
 
@@ -698,13 +709,13 @@
                                                                <!-- <td *ngIf="x.touch < touch_count" title="Touch Count" ><span class="ar" (mouseover)="tooltip(x)">{{x.touch}}</span></td>
                                                                <td *ngIf="x.touch >= touch_count" title="Touch Count" (mouseover)="tooltip(x)"><span class="ar-red">{{x.touch}}</span></td> -->
 
-                                                               <ng-template [ngIf]="x.touch < touch_count" [ngIfElse]="second"><td title="Touch Count"><span class="ar">{{x.touch}}</span></td></ng-template>
+                                                               <!-- <ng-template [ngIf]="x.touch < touch_count" [ngIfElse]="second"><td title="Touch Count"><span class="ar">{{x.touch}}</span></td></ng-template>
                                                                <ng-template #second>
                                                                  <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count"><span class="ar-red">{{x.touch}}</span></td></ng-template>
                                                                </ng-template>
                                                                <ng-template #third>
                                                                  <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
-                                                               </ng-template>
+                                                               </ng-template> -->
 
                                                                <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
 
@@ -714,12 +725,13 @@
 
                                                                <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.acct_no==NULL">-Nil-</span><span *ngIf="x.acct_no!=NULL">{{x.acct_no}}</span></span></td>
 
-                                                               <td class="cur-pointer" (click)="open(claimpage);note_refresh();
-                                                               claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.patient_name==NULL">-Nil-</span><span *ngIf="x.patient_name!=NULL">{{x.patient_name}}</span></span></td>
+                                                               <td class="cur-pointer" (click)="open(claimpage);note_refresh();claimslection(x);" (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.patient_name==NULL">-Nil-</span><span *ngIf="x.patient_name!=NULL">{{x.patient_name}}</span></span></td>
 
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
 
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.billed_submit_date==NULL || x.billed_submit_date==''">-Nil-</span><span *ngIf="x.billed_submit_date!=NULL || x.billed_submit_date!=''">{{x.billed_submit_date}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.denial_code==NULL || x.denial_code==''">-Nil-</span><span *ngIf="x.denial_code!=NULL || x.denial_code!=''">{{x.denial_code}}</span></td>
 
                                                                <!-- <td (mouseover)="tooltip(x)" class="cur-pointer"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.prim_ins_name==NULL">-Nil-</span><span *ngIf="x.prim_ins_name!=NULL">{{x.prim_ins_name}}</span></span></td>
 
@@ -878,13 +890,22 @@
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                   <label>Billed/Last Submit Date</label>
-                                                  <input type="text" class="form-control" ngxDaterangepickerMd formControlName="bill_submit_date" [(ngModel)]="submit_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                  <input type="text" class="form-control" ngxDaterangepickerMd formControlName="bill_submit_date" [(ngModel)]="assigned_submit_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                </div>
                                              </div>
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                   <label>Denial Code</label>
                                                   <input type="text" class="form-control" formControlName="denial_code">
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Payer Name</label>                                                   
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="assigned_selected_val" (keyup)="assignedSearchOnKeyUp($event)" list="SearchResults">
+                                                   <div *ngIf="(assignedSelected == false) && (assigned_selected_val != '')">  
+                                                      <div *ngFor="let res of assigned_results">  
+                                                          <a (click)="assignedSelectvalue(res)">{{res}}</a>  
+                                                      </div>             
+                                                   </div>
                                                 </div>
                                              </div>
                                              <!-- <div [ngSwitch]="assigned">
@@ -1029,6 +1050,8 @@
                                                                <th (click)="assigned_order_list('allocated','rendering_prov','null','null')" class="font600 line-height-24">Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <th (click)="assigned_order_list('allocated','responsibility','null','null')" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click)="assigned_order_list('allocated','billed_submit_date','null','null')" class="font600 line-height-24">BillSubmit Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click)="assigned_order_list('allocated','denial_code','null','null')" class="font600 line-height-24">Denial Code<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <!-- <th (click)="assigned_order_list('allocated','prim_ins_name','null','null')" class="font600 line-height-24">Primary Insurance <i class="fa fa-fw fa-sort"></i></th>
 
@@ -1088,6 +1111,8 @@
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
 
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.billed_submit_date==NULL || x.billed_submit_date==''">-Nil-</span><span *ngIf="x.billed_submit_date!=NULL || x.billed_submit_date!=''">{{x.billed_submit_date}}</span></td>
+                                                               <td (mouseover)="tooltip(x)"><span *ngIf="x.denial_code==NULL || x.denial_code==''">-Nil-</span><span *ngIf="x.denial_code!=NULL || x.denial_code!=''">{{x.denial_code}}</span></td>
 
                                                                <!-- <td class="cur-pointer" (mouseover)="tooltip(x)"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.prim_ins_name==NULL">-Nil-</span><span *ngIf="x.prim_ins_name!=NULL">{{x.prim_ins_name}}</span></span></td>
 
@@ -1233,14 +1258,23 @@
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                   <label>Billed/Last Submit Date</label>
-                                                  <input type="text" class="form-control" ngxDaterangepickerMd formControlName="bill_submit_date" [(ngModel)]="submit_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                  <input type="text" class="form-control" ngxDaterangepickerMd formControlName="bill_submit_date" [(ngModel)]="audit_submit_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                </div>
                                              </div>
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                                              <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                 <label>Denial Code</label>
                                                 <input type="text" class="form-control" formControlName="denial_code">
-                                              </div>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
+                                                   <label>Payer Name</label>                                                   
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="auditQueueSearchOnKeyUp($event)" list="SearchResults">
+                                                   <div *ngIf="(auditQueueSelected == false) && (auditQueue_selected_val != '')">  
+                                                      <div *ngFor="let res of auditQueue_results">  
+                                                          <a (click)="auditQueueSelectvalue(res)">{{res}}</a>  
+                                                      </div>             
+                                                   </div>
+                                                </div>
                                              </div>
                                                 <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -1387,6 +1421,8 @@
                                                 <th (click)="order_list('wo','rendering_prov','null','null')" class="font600 line-height-24">Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
 
                                                 <th (click)="order_list('wo','responsibility','null','null')" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
+                                                <th (click)="order_list('wo','billed_submit_date','null','null')" class="font600 line-height-24">BillSubmit Date<i class="fa fa-fw fa-sort"></i></th>
+                                                <th (click)="order_list('wo','denial_code','null','null')" class="font600 line-height-24">Denial Code<i class="fa fa-fw fa-sort"></i></th>
 
                                                 <!-- <th (click)="order_list('wo','prim_ins_name','null','null')" class="font600 line-height-24">Primary Insurance <i class="fa fa-fw fa-sort"></i></th>
 
@@ -1421,8 +1457,13 @@
 
                                                 <td (mouseover)="tooltip(x)"><input type="checkbox" [checked]="selected_claim_nos.includes(x.claim_no)" style="margin-top:0px;" (click)="selected($event,x.claim_no,i)" ></td>
 
-                                                <td *ngIf="x.touch < touch_count" title="Touch Count" (mouseover)="tooltip(x)"><span class="ar">{{x.touch}}</span></td>
-                                                <td *ngIf="x.touch >= touch_count" title="Touch Count"><span class="ar-red">{{x.touch}}</span></td>
+                                                <ng-template [ngIf]="x.touch < touch_count" [ngIfElse]="second"><td title="Touch Count"><span class="ar">{{x.touch}}</span></td></ng-template>
+                                                <ng-template #second>
+                                                   <ng-template [ngIf]="x.touch >= touch_count" [ngIfElse]="third"><td title="Touch Count"><span class="ar-red">{{x.touch}}</span></td></ng-template>
+                                                </ng-template>
+                                                <ng-template #third>
+                                                   <ng-template [ngIf]="!x.touch"><td title="Touch Count"><span class="ar"></span></td></ng-template>
+                                                </ng-template>
 
                                                 <td class="cur-pointer" (click)="get_audit_codes();open(claimpage);claimslection(x);" (mouseover)="tooltip(x)"><span tooltip-append-to-body="true" [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions"><span *ngIf="x.claim_no==NULL">-Nil-</span><span *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
 
@@ -1437,6 +1478,8 @@
                                                 <td><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span *ngIf="x.rendering_prov!=NULL" (mouseover)="tooltip(x)">{{x.rendering_prov}}</span></td>
 
                                                 <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL" (mouseover)="tooltip(x)">{{x.responsibility}}</span></td>
+                                                <td><span *ngIf="x.billed_submit_date==NULL || x.billed_submit_date==''">-Nil-</span><span *ngIf="x.billed_submit_date!=NULL ||x.billed_submit_date!=''" (mouseover)="tooltip(x)">{{x.billed_submit_date}}</span></td>
+                                                <td><span *ngIf="x.denial_code==NULL || x.denial_code==''">-Nil-</span><span *ngIf="x.denial_code!=NULL || x.denial_code!=''" (mouseover)="tooltip(x)">{{x.denial_code}}</span></td>
 
                                                 <!-- <td (mouseover)="tooltip(x)"><span tooltip-append-to-body="true" [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions"><span *ngIf="x.prim_ins_name==NULL">-Nil-</span><span *ngIf="x.prim_ins_name!=NULL">{{x.prim_ins_name}}</span></span></td>
 
@@ -2698,8 +2741,7 @@
             <div class="box-body no-padding">
                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                   <div class="form-group ">
-                     <textarea class="form-control text-space" formControlName="qc_notes" placeholder="Enter your notes.."  value="{{editnote_value}}" style="height:90px;"
-                        [ngClass]="{ 'is-invalid': submitted && v.qc_notes.errors }" ></textarea>
+                     <textarea class="form-control text-space" formControlName="qc_notes" placeholder="Enter your notes.."  value="{{editnote_value}}" style="height:90px;"></textarea>
                      <div *ngIf="submitted && v.qc_notes.errors" class="invalid-feedback">
                         <div *ngIf="v.qc_notes.errors.required">QC Notes is required</div>
                      </div>
@@ -2775,12 +2817,18 @@
                         <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
                            <label>Parameter</label>
                            <ngx-select-dropdown formControlName="fyi_parameter" [config]="config" [options]="fyi_param_list" (ngModelChange)="selectSubChange($event)" (click)="get_error_sub_param_codes();"></ngx-select-dropdown>
+                           <div *ngIf="submitted && v.fyi_parameter.errors" class="invalid-feedback">
+                              <div *ngIf="v.fyi_parameter.errors.required">Choose FYI Error Parameter</div>
+                           </div>
                         </div>
                      </div>
                      <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                         <div class="form-group" style="margin-bottom: 10px;margin-left: 0px;">
                            <label>Sub Parameter</label>
                            <ngx-select-dropdown formControlName="fyi_sub_parameter" [config]="config" [options]="error_sub_param_list"></ngx-select-dropdown>
+                           <div *ngIf="submitted && v.fyi_sub_parameter.errors" class="invalid-feedback">
+                              <div *ngIf="v.fyi_sub_parameter.errors.required">Choose FYI Sub Parameter</div>
+                           </div>
                         </div>
                      </div>
                   </div>

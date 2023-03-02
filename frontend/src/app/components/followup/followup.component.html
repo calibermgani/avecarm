@@ -1561,8 +1561,8 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
                                                    <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                   <div *ngIf="(assignedClaimsFind.controls['total_ar'].touched || submitted)">
-                                                      <div *ngIf="assignedClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
+                                                   <div *ngIf="(reassignedClaimsFind.controls['total_ar'].touched || submitted)">
+                                                      <div *ngIf="reassignedClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                          please provide correct format
                                                       </div>
                                                    </div>
@@ -1669,6 +1669,8 @@
                                                                <th (click) = "reassigned_order_list('reallocated','rendering_prov', 'null', 'null')" class="font600 line-height-24">Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <th (click) = "reassigned_order_list('reallocated','responsibility', 'null', 'null')" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click) = "reassigned_order_list('reallocated','billed_submit_date', 'null', 'null')" class="font600 line-height-24">BillSubmit Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click) = "reassigned_order_list('reallocated','denial_code', 'null', 'null')" class="font600 line-height-24">Denial Code<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <!-- <th (click) = "reassigned_order_list('reallocated','prim_ins_name', 'null', 'null')" class="font600 line-height-24">Primary Insurance <i class="fa fa-fw fa-sort"></i></th>
 
@@ -1723,6 +1725,8 @@
                                                                <td><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
 
                                                                <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
+                                                               <td><span *ngIf="x.billed_submit_date==NULL || x.billed_submit_date==''">-Nil-</span><span *ngIf="x.billed_submit_date!=NULL || x.billed_submit_date!=''">{{x.billed_submit_date}}</span></td>
+                                                               <td><span *ngIf="x.denial_code==NULL || x.denial_code==''">-Nil-</span><span *ngIf="x.denial_code!=NULL || x.denial_code!=''">{{x.denial_code}}</span></td>
 
                                                                <!-- <td class="cur-pointer" (click)="open(claimpage);claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true" (mouseover)="tooltip(x)"><span *ngIf="x.prim_ins_name==NULL">-Nil-</span><span *ngIf="x.prim_ins_name!=NULL">{{x.prim_ins_name}}</span></span></td>
 
@@ -2084,8 +2088,8 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Total AR</label>
                                                    <input type="text" placeholder="10.00 - 20.00" class="form-control" formControlName="total_ar">
-                                                   <div *ngIf="(assignedClaimsFind.controls['total_ar'].touched || submitted)">
-                                                      <div *ngIf="assignedClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
+                                                   <div *ngIf="(closedClaimsFind.controls['total_ar'].touched || submitted)">
+                                                      <div *ngIf="closedClaimsFind.controls['total_ar'].hasError('pattern')" class="error">
                                                          please provide correct format
                                                       </div>
                                                    </div>
@@ -2104,7 +2108,7 @@
                                                    <label>Payer Name</label>
                                                    <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="closed_selected_val" (keyup)="closedSearchOnKeyUp($event)" list="SearchResults">
                                                    <div *ngIf="(closedSelected == false) && (closed_selected_val != '')">
-                                                      <div *ngFor="let res of results">
+                                                      <div *ngFor="let res of closed_results">
                                                           <a (click)="closedSelectvalue(res)">{{res}}</a>
                                                       </div>
                                                    </div>
@@ -2191,6 +2195,8 @@
                                                                <th (click) = "completed_order_list('completed','rendering_prov')" class="font600 line-height-24">Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <th (click) = "completed_order_list('completed','responsibility','null','null')" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click) = "completed_order_list('completed','billed_submit_date','null','null')" class="font600 line-height-24">BillSubmit Date<i class="fa fa-fw fa-sort"></i></th>
+                                                               <th (click) = "completed_order_list('completed','denial_code','null','null')" class="font600 line-height-24">Denial Code<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <!-- <th (click) = "completed_order_list('completed','prim_ins_name','null','null')" class="font600 line-height-24">Primary Insurance <i class="fa fa-fw fa-sort"></i></th>
 
@@ -2246,6 +2252,8 @@
                                                             <td><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
 
                                                             <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
+                                                            <td><span *ngIf="x.billed_submit_date==NULL || x.billed_submit_date==''">-Nil-</span><span *ngIf="x.billed_submit_date!=NULL || x.billed_submit_date!=''">{{x.billed_submit_date}}</span></td>
+                                                            <td><span *ngIf="x.denial_code==NULL || x.denial_code==''">-Nil-</span><span *ngIf="x.denial_code!=NULL || x.denial_code!=''">{{x.denial_code}}</span></td>
 
                                                             <!-- <td data-toggle="modal" (mouseover)="tooltip(x)"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.prim_ins_name==NULL ">-Nil-</span><span *ngIf="x.prim_ins_name!=NULL">{{x.prim_ins_name}}</span></span></td>
 
