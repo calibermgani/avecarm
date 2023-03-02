@@ -2141,10 +2141,10 @@
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Payer Name</label>                                                   
-                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="searchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(isValueSelected == false) && (selected_val != '')">  
-                                                      <div *ngFor="let res of results">  
-                                                          <a (click)="onselectvalue(res)">{{res}}</a>  
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="reassign_selected_val" (keyup)="reassignedSearchOnKeyUp($event)" list="SearchResults">
+                                                   <div *ngIf="(reassignSelected == false) && (reassign_selected_val != '')">  
+                                                      <div *ngFor="let res of reassigned_results">  
+                                                          <a (click)="reassignedSelectvalue(res)">{{res}}</a>  
                                                       </div>             
                                                    </div>
                                                 </div>
@@ -2482,16 +2482,16 @@
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Payer Name</label>                                                   
-                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="searchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(isValueSelected == false) && (selected_val != '')">  
-                                                      <div *ngFor="let res of results">  
-                                                          <a (click)="onselectvalue(res)">{{res}}</a>  
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="closed_selected_val" (keyup)="closedSearchOnKeyUp($event)" list="SearchResults">
+                                                   <div *ngIf="(closedSelected == false) && (closed_selected_val != '')">  
+                                                      <div *ngFor="let res of closed_results">  
+                                                          <a (click)="closedSelectvalue(res)">{{res}}</a>  
                                                       </div>             
                                                    </div>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Status Code</label>
-                                                   <ngx-select-dropdown formControlName="status_code" (change)="allClaim_status_code_changed($event)" [config]="config" [options]="status_options"></ngx-select-dropdown>
+                                                   <ngx-select-dropdown formControlName="status_code" (change)="closedClaims_status_code_changed($event)" [config]="config" [options]="status_options"></ngx-select-dropdown>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Sub Status Code</label>
@@ -2831,10 +2831,10 @@
                                               <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Payer Name</label>                                                   
-                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="searchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(isValueSelected == false) && (selected_val != '')">  
-                                                      <div *ngFor="let res of results">  
-                                                          <a (click)="onselectvalue(res)">{{res}}</a>  
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="allclaim_selected_val" (keyup)="allclaimSearchOnKeyUp($event)" list="SearchResults">
+                                                   <div *ngIf="(allclaimSelected == false) && (allclaim_selected_val != '')">  
+                                                      <div *ngFor="let res of allclaim_results">  
+                                                          <a (click)="allclaimSelectvalue(res)">{{res}}</a>  
                                                       </div>             
                                                    </div>
                                                 </div>

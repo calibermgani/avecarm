@@ -648,6 +648,10 @@
 
                                                                 <th (click)="order_list('wo','responsibility','null','null')" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
 
+                                                                <th (click)="order_list('wo','billed_submit_date','null','null')" class="font600 line-height-24">Submit Date<i class="fa fa-fw fa-sort"></i></th>
+
+                                                                <th (click)="order_list('wo','denial_code','null','null')" class="font600 line-height-24">Denial Code<i class="fa fa-fw fa-sort"></i></th>
+
                                                                 <!-- <th (click)="order_list('wo','prim_ins_name','null','null')" class="font600 line-height-24">Primary Insurance <i class="fa fa-fw fa-sort"></i></th>
 
                                                                 <th (click)="order_list('wo','sec_ins_name','null','null')" class="font600 line-height-24">Secondary Insurance<i class="fa fa-fw fa-sort"></i></th>
@@ -666,7 +670,7 @@
 
                                                                 <!-- <th (click)="order_list('wo','claims_notes','null','null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th> -->
 
-                                                                <th (click)="order_list('wo','created_at','null','null')" class="font600 line-height-24">Assigned User | Date<i class="fa fa-fw fa-sort"></i></th>
+                                                                <th (click)="order_list('wo','created_at','null','null')" class="font600 line-height-24">AssignedUser|Date<i class="fa fa-fw fa-sort"></i></th>
 
                                                                 <th (click)="order_list('wo','followup_date','null','null')" class="font600 line-height-24">Followup Date<i class="fa fa-fw fa-sort"></i></th>
                                                                 </tr>
@@ -694,6 +698,10 @@
                                                                     <td class="cur-pointer"><span *ngIf="tab_dat.rendering_prov==NULL">-Nil-</span><span *ngIf="tab_dat.rendering_prov!=NULL">{{tab_dat.rendering_prov}}</span></td>
 
                                                                     <td class="cur-pointer"><span *ngIf="tab_dat.responsibility==NULL">-Nil-</span><span *ngIf="tab_dat.responsibility!=NULL">{{tab_dat.responsibility}}</span></td>
+
+                                                                    <td class="cur-pointer"><span *ngIf="tab_dat.billed_submit_date==NULL">-Nil-</span><span *ngIf="tab_dat.billed_submit_date!=NULL">{{tab_dat.billed_submit_date}}</span></td>
+
+                                                                    <td class="cur-pointer"><span *ngIf="tab_dat.denial_code==NULL">-Nil-</span><span *ngIf="tab_dat.denial_code!=NULL">{{tab_dat.denial_code}}</span></td>
 
                                                                     <!-- <td class="cur-pointer" [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" (mouseover)="tooltip(tab_dat)"><span *ngIf="tab_dat.prim_ins_name==NULL">-Nil-</span><span *ngIf="tab_dat.prim_ins_name!=NULL">{{tab_dat.prim_ins_name}}</span></td>
 

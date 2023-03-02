@@ -64,10 +64,19 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   public status_options;
   public sub_options;
 
-  isValueSelected:boolean = false;
   results: any[] = [];
+  closed_results: any[] = [];
+  reassigned_results: any[] = [];
+  allclaim_results: any[] = [];
   searchResults: any[] = [];
+  isValueSelected:boolean = false;
   selected_val:any = null;
+  reassignSelected:boolean = false;
+  reassign_selected_val:any = null;
+  closedSelected:boolean = false;
+  closed_selected_val:any = null;
+  allclaimSelected:boolean = false;
+  allclaim_selected_val:any = null;
 
   @ViewChildren('pageRow') private pageRows: QueryList<ElementRef<HTMLTableRowElement>>;
 
@@ -2766,9 +2775,8 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   closed_pages;
   searchValue;
   public get_workorder(filter, from, to, type, page, sort_data, sort_type, sorting_name, sorting_method, closedsearch, workordersearch, search) {
-
+    this.search = search;
     let searchs = this.search;
-
     this.searchValue = this.search;
 
     console.log(this.searchValue);
@@ -3808,7 +3816,7 @@ public process_codes(data:any)
     if(event.value!=undefined)
     {
       let sub_status=this.sub_status_codes_data[event.value.id];
-      let sub_status_option=[];
+      let sub_status_option=[];      
       console.log('sub_status_option');
       if(sub_status == undefined || sub_status =='' )
       {
@@ -3848,7 +3856,8 @@ public process_codes(data:any)
     {
       let sub_status=this.sub_status_codes_data[event.value.id];
       let sub_status_option=[];
-      console.log('sub_status_option');
+      console.log(sub_status);
+      console.log(sub_status_option);
       if(sub_status == undefined || sub_status =='' )
       {
         this.sub_options=[];
@@ -3864,6 +3873,7 @@ public process_codes(data:any)
             sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
           }
           this.sub_options=sub_status_option;
+          console.log(this.sub_options);
           if(this.sub_options.length !=0)
           {
             this.closedClaimsFind.patchValue({
@@ -4004,13 +4014,20 @@ public process_codes(data:any)
   getSearchResults(): void {
     this.Jarwis.get_payer_name().subscribe(sr => {
       this.searchResults = sr['payer_names'];
-      console.log(this.searchResults);
     });
-  }
+  }  
+  searchFromArray(arr, regex) {
+    let matches = [], i;
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i].match(regex)) {
+        matches.push(arr[i]);
+      }
+    }
+    return matches;
+  };
+  //For CWO
   searchOnKeyUp(event) {
     let input = event.target.value;
-    console.log('event.target.value: ' + input);
-    console.log('this.searchResults: ' + this.searchResults);
     if (input.length > 0) {
       this.results = this.searchFromArray(this.searchResults, input);
     }
@@ -4019,24 +4036,80 @@ public process_codes(data:any)
       this.isValueSelected = false;
     }    
   }
-  searchFromArray(arr, regex) {
-    let matches = [], i;
-    for (i = 0; i < arr.length; i++) {
-      if (arr[i].match(regex)) {
-        matches.push(arr[i]);
-      }
-    }
-    console.log('matches: ' + matches);
-    return matches;
-  };
   onselectvalue(value) {
     if(value !='' || value !=null){
       this.isValueSelected = true;
-    this.selected_val = value;
+      this.selected_val = value;
     }
     else{
       this.selected_val = null;      
       this.isValueSelected = false;
+    }
+  }
+
+  //For ReAssignedClaim
+  reassignedSearchOnKeyUp(event) {
+    let input = event.target.value;
+    if (input.length > 0) {
+      this.reassigned_results = this.searchFromArray(this.searchResults, input);
+    }
+    else{
+      this.reassign_selected_val = null;
+      this.reassignSelected = false;
+    }    
+  }
+  reassignedSelectvalue(value) {
+    if(value !='' || value !=null){
+      this.reassignSelected = true;
+      this.reassign_selected_val = value;
+    }
+    else{
+      this.reassign_selected_val = null;      
+      this.reassignSelected = false;
+    }
+  }
+
+  //For ClosedClaim
+  closedSearchOnKeyUp(event) {
+    let input = event.target.value;
+    if (input.length > 0) {
+      this.closed_results = this.searchFromArray(this.searchResults, input);
+    }
+    else{
+      this.closed_selected_val = null;
+      this.closedSelected = false;
+    }    
+  }
+  closedSelectvalue(value) {
+    if(value !='' || value !=null){
+      this.closedSelected = true;
+    this.closed_selected_val = value;
+    }
+    else{
+      this.closed_selected_val = null;      
+      this.closedSelected = false;
+    }
+  }
+
+  //For AllClaim
+  allclaimSearchOnKeyUp(event) {
+    let input = event.target.value;
+    if (input.length > 0) {
+      this.allclaim_results = this.searchFromArray(this.searchResults, input);
+    }
+    else{
+      this.allclaim_selected_val = null;
+      this.allclaimSelected = false;
+    }    
+  }
+  allclaimSelectvalue(value) {
+    if(value !='' || value !=null){
+      this.allclaimSelected = true;
+    this.allclaim_selected_val = value;
+    }
+    else{
+      this.allclaim_selected_val = null;      
+      this.allclaimSelected = false;
     }
   }
 }
