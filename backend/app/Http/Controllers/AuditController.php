@@ -12,6 +12,7 @@ use JWTAuth;
 use Config;
 use App\User;
 use App\Import_field;
+use App\Qc_note;
 use Carbon\Carbon;
 use App\Claim_note;
 use App\Action;
@@ -1635,10 +1636,15 @@ class AuditController extends Controller
     } else if ($claim_type == "allocated") {
       // dd('datas3');
       $claimInfo = Claim_history::orderBy('id', 'desc')->get()->unique('claim_id')->toArray();
+      $claimQcInfos = Qc_note::where('error_type', '[4]')->orderBy('id', 'desc')->get(['claim_id'])->unique('claim_id')->toArray();
 
       foreach ($claimInfo as $claimList) {
         if (isset($claimList) && $claimList['claim_state'] == 5 && $claimList['assigned_to'] == $user_id)
           array_push($assign, $claimList['claim_id']);
+      }
+      foreach($claimQcInfos as $claimQcInfo){
+        if(isset($claimQcInfo))
+        array_push($assign, $claimQcInfo['claim_id']);
       }
 
       if ($aignSearchValue == null) {
@@ -1654,7 +1660,7 @@ class AuditController extends Controller
                             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                             ) as claim_histories"), function ($join) {
             $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-          })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]')->offset($skip)->limit($end)->get();
+          })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->offset($skip)->limit($end)->get();
           // $quries = DB::getQueryLog();
           // dd($quries);
           foreach ($claim_data as $key => $claim_datas) {
@@ -1676,7 +1682,7 @@ class AuditController extends Controller
                             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                             ) as claim_histories"), function ($join) {
             $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-          })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]')->offset($skip)->limit($end)->get();
+          })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->offset($skip)->limit($end)->get();
 
           foreach ($claim_data as $key => $claim_datas) {
             $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
@@ -1701,7 +1707,7 @@ class AuditController extends Controller
                             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                             ) as claim_histories"), function ($join) {
               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->get();
+            })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->get();
             foreach ($claim_data as $key => $claim_datas) {
               $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
               $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
@@ -1721,7 +1727,7 @@ class AuditController extends Controller
                                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                                 ) as claim_histories"), function ($join) {
               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
+            })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
 
             foreach ($claim_data as $key => $claim_datas) {
               $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
@@ -1749,7 +1755,7 @@ class AuditController extends Controller
                                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                                 ) as claim_histories"), function ($join) {
               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]')->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->get();
+            })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->get();
             foreach ($claim_data as $key => $claim_datas) {
               $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
               $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
@@ -1768,7 +1774,7 @@ class AuditController extends Controller
                                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                                 ) as claim_histories"), function ($join) {
               $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]')->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->get();
+            })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->get();
             foreach ($claim_data as $key => $claim_datas) {
               $getStatusCode = Statuscode::where('id', $claim_datas['status_code'])->first();
               $claim_data[$key]['statuscode'] = $getStatusCode->status_code ? $getStatusCode->status_code : 'NA';
@@ -1795,7 +1801,8 @@ class AuditController extends Controller
                                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                                 ) as claim_histories"), function ($join) {
           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-        })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]');
+        // })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]');
+        })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1);
 
         $claim_count = Import_field::leftjoin(DB::raw("(SELECT
                               claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
@@ -1806,7 +1813,8 @@ class AuditController extends Controller
                                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                                 ) as claim_histories"), function ($join) {
           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-        })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]');
+        // })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]');
+      })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1);
 
         $selected_claim_data = Import_field::leftjoin(DB::raw("(SELECT
                               claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
@@ -1817,7 +1825,8 @@ class AuditController extends Controller
                                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                                 ) as claim_histories"), function ($join) {
           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-        })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]');
+        // })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->orWhere('qc_notes.error_type', '[4]');
+        })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1);
 
 
         if (!empty($search_claim_no)) {
