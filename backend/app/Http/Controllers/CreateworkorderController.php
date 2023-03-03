@@ -1409,7 +1409,6 @@ class CreateworkorderController extends Controller
 
           $claim_count = Import_field::where('claim_status', 'Assigned')->where('assigned_to', $user_id)->where('followup_date', Null)->count();
 
-          $current_total = $claim_data->count();
 
         if ($claim_type == "allocated" && $sort_type == 'null' && $sorting_name == 'null') {
           $claim_data = $claim_data->offset($skip)->limit($end)->get();
@@ -1421,6 +1420,8 @@ class CreateworkorderController extends Controller
           //               ) as claim_histories"), function ($join) {
           //                 $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
           //               })->whereIN('claim_no', $assign)->where('assigned_to', $user_id)->offset($skip)->limit($end)->get();
+
+          $current_total = $claim_data->count();
           
         }
 
@@ -1437,7 +1438,7 @@ class CreateworkorderController extends Controller
 
           // $claim_count = Import_field::whereIN('claim_no', $assign)->where('assigned_to', $user_id)->count();
 
-          // $current_total = $claim_data->count();
+          $current_total = $claim_data->count();
         }
 
         if ($claim_type == "allocated" && $sort_type == 'null' && (empty($sorting_name) || $sorting_name != 'null')) {
@@ -1453,7 +1454,7 @@ class CreateworkorderController extends Controller
 
           // $claim_count = Import_field::whereIN('claim_no', $assign)->where('assigned_to', $user_id)->count();
 
-          // $current_total = $claim_data->count();
+          $current_total = $claim_data->count();
         }
 
         if ($claim_type == "allocated" && $sort_type == null &&  $sorting_name != 'null' && !empty($sorting_name)) {
@@ -1467,7 +1468,7 @@ class CreateworkorderController extends Controller
             //               ) as claim_histories"), function ($join) {
             //                 $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
             //               })->whereIN('claim_no', $assign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->get();
-            // $current_total = $claim_data->count();
+            $current_total = $claim_data->count();
           } else if ($sorting_method == false) {
             $claim_data = $claim_data->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
             // $claim_data = Import_field::leftjoin(DB::raw("(SELECT claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
@@ -1479,7 +1480,7 @@ class CreateworkorderController extends Controller
             //                 $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
             //               })->whereIN('claim_no', $assign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
 
-            // $current_total = $claim_data->count();
+            $current_total = $claim_data->count();
           }
             // $claim_count = Import_field::whereIN('claim_no', $assign)->where('assigned_to', $user_id)->count();
         }
@@ -1499,7 +1500,7 @@ class CreateworkorderController extends Controller
             //               ) as claim_histories"), function ($join) {
             //                 $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
             //               })->whereIN('claim_no', $assign)->where('assigned_to', $user_id)->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->get();
-            // $current_total = $claim_data->count();
+            $current_total = $claim_data->count();
           } else if ($sort_data == false) {
             $claim_data = $claim_data->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->get();
             // $claim_data = Import_field::leftjoin(DB::raw("(SELECT claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
@@ -1510,7 +1511,7 @@ class CreateworkorderController extends Controller
             //               ) as claim_histories"), function ($join) {
             //                 $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
             //               })->whereIN('claim_no', $assign)->where('assigned_to', $user_id)->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->get();
-            // $current_total = $claim_data->count();
+            $current_total = $claim_data->count();
           }
             // $claim_count = Import_field::whereIN('claim_no', $assign)->where('assigned_to', $user_id)->count();
         }
@@ -2601,11 +2602,11 @@ class CreateworkorderController extends Controller
             if ($sorting_method == true) {
               $claim_data->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
               $claim_count->orderBy($sorting_name, 'desc');
-              $selected_claim_data->orderBy($sorting_name, 'desc');
+              // $selected_claim_data->orderBy($sorting_name, 'desc');
             } else if ($sorting_method == false) {
               $claim_data->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
               $claim_count->orderBy($sorting_name, 'asc');
-              $selected_claim_data->orderBy($sorting_name, 'asc');
+              // $selected_claim_data->orderBy($sorting_name, 'asc');
             }
           }
         }
