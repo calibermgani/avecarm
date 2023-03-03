@@ -1637,10 +1637,16 @@ class Client_assistanceController extends Controller
         }
 
         if (!empty($search_dos) && $search_dos['startDate'] != null) {
+          $create_sart_date = date('Y-m-d', strtotime($search_dos['startDate']));
+          $create_end_date = date('Y-m-d', strtotime($search_dos['endDate']));
 
-          $search_date = explode('-', $search_dos);
-          $dos_sart_date = date('Y-m-d', strtotime($search_date[0]));
-          $dos_end_date = date('Y-m-d', strtotime($search_date[1]));
+          if ($create_sart_date == $create_end_date) {
+              $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate'] . "+ 1 day"));
+              $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate'] . "+ 1 day"));
+          } elseif ($create_sart_date != $create_end_date) {
+              $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate'] . "+ 1 day"));
+              $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate']));
+          }
 
           if ($sort_data == null && $sort_type == null) {
 
@@ -2587,15 +2593,15 @@ class Client_assistanceController extends Controller
 
       $claim_data[$key]['created_ats'] = date('m/d/Y', strtotime($claim_data[$key]['created_ats']));
 
-      $dos = strtotime($claim_data[$key]['dos']);
+      // $dos = strtotime($claim_data[$key]['dos']);
 
-      if (!empty($dos) && $dos != 0000 - 00 - 00) {
-        $claim_data[$key]['dos'] = date('m-d-Y', $dos);
-      }
+      // if (!empty($dos) && $dos != 0000 - 00 - 00) {
+      //   $claim_data[$key]['dos'] = date('m-d-Y', $dos);
+      // }
 
-      if ($dos == 0000 - 00 - 00) {
-        $claim_data[$key]['dos'] = 01 - 01 - 1970;
-      }
+      // if ($dos == 0000 - 00 - 00) {
+      //   $claim_data[$key]['dos'] = 01 - 01 - 1970;
+      // }
 
       $dob = $claim_data[$key]['dos'];
 
