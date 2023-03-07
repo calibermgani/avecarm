@@ -3741,33 +3741,33 @@ class ImportController extends Controller
         if ($action == 'null' && $action != null) {
           $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
           $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
-          $$audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          $audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
         }
 
         if ($action != 'null' && $action == null && empty($sorting_name)) {
           $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
           $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
-          $$audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          $audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
         }
 
         if ($sort_data == true && $search == null && $sorting_name == 'null') {
           $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($action, 'asc')->offset($skip)->limit($end);
           $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
-          $$audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          $audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
         } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
           $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($action, 'desc')->offset($skip)->limit($end);
           $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
-          $$audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          $audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
         }
 
         if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
           $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($action, 'asc')->offset($skip)->limit($end);
           $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
-          $$audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          $audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
         } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
           $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($action, 'desc')->offset($skip)->limit($end);
           $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
-          $$audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          $audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
         }
         //dd($sort_data); echo "</br>"; false sort_type_close
         // print_r($action); echo "</br>"; exit(); patient_name sort_code
@@ -3775,11 +3775,11 @@ class ImportController extends Controller
         if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
           $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
           $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
-          $$audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          $audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
         } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
           $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
           $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
-          $$audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          $audit_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
         }
       }
 
