@@ -102,7 +102,7 @@
                                                    <label>Rendering Provider</label>
                                                    <input type="text" class="form-control" formControlName="rendering_provider">
                                                 </div>
-                                                
+
                                                 <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Insurance</label>
                                                    <select class="form-control ngx-dropdown-button" style="width:100%" aria-hidden="true" [(ngModel)]="createWork" formControlName="insurance">
@@ -183,12 +183,12 @@
                                              </div>
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                   <label>Payer Name</label>                                                   
+                                                   <label>Payer Name</label>
                                                    <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="searchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(isValueSelected == false) && (selected_val != '')">  
-                                                      <div *ngFor="let res of results">  
-                                                          <a (click)="onselectvalue(res)">{{res}}</a>  
-                                                      </div>             
+                                                   <div *ngIf="(isValueSelected == false) && (selected_val != '')">
+                                                      <div *ngFor="let res of results">
+                                                          <a (click)="onselectvalue(res)">{{res}}</a>
+                                                      </div>
                                                    </div>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -2140,12 +2140,12 @@
                                              </div>
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                   <label>Payer Name</label>                                                   
+                                                   <label>Payer Name</label>
                                                    <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="reassign_selected_val" (keyup)="reassignedSearchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(reassignSelected == false) && (reassign_selected_val != '')">  
-                                                      <div *ngFor="let res of reassigned_results">  
-                                                          <a (click)="reassignedSelectvalue(res)">{{res}}</a>  
-                                                      </div>             
+                                                   <div *ngIf="(reassignSelected == false) && (reassign_selected_val != '')">
+                                                      <div *ngFor="let res of reassigned_results">
+                                                          <a (click)="reassignedSelectvalue(res)">{{res}}</a>
+                                                      </div>
                                                    </div>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -2247,7 +2247,7 @@
                                                  </div>
                                               </div>
                                           </div>
-                                       </form>                                       
+                                       </form>
                                     </div>
                                  </div>
                               </div>
@@ -2481,12 +2481,12 @@
                                              </div>
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                   <label>Payer Name</label>                                                   
+                                                   <label>Payer Name</label>
                                                    <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="closed_selected_val" (keyup)="closedSearchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(closedSelected == false) && (closed_selected_val != '')">  
-                                                      <div *ngFor="let res of closed_results">  
-                                                          <a (click)="closedSelectvalue(res)">{{res}}</a>  
-                                                      </div>             
+                                                   <div *ngIf="(closedSelected == false) && (closed_selected_val != '')">
+                                                      <div *ngFor="let res of closed_results">
+                                                          <a (click)="closedSelectvalue(res)">{{res}}</a>
+                                                      </div>
                                                    </div>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -2830,12 +2830,12 @@
 
                                               <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
-                                                   <label>Payer Name</label>                                                   
+                                                   <label>Payer Name</label>
                                                    <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="allclaim_selected_val" (keyup)="allclaimSearchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(allclaimSelected == false) && (allclaim_selected_val != '')">  
-                                                      <div *ngFor="let res of allclaim_results">  
-                                                          <a (click)="allclaimSelectvalue(res)">{{res}}</a>  
-                                                      </div>             
+                                                   <div *ngIf="(allclaimSelected == false) && (allclaim_selected_val != '')">
+                                                      <div *ngFor="let res of allclaim_results">
+                                                          <a (click)="allclaimSelectvalue(res)">{{res}}</a>
+                                                      </div>
                                                    </div>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -3043,6 +3043,7 @@
                                                    <!-- <th (click)="order_list('claim_note','all_claim','null','null',null,null)" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th> -->
 
                                                    <th (click)="order_list('created_at','all_claim','null','null',null,null)" class="font600 line-height-24">Assigned To | Date<i class="fa fa-fw fa-sort"></i></th>
+                                                   <th (click)="order_list('created_ats','all_claim','null','null',null,null)" class="font600 line-height-24">Work Date<i class="fa fa-fw fa-sort"></i></th>
 
                                                    <!-- <th class="font600 line-height-24">Assign.By</th>
                                                       <th class="font600 line-height-24">Assign.Date</th> -->
@@ -3101,7 +3102,7 @@
 
 
                                                    <td (mouseover)="tooltip(x)"><span *ngIf="x.assigned_to == Null ">UA</span><span *ngIf="x.assigned_to != NULL">{{x.assigned_to}}</span> | <span *ngIf="x.created_at == Null ">UA</span><span *ngIf="x.created_at != NULL">{{x.created_at | date: 'MM/dd/yyyy'}}</span></td>
-
+                                                   <td ><span *ngIf="x.created_ats==NULL || x.created_ats=='' ">-Nil-</span><span *ngIf="x.claim_Status!=NULL || x.created_ats != '' ">{{x.created_ats | date: 'MM/dd/yyyy'}}</span></td>
                                                 </tr>
                                                 <tr *ngIf="cwo_total == 0">
                                                    <td colspan="12" align="center">
