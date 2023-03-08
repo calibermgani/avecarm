@@ -25,6 +25,7 @@ export class SettingsComponent implements OnInit,AfterViewInit,OnDestroy {
   settingSearch: FormGroup;
   statusPriority: FormGroup;
   audit_sampling: FormGroup;
+  samplingArray: FormArray;
   fields: string[];
   values: string[];
   closeResult : string;
@@ -39,12 +40,15 @@ export class SettingsComponent implements OnInit,AfterViewInit,OnDestroy {
   public sub_status_list: string[];
   public prac_user_list: any;
   selectedUser:any;
-  p_Users: any[] = [];
+  p_Users: any;
   minDate = {year: 1900, month: 1, day: 1};  
   observalble: Subscription;
 
   constructor(private Jarwis: JarwisService,private formBuilder:FormBuilder, private modalService: NgbModal,private setus: SetUserService,public toastr: ToastrManager,private user_update:UserUpdateService) {
-    this.observalble=this.setus.update_edit_perm().subscribe(message => {this.check_edit_permission(message)} );    
+    this.observalble=this.setus.update_edit_perm().subscribe(message => {this.check_edit_permission(message)} );
+    this.audit_sampling = this.formBuilder.group({
+      sampling: this.formBuilder.array([]),
+    });  
   }
 
   public form = {};
@@ -648,7 +652,7 @@ set_prac_settings(data)
       console.log(this.prac_user_list);
       this.p_Users = this.prac_user_list;
       console.log(this.p_Users);       
-    });     
+    });
 }
 
 /* set_prac_user_value(){
@@ -668,9 +672,6 @@ set_prac_settings(data)
     this.get_category_data();
     this.get_status_data();
     this.get_practice_user_list();
-    
-    //this.set_prac_user_value();
-    //this.sampling.controls.user_id.setValue(this.prac_user_list.id);
     this.formGroup = new FormGroup({
       category_name: new FormControl('', [
         Validators.required
@@ -695,8 +696,6 @@ set_prac_settings(data)
       field_validation: new FormControl('', [
         Validators.required
       ]),
-      // date_type: new FormControl('', [
-      // ]),
       status: new FormControl('', [
         Validators.required
       ])
@@ -804,23 +803,20 @@ set_prac_settings(data)
 
     this.statusPriority = new FormGroup({
       priority: new FormArray([new FormControl ('')]),
-    });     
-    
+    });
+    this.samplingArray = this.audit_sampling.get('sampling') as FormArray;    
   }
 
   ngAfterViewInit(){
-    // this.set_user_value(); 
-    /* this.audit_sampling = this.formBuilder.group({
-      sampling: this.formBuilder.array([this.buildForm()]),
-    });  */  
+
   }
   public onSearchChange(searchValue: string): void {
     var event="123";
       this.Jarwis.getfields(event,searchValue).subscribe(
       data => this.displayfields(data)
       );
-  }    
-  
+  }
+
   get priority(): FormArray {  
     return this.statusPriority.get("priority") as FormArray;  
   }  
@@ -831,31 +827,26 @@ set_prac_settings(data)
     this.priority.removeAt(i);  
   } 
 
-  /* buildForm() {
-    const controlArray = this.audit_sampling.get('sampling') as FormArray;
-    Object.keys(this.obj).forEach((x) => {
-      console.log(this.obj[x].name);
-    }); 
+  ngOnDestroy(){
+    this.observalble.unsubscribe();
+  }
+
+  save(i){
+    console.log(this.samplingArray.controls[i].value)
+  }
+
+  sampling_usrlist(){
+    console.log(this.p_Users);
+    this.samplingArray = this.audit_sampling.get('sampling') as FormArray;
     Object.keys(this.p_Users).forEach((i) => {
-      controlArray.push(
+      this.samplingArray.push(
         this.formBuilder.group({
-          user_id: this.p_Users[i].id,
+          user_id: new FormControl(this.p_Users[i].id),
           experience: new FormControl(''),
           month: new FormControl(''),
           audit_percentage: new FormControl(''),
         })
       );
     });
-    console.log(controlArray.controls);
-    return controlArray
-  }  
-			   
- saveSampling(i) {
-    const sampleArray = this.audit_sampling.get('sampling') as FormArray;
-    console.log(sampleArray.controls[i].value);
-  } */
-
-  ngOnDestroy(){
-    this.observalble.unsubscribe();
   }
 }

@@ -93,7 +93,7 @@ export class ClaimOpFooterComponent implements OnInit, OnDestroy {
     );
   } */
 
-model;
+model:any;
 
 public clear(): void {
   this.model = undefined;
@@ -198,9 +198,9 @@ public get_associate_name(data){
 
     console.log(this.selected_claim_data);
     console.log(this.notes_details);
-    if(this.router.url=='/followup'){
+    /* if(this.router.url=='/followup'){
       this.note_validation=true;      
-    }
+    } */
         
     if(this.selected_claim_data['claim_closing'] == 1)
     {
@@ -338,13 +338,13 @@ public get_associate_name(data){
                   closed: 0
                 });
                 let f_date = this.formGroup.controls.followup_date.value;
-                if(f_date.year < this.minDate.year){
+                if(this.minDate.year > f_date.year){
                   this.followdate_invalid = true;
                 }
-                else if(f_date.month < this.minDate.month){
+                else if(this.minDate.month > f_date.month){
                   this.followdate_invalid = true;
                 }
-                else if(f_date.day <= this.minDate.day){
+                else if(this.minDate.day >= f_date.day){
                   this.followdate_invalid = true;
                 }
              }
@@ -372,13 +372,13 @@ public get_associate_name(data){
                   closed: 0
                 });
                 let f_date = this.formGroup.controls.followup_date.value;
-                if(f_date.year < this.minDate.year){
+                if(this.minDate.year > f_date.year){
                   this.followdate_invalid = true;
                 }
-                else if(f_date.month < this.minDate.month){
+                else if(this.minDate.month > f_date.month){
                   this.followdate_invalid = true;
                 }
-                else if(f_date.day <= this.minDate.day){
+                else if(this.minDate.day >= f_date.day){
                   this.followdate_invalid = true;
                 }
               } 
@@ -643,7 +643,7 @@ public get_associate_name(data){
           }
           this.notes_details.push({note:note_val,claim:this.selected_claim_data,type:'claimpresent',claim_no:this.selected_claim_data['claim_no']});
             //this.notes_details.patchValue({user:user_id,note:notes,claim:claim_id,type:command_type,claim_no:claim_id['claim_no']});
-            this.note_validation=true;
+            //this.note_validation=true;
         }
         console.log(this.notes_details);
         
@@ -1118,4 +1118,30 @@ fclaim() {
   return this.fclaims;
 }
 
+  check_follow_date(){
+    let f_date;
+    this.formGroup.get("followup_date").valueChanges.subscribe(selectedValue => {
+      setTimeout(() => {
+        f_date =  selectedValue;
+        console.log(f_date);
+        if (f_date !='' || f_date != null || f_date != undefined){
+          if(this.minDate.year > f_date.year){
+            console.log('change year');
+            this.followdate_invalid = true;
+          }
+          else if(this.minDate.month > f_date.month){
+            console.log('change month');
+            this.followdate_invalid = true;
+          }
+          else if(this.minDate.day >= f_date.day){
+            console.log('change date');
+            this.followdate_invalid = true;
+          }
+          else{
+            this.followdate_invalid = false;
+          }
+        } 
+      })
+    })      
+  }
 }

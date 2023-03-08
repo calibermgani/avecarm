@@ -59,6 +59,7 @@ export class ClientAssistanceComponent implements OnInit {
   selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   select_date:any;
+  select_followup_date:any;
   public status_codes_data:Array<any> =[];
   public sub_status_codes_data:string[];
   public status_options;
@@ -172,6 +173,26 @@ sorting_name;
       );
     }else if(searchs == 'search'){
       console.log(searchs);
+
+      if (this.claimsFind.value.dos.startDate != null && this.claimsFind.value.dos.endDate != null) {
+        console.log(this.claimsFind.controls.dos.value);
+        this.claimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.claimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
+        this.claimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.claimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+      }
+      if (this.claimsFind.value.date.startDate != null && this.claimsFind.value.date.endDate != null) {
+        console.log(this.claimsFind.controls.date.value);
+        this.claimsFind.value.date.startDate = this.datepipe.transform(new Date(this.claimsFind.value.date.startDate._d), 'yyyy-MM-dd');
+        this.claimsFind.value.date.endDate = this.datepipe.transform(new Date(this.claimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+      }
+      if (this.claimsFind.value.bill_submit_date.startDate != null && this.claimsFind.value.bill_submit_date.endDate != null) {
+        this.claimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.claimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
+        this.claimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.claimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+      }
+      if (this.claimsFind.value.followup_date.startDate != null && this.claimsFind.value.followup_date.endDate != null) {
+        this.claimsFind.value.followup_date.startDate = this.datepipe.transform(new Date(this.claimsFind.value.followup_date.startDate._d), 'yyyy-MM-dd');
+        this.claimsFind.value.followup_date.endDate = this.datepipe.transform(new Date(this.claimsFind.value.followup_date.endDate._d), 'yyyy-MM-dd');
+      }
+
       this.Jarwis.get_ca_claims(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.sorting_name,this.sortByAsc,this.claimsFind.value,this.search).subscribe(
         data  => this.form_table(data,type),
         error => this.handleError(error)
