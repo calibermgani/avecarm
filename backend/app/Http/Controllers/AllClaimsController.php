@@ -43,7 +43,18 @@ class AllClaimsController extends Controller
             if (($action == null || $action == 'null') && $sorting_method == null && $searchValue == null) {
                 $skip = ($page_no - 1) * $page_count;
                 $end = $page_count;
-                $claim_data = Import_field::orderBy('created_at', 'desc')->offset($skip)->limit($end)->get();
+                // DB::enableQueryLog();
+                // $claim_data = Import_field::orderBy('created_at', 'desc')->offset($skip)->limit($end)->get();
+                $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
+                              ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
+                              ->groupBy('claim_histories.claim_id')
+                              ->orderByDesc('max_id')
+                              ->offset($skip)->limit($end)
+                              ->get();
+                // $log = DB::getQueryLog();
+                // dd($log);
+                // log::debug(print_r($claim_data,true));
+                // dd($claim_data);
                 $current_total = $claim_data->count();
 
                 $selected_claim_data = Import_field::orderBy('created_at', 'desc')->get();
@@ -60,7 +71,13 @@ class AllClaimsController extends Controller
                 $end = $page_count;
                 if ($sorting_name == true) {
                     //dd('2');
-                    $claim_data = Import_field::offset($skip)->limit($end)->get();
+                  $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
+                              ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
+                              ->groupBy('claim_histories.claim_id')
+                              ->orderByDesc('max_id')
+                              ->offset($skip)->limit($end)
+                              ->get();
+                    // $claim_data = Import_field::offset($skip)->limit($end)->get();
                     $claim_count = Import_field::orderBy(
                         'id',
                         'desc'
@@ -68,7 +85,13 @@ class AllClaimsController extends Controller
                     $claim_count = $claim_count->count();
                     $current_total = $claim_data->count();
                 } else if ($sorting_name == false) {
-                    $claim_data = Import_field::offset($skip)->limit($end)->get();
+                    // $claim_data = Import_field::offset($skip)->limit($end)->get();
+                    $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
+                                ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
+                                ->groupBy('claim_histories.claim_id')
+                                ->orderByDesc('max_id')
+                                ->offset($skip)->limit($end)
+                                ->get();
                     $claim_count = Import_field::orderBy(
                         'id',
                         'asc'
@@ -83,7 +106,13 @@ class AllClaimsController extends Controller
                 $skip = ($page_no - 1) * $page_count;
                 $end = $page_count;
                 if ($sort_data == true) {
-                    $claim_data = Import_field::orderBy($action, 'desc')->offset($skip)->limit($end)->get();
+                    // $claim_data = Import_field::orderBy($action, 'desc')->offset($skip)->limit($end)->get();
+                    $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
+                                  ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
+                                  ->groupBy('claim_histories.claim_id')
+                                  ->orderByDesc($action)
+                                  ->offset($skip)->limit($end)
+                                  ->get();
                     $claim_count = Import_field::orderBy(
                         'id',
                         'desc'
@@ -91,7 +120,13 @@ class AllClaimsController extends Controller
                     $claim_count = $claim_count->count();
                     $current_total = $claim_data->count();
                 } else if ($sort_data == false) {
-                    $claim_data = Import_field::orderBy($action, 'asc')->offset($skip)->limit($end)->get();
+                    // $claim_data = Import_field::orderBy($action, 'asc')->offset($skip)->limit($end)->get();
+                    $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
+                                  ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
+                                  ->groupBy('claim_histories.claim_id')
+                                  ->orderByAsc($action)
+                                  ->offset($skip)->limit($end)
+                                  ->get();
                     $claim_count = Import_field::orderBy(
                         'id',
                         'asc'
