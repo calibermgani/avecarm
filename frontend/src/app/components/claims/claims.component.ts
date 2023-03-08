@@ -78,6 +78,12 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   allclaimSelected:boolean = false;
   allclaim_selected_val:any = null;
 
+  public initial_wo_filter;
+  public initial_allclaim_filter;
+  public initial_create_filter;
+  public initial_closed_filter;
+
+
   @ViewChildren('pageRow') private pageRows: QueryList<ElementRef<HTMLTableRowElement>>;
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
@@ -2484,11 +2490,17 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   //   });
   // }
 
-
+createclaims_filter;
   createClaims_search(page: number, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, searchdata) {
-    this.search = searchdata;
+    this.createclaims_filter = searchdata;
     console.log(searchdata);
     this.pageChange(page, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, searchdata);
+  }
+allclaims_filter;
+  allClaims_search(page: number, table, sort_data, sort_type, sorting_name, sorting_method, allclaimsearch, searchdata) {
+    this.allclaims_filter = searchdata;
+    console.log(searchdata);
+    this.pageChange(page, table, sort_data, sort_type, sorting_name, sorting_method, allclaimsearch, searchdata);
   }
 
 
@@ -2504,19 +2516,42 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     this.search = search;
     let searchs = this.search;
     console.log(createsearch);
+    console.log(sorting_name);
+
     this.searchValue = this.search;
 
     let page_count = 15;
 
     if (table == 'claim') {
+      console.log(sorting_name);
+      let createsearch_val_change = false;
+      if (typeof this.createClaimsFind.value === 'object' && this.createClaimsFind.value !== null) {
+        Object.keys(this.createClaimsFind.value).forEach(key => {
+          if (typeof this.createClaimsFind.value[key] === 'object' && this.createClaimsFind.value[key] !== null) {
+            Object.keys(this.createClaimsFind.value[key]).forEach(val => {
+              if(this.createClaimsFind.value[key][val] === null)
+              {
+                createsearch_val_change == false;
+              }
+              else{
+                createsearch_val_change == true;
+                console.log('claimsearch val changed');
+                this.search = this.createclaims_filter;
+              }
+            });
+          }                 
+        });
+      }
+      searchs = this.search;
       this.pages = page;
-      if (sorting_name == 'null' && searchs == null) {
+      if (sorting_name == null && searchs == null) {
         console.log(sort_data);
-        this.Jarwis.get_table_page(sort_data, page, page_count, sort_type, sorting_name, sorting_method, createsearch, search).subscribe(
+        this.Jarwis.get_table_page(sort_data, page, page_count, sort_type, sorting_name, sorting_method, null, search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
       } else if (searchs == 'search') {
+        
         console.log(this.createClaimsFind.value.dos);
         if (this.createClaimsFind.value.dos.startDate != null && this.createClaimsFind.value.dos.endDate != null) {
           console.log(this.createClaimsFind.controls.dos.value);
@@ -2533,13 +2568,13 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
           this.createClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
           this.createClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
         }
-        this.Jarwis.get_table_page(sort_data, page, page_count, sort_type, this.sortByAsc, this.sorting_name, this.createClaimsFind.value, this.search).subscribe(
+        this.Jarwis.get_table_page(sort_data, page, page_count, sort_type, sorting_name, this.sortByAsc,this.createClaimsFind.value, this.search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
       } else {
         console.log(sort_data);
-        this.Jarwis.get_table_page(sort_data, page, page_count, sort_type, this.sortByAsc, this.sorting_name, createsearch, this.search).subscribe(
+        this.Jarwis.get_table_page(sort_data, page, page_count, sort_type, sorting_name, this.sortByAsc, null, this.search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
@@ -2566,25 +2601,49 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     /** Developer : Sathish
         Date : 09/01/2023
         Purpose : To get all Calims Table */
-    else if (table == 'all_claim') {
+    else if (table == 'all_claim') {      
+      console.log(sorting_name);
+      let allclaimsearch_val_change = false;
+      if (typeof this.allClaimsFind.value === 'object' && this.allClaimsFind.value !== null) {
+        Object.keys(this.allClaimsFind.value).forEach(key => {
+          if (typeof this.allClaimsFind.value[key] === 'object' && this.allClaimsFind.value[key] !== null) {
+            Object.keys(this.allClaimsFind.value[key]).forEach(val => {
+              if(this.allClaimsFind.value[key][val] === null)
+              {
+                allclaimsearch_val_change == false;
+              }
+              else{
+                allclaimsearch_val_change == true;
+                console.log('allclaimsearch val changed');
+                this.search = this.allclaims_filter;
+              }
+            });
+          }                 
+        });
+      }
+      searchs = this.search;
+      console.log(searchs);
       this.pages = page;
-      if (sorting_name == 'null' && searchs == null) {
-        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, sorting_name, sorting_method, null, search).subscribe(
+      if (sorting_name == null && searchs == null) {
+        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, null, sorting_method, null, search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
-      } else if (searchs == 'search') {
+      } else if (searchs == 'search') {        
         if (this.allClaimsFind.value.dos.startDate !=null && this.allClaimsFind.value.dos.endDate !=null) {
           console.log(this.allClaimsFind.value);
           this.allClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
           this.allClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');          
         }
-        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, this.sortByAsc, this.sorting_name, this.allClaimsFind.value, this.search).subscribe(
+        sort_data = 'null';
+        sort_type = 'null';
+        sorting_name='null';
+        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, sorting_name, this.sortByAsc, this.allClaimsFind.value, this.search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
-      } else {
-        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, this.sortByAsc, this.sorting_name, null, this.search).subscribe(
+      } else {        
+        this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, sorting_name,this.sortByAsc, null, this.search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
@@ -2728,9 +2787,9 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
 
   }
 
-
+workorder_filter;
   workorder_search(filter, from, to, type, page, sort_type, sort_data, sorting_name, sorting_method, closedsearch, workordersearch, search) {
-    this.search = search;
+    this.workorder_filter = search;
     console.log(page);
     this.get_workorder(filter, from, to, type, page, sort_type, this.sortByAsc, sorting_name, sorting_method, null, this.workOrderFind.value, search);
   }
@@ -2745,7 +2804,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   wo_sorting_name;
   work_order_list(sort_type, sorting_name, sorting_method, search) {
     console.log(sort_type);
-
+    this.search = search;
     let searchs = this.search;
 
     this.wo_sorting_name = sort_type;
@@ -2787,8 +2846,8 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
 
     if (filter == null && from == null && to == null) {
       this.pages = page;
-
-      let searchs = this.search;
+      this.search = this.workorder_filter;
+      searchs = this.search;
 
       if (sorting_name == 'null' && searchs == null) {
         this.Jarwis.get_workorder(0, 0, 0, 1, page, sort_type, sort_data, sorting_name, sorting_method, closedsearch, workordersearch, search).subscribe(
@@ -2809,6 +2868,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       }
     }
     else if (filter == 'search') {
+      
       this.pages = page;
 
       this.Jarwis.get_workorder(filter, from, 0, 1, page, sort_type, sort_data, sorting_name, sorting_method, null, null, search).subscribe(
@@ -2817,6 +2877,8 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       );
     } else if (filter == 'closedClaims') {
       this.closed_pages = page;
+      this.search = this.closedclaims_filter;
+      searchs = this.search;
 
       if (sorting_name == 'null' && searchs == null) {
         this.Jarwis.get_workorder(filter, 0, 0, 1, page, sort_type, sort_data, sorting_name, sorting_method, closedsearch, workordersearch, search).subscribe(
@@ -2842,9 +2904,9 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
 
 
   search;
-
+closedclaims_filter;
   closedClaims_search(filter, from, to, type, sort_type, sort_data, sorting_name, sorting_method, closedsearch, workordersearch, searchdata) {
-    this.search = searchdata;
+    this.closedclaims_filter = searchdata;
     this.get_workorder(filter, from, to, type, this.closed_pages, sort_type, this.sortByAsc, sorting_name, sorting_method, this.closedClaimsFind.value, null, this.search);
   }
 
@@ -3477,11 +3539,12 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   ngOnInit() {
 
     // this.getclaims();
+    
     this.getSearchResults();
     this.user_role_maintainer();
     this.formValidators();
     this.claimValidators();
-    this.pageChange(1, 'all', null, null, 'null', 'null', 'null', 'null');
+    this.pageChange(1, 'all', null,null,null,null,null,null);
     // this.formGroup = new FormGroup({
     //   report_date: new FormControl('', [
     //     Validators.required
@@ -3520,6 +3583,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       ter_ins_name: [],
       ter_pol_id: [],
     });
+    
 
     this.createClaimsFind = this.formBuilder.group({
       file_id: [],
@@ -3548,6 +3612,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       bill_submit_date: [],
       denial_code: []
     });
+    
 
     this.allClaimsFind = this.formBuilder.group({
       dos: [],
@@ -3570,6 +3635,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       status_code: [],
       sub_status_code: [],
     });
+    
 
     this.reassignedClaimsFind = this.formBuilder.group({
       dos: [],
@@ -3595,6 +3661,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       work_order_name: [],
       priority: [],
     });
+    
 
     this.processNotes = new FormGroup({
       processnotes: new FormControl('', [
@@ -3742,12 +3809,23 @@ console.log(this.age_options);
   }
 
   ngAfterViewInit() {
+    this.get_initial_values();
     if (this.touch_count == undefined) {
       this.touch_count = this.notify_service.manual_touch_limit();
       console.log(this.touch_count);
     }
   }
 
+  get_initial_values(){
+    this.initial_allclaim_filter = this.allClaimsFind.value;
+    this.initial_create_filter = this.createClaimsFind.value;
+    this.initial_closed_filter = this.closedClaimsFind.value;
+    this.initial_wo_filter = this.workOrderFind.value;
+    console.log(this.initial_allclaim_filter);
+    console.log(this.initial_create_filter);
+    console.log(this.initial_closed_filter);
+    console.log(this.initial_wo_filter);
+  }
 
 
   ngOnDestroy() {

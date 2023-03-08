@@ -34,12 +34,13 @@
                                        </div>
                                     </div>
                                     <div class="collapse" id ="createClaimsSearch">
-                                       <form  [formGroup]="createClaimsFind" (ngSubmit)="createClaims_search(1,'claim', 'null', 'null','null','null','null','search')">
+                                       <form  [formGroup]="createClaimsFind" (ngSubmit)="createClaims_search(1,'claim', null,null,null,null,null,'search')">
                                           <div class="box-body no-padding" style="margin-top:20px;">
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Filename</label>
                                                    <select class="form-control ngx-dropdown-button" formControlName="file_id" id="id" aria-hidden="true">
+                                                      <option [value]="null">--Select Filename--</option>
                                                       <option *ngFor="let file of filecount" [value]="file.file_upload_id">
                                                          {{file.file_name}} ( {{file.file_count}} )
                                                       </option>
@@ -208,7 +209,7 @@
                                              </div>
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
-                                                   <input type="button" class="pull-right btn btn-search" value="Search" (click)="createClaims_search(1,'claim', 'null', 'null','null','null','null','search')">
+                                                   <input type="button" class="pull-right btn btn-search" value="Search" (click)="createClaims_search(1,'claim', null,null,null,null,null,'search')">
                                                 </div>
                                              </div>
                                           </div>
@@ -297,7 +298,7 @@
 
                                                    <th (click)="order_list('denial_code','claim','null','null',null,null)" class="font600 line-height-24">Denial Code<i class="fa fa-fw fa-sort"></i></th>
 
-                                                   <th class="font600 line-height-24">Submit Date <span class="sort-table">
+                                                   <th class="font600 line-height-24">BillSubmit Date <span class="sort-table">
                                                     <i class="fa fa-sort-desc" (click)="desort('bill_submit_date')" aria-hidden="true"></i>
                                                     <i class="fa fa-sort-asc" aria-hidden="true" (click)="sort('bill_submit_date')"></i></span>
                                                   </th>
@@ -370,7 +371,7 @@
                                        <div class="row">
                                           <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
                                              <div class="has-text-centered">
-                                                <pagination-controls id="foo" (pageChange)="pageChange($event,'claim',null,null);" maxSize="9"></pagination-controls>
+                                                <pagination-controls id="foo" (pageChange)="pageChange($event,'claim',null,null,null,null,null,null);" maxSize="9"></pagination-controls>
                                              </div>
                                           </div>
                                           <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12" style="text-align: right;" class="showing_count" *ngIf="total_row != 0">
@@ -2751,13 +2752,13 @@
                                     <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                                        <h3 class="box-title list-heading"><i class="fa fa-filter ar-blue"></i> Filters</h3>
                                        <div class="box-tools pull-right">
-                                          <button type="button" class="btn btn-box-tool collapsed" style="margin-left:10px;" data-widget="collapse" data-toggle="collapse" data-target="#createAllClaimsSearch">
+                                          <button type="button" class="btn btn-box-tool collapsed" style="margin-left:10px;" data-widget="collapse" data-toggle="collapse" data-target="#AllClaimsSearch">
                                           <i class="fa fa-plus"></i>
                                           </button>
                                        </div>
                                     </div>
-                                       <div class="collapse" id ="createAllClaimsSearch">
-                                          <form  [formGroup]="allClaimsFind" (ngSubmit)="createClaims_search(1,'all_claim', 'null', 'null','null','null','null','search')">
+                                       <div class="collapse" id ="AllClaimsSearch">
+                                          <form  [formGroup]="allClaimsFind" (ngSubmit)="allClaims_search(1,'all_claim',null,null,null,null,null,'search')">
                                               <div class="box-body no-padding" style="margin-top:20px;">
                                                 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                    <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -2958,7 +2959,7 @@
                                              </div> -->
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                               <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
-                                                 <input type="button" class="pull-right btn btn-search" value="Search" (click)="createClaims_search(1,'all_claim', 'null', 'null','null','null','null','search')">
+                                                 <input type="button" class="pull-right btn btn-search" value="Search" (click)="allClaims_search(1,'all_claim','null','null','null','null','null','search')">
                                               </div>
                                            </div>
                                           </div>
@@ -3026,6 +3027,8 @@
                                                    <th class="font600 line-height-24" (click)="order_list('rendering_prov','all_claim','null','null',null,null)" >Rendering Provider<i class="fa fa-fw fa-sort"></i></th>
 
                                                    <th (click)="order_list('responsibility','all_claim','null','null',null,null)" class="font600 line-height-24">Responsibility<i class="fa fa-fw fa-sort"></i></th>
+                                                   <th (click)="order_list('billed_submit_date','all_claim','null','null',null,null)" class="font600 line-height-24">BillSubmit Date<i class="fa fa-fw fa-sort"></i></th>
+                                                   <th (click)="order_list('denial_code','all_claim','null','null',null,null)" class="font600 line-height-24">Denial Code<i class="fa fa-fw fa-sort"></i></th>
 
 
                                                    <!-- <th (click)="order_list('prim_ins_name','claim','null','null',null,null)" class="font600 line-height-24">Primary Insurance <span class="sort-table"><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i></span></th>
@@ -3078,6 +3081,8 @@
                                                    <td (mouseover)="tooltip(x)"><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
 
                                                    <td (mouseover)="tooltip(x)"><span *ngIf="x.responsibility==NULL">-Nil-</span><span *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
+                                                   <td (mouseover)="tooltip(x)"><span *ngIf="x.billed_submit_date==NULL || x.billed_submit_date==''">-Nil-</span><span *ngIf="x.billed_submit_date!=NULL || x.billed_submit_date!=''">{{x.billed_submit_date}}</span></td>
+                                                   <td (mouseover)="tooltip(x)"><span *ngIf="x.denial_code==NULL || x.denial_code==''">-Nil-</span><span *ngIf="x.denial_code!=NULL || x.denial_code!=''">{{x.denial_code}}</span></td>
 
                                                    <!-- <td data-toggle="modal" (mouseover)="tooltip(x)"><span [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.prim_ins_name == NULL ">-Nil-</span><span *ngIf="x.prim_ins_name != NULL">{{x.prim_ins_name}}</span></span></td>
 
@@ -3114,7 +3119,7 @@
                                        <div class="row">
                                           <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
                                              <div class="has-text-centered">
-                                                <pagination-controls id="foo" (pageChange)="pageChange($event,'all_claim',null,null);" maxSize="9"></pagination-controls>
+                                                <pagination-controls id="foo" (pageChange)="pageChange($event,'all_claim',null,null,null,null,null,null);" maxSize="9"></pagination-controls>
                                              </div>
                                           </div>
                                           <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12" style="text-align: right;" class="showing_count" *ngIf="total_row != 0">

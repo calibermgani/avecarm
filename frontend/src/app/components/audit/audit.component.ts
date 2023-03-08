@@ -13,6 +13,7 @@ import { NotifyService } from '../../Services/notify.service';
 import { debounceTime } from 'rxjs/operators';
 import { pipe } from 'rxjs/util/pipe';
 import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-audit',
@@ -106,6 +107,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
     public toastr: ToastrManager,
     private export_handler:ExportFunctionsService,
     private notify_service:NotifyService,
+    private datepipe: DatePipe,
     ) {
       this.observalble=this.setus.update_edit_perm().subscribe(message => {this.check_edit_permission(message)} );
       this.response_data=this.notes_hadler.get_response_data('audit').subscribe(message => { this.collect_response(message) });
@@ -266,6 +268,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
 
     if(type == 'wo')
     {
+      this.search = search;
       console.log(searchs);
       this.pages=page;
       this.current_claim_type='wo';
@@ -275,6 +278,23 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
           error => this.handleError(error)
         );
       }else if(searchs == 'search'){
+        console.log(this.auditClaimsFind.value);
+        console.log(this.sorting_name);
+
+        if (this.auditClaimsFind.value.dos != null && this.auditClaimsFind.value.dos != null) {
+          console.log(this.auditClaimsFind.controls.dos.value);
+          this.auditClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
+          this.auditClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');          
+        }
+        if (this.auditClaimsFind.value.date != null && this.auditClaimsFind.value.date != null){
+          //console.log(this.auditClaimsFind.controls.date.value);
+          this.auditClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
+          this.auditClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');          
+        }
+        if (this.auditClaimsFind.value.bill_submit_date != null && this.auditClaimsFind.value.bill_submit_date != null){
+          this.auditClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
+          this.auditClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');          
+        }
         this.Jarwis.get_audit_table_page(sort_data,page,page_count,sort_type,this.sorting_name,this.sortByAsc,null,null,null,this.auditClaimsFind.value,this.search).subscribe(
           data  => this.assign_page_data(data),
           error => this.handleError(error)
@@ -287,6 +307,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
         }
     }
     else if(type=='completed'){
+      this.search = search;
       console.log(searchs);
       this.comp_pages=page;
       this.current_claim_type='completed';
@@ -296,6 +317,22 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
           error => this.handleError(error)
         );
       }else if(searchs == 'search'){
+
+        if (this.closedClaimsFind.value.dos != null && this.closedClaimsFind.value.dos != null) {
+          console.log(this.closedClaimsFind.controls.dos.value);
+          this.closedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+        }
+        if (this.closedClaimsFind.value.date != null && this.closedClaimsFind.value.date != null){
+          console.log(this.closedClaimsFind.controls.date.value);
+          this.closedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+        }
+        if (this.closedClaimsFind.value.bill_submit_date != null && this.closedClaimsFind.value.bill_submit_date != null){
+          this.closedClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+        }
+
         this.Jarwis.get_audit_claim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.closed_sorting_name,this.sortByAsc,null,null,this.closedClaimsFind.value,null,this.search).subscribe(
           data  => this.form_table(data,type,form_type),
           error => this.handleError(error)
@@ -309,6 +346,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
     }
     else if(type=='allocated')
     {
+      this.search = search;
       console.log(searchs);
       this.alloc_pages=page;
       this.current_claim_type='allocated';
@@ -319,6 +357,23 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
           error => this.handleError(error)
         );
       }else if(searchs == 'search'){
+        console.log(this.assigned_sorting_name);
+
+        if (this.assignedClaimsFind.value.dos != null && this.assignedClaimsFind.value.dos != null) {
+          console.log(this.assignedClaimsFind.controls.dos.value);
+          this.assignedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
+          this.assignedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+        }
+        if (this.assignedClaimsFind.value.date != null && this.assignedClaimsFind.value.date != null){
+          console.log(this.assignedClaimsFind.controls.date.value);
+          this.assignedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
+          this.assignedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+        }
+        if (this.assignedClaimsFind.value.bill_submit_date != null && this.assignedClaimsFind.value.bill_submit_date != null){
+          this.assignedClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
+          this.assignedClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+        }
+
         console.log('target');
         this.Jarwis.get_audit_claim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.assigned_sorting_name,this.sortByAsc,this.assignedClaimsFind.value,null,null,null,this.search).subscribe(
           data  => this.form_table(data,type,form_type),

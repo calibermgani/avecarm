@@ -127,7 +127,27 @@ notifyregister(error)
   //console.log(error);
   // this.notify = error.error.error;
   this.toastr.successToastr('User-Created');
-  this.formGroup.reset();
+  this.formGroup.markAsPristine();
+  this.formGroup.markAsUntouched();
+  this.formGroup.reset({
+    username: '',
+    password: '',
+    firstname: '',
+    lastname: '',
+    dob : '',
+    phone: '',
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    zip: '',
+  });
+  this.process_fields.reset({
+    role_0: '',
+    practice_0: '',
+    assign_limit_0: '',
+    caller_bm_0: '',
+  });
   this.getPractices();
 }
 

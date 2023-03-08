@@ -13,6 +13,7 @@ import { NotifyService } from '../../Services/notify.service';
 import { debounceTime } from 'rxjs/operators';
 import { pipe } from 'rxjs/util/pipe';
 import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-followup',
@@ -84,6 +85,7 @@ export class FollowupComponent implements OnInit, OnDestroy {
     private export_handler:ExportFunctionsService,
     public toastr: ToastrManager,
     private notify_service:NotifyService,
+    private datepipe: DatePipe,
   ) {
     this.response_data=this.notes_hadler.get_response_data('followup').subscribe(message => { this.collect_response(message) });
     this.update_monitor=this.notes_hadler.refresh_update().subscribe(message => {
@@ -429,7 +431,7 @@ types;
       );
   }
   else if(type=='completed'){
-
+    this.search = search;
     this.types='completed';
 
     if(sorting_name == 'null' && searchs != 'search'){
@@ -443,7 +445,23 @@ types;
     }else if(searchs == 'search'){
       console.log('com_2');
       this.comp_pages=page;
-      this.current_claim_type='reallocated';
+      this.current_claim_type='completed';
+
+      if (this.closedClaimsFind.value.dos.startDate != null && this.closedClaimsFind.value.dos.endDate != null) {
+        console.log(this.closedClaimsFind.controls.dos.value);
+        this.closedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
+        this.closedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+      }
+      if (this.closedClaimsFind.value.date.startDate != null && this.closedClaimsFind.value.date.endDate != null) {
+        console.log(this.closedClaimsFind.controls.date.value);
+        this.closedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
+        this.closedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+      }
+      if (this.closedClaimsFind.value.bill_submit_date.startDate != null && this.closedClaimsFind.value.bill_submit_date.endDate != null) {
+        this.closedClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
+        this.closedClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+      }
+
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.closed_sorting_name,this.sortByAsc,null,null,this.closedClaimsFind.value,this.search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
@@ -460,11 +478,12 @@ types;
   }
   else if(type=='allocated')
   {
+    this.search = search;
     this.types='allocated';
     if(sorting_name == 'null' && searchs != 'search'){
       this.alloc_pages=page;
       this.current_claim_type='allocated';
-      page_count = 100;
+      //page_count = 100;
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
@@ -472,6 +491,22 @@ types;
     }else if(searchs == 'search'){
        this.alloc_pages=page;
       this.current_claim_type='allocated';
+      console.log(this.assignedClaimsFind.value.dos);
+      if (this.assignedClaimsFind.value.dos.startDate != null && this.assignedClaimsFind.value.dos.endDate != null) {
+        console.log(this.assignedClaimsFind.controls.dos.value);
+        this.assignedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
+        this.assignedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+      }
+      if (this.assignedClaimsFind.value.date.startDate != null && this.assignedClaimsFind.value.date.endDate != null) {
+        console.log(this.assignedClaimsFind.controls.date.value);
+        this.assignedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
+        this.assignedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+      }
+      if (this.assignedClaimsFind.value.bill_submit_date.startDate != null && this.assignedClaimsFind.value.bill_submit_date.endDate != null) {
+        this.assignedClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
+        this.assignedClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+      }
+
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.sorting_name,this.sortByAsc,this.assignedClaimsFind.value,null,null,this.search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
@@ -487,6 +522,7 @@ types;
   }
   else if(type=='reallocated')
   {
+    this.search = search;
     this.types='reallocated';
     if(sorting_name == 'null' && searchs != 'search'){
       console.log(searchs);
@@ -500,6 +536,21 @@ types;
       console.log('++++++++++++++++');
         this.realloc_pages=page;
         this.current_claim_type='reallocated';
+        if (this.reassignedClaimsFind.value.dos.startDate != null && this.reassignedClaimsFind.value.dos.endDate != null) {
+          console.log(this.reassignedClaimsFind.controls.dos.value);
+          this.reassignedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.reassignedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
+          this.reassignedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.reassignedClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+        }
+        if (this.reassignedClaimsFind.value.date.startDate != null && this.reassignedClaimsFind.value.date.endDate != null) {
+          console.log(this.reassignedClaimsFind.controls.date.value);
+          this.reassignedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.reassignedClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
+          this.reassignedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.reassignedClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+        }
+        if (this.reassignedClaimsFind.value.bill_submit_date.startDate != null && this.reassignedClaimsFind.value.bill_submit_date.endDate != null) {
+          this.reassignedClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.reassignedClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
+          this.reassignedClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.reassignedClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+        }
+
         this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.reassigned_sorting_name,this.sortByAsc,null,this.reassignedClaimsFind.value,null,this.search).subscribe(
           data  => this.form_table(data,type,form_type),
           error => this.handleError(error)
