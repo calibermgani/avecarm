@@ -144,7 +144,11 @@ class AllClaimsController extends Controller
             $skip = ($page_no - 1) * $page_count;
             $end = $page_count;
             // DB::enableQueryLog();
-            $claim_data = Import_field::orderBy('id', 'asc');
+            // $claim_data = Import_field::orderBy('id', 'asc');
+            $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
+            ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
+            ->groupBy('claim_histories.claim_id')
+            ->orderByDesc('max_id');
             $claim_count = Import_field::orderBy('id', 'asc');
             $selected_claim_data = Import_field::orderBy('id', 'asc');
             if (!empty($searchValue['claim_no']) && isset($searchValue['claim_no'])) {
