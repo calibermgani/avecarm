@@ -3787,44 +3787,44 @@ class ImportController extends Controller
         if ($action == 'null' && $action != null) {
           $claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%')->offset($skip)->limit($end);
           $claim_count->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
-          $selected_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
+          $audit_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
         }
 
         if ($action != 'null' && $action == null && empty($sorting_name)) {
           $claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%')->offset($skip)->limit($end);
           $claim_count->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
-          $selected_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
+          $audit_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
         }
 
         if ($sort_data == true && $search == null && $sorting_name == 'null') {
           $claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
           $claim_count->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
-          $selected_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
+          $audit_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
         } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
           $claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
           $claim_count->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
-          $selected_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
+          $audit_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
         }
 
 
         if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
           $claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%')->orderBy($action, 'asc')->offset($skip)->limit($end);
           $claim_count->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
-          $selected_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
+          $audit_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
         } else if ($sort_data == false && $search == 'search'  && $action != 'null') {
           $claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%')->orderBy($action, 'desc')->offset($skip)->limit($end);
           $claim_count->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
-          $selected_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
+          $audit_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
         }
 
         if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
           $claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
           $claim_count->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
-          $selected_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
+          $audit_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
         } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
           $claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
           $claim_count->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
-          $selected_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
+          $audit_claim_data->where('rendering_prov', 'LIKE', '%' . $search_rendering_provider . '%');
         }
       }
 
@@ -4577,6 +4577,8 @@ class ImportController extends Controller
 
         // $created_at = strtotime($claim_data[$key]['created_at']);
 
+        $getExecutiveDate = Claim_history::where('claim_state', 4)->where('claim_id', $value['claim_no'])->latest()->select('created_at')->first();
+        $claim_data[$key]['executive_work_date'] = $getExecutiveDate->created_at ? date('m/d/Y', strtotime($getExecutiveDate->created_at)) : null;
 
         // $claim_data[$key]['created'] = date('m-d-Y',$created_at);
 
