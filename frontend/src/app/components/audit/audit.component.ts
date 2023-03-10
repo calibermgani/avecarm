@@ -597,7 +597,8 @@ closed_claim_data;
       this.skip_row = this.skip;
       this.current_row = this.skip + this.current_total - 1;
       this.total_row = data.count;
-
+      console.log(this.allocated_claims);
+      this.sortallocated();
     }
     else if(type=='completed'){
       this.completed_claims=data.data.datas;
@@ -2963,6 +2964,7 @@ ngAfterViewInit()
   this.get_audit_codes();
   this.get_error_param_codes();
   this.get_error_sub_param_codes();
+  //this.sortallocated();
   if(this.touch_count == undefined)
   {
     this.touch_count=this.notify_service.manual_touch_limit();
@@ -3552,6 +3554,21 @@ reassigned_claims_datas(data){
         this.closed_selected_val = null;      
         this.closedSelected = false;
       }
-    }    
+    } 
+    sortallocated(){
+      this.allocated_claims.sort((a, b) => {
+        if(a.error_type === '[4]') {
+          console.log(this.allocated_claims);
+          console.log('sorted');
+          return -1;
+        } else if(a.error_type === null) {
+          return 1;
+        }else if(b.error_type === null) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+    }
   }
 
