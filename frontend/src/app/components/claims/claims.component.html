@@ -3107,7 +3107,7 @@
 
 
                                                    <td (mouseover)="tooltip(x)"><span *ngIf="x.assigned_to == Null ">UA</span><span *ngIf="x.assigned_to != NULL">{{x.assigned_to}}</span> | <span *ngIf="x.created_at == Null ">UA</span><span *ngIf="x.created_at != NULL">{{x.created_at | date: 'MM/dd/yyyy'}}</span></td>
-                                                   <td ><span *ngIf="x.created_ats==NULL || x.created_ats=='' ">-Nil-</span><span *ngIf="x.claim_Status!=NULL || x.created_ats != '' ">{{x.created_ats | date: 'MM/dd/yyyy'}}</span></td>
+                                                   <td ><span *ngIf="x.created_ats==NULL || x.created_ats=='' ">-Nil-</span><span *ngIf="x.created_ats!=NULL || x.created_ats != '' ">{{x.created_ats | date: 'MM/dd/yyyy'}}</span></td>
                                                 </tr>
                                                 <tr *ngIf="cwo_total == 0">
                                                    <td colspan="12" align="center">
