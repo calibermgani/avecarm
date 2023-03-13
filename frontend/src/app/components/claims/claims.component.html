@@ -34,7 +34,7 @@
                                        </div>
                                     </div>
                                     <div class="collapse" id ="createClaimsSearch">
-                                       <form  [formGroup]="createClaimsFind" (ngSubmit)="createClaims_search(1,'claim','null','null','null','null','null','search')">
+                                       <form  [formGroup]="createClaimsFind" (ngSubmit)="createClaims_search(1,'claim', null,null,null,null,null,'search')">
                                           <div class="box-body no-padding" style="margin-top:20px;">
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -209,7 +209,7 @@
                                              </div>
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
-                                                   <input type="button" class="pull-right btn btn-search" value="Search" (click)="createClaims_search(1,'claim','null','null','null','null','null','search')">
+                                                   <input type="button" class="pull-right btn btn-search" value="Search" (click)="createClaims_search(1,'claim', null,null,null,null,null,'search')">
                                                 </div>
                                              </div>
                                           </div>
@@ -2758,7 +2758,7 @@
                                        </div>
                                     </div>
                                        <div class="collapse" id ="AllClaimsSearch">
-                                          <form  [formGroup]="allClaimsFind" (ngSubmit)="allClaims_search(1,'all_claim','null','null','null','null','null','search')">
+                                          <form  [formGroup]="allClaimsFind" (ngSubmit)="allClaims_search(1,'all_claim',null,null,null,null,null,'search')">
                                               <div class="box-body no-padding" style="margin-top:20px;">
                                                 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                                    <!-- <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
@@ -3107,7 +3107,7 @@
 
 
                                                    <td (mouseover)="tooltip(x)"><span *ngIf="x.assigned_to == Null ">UA</span><span *ngIf="x.assigned_to != NULL">{{x.assigned_to}}</span> | <span *ngIf="x.created_at == Null ">UA</span><span *ngIf="x.created_at != NULL">{{x.created_at | date: 'MM/dd/yyyy'}}</span></td>
-                                                   <td ><span *ngIf="x.created_ats==NULL || x.created_ats=='' ">-Nil-</span><span *ngIf="x.created_ats!=NULL || x.created_ats != '' ">{{x.created_ats | date: 'MM/dd/yyyy'}}</span></td>
+                                                   <td ><span *ngIf="x.created_ats==NULL || x.created_ats=='' ">-Nil-</span><span *ngIf="x.claim_Status!=NULL || x.created_ats != '' ">{{x.created_ats | date: 'MM/dd/yyyy'}}</span></td>
                                                 </tr>
                                                 <tr *ngIf="cwo_total == 0">
                                                    <td colspan="12" align="center">
