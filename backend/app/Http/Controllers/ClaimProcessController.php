@@ -1118,7 +1118,7 @@ class ClaimProcessController extends Controller
         $action = $request->get('sort_type');
         $sorting_name = $request->get('sorting_name');
         $sorting_method = $request->get('sorting_method');
-        $searchValue = $request->get('createsearch');
+        $searchValue = $request->get('reallocationsearch');
 
         $search = $request->get('search');
 
