@@ -2770,7 +2770,7 @@
 
                               <!-- <div *ngIf="claim_notes != ''"> -->
                                  <div *ngFor="let y of claim_notes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
-                                    <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}. <i *ngIf="note_edit_val ==  y.id && y.content != claim_clicked.claim_note" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(claimnotes);editnotes('claimnotes',y.content,y.id)" ></i></p>
+                                    <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;"></span> {{y.content}} <i *ngIf="note_edit_val ==  y.id && y.content != claim_clicked.claim_note" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(claimnotes);editnotes('claimnotes',y.content,y.id)" ></i></p>
                                  </div>
                               <!-- </div> -->
 
@@ -3191,7 +3191,7 @@
                      <div class="box-body no-padding" style="margin-top:10px;" >
                         <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                            <div *ngFor="let y of active_refer_claim" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="border-bottom: 1px dashed #f0f0f0;margin-top:5px;">
-                              <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}.<i *ngIf="note_edit_val == y.id"class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(claimnotes);editnotes('claimnotes',y.content,y.id)" ></i> </p>
+                              <p class="text-justify" style="margin-bottom: 10px;"><span class="ar-blue font600">{{y.create_Name}} <span style="margin-left:3px;margin-right:3px;color:#ccc">/</span> {{y.created_at | date: 'MM/dd/yyyy'}} :</span> <span class="pull-right" style="font-size: 18px;">    </span> {{y.content}}.<i *ngIf="note_edit_val == y.id" class="fa fa-edit ar-blue" style="margin-left:10px; font-size:16px;cursor: pointer;" title="Edit" (click)="open(claimnotes);editnotes('claimnotes',y.content,y.id)" ></i> </p>
                            </div>
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-top:5px;" *ngIf='!active_refer_claim.length'>
                               <p class="text-center text-gray" style="margin-bottom: 10px;">No Records Found</p>

@@ -2524,25 +2524,43 @@ allclaims_filter;
 
     if (table == 'claim') {
       console.log(sorting_name);
-      let createsearch_val_change = false;
+      let createsearch_notNull = [];
+      let nullVal:boolean = false;
       if (typeof this.createClaimsFind.value === 'object' && this.createClaimsFind.value !== null) {
         Object.keys(this.createClaimsFind.value).forEach(key => {
           if (typeof this.createClaimsFind.value[key] === 'object' && this.createClaimsFind.value[key] !== null) {
             Object.keys(this.createClaimsFind.value[key]).forEach(val => {
-              if(this.createClaimsFind.value[key][val] === null)
-              {
-                createsearch_val_change == false;
-                search = null;
-                this.search = null;
+              if(typeof this.createClaimsFind.value[key][val] === 'object' && this.createClaimsFind.value[key][val] !== null) {
+                Object.keys(this.createClaimsFind.value[key][val]).forEach(data => {
+                  if(this.createClaimsFind.value[key][val][data] === null){
+                    nullVal = false;                  
+                  }
+                  else{
+                    nullVal = true;                 
+                  }
+                });
+                createsearch_notNull.push(nullVal);              
               }
-              else{
-                createsearch_val_change == true;
-                console.log('claimsearch val changed');
-                this.search = this.createclaims_filter;
-              }
+              else if (typeof this.createClaimsFind.value[key][val] !== 'object' && this.createClaimsFind.value[key][val] !== null){
+                nullVal = true;
+                createsearch_notNull.push(nullVal);
+              }                        
             });
-          }                 
-        });
+          }
+        });      
+      }
+      if(createsearch_notNull.some(x => x === true)){
+        console.log('val changed');
+        this.search = this.createclaims_filter;   
+        sort_data = 'null';
+        sort_type = 'null';
+        sorting_name='null';     
+        search = this.search;        
+      }
+      else{
+        console.log('val not changed');
+        this.search=null;        
+        search = this.search;
       }
       searchs = this.search;
       this.pages = page;
@@ -2557,8 +2575,8 @@ allclaims_filter;
         console.log(this.createClaimsFind.value.dos);
         if (this.createClaimsFind.value.dos.startDate != null && this.createClaimsFind.value.dos.endDate != null) {
           console.log(this.createClaimsFind.controls.dos.value);
-          this.createClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
-          this.createClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+          this.createClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.startDate), 'yyyy-MM-dd');
+          this.createClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.dos.endDate), 'yyyy-MM-dd');
         }
         if (this.createClaimsFind.value.date.startDate != null && this.createClaimsFind.value.date.endDate != null) {
           console.log(this.createClaimsFind.controls.date.value);

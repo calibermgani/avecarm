@@ -564,7 +564,7 @@
                                           <select [formControlName]="i" class="form-control ngx-dropdown-button">
                                              <option value="">--Select Status--</option>
                                              <option *ngFor="let data of status_list; let j = index;"
-                                                value="{ {{j + 1}} : {{data.description}} }">{{ data.description }}
+                                                [ngValue]="{priority: i+1, statusCode: data.description}">{{ data.description }}
                                              </option>
                                           </select>
                                        </div>
@@ -630,10 +630,10 @@
                                       </select>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                      <input class="month" placeholder="Select Month" type="month" formControlName="month" />
+                                      <input class="form-control month" placeholder="Select Month" type="month" formControlName="month"/>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                      <input class="form-control" type="text" formControlName="audit_percentage"/>
+                                      <input class="form-control" type="number" min="1" max="100" formControlName="audit_percentage"/>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                       <button type="button" class="btn btn-primary btn-sm" (click)="save(i)">
@@ -644,7 +644,7 @@
                                 </div>
                               </div>
                             </form>
-                            {{this.audit_sampling.value | json}}
+                            <!-- {{this.audit_sampling.value | json}} -->
                         </div>
                      </div>
                   </div>

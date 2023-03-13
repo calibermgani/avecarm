@@ -198,9 +198,12 @@ public get_associate_name(data){
 
     console.log(this.selected_claim_data);
     console.log(this.notes_details);
-    /* if(this.router.url=='/followup'){
-      this.note_validation=true;      
-    } */
+    if(this.router.url=='/followup'){
+      if((this.selected_claim_data['claim_note'] !='' && this.selected_claim_data['claim_note'] != undefined && this.selected_claim_data['claim_note'] != null) || (this.selected_claim_data['claims_notes'] !='' && this.selected_claim_data['claims_notes'] != undefined && this.selected_claim_data['claims_notes'] != null))
+      {
+        this.note_validation=true;
+      }
+    }
         
     if(this.selected_claim_data['claim_closing'] == 1)
     {
