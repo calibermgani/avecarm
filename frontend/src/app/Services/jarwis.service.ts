@@ -1223,6 +1223,12 @@ all_claim_list(data,page,page_count,type,sorting_name,sorting_method,createsearc
    return response;
 }
 
+/* reallocation_list(data,page,page_count,type,sorting_name,sorting_method,createsearch,search)
+{
+   data={page_no:page,count:page_count,filter:data,sort_type:type,sorting_name:sorting_name,sorting_method:sorting_method,reallocationsearch:createsearch,search:search};
+   let response= this.common_url('reallocation_list',data);
+   return response;
+} */
 get_payer_name(){
   let data={practice_dbid : localStorage.getItem('practice_id')};
   let response= this.common_url('get_payer_name',data);

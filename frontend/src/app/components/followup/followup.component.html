@@ -1173,7 +1173,7 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Payer Name</label>
                                                    <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="assigned_selected_val" (keyup)="assignedSearchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(assignedSelected == false) && (assigned_selected_val != '')">
+                                                   <div *ngIf="(assignedSelected == false && assigned_selected_val != '' && assigned_selected_val != null)">
                                                       <div *ngFor="let res of assigned_results">
                                                           <a (click)="assignedSelectvalue(res)">{{res}}</a>
                                                       </div>
@@ -1332,7 +1332,7 @@
                                                             [size]="60"
                                                             [color]="'#1fa5be'"
                                                             ></app-atom-spinner>
-                                                            <tr *ngFor="let x of allocated_claims | paginate: { id: 'alloc_claims',itemsPerPage: 100, currentPage: alloc_pages, totalItems:total_allocated}"  class="clickable-row cur-pointer" >
+                                                            <tr *ngFor="let x of allocated_claims | paginate: { id: 'alloc_claims',itemsPerPage: 15, currentPage: alloc_pages, totalItems:total_allocated}"  class="clickable-row cur-pointer" >
                                                                <td><input type="checkbox" [checked]="selected_claim_nos.includes(x.claim_no)" style="margin-top:0px;" (click)="selected($event,x.claim_no,i)"></td>
                                                                <!-- <td *ngIf="x.touch < touch_count || x.touch >= touch_count; else no_touch" title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar">{{x.touch}}</span></td>
                                                                <td *ngIf="x.touch >= touch_count; else no_touch" title="Touch Count" (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();claim_check(x.touch);"><span class="ar-red">{{x.touch}}</span></td>
@@ -1580,7 +1580,7 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Payer Name</label>
                                                    <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="reassigned_selected_val" (keyup)="reassignedSearchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(reassignedSelected == false) && (reassigned_selected_val != '')">
+                                                   <div *ngIf="(reassignedSelected == false && reassigned_selected_val != '' && reassigned_selected_val != null)">
                                                       <div *ngFor="let res of reassigned_results">
                                                           <a (click)="reassignedSelectvalue(res)">{{res}}</a>
                                                       </div>
@@ -2107,7 +2107,7 @@
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Payer Name</label>
                                                    <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="closed_selected_val" (keyup)="closedSearchOnKeyUp($event)" list="SearchResults">
-                                                   <div *ngIf="(closedSelected == false) && (closed_selected_val != '')">
+                                                   <div *ngIf="(closedSelected == false && closed_selected_val != '' && closed_selected_val != null)">
                                                       <div *ngFor="let res of closed_results">
                                                           <a (click)="closedSelectvalue(res)">{{res}}</a>
                                                       </div>

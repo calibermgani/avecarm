@@ -387,21 +387,21 @@ reassigned_order_list(type, sort_type,sorting_name,sorting_method,assign_claim_s
 }
 
 search;
+assignedclaims_filter;
+reassignedclaims_filter;
+closedclaims_filter;
 public assigned_claims_filter(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,search){
-  console.log('dadsas' + search);
-  this.search = search;
+  this.assignedclaims_filter = search;
   this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,search);
 }
 
 public reassigned_claims_filter(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,search){
-  this.search = search;
+  this.reassignedclaims_filter = search;
   this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,search);
 }
 
 public closed_claims_filter(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,search){
-  console.log('dadsas' + search);
-  this.search = search;
-  console.log(this.search);
+  this.closedclaims_filter = search;
   this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,search);
 }
 
@@ -431,22 +431,60 @@ types;
       );
   }
   else if(type=='completed'){
-    this.search = search;
+    this.comp_pages=page;
+    this.current_claim_type='completed';
     this.types='completed';
 
+    let closedSearch_notNull = [];
+    let nullVal:boolean = false;
+    let closedClaims_searchValue = [this.closedClaimsFind.value];
+    if (typeof closedClaims_searchValue === 'object' && closedClaims_searchValue !== null) {
+      Object.keys(closedClaims_searchValue).forEach(key => {
+        if (typeof closedClaims_searchValue[key] === 'object' && closedClaims_searchValue[key] !== null) {
+          Object.keys(closedClaims_searchValue[key]).forEach(val => {
+            if(typeof closedClaims_searchValue[key][val] === 'object' && closedClaims_searchValue[key][val] !== null) {
+              Object.keys(closedClaims_searchValue[key][val]).forEach(data => {
+                if(closedClaims_searchValue[key][val][data] === null){
+                  nullVal = false;                  
+                }
+                else{
+                  nullVal = true;                 
+                }
+              });
+              closedSearch_notNull.push(nullVal);              
+            }
+            else if (typeof closedClaims_searchValue[key][val] !== 'object' && closedClaims_searchValue[key][val] !== null && closedClaims_searchValue[key][val] != ''){
+              nullVal = true;
+              closedSearch_notNull.push(nullVal);
+            }
+            else if (typeof closedClaims_searchValue[key][val] !== 'object' && closedClaims_searchValue[key][val] !== null && closedClaims_searchValue[key][val] == ''){
+              nullVal = false;
+              closedSearch_notNull.push(nullVal);
+            }
+          });
+        }          
+      });      
+    }
+    if(closedSearch_notNull.some(x => x === true)){
+      this.search = this.closedclaims_filter;        
+      search = this.search;
+    }
+    else{
+      this.search=null;
+      sort_data = 'null';
+      sort_type = 'null';
+      sorting_name = 'null';
+      sorting_method = 'null';        
+      search = this.search;
+    }
+
+    searchs = this.search;
     if(sorting_name == 'null' && searchs != 'search'){
-      console.log('com_1');
-      this.comp_pages=page;
-      this.current_claim_type='completed';
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
       );
     }else if(searchs == 'search'){
-      console.log('com_2');
-      this.comp_pages=page;
-      this.current_claim_type='completed';
-
       if (this.closedClaimsFind.value.dos.startDate != null && this.closedClaimsFind.value.dos.endDate != null) {
         console.log(this.closedClaimsFind.controls.dos.value);
         this.closedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
@@ -467,9 +505,6 @@ types;
         error => this.handleError(error)
       );
     }else{
-    console.log('com_3');
-      this.comp_pages=page;
-      this.current_claim_type='completed';
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.closed_sorting_name,this.sortByAsc,null,null,null,this.search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
@@ -478,20 +513,62 @@ types;
   }
   else if(type=='allocated')
   {
-    this.search = search;
+    this.alloc_pages=page;
     this.types='allocated';
+    this.current_claim_type='allocated';
+
+    let assignedSearch_notNull = [];
+    let nullVal:boolean = false;
+	  let assignedClaims_searchValue = [this.assignedClaimsFind.value];
+      if (typeof assignedClaims_searchValue === 'object' && assignedClaims_searchValue !== null) {
+        Object.keys(assignedClaims_searchValue).forEach(key => {
+          if (typeof assignedClaims_searchValue[key] === 'object' && assignedClaims_searchValue[key] !== null) {
+            Object.keys(assignedClaims_searchValue[key]).forEach(val => {
+              if(typeof assignedClaims_searchValue[key][val] === 'object' && assignedClaims_searchValue[key][val] !== null) {
+                Object.keys(assignedClaims_searchValue[key][val]).forEach(data => {
+                  if(assignedClaims_searchValue[key][val][data] === null){
+                    nullVal = false;                  
+                  }
+                  else{
+                    nullVal = true;                 
+                  }
+                });
+                assignedSearch_notNull.push(nullVal);              
+              }
+              else if (typeof assignedClaims_searchValue[key][val] !== 'object' && assignedClaims_searchValue[key][val] !== null && assignedClaims_searchValue[key][val] != ''){
+                nullVal = true;
+                assignedSearch_notNull.push(nullVal);
+              }
+              else if (typeof assignedClaims_searchValue[key][val] !== 'object' && assignedClaims_searchValue[key][val] !== null && assignedClaims_searchValue[key][val] == ''){
+                nullVal = false;
+                assignedSearch_notNull.push(nullVal);
+              }
+            });
+          }          
+        });      
+      }
+      if(assignedSearch_notNull.some(x => x === true)){
+        this.search = this.assignedclaims_filter;        
+        search = this.search;
+        sort_data = null;
+        sort_type = null;
+      }
+      else{
+        this.search=null;
+		    sort_data = 'null';
+        sort_type = 'null';
+		    sorting_name = 'null';
+        sorting_method = 'null';        
+        search = this.search;
+      }
+    
+    searchs = this.search;
     if(sorting_name == 'null' && searchs != 'search'){
-      this.alloc_pages=page;
-      this.current_claim_type='allocated';
-      //page_count = 100;
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
       );
     }else if(searchs == 'search'){
-       this.alloc_pages=page;
-      this.current_claim_type='allocated';
-      console.log(this.assignedClaimsFind.value.dos);
       if (this.assignedClaimsFind.value.dos.startDate != null && this.assignedClaimsFind.value.dos.endDate != null) {
         console.log(this.assignedClaimsFind.controls.dos.value);
         this.assignedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
@@ -512,8 +589,6 @@ types;
         error => this.handleError(error)
       );
     }else{
-      this.alloc_pages=page;
-      this.current_claim_type='allocated';
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.sorting_name,this.sortByAsc,null,null,null,this.search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
@@ -522,12 +597,60 @@ types;
   }
   else if(type=='reallocated')
   {
-    this.search = search;
+    this.realloc_pages=page;
     this.types='reallocated';
+    this.current_claim_type='reallocated';
+
+    let reassignedSearch_notNull = [];
+    let nullVal:boolean = false;
+	  let reassignedClaims_searchValue = [this.reassignedClaimsFind.value];
+      if (typeof reassignedClaims_searchValue === 'object' && reassignedClaims_searchValue !== null) {
+        Object.keys(reassignedClaims_searchValue).forEach(key => {
+          if (typeof reassignedClaims_searchValue[key] === 'object' && reassignedClaims_searchValue[key] !== null) {
+            Object.keys(reassignedClaims_searchValue[key]).forEach(val => {
+              if(typeof reassignedClaims_searchValue[key][val] === 'object' && reassignedClaims_searchValue[key][val] !== null) {
+                Object.keys(reassignedClaims_searchValue[key][val]).forEach(data => {
+                  if(reassignedClaims_searchValue[key][val][data] === null){
+                    nullVal = false;                  
+                  }
+                  else{
+                    nullVal = true;                 
+                  }
+                });
+                reassignedSearch_notNull.push(nullVal);              
+              }
+              else if (typeof reassignedClaims_searchValue[key][val] !== 'object' && reassignedClaims_searchValue[key][val] !== null && reassignedClaims_searchValue[key][val] != ''){
+                nullVal = true;
+                reassignedSearch_notNull.push(nullVal);
+              }
+              else if (typeof reassignedClaims_searchValue[key][val] !== 'object' && reassignedClaims_searchValue[key][val] !== null && reassignedClaims_searchValue[key][val] == ''){
+                nullVal = false;
+                reassignedSearch_notNull.push(nullVal);
+              }
+            });
+          }          
+        });      
+      }
+      if(reassignedSearch_notNull.some(x => x === true)){
+        this.search = this.reassignedclaims_filter;        
+        search = this.search;
+        sort_data = null;
+        sort_type = null;
+      }
+      else{
+        this.search=null;
+		    sort_data = 'null';
+        sort_type = 'null';
+		    sorting_name = 'null';
+        sorting_method = 'null';        
+        search = this.search;
+      }
+
+    searchs = this.search;
     if(sorting_name == 'null' && searchs != 'search'){
       console.log(searchs);
-      this.realloc_pages=page;
-      this.current_claim_type='reallocated';
+      
+      
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)

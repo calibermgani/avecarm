@@ -51,10 +51,14 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   all_select_date: any;
   resaaigned_select_date:any;
   closed_select_date: any;
+  // reallocate_select_date: any;
+  allclaim_billsubmit_date:any;
+  // reallocate_billsubmit_date:any;
   selectedAge = null;
   all_selectedAge = null;
   closed_selectedAge = null;
   reassigned_selectedAge = null;
+  // reallocate_selectedAge = null;
   age_options:any = [{ "from_age": 0, "to_age": 30 },{ "from_age": 31, "to_age": 60 },{ "from_age": 61, "to_age": 90 },{ "from_age": 91, "to_age": 120 },{ "from_age": 121, "to_age": 180 },{ "from_age": 181, "to_age": 365 }];
   claim_statuses :any = ['Closed', 'Assigned', 'Auditing', 'Audit'];
   decimal_pattern = "^\[0-9]+(\.[0-9][0-9])\-\[0-9]+(\.[0-9][0-9])?$";
@@ -68,6 +72,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   closed_results: any[] = [];
   reassigned_results: any[] = [];
   allclaim_results: any[] = [];
+  // reallocate_results:any[] = [];
   searchResults: any[] = [];
   isValueSelected:boolean = false;
   selected_val:any = null;
@@ -77,6 +82,8 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   closed_selected_val:any = null;
   allclaimSelected:boolean = false;
   allclaim_selected_val:any = null;
+  // reallocateSelected:boolean = false;
+  // reallocate_selected_val:any = null;
 
   public initial_wo_filter;
   public initial_allclaim_filter;
@@ -149,6 +156,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   workOrder: FormGroup;
   closedClaimsFind: FormGroup;
   createClaimsFind: FormGroup;
+  reallocateClaimsFind: FormGroup;
   allClaimsFind: FormGroup;
   workOrderFind: FormGroup;
   autoclose_claim: FormGroup;
@@ -171,6 +179,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   selecteds: any;
   selectedClosed:any;
   selectedAll:any;
+  selectedReallocate:any;
   selectedReasssign:any;
   selectedDueDate: any;
   selectedCreatedAt: any;
@@ -2490,49 +2499,53 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   //   });
   // }
 
-createclaims_filter;
+  createclaims_filter;
   createClaims_search(page: number, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, searchdata) {
     this.createclaims_filter = searchdata;
     console.log(searchdata);
     this.pageChange(page, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, searchdata);
   }
-allclaims_filter;
+  allclaims_filter;
   allClaims_search(page: number, table, sort_data, sort_type, sorting_name, sorting_method, allclaimsearch, searchdata) {
     this.allclaims_filter = searchdata;
     console.log(searchdata);
     this.pageChange(page, table, sort_data, sort_type, sorting_name, sorting_method, allclaimsearch, searchdata);
   }
-
+  /* reallocateclaims_filter;
+  reallocateClaims_search(page: number, table, sort_data, sort_type, sorting_name, sorting_method, reallocatesearch, searchdata) {
+    this.reallocateclaims_filter = searchdata;
+    console.log(searchdata);
+    this.pageChange(page, table, sort_data, sort_type, sorting_name, sorting_method, reallocatesearch, searchdata);
+  } */
 
   //Table to list claims and Pagination
   upload_page: number;
   pages: number;
   total: number;
+  allclaim_pages: number;
+  allclaim_total: number;
+  reallocate_pages: number;
   claim_status_codes = [];
   claim_sub_status_codes = [];
   searchs;
   public pageChange(page: number, table, sort_data, sort_type, sorting_name, sorting_method, createsearch, search) {
-    console.log(search);
     this.search = search;
     let searchs = this.search;
-    console.log(createsearch);
-    console.log(sorting_name);
-
     this.searchValue = this.search;
 
     let page_count = 15;
 
     if (table == 'claim') {
-      console.log(sorting_name);
       let createsearch_notNull = [];
       let nullVal:boolean = false;
-      if (typeof this.createClaimsFind.value === 'object' && this.createClaimsFind.value !== null) {
-        Object.keys(this.createClaimsFind.value).forEach(key => {
-          if (typeof this.createClaimsFind.value[key] === 'object' && this.createClaimsFind.value[key] !== null) {
-            Object.keys(this.createClaimsFind.value[key]).forEach(val => {
-              if(typeof this.createClaimsFind.value[key][val] === 'object' && this.createClaimsFind.value[key][val] !== null) {
-                Object.keys(this.createClaimsFind.value[key][val]).forEach(data => {
-                  if(this.createClaimsFind.value[key][val][data] === null){
+	    let createClaims_searchValue = [this.createClaimsFind.value];
+      if (typeof createClaims_searchValue === 'object' && createClaims_searchValue !== null) {
+        Object.keys(createClaims_searchValue).forEach(key => {
+          if (typeof createClaims_searchValue[key] === 'object' && createClaims_searchValue[key] !== null) {
+            Object.keys(createClaims_searchValue[key]).forEach(val => {
+              if(typeof createClaims_searchValue[key][val] === 'object' && createClaims_searchValue[key][val] !== null) {
+                Object.keys(createClaims_searchValue[key][val]).forEach(data => {
+                  if(createClaims_searchValue[key][val][data] === null){
                     nullVal = false;                  
                   }
                   else{
@@ -2541,27 +2554,29 @@ allclaims_filter;
                 });
                 createsearch_notNull.push(nullVal);              
               }
-              else if (typeof this.createClaimsFind.value[key][val] !== 'object' && this.createClaimsFind.value[key][val] !== null){
+              else if (typeof createClaims_searchValue[key][val] !== 'object' && createClaims_searchValue[key][val] !== null && createClaims_searchValue[key][val] != ''){
                 nullVal = true;
                 createsearch_notNull.push(nullVal);
-              }                        
+              }
+              else if (typeof createClaims_searchValue[key][val] !== 'object' && createClaims_searchValue[key][val] !== null && createClaims_searchValue[key][val] == ''){
+                nullVal = false;
+                createsearch_notNull.push(nullVal);
+              }
             });
-          }
+          }          
         });      
       }
       if(createsearch_notNull.some(x => x === true)){
-        console.log('val changed');
-        this.search = this.createclaims_filter;   
+        this.search = this.createclaims_filter;        
+        search = this.search;
         sort_data = 'null';
-        sort_type = 'null';
-        sorting_name='null';     
-        search = this.search;        
+        sort_type = 'null';    
       }
       else{
-        console.log('val not changed');
         this.search=null;        
         search = this.search;
       }
+      
       searchs = this.search;
       this.pages = page;
       if (sorting_name == null && searchs == null) {
@@ -2622,42 +2637,44 @@ allclaims_filter;
         Date : 09/01/2023
         Purpose : To get all Calims Table */
     else if (table == 'all_claim') {      
-      console.log(sorting_name);
-      let itemnotNull = [];
+      let allclaimsearch_notNull = [];
       let nullVal:boolean = false;
-      if (typeof this.allClaimsFind.value === 'object' && this.allClaimsFind.value !== null) {
-        Object.keys(this.allClaimsFind.value).forEach(key => {
-          if (typeof this.allClaimsFind.value[key] === 'object' && this.allClaimsFind.value[key] !== null) {
-            Object.keys(this.allClaimsFind.value[key]).forEach(val => {
-              if(typeof this.allClaimsFind.value[key][val] === 'object' && this.allClaimsFind.value[key][val] !== null) {
-                Object.keys(this.allClaimsFind.value[key][val]).forEach(data => {
-                  if(this.allClaimsFind.value[key][val][data] === null){
+	    let allClaims_searchValue = [this.allClaimsFind.value];
+      if (typeof allClaims_searchValue === 'object' && allClaims_searchValue !== null) {
+        Object.keys(allClaims_searchValue).forEach(key => {
+          if (typeof allClaims_searchValue[key] === 'object' && allClaims_searchValue[key] !== null) {
+            Object.keys(allClaims_searchValue[key]).forEach(val => {
+              if(typeof allClaims_searchValue[key][val] === 'object' && allClaims_searchValue[key][val] !== null) {
+                Object.keys(allClaims_searchValue[key][val]).forEach(data => {
+                  if(allClaims_searchValue[key][val][data] === null){
                     nullVal = false;                  
                   }
                   else{
                     nullVal = true;                 
                   }
                 });
-                itemnotNull.push(nullVal);              
+                allclaimsearch_notNull.push(nullVal);              
               }
-              else if (typeof this.allClaimsFind.value[key][val] !== 'object' && this.allClaimsFind.value[key][val] !== null){
+              else if (typeof allClaims_searchValue[key][val] !== 'object' && allClaims_searchValue[key][val] !== null && allClaims_searchValue[key][val] != ''){
                 nullVal = true;
-                itemnotNull.push(nullVal);
-              }                        
+                allclaimsearch_notNull.push(nullVal);
+              }
+              else if (typeof allClaims_searchValue[key][val] !== 'object' && allClaims_searchValue[key][val] !== null && allClaims_searchValue[key][val] == ''){
+                nullVal = false;
+                allclaimsearch_notNull.push(nullVal);
+              }
             });
-          }
+          }          
         });      
       }
-      if(itemnotNull.some(x => x === true)){
-        console.log('val changed');
-        this.search = this.allclaims_filter;
+      if(allclaimsearch_notNull.some(x => x === true)){
+        this.search = this.allclaims_filter;        
         sort_data = 'null';
         sort_type = 'null';
         sorting_name='null';
-        search = this.search;        
+        search = this.search;		
       }
       else{
-        console.log('val not changed');
         this.search=null;
         sort_data = null;
         sort_type = null;
@@ -2667,7 +2684,7 @@ allclaims_filter;
       }
       searchs = this.search;
       console.log(searchs);
-      this.pages = page;
+      this.allclaim_pages = page;
       if (sorting_name == null && searchs == null) {
         this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, null, sorting_method, null, search).subscribe(
           data => this.assign_page_data(data),
@@ -2701,6 +2718,87 @@ allclaims_filter;
         );
       }
     }
+    /* else if (table == 'reallocate_claims') {      
+      console.log(sorting_name);
+      let itemnotNull = [];
+      let nullVal:boolean = false;
+      let reallocate_searchdata = [this.reallocateClaimsFind.value];
+      if (typeof reallocate_searchdata === 'object' && this.reallocateClaimsFind.value !== null) {
+        Object.keys(reallocate_searchdata).forEach(key => {
+          if (typeof reallocate_searchdata[key] === 'object' && reallocate_searchdata[key] !== null) {
+            Object.keys(reallocate_searchdata[key]).forEach(val => {
+              if(typeof reallocate_searchdata[key][val] === 'object' && reallocate_searchdata[key][val] !== null) {
+                Object.keys(reallocate_searchdata[key][val]).forEach(data => {
+                  if(reallocate_searchdata[key][val][data] === null){
+                    nullVal = false;                  
+                  }
+                  else{
+                    nullVal = true;                 
+                  }
+                });
+                itemnotNull.push(nullVal);              
+              }
+              else if (typeof reallocate_searchdata[key][val] !== 'object' && reallocate_searchdata[key][val] !== null){
+                nullVal = true;
+                itemnotNull.push(nullVal);
+              }                        
+            });
+          }
+        });      
+      }
+      if(itemnotNull.some(x => x === true)){
+        console.log('val changed');
+        this.search = this.reallocateclaims_filter;
+        sort_data = 'null';
+        sort_type = 'null';
+        sorting_name='null';
+        search = this.search;        
+      }
+      else{
+        console.log('val not changed');
+        this.search=null;
+        sort_data = null;
+        sort_type = null;
+        sorting_name = null;
+        sorting_method = null;
+        search = this.search;
+      }
+      searchs = this.search;
+      console.log(searchs);
+      this.reallocate_pages = page;
+      if (sorting_name == null && searchs == null) {
+        this.Jarwis.reallocation_list(sort_data, page, page_count, sort_type, null, sorting_method, null, search).subscribe(
+          data => this.reallocate_page_data(data),
+          error => this.handleError(error)
+        );
+      } else if (searchs == 'search') {        
+        if (this.reallocateClaimsFind.value.dos.startDate !=null && this.reallocateClaimsFind.value.dos.endDate !=null) {
+          console.log(this.reallocateClaimsFind.value);
+          this.reallocateClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.dos.startDate), 'yyyy-MM-dd');
+          this.reallocateClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.dos.endDate), 'yyyy-MM-dd');          
+        }
+        if (this.reallocateClaimsFind.value.date.startDate != null && this.reallocateClaimsFind.value.date.endDate != null) {
+          console.log(this.reallocateClaimsFind.controls.date.value);
+          this.reallocateClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
+          this.reallocateClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+        }
+        if (this.reallocateClaimsFind.value.bill_submit_date.startDate != null && this.reallocateClaimsFind.value.bill_submit_date.endDate != null) {
+          // console.log(this.createClaimsFind.controls.bill_submit_date.value);
+          this.reallocateClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
+          this.reallocateClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+        }
+        
+        this.Jarwis.reallocation_list(sort_data, page, page_count, sort_type, sorting_name, this.sortByAsc, this.reallocateClaimsFind.value, this.search).subscribe(
+          data => this.reallocate_page_data(data),
+          error => this.handleError(error)
+        );
+      } else {     
+        this.Jarwis.reallocation_list(sort_data, page, page_count, sort_type, sorting_name,this.sortByAsc, null, this.search).subscribe(
+          data => this.reallocate_page_data(data),
+          error => this.handleError(error)
+        );
+      }
+    } */
     else if (table == 'upload') {
       this.upload_page = page;
       console.log(this.upload_page);
@@ -2795,7 +2893,26 @@ allclaims_filter;
     this.current_row = this.skip + this.current_total - 1;
     this.total_row = data.total;
   }
+  //Reallocate Table data and `total values
+  /* reallocate_table_datas = [];
+  reallocate_current_total;
+  reallocate_skip;
+  reallocate_total_row;
+  reallocate_skip_row;
+  reallocate_current_row;
+  reallocate_selected_claim_data;
+  reallocate_cwo_total;
+  public reallocate_page_data(data) {
+    this.reallocate_table_datas = data.data;
+    this.reallocate_selected_claim_data = data.selected_claim_data;
+    this.reallocate_cwo_total = data.total;
+    this.reallocate_current_total = data.current_total;
+    this.reallocate_skip = data.skip + 1;
 
+    this.reallocate_skip_row = this.reallocate_skip;
+    this.reallocate_current_row = this.reallocate_skip + this.reallocate_current_total - 1;
+    this.reallocate_total_row = data.total;
+  } */
 
   searchData: string;
   //Search filter function
@@ -2929,39 +3046,51 @@ workorder_filter;
       );
     } else if (filter == 'closedClaims') {
       this.closed_pages = page;
-      let closedclaimsearch_val_change = false;
       console.log(this.closedClaimsFind.value);
-      if (typeof this.closedClaimsFind.value === 'object' && this.closedClaimsFind.value !== null) {
-        Object.keys(this.closedClaimsFind.value).forEach(key => {
-          console.log(this.closedClaimsFind.value[key]);
-          if (typeof this.closedClaimsFind.value[key] === 'object' && this.closedClaimsFind.value[key] !== null) {
-            Object.keys(this.closedClaimsFind.value[key]).forEach(val => {
-              console.log(this.closedClaimsFind.value[key][val]);
-              if(this.closedClaimsFind.value[key][val] === null)
-              {
-                closedclaimsearch_val_change == false;
-                console.log('closedclaimsearch val not changed');
-                this.search=null;
-                sort_data = null;
-                sort_type = null;
-                sorting_name = 'null';
-                sorting_method = 'null';
-                search = null;
-                closedsearch = null;
+
+      let closedSearch_notNull = [];
+      let nullVal:boolean = false;
+	    let closedClaims_searchValue = [this.closedClaimsFind.value];
+      console.log(closedClaims_searchValue);
+      if (typeof closedClaims_searchValue === 'object' && closedClaims_searchValue !== null) {
+        Object.keys(closedClaims_searchValue).forEach(key => {
+          if (typeof closedClaims_searchValue[key] === 'object' && closedClaims_searchValue[key] !== null) {
+            Object.keys(closedClaims_searchValue[key]).forEach(val => {
+              console.log(closedClaims_searchValue[key][val]);
+              if(typeof closedClaims_searchValue[key][val] === 'object' && closedClaims_searchValue[key][val] !== null) {
+                Object.keys(closedClaims_searchValue[key][val]).forEach(data => {
+                  if(closedClaims_searchValue[key][val][data] === null){
+                    nullVal = false;                  
+                  }
+                  else{
+                    nullVal = true;                 
+                  }
+                });
+                closedSearch_notNull.push(nullVal);              
               }
-              else{
-                closedclaimsearch_val_change == true;
-                console.log('closedclaimsearch val changed');
-                this.search = this.closedclaims_filter;
-                sort_data = 'null';
-                sort_type = 'null';
-                sorting_name='null';
-                closedsearch = this.closedClaimsFind.value;
-                search = this.search;
+              else if (typeof closedClaims_searchValue[key][val] !== 'object' && closedClaims_searchValue[key][val] !== null && closedClaims_searchValue[key][val] != ''){
+                nullVal = true;
+                closedSearch_notNull.push(nullVal);
+              }
+              else if (typeof closedClaims_searchValue[key][val] !== 'object' && closedClaims_searchValue[key][val] !== null && closedClaims_searchValue[key][val] == ''){
+                nullVal = false;
+                closedSearch_notNull.push(nullVal);
               }
             });
-          }                 
-        });
+          }          
+        });      
+      }
+      if(closedSearch_notNull.some(x => x === true)){
+        this.search = this.closedclaims_filter;        
+        search = this.search;
+      }
+      else{
+        this.search=null;
+		    sort_data = null;
+        sort_type = null;
+		    sorting_name = null;
+        sorting_method = null;        
+        search = this.search;
       }
 
       searchs = this.search;
@@ -2972,7 +3101,8 @@ workorder_filter;
           error => this.error_handler(error)
         );
       } else if (searchs == 'search') {
-        if (this.closedClaimsFind.value.dos.startDate != null && this.createClaimsFind.value.dos.endDate != null) {
+        console.log(this.closedClaimsFind.value);
+        if (this.closedClaimsFind.value.dos.startDate != null && this.closedClaimsFind.value.dos.endDate != null) {
           console.log(this.closedClaimsFind.controls.dos.value);
           this.closedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
           this.closedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
@@ -3004,7 +3134,7 @@ workorder_filter;
 closedclaims_filter;
   closedClaims_search(filter, from, to, type, sort_type, sort_data, sorting_name, sorting_method, closedsearch, workordersearch, searchdata) {
     this.closedclaims_filter = searchdata;
-    this.get_workorder(filter, from, to, type, this.closed_pages, sort_type, this.sortByAsc, sorting_name, sorting_method, closedsearch, null, searchdata);
+    this.get_workorder(filter, from, to, type, this.closed_pages, sort_type, sort_data, sorting_name, this.sortByAsc, closedsearch, null, searchdata);
   }
 
 
@@ -3710,6 +3840,23 @@ closedclaims_filter;
       denial_code: []
     });
     
+    /* this.reallocateClaimsFind = this.formBuilder.group({
+      dos: [],
+      age_filter:[],
+      claim_no: [],
+      acc_no: [],
+      patient_name: [],
+      responsibility: [],
+      total_ar: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(this.decimal_pattern),
+      ]),
+      rendering_provider:[],
+      payer_name:[],
+      date:[],
+      bill_submit_date: [],
+      denial_code: []
+    }); */
 
     this.allClaimsFind = this.formBuilder.group({
       dos: [],
@@ -4025,6 +4172,45 @@ public process_codes(data:any)
     }
   }
 
+  /* public reallocate_status_code_changed(event:any)
+  {
+    if(event.value!=undefined)
+    {
+      let sub_status=this.sub_status_codes_data[event.value.id];
+      let sub_status_option=[];      
+      console.log('sub_status_option');
+      if(sub_status == undefined || sub_status =='' )
+      {
+        this.sub_options=[];
+        this.reallocateClaimsFind.patchValue({
+          sub_status_code: ''
+        });
+      }
+      else {
+        for(let i=0;i<sub_status.length;i++)
+        {
+          if(sub_status[i]['status']==1)
+          {
+            sub_status_option.push({id: sub_status[i]['id'], description: sub_status[i]['status_code'] +'-'+ sub_status[i]['description'] });
+          }
+          this.sub_options=sub_status_option;
+          if(this.sub_options.length !=0)
+          {
+            this.reallocateClaimsFind.patchValue({
+              sub_status_code: {id:this.sub_options[0]['id'],description:this.sub_options[0]['description']}
+            });
+          }
+          else{
+            this.reallocateClaimsFind.patchValue({
+              sub_status_code: ""
+            });
+          }
+        }
+      }
+      // this.modified_stats.push(event);
+    }
+  } */
+
   public closedClaims_status_code_changed(event:any)
   {
     if(event.value!=undefined)
@@ -4287,4 +4473,26 @@ public process_codes(data:any)
       this.allclaimSelected = false;
     }
   }
+
+  //For ReallocateClaim
+  /* reallocateclaimSearchOnKeyUp(event) {
+    let input = event.target.value;
+    if (input.length > 0) {
+      this.reallocate_results = this.searchFromArray(this.searchResults, input);
+    }
+    else{
+      this.reallocate_selected_val = null;
+      this.reallocateSelected = false;
+    }    
+  }
+  reallocateclaimSelectvalue(value) {
+    if(value !='' || value !=null){
+      this.reallocateSelected = true;
+    this.reallocate_selected_val = value;
+    }
+    else{
+      this.reallocate_selected_val = null;      
+      this.reallocateSelected = false;
+    }
+  } */
 }
