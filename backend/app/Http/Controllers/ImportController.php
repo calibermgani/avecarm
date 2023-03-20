@@ -16,7 +16,9 @@ use Schema;
 use App\Import_field;
 
 use App\File_upload;
-use Excel;
+use App\Models\Reimport;
+use App\Workorder_user_field;
+use Maatwebsite\Excel\Facades\Excel;
 use File;
 use Config;
 use Carbon\Carbon;
@@ -39,7 +41,7 @@ class ImportController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('auth:api', ['except' => ['upload', 'get_upload_table_page', 'getfile', 'template', 'createclaim', 'updatemismatch', 'overwrite', 'overwrite_all', 'get_table_page', 'get_related_calims', 'fetch_export_data', 'get_line_items', 'delete_upload_file', 'process_upload_file', 'get_audit_table_page', 'updateingnore', 'get_file_ready_count', 'updateAutoClose', 'get_payer_name']]);
+    $this->middleware('auth:api', ['except' => ['upload', 'get_upload_table_page', 'getfile', 'template', 'createclaim', 'updatemismatch', 'overwrite', 'overwrite_all', 'get_table_page', 'get_related_calims', 'fetch_export_data', 'get_line_items', 'delete_upload_file', 'process_upload_file', 'get_audit_table_page', 'updateingnore', 'get_file_ready_count', 'updateAutoClose', 'get_payer_name', 'reImport']]);
   }
 
 
@@ -6118,7 +6120,6 @@ class ImportController extends Controller
               }
             }
 
-
             if ($key == 'primary_insurance_state') {
               if (!empty($op_array['primary_insurance_state'])) {
                 $op_array['primary_insurance_state'] = trim($value);
@@ -6281,14 +6282,6 @@ class ImportController extends Controller
               }
             }
 
-
-
-
-
-
-
-
-
             if ($key == 'dos') {
               if ($op_array['dos'] == 0) {
                 $op_array['dos'] = '';
@@ -6322,8 +6315,6 @@ class ImportController extends Controller
                 $op_array['discharge_date'] = date('Y-m-d', strtotime($values));
               }
             }
-
-
 
             if ($key == 'pat_ar') {
               if (!empty($value)) {
@@ -6904,8 +6895,129 @@ class ImportController extends Controller
       log::debug($e->getMessage());
     }
 
-
   }
 
+  public function reImport(LoginRequest $request)
+  {
+    try {
+      $practice_dbid = $request->get('practice_dbid');
+      $savedata = $request->file('file_name');
+      $filename = $request->file('file_name')->getClientOriginalName();
+      $user = $request->get('user_id');
+      $unique_name = md5($filename . time());
+      $filename = date('Y-m-d') . '_' . $filename;
+      $path = "../uploads/reimport";
+      $savedata->move($path, $unique_name);
+      $path = "../uploads/reimport/" . $unique_name;
+      $report_date = $request->get('report_date');
+      $notes = $request->get('notes');
+
+      $op_data = $this->file_reimport_process($filename, $report_date, $notes, $user, $unique_name, $practice_dbid);
+      return response()->json([
+        'message' =>  $op_data,
+        'reimport_msg'  => "Reimport Complete"
+      ]);
+    } catch (Exception $e) {
+      Log::debug('Reimport Error' . $e->getMessage());
+    }
+  }
+
+
+  protected function file_reimport_process($filename, $report_date, $notes, $user, $unique_name, $practice_dbid)
+  {
+    $path = "uploads/reimport/" . $unique_name;
+    $data = Excel::load($path, function ($reader) {
+    })->get();
+
+    $total_count = $data->count();
+    $reimport_datas = $data->toArray();
+    
+    $already_worked_count = 0;
+    $valid_count = 0;
+    $display_data = [];
+    $assigned_data = Import_field::where('claim_Status', 'Assigned')->where('followup_date', NULL)->orderBy('id', 'desc')->pluck('claim_no')->toArray();
+    // print_r($assigned_data);  exit;
+    foreach($reimport_datas as $reimport_data)
+    {
+      if(in_array($reimport_data['claim_no'] , $assigned_data))
+      {
+        $valid_count++;
+
+        $Claim_history = Claim_history::create([
+          'claim_id'          => $reimport_data['claim_no'],
+          'claim_state'       => 10,
+          'assigned_to'       => NULL,
+          'assigned_by'       => $user,
+          'created_at'        => date('Y-m-d H:i:s')
+        ]);
+
+        Action::where('claim_id', $reimport_data['claim_no'])->delete();
+
+        $update = array('claim_Status' => NULL, 'followup_associate' => NULL, 'followup_work_order' => NULL, 'assigned_to' => NULL, 'reimport_status' => 'Reimport');
+        $s = Import_field::where('claim_no', $reimport_data['claim_no'])->where('claim_Status', 'Assigned')->where('followup_date', NULL)->update($update);
+
+        $assignedWOs = Workorder_user_field::select('cliam_no')->where('cliam_no', '<>', '[]')->orderBy('id', 'DESC')->get();
+        
+        foreach($assignedWOs as $assignedWO)
+        {
+         $decodes =  json_decode($assignedWO['cliam_no'], true);
+         if(in_array($reimport_data['claim_no'], $decodes))
+         {
+          $pos = array_search($reimport_data['claim_no'], $decodes, true);
+          $splice = array_splice($decodes, $pos, 1);
+          $encoded = json_encode($decodes);
+
+          $max_length = 4294967295; // maximum length of a longtext column
+          if (strlen($encoded) > $max_length) {
+            $chunks = str_split($encoded, $max_length);
+            foreach ($chunks as $chunk) {
+                $encode_update = Workorder_user_field::where('cliam_no', $assignedWO['cliam_no'])
+                    ->update(['cliam_no' => $chunk]);
+            }
+          } else {
+              $encode_update = Workorder_user_field::where('cliam_no', $assignedWO['cliam_no'])
+                  ->update(['cliam_no' => $encoded]);
+          }
+
+          // $encode_update = Workorder_user_field::whereJsonContains('cliam_no', $assignedWO['cliam_no'])
+          //   ->update(['cliam_no' => $encoded]);
+
+         }
+         
+        }
+
+      }else{
+        $already_worked_count++;
+      }
+    } 
+
+    $upload_check = Reimport::where('file_name', $filename)->first();
+    if($report_date != NULL)
+    {
+      $file_reupload = Reimport::create(
+        [
+          'report_date'         => date('Y-m-d h:i:s', strtotime($report_date)), 
+          'file_name'           => $filename,
+          'unique_name'         => $unique_name,
+          'file_url'            => $path,
+          'notes'               => $notes,
+          'total_claims'        => $valid_count,
+          'reimport_by'           => $user,
+          'claims_processed'    => '0',
+          'status'              => 'Incomplete'
+        ]
+      );
+      $display_data['filedata'] = $file_reupload;
+    } else {
+      $display_data['filedata'] = $upload_check;
+    }
+    // $uploaded_by = User::where('id', $display_data['filedata']['reimport_by'])->pluck('firstname');
+    
+    // $display_data['filedata']['uploaded'] = $uploaded_by[0];
+    $display_data['filedata']['already_assigned_count'] = $already_worked_count;
+
+    return $display_data;
+    
+  }
 
 }

@@ -238,5 +238,7 @@ Route::group([
     Route::post('get_payer_name', 'ImportController@get_payer_name');
     Route::post('get_ca_payer_name', 'Client_assistanceController@get_ca_payer_name');
     Route::post('reallocation_list', 'ClaimProcessController@reallocationList');
+    Route::post('reallocate_claims', 'ClaimProcessController@reAllocateClaims');
+    Route::post('file_reimport', 'ImportController@reImport');
 
 });
