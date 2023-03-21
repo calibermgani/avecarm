@@ -3039,16 +3039,19 @@ class ImportController extends Controller
 
       if (!empty($search_dos) && $search_dos['startDate'] != null) {
 
-        $create_sart_date = date('Y-m-d', strtotime($search_dos['startDate']));
-        $create_end_date = date('Y-m-d', strtotime($search_dos['endDate']));
+        $dos_sart_date = Carbon::createFromFormat('Y-m-d', $search_dos['startDate'])->startOfDay();
+        $dos_end_date = Carbon::createFromFormat('Y-m-d', $search_dos['endDate'])->endOfDay();
 
-        if ($create_sart_date == $create_end_date) {
-          $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate'] . "+ 1 day"));
-          $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate'] . "+ 1 day"));
-        } elseif ($create_sart_date != $create_end_date) {
-          $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate'] . "+ 1 day"));
-          $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate']));
-        }
+        // $create_sart_date = date('Y-m-d', strtotime($search_dos['startDate']));
+        // $create_end_date = date('Y-m-d', strtotime($search_dos['endDate']));
+
+        // if ($create_sart_date == $create_end_date) {
+        //   $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate'] . "+ 1 day"));
+        //   $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate'] . "+ 1 day"));
+        // } elseif ($create_sart_date != $create_end_date) {
+        //   $dos_sart_date = date('Y-m-d', strtotime($search_dos['startDate'] . "+ 1 day"));
+        //   $dos_end_date = date('Y-m-d', strtotime($search_dos['endDate']));
+        // }
 
         if ($sort_data == null && $action == null) {
 
@@ -3469,74 +3472,56 @@ class ImportController extends Controller
 
       if (!empty($search_date) && $search_date['startDate'] != null) {
 
-        $create_sart_date = date('Y-m-d', strtotime($search_date['startDate']));
-        $create_end_date = date('Y-m-d', strtotime($search_date['endDate']));
+        $dos_sart_date = Carbon::createFromFormat('Y-m-d', $search_date['startDate'])->startOfDay();
+        $dos_end_date = Carbon::createFromFormat('Y-m-d', $search_date['endDate'])->endOfDay();
 
-        if ($create_sart_date == $create_end_date) {
-          $dos_sart_date = date('Y-m-d', strtotime($search_date['startDate'] . "+ 1 day"));
-          $dos_end_date = date('Y-m-d', strtotime($search_date['endDate'] . "+ 1 day"));
-        } elseif ($create_sart_date != $create_end_date) {
-          $dos_sart_date = date('Y-m-d', strtotime($search_date['startDate'] . "+ 1 day"));
-          $dos_end_date = date('Y-m-d', strtotime($search_date['endDate']));
-        }
+        // $create_sart_date = date('Y-m-d', strtotime($search_date['startDate']));
+        // $create_end_date = date('Y-m-d', strtotime($search_date['endDate']));
+
+        // if ($create_sart_date == $create_end_date) {
+        //   $dos_sart_date = date('Y-m-d', strtotime($search_date['startDate'] . "+ 1 day"));
+        //   $dos_end_date = date('Y-m-d', strtotime($search_date['endDate'] . "+ 1 day"));
+        // } elseif ($create_sart_date != $create_end_date) {
+        //   $dos_sart_date = date('Y-m-d', strtotime($search_date['startDate'] . "+ 1 day"));
+        //   $dos_end_date = date('Y-m-d', strtotime($search_date['endDate']));
+        // }
 
         if ($sort_data == null && $action == null) {
-
           $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date)->offset($skip)->limit($end);
-
           $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
-
           $audit_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
         }
 
         if ($sort_data == 'null' && $action == 'null') {
-
           $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date)->offset($skip)->limit($end);
-
           $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
-
           $audit_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
         }
 
         if ($action != 'null' && $action == null && empty($sorting_name)) {
-
           $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date)->offset($skip)->limit($end);
-
           $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
-
           $audit_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
         }
 
         if ($sort_data == true && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
-
           $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date)->orderBy($action, 'asc')->offset($skip)->limit($end);
-
           $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
-
           $audit_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
         } else if ($sort_data == false && $search == 'search' && $sort_data != null && $action != 'null' && $action != null) {
-
           $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date)->orderBy($action, 'desc')->offset($skip)->limit($end);
-
           $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
-
           $audit_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
         }
 
         if ($sorting_method == true && $sort_data == null && $search == 'search' && $action == null && !empty($sorting_name)) {
-
           $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
-
           $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
-
           $audit_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
         } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
-
           $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
-
           //print_r($sorting_name); echo "</br>";
           $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
-
           $audit_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $dos_sart_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $dos_end_date);
         }
         //exit();
