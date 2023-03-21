@@ -9,5 +9,5 @@ class Reimport extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['report_date','file_name','unique_name', 'file_url','notes','total_claims','Import_by','claims_processed','status'];
+    protected $fillable = ['report_date','file_name','unique_name', 'file_url','notes','total_claims','reimport_by','claims_processed','status'];
 }

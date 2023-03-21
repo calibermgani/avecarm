@@ -7002,7 +7002,7 @@ class ImportController extends Controller
           'file_url'            => $path,
           'notes'               => $notes,
           'total_claims'        => $valid_count,
-          'reimport_by'           => $user,
+          'reimport_by'         => $user,
           'claims_processed'    => '0',
           'status'              => 'Incomplete'
         ]
@@ -7081,6 +7081,54 @@ class ImportController extends Controller
       'current_total' => $current_total,
       'skip' => $skip,
       'error' => "Upload Complete"
+    ]);
+  }
+
+  public function reimport_template(LoginRequest $request)
+  {
+    $practice_dbid = $request->get('practice_dbid');
+    $destinationPath = public_path('../config/test/' . $practice_dbid . 'test.txt');
+
+    if (!file_exists($destinationPath)) {
+      $file_filter = "No file";
+    } else {
+      $file_filter = json_decode(file_get_contents($destinationPath), true);
+      $file_filter_keys = array_keys($file_filter);
+    }
+
+    $destinationPath = public_path('../config/test/fields_name.txt');
+    $headers = [
+      'Content-Type' => 'application/pdf',
+    ];
+    if (!file_exists($destinationPath)) {
+      $jsondec = "No file";
+    } else {
+      $jsondec = json_decode(file_get_contents($destinationPath), true);
+
+      $val = [];
+      $i = 0;
+      foreach ($jsondec as $key => $value) {
+        // $key=str_replace("_"," ",$key);
+        if ($file_filter == 'No file') {
+          $val[$i] = $value;
+          $i++;
+        } elseif (in_array($key, $file_filter_keys)) {
+          if ($file_filter[$key][0] == true) {
+            $val[$i] = $value;
+            $i++;
+          }
+        }
+      }
+      $data1 = $val;
+
+      $data2 = ['Account Number', 'Claim No', 'DOS', 'DOB'];
+
+      $data = array_merge($data2, $data1);
+    }
+
+    return response()->json([
+      'message' => $data,
+      'error'  => "Template Downloaded."
     ]);
   }
 
