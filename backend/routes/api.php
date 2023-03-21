@@ -241,5 +241,6 @@ Route::group([
     Route::post('reallocate_claims', 'ClaimProcessController@reAllocateClaims');
     Route::post('file_reimport', 'ImportController@reImport');
     Route::post('get_reimport_table_page', 'ImportController@get_reimport_table_page');
+    Route::post('reimport_template', 'ImportController@reimport_template');
 
 });

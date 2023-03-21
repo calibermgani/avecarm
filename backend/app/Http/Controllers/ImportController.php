@@ -41,7 +41,7 @@ class ImportController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('auth:api', ['except' => ['upload', 'get_upload_table_page', 'getfile', 'template', 'createclaim', 'updatemismatch', 'overwrite', 'overwrite_all', 'get_table_page', 'get_related_calims', 'fetch_export_data', 'get_line_items', 'delete_upload_file', 'process_upload_file', 'get_audit_table_page', 'updateingnore', 'get_file_ready_count', 'updateAutoClose', 'get_payer_name', 'reImport', 'get_reimport_table_page']]);
+    $this->middleware('auth:api', ['except' => ['upload', 'get_upload_table_page', 'getfile', 'template', 'createclaim', 'updatemismatch', 'overwrite', 'overwrite_all', 'get_table_page', 'get_related_calims', 'fetch_export_data', 'get_line_items', 'delete_upload_file', 'process_upload_file', 'get_audit_table_page', 'updateingnore', 'get_file_ready_count', 'updateAutoClose', 'get_payer_name', 'reImport', 'get_reimport_table_page', 'reimport_template']]);
   }
 
 
@@ -7086,50 +7086,11 @@ class ImportController extends Controller
 
   public function reimport_template(LoginRequest $request)
   {
-    $practice_dbid = $request->get('practice_dbid');
-    $destinationPath = public_path('../config/test/' . $practice_dbid . 'test.txt');
+    $filePath = public_path('../config/reimport_template.xlsx');
+    $headers = ['Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+    $fileName = 'reimport_template.xlsx';
 
-    if (!file_exists($destinationPath)) {
-      $file_filter = "No file";
-    } else {
-      $file_filter = json_decode(file_get_contents($destinationPath), true);
-      $file_filter_keys = array_keys($file_filter);
-    }
-
-    $destinationPath = public_path('../config/test/fields_name.txt');
-    $headers = [
-      'Content-Type' => 'application/pdf',
-    ];
-    if (!file_exists($destinationPath)) {
-      $jsondec = "No file";
-    } else {
-      $jsondec = json_decode(file_get_contents($destinationPath), true);
-
-      $val = [];
-      $i = 0;
-      foreach ($jsondec as $key => $value) {
-        // $key=str_replace("_"," ",$key);
-        if ($file_filter == 'No file') {
-          $val[$i] = $value;
-          $i++;
-        } elseif (in_array($key, $file_filter_keys)) {
-          if ($file_filter[$key][0] == true) {
-            $val[$i] = $value;
-            $i++;
-          }
-        }
-      }
-      $data1 = $val;
-
-      $data2 = ['Account Number', 'Claim No', 'DOS', 'DOB'];
-
-      $data = array_merge($data2, $data1);
-    }
-
-    return response()->json([
-      'message' => $data,
-      'error'  => "Template Downloaded."
-    ]);
+    return Response::download($filePath, $fileName, $headers);
   }
 
 }
