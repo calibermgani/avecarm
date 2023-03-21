@@ -41,7 +41,7 @@ class ImportController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('auth:api', ['except' => ['upload', 'get_upload_table_page', 'getfile', 'template', 'createclaim', 'updatemismatch', 'overwrite', 'overwrite_all', 'get_table_page', 'get_related_calims', 'fetch_export_data', 'get_line_items', 'delete_upload_file', 'process_upload_file', 'get_audit_table_page', 'updateingnore', 'get_file_ready_count', 'updateAutoClose', 'get_payer_name', 'reImport']]);
+    $this->middleware('auth:api', ['except' => ['upload', 'get_upload_table_page', 'getfile', 'template', 'createclaim', 'updatemismatch', 'overwrite', 'overwrite_all', 'get_table_page', 'get_related_calims', 'fetch_export_data', 'get_line_items', 'delete_upload_file', 'process_upload_file', 'get_audit_table_page', 'updateingnore', 'get_file_ready_count', 'updateAutoClose', 'get_payer_name', 'reImport', 'get_reimport_table_page']]);
   }
 
 
@@ -7018,6 +7018,70 @@ class ImportController extends Controller
 
     return $display_data;
     
+  }
+
+  public function get_reimport_table_page(LoginRequest $request)
+  {
+    $page_no = $request->get('page_no');
+    $page_count = $request->get('count');
+    $total_count = 0;
+    $skip = ($page_no - 1) * $page_count;
+    $end = $page_count;
+
+    $filedata = Reimport::orderBy('id', 'desc')->offset($skip)->limit($end)->get();
+    $current_total = $filedata->count();
+
+    $latest = Reimport::orderBy('id', 'desc')->take(1)->first();
+
+    $imported_claims = array();
+
+    foreach ($filedata as $key => $fd) {
+      $date = explode(" ", $fd['report_date']);
+      $import = $fd['reimport_by'];
+      $user = User::where('id', $import)->pluck('firstname');
+
+      if (sizeof($user) == 0) {
+        $user = "NA";
+      } else {
+        $user = $user[0];
+      }
+
+      $file_name_date = explode("_", $fd['file_name']);
+
+      $file_array = date("m/d/Y", strtotime($file_name_date[0]));
+
+      $file_array1 = $file_name_date[1];
+
+      foreach ($file_name_date as $key => $value) {
+        $file_name_date[0] = $file_array;
+        $file_name_date[1] = $file_array1;
+      }
+
+      $fd_file_name = implode('_', $file_name_date);
+
+      $imported_claims[$key]['date'] = date("m/d/Y", strtotime($date[0]));
+      $imported_claims[$key]['id'] = $fd['id'];
+      $imported_claims[$key]['file_name'] = $fd_file_name;
+      $imported_claims[$key]['claims'] =  $fd['total_claims'];
+      $imported_claims[$key]['newclaims'] = $fd['new_claims'];
+      $imported_claims[$key]['processed'] = $fd['claims_processed'];
+      $imported_claims[$key]['uploaded'] = $user;
+      $imported_claims[$key]['path'] = $fd['id'];
+      $imported_claims[$key]['notes'] = $fd['notes'];
+      
+    }
+
+    $count = Reimport::all()->count();
+
+    //    dd($this->claims);
+    return response()->json([
+      'message' => $imported_claims,
+      'latest_id' => $latest['id'],
+      'count' => $count,
+      'current_total' => $current_total,
+      'skip' => $skip,
+      'error' => "Upload Complete"
+    ]);
   }
 
 }
