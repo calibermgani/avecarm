@@ -7020,7 +7020,7 @@ class ImportController extends Controller
 
     $imported_claims = array();
 
-    foreach ($filedata as $key => $fd) {
+    foreach ($filedata as $index => $fd) {
       $date = explode(" ", $fd['report_date']);
       $import = $fd['reimport_by'];
       $user = User::where('id', $import)->pluck('firstname');
@@ -7044,15 +7044,15 @@ class ImportController extends Controller
 
       $fd_file_name = implode('_', $file_name_date);
 
-      $imported_claims[$key]['date'] = date("m/d/Y", strtotime($date[0]));
-      $imported_claims[$key]['id'] = $fd['id'];
-      $imported_claims[$key]['file_name'] = $fd_file_name;
-      $imported_claims[$key]['claims'] =  $fd['total_claims'];
-      $imported_claims[$key]['newclaims'] = $fd['new_claims'];
-      $imported_claims[$key]['processed'] = $fd['claims_processed'];
-      $imported_claims[$key]['uploaded'] = $user;
-      $imported_claims[$key]['path'] = $fd['id'];
-      $imported_claims[$key]['notes'] = $fd['notes'];
+      $imported_claims[$index]['date'] = date("m/d/Y", strtotime($date[0]));
+      $imported_claims[$index]['id'] = $fd['id'];
+      $imported_claims[$index]['file_name'] = $fd_file_name;
+      $imported_claims[$index]['claims'] =  $fd['total_claims'];
+      $imported_claims[$index]['newclaims'] = $fd['new_claims'];
+      $imported_claims[$index]['processed'] = $fd['claims_processed'];
+      $imported_claims[$index]['uploaded'] = $user;
+      $imported_claims[$index]['path'] = $fd['id'];
+      $imported_claims[$index]['notes'] = $fd['notes'];
       
     }
 
