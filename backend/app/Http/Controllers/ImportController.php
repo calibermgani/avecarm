@@ -7048,7 +7048,6 @@ class ImportController extends Controller
       $imported_claims[$index]['id'] = $fd['id'];
       $imported_claims[$index]['file_name'] = $fd_file_name;
       $imported_claims[$index]['claims'] =  $fd['total_claims'];
-      $imported_claims[$index]['newclaims'] = $fd['new_claims'];
       $imported_claims[$index]['processed'] = $fd['claims_processed'];
       $imported_claims[$index]['uploaded'] = $user;
       $imported_claims[$index]['path'] = $fd['id'];
