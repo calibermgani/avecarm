@@ -697,64 +697,48 @@ class CreateworkorderController extends Controller
         }
 
         if (!empty($search_total_ar)) {
+          $OriginalString = trim($search_total_ar);
+          $tot_ar = explode("-",$OriginalString);
+          
+          $min_tot_ar = $tot_ar[0] - 1.00;
+          $max_tot_ar = $tot_ar[1];
 
           if ($sort_data == null && $sort_type == null) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
-          if ($sort_data == 'null' && $sort_type == 'null') {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          if ($sort_data == 'null' && $sort_type == 'null' && !empty($sorting_method) && empty($sorting_name)) {
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
           if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
           if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
-          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          } else if ($sort_data == false  && $sort_type != null) {
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
-          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
-          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
         }
 
@@ -1829,68 +1813,48 @@ class CreateworkorderController extends Controller
         }
 
         if (!empty($search_total_ar)) {
+          $OriginalString = trim($search_total_ar);
+          $tot_ar = explode("-",$OriginalString);
+          
+          $min_tot_ar = $tot_ar[0] - 1.00;
+          $max_tot_ar = $tot_ar[1];
 
           if ($sort_data == null && $sort_type == null) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            // $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
-
-          if ($sort_data == 'null' && $sort_type == 'null' && !empty($sorting_name) && $sorting_method != 'null') {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            // $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          if ($sort_data == 'null' && $sort_type == 'null' && !empty($sorting_method) && empty($sorting_name)) {
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
-          if ($sort_type == null && $sort_type == null &&  $sorting_method != 'null') {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            // $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
           if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            // $selected_claim_data->where('total_ar', '=', $search_total_ar);
-
-          } else if ($sort_data == false && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            // $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          } else if ($sort_data == false  && $sort_type != null) {
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
-          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
-            //dd('4');
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            // $selected_claim_data->where('total_ar', '=', $search_total_ar);
-
-          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
-
-            // dd('5');
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            // $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            // $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
         }
 
@@ -3171,64 +3135,48 @@ class CreateworkorderController extends Controller
         }
 
         if (!empty($search_total_ar)) {
+          $OriginalString = trim($search_total_ar);
+          $tot_ar = explode("-",$OriginalString);
+          
+          $min_tot_ar = $tot_ar[0] - 1.00;
+          $max_tot_ar = $tot_ar[1];
 
           if ($sort_data == null && $sort_type == null) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
           if ($sort_data == 'null' && $sort_type == 'null' && !empty($sorting_method) && empty($sorting_name)) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
           if ($sort_type != 'null' && $sort_type == null && empty($sorting_name)) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
           if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           } else if ($sort_data == false  && $sort_type != null) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
           if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
-
-            $claim_data->where('total_ar', '=', $search_total_ar)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
-
-            $claim_count->where('total_ar', '=', $search_total_ar);
-
-            $selected_claim_data->where('total_ar', '=', $search_total_ar);
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar])->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            $selected_claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
         }
 

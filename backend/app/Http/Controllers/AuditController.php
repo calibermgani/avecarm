@@ -102,6 +102,7 @@ class AuditController extends Controller
       $search_rendering_provider = $aignSearchValue['rendering_provider'];
       $search_denial_code = $aignSearchValue['denial_code'];
       $search_bill_submit_date = $aignSearchValue['bill_submit_date'];
+      $search_responsibility = $aignSearchValue['responsibility'];
     }
 
     //search_claim_no
@@ -2134,6 +2135,50 @@ class AuditController extends Controller
             $claim_count->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
 
             $selected_claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
+        }
+
+        if (!empty($search_responsibility)) {
+          if ($sort_type == null && $sort_data == null) {
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
+            $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+            $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->offset($skip)->limit($end);
+            $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+            $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+            $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+          } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+            $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+            $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+            $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+          }
+
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && $sort_type == 'null' && !empty($sorting_name)) {
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+            $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%')->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+            $selected_claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
           }
         }
 
