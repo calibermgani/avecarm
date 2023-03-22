@@ -1240,5 +1240,21 @@ get_ca_payer_name(){
   let response= this.common_url('get_ca_payer_name',data);
    return response;
 }
+file_reimport(formdata)
+{
+	console.log(formdata);
+  return this.http.post(`${this.baseUrl}/file_reimport`,formdata);
+}
+get_reimport_table_page(page,page_count)
+{
+   let data={page_no:page,count:page_count,practice_dbid : localStorage.getItem('practice_id')};
+   let response= this.common_url('get_reimport_table_page',data);
+   return response;
+}
+reimport_template(){
+  let data={practice_dbid : localStorage.getItem('practice_id')};
+  let response= this.http.post(`${this.baseUrl}/reimport_template`, data,{responseType: 'blob'});
+   return response;
+}
 }
 

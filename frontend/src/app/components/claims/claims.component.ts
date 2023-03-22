@@ -161,12 +161,13 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   workOrderFind: FormGroup;
   autoclose_claim: FormGroup;
   reassignedClaimsFind:FormGroup;
+  reimport_formGroup: FormGroup;
   // formGroup: FormGroup;
   submitted = false;
   modalform: FormGroup;
   get v() { return this.qcNotes.controls; }
-  public tabdat = ['date', 'file_name', 'claims', 'newclaims', 'uploaded'
-  ];
+  public tabdat = ['date', 'file_name', 'claims', 'newclaims', 'uploaded'];
+  public reimport_tabdat = ['date', 'file_name', 'claims', 'uploaded'];
 
   myDate = new Date();
 
@@ -299,6 +300,55 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       else {
         // console.log("Name",target.files[0]['name'].length);
         this.formGroup.controls.file.reset();
+        // this.filenote="Invalid File";
+
+        this.toastr.errorToastr('Invalid File.', 'Oops!');
+
+
+        // setTimeout(()=>{
+        //   this.filenote = "";
+        //   }, 1000);
+      }
+    };
+    reader.readAsBinaryString(target.files[0]);
+  }
+
+  onReimport_FileChange(event: any) {
+    /* wire up file reader */
+    const target: DataTransfer = <DataTransfer>(event.target);
+    console.log(target.files.length);
+
+    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+    const reader: FileReader = new FileReader();
+
+    reader.onload = (ele: any) => {
+      /* read workbook */
+      const bstr: string = ele.target.result;
+
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+      /* grab first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+      /* save data */
+      this.data = (XLSX.utils.sheet_to_json(ws, { header: 2 }));
+      console.log(target.files[0]['name'].length);
+
+      if (this.data.length != 0 && target.files[0].type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && target.files[0]['name'].length <= 200) {
+        this.formdata.append('file_name', target.files[0]);
+
+        this.formdata.append('user_id', this.setus.getId());
+        console.log(this.formdata);
+
+        this.filenote = "";
+      }
+      else if (target.files[0]['name'].length > 200) {
+        this.reimport_formGroup.controls.file.reset();
+        this.toastr.errorToastr('Upload another file.', 'File Name too long!');
+      }
+      else {
+        // console.log("Name",target.files[0]['name'].length);
+        this.reimport_formGroup.controls.file.reset();
         // this.filenote="Invalid File";
 
         this.toastr.errorToastr('Invalid File.', 'Oops!');
@@ -486,7 +536,39 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     console.log(error);
   }
 
-
+  reimport_roles: string[] = [];
+  reimport_datas: string[];
+  reimportProcessed:any;
+  reimport_upload_total: number;
+  reimport_latest_id;
+  reimportedfile;
+  reimport_current_total;
+  reimport_skip;
+  skip_row_reimport;
+  current_row_reimport;
+  total_row_reimport: number;
+  reimport_page: number;
+  reimport_total: number;
+  handleResponse_reimport(data) {
+    console.log(data);
+    this.reimport_roles = data.message;
+    console.log(this.reimport_roles);
+    this.reimport_latest_id = data.latest_id;
+    this.reimportedfile = data.message.filter(x => x.id == this.reimport_latest_id);
+    console.log(this.reimportedfile);
+    this.reimportedfile.forEach(element => {
+      this.reimportProcessed = element.processed;
+     });
+    console.log(this.reimportProcessed);
+    this.reimport_datas = this.reimport_tabdat;
+    this.reimport_upload_total = data.count;
+    this.reimport_total = data.count;
+    this.reimport_current_total = data.current_total;
+    this.reimport_skip = data.skip + 1;
+    this.skip_row_reimport = this.reimport_skip;
+    this.current_row_reimport = this.reimport_skip + this.reimport_current_total - 1;
+    this.total_row_reimport = data.count;
+  }
 
   // private getclaims()
   // {
@@ -560,12 +642,27 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
       error => this.notify(error)
     );
   }
+  public process_reimport() {
+    console.log(this.reimport_formGroup.value)
+    // this.loadingBar.start();
+    let report_date = this.reimport_formGroup.value.report_date;
+    let file_name = this.reimport_formGroup.value['file'];
+    this.formdata.append('file_name', file_name);
+    this.formdata.append('user_id', this.setus.getId());
+    this.formdata.append('report_date', report_date.day + '-' + report_date.month + '-' + report_date.year);
+    this.formdata.append('notes', this.reimport_formGroup.value.notes);
+    this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));
+    console.log(this.formdata);
+    this.Jarwis.file_reimport(this.formdata).subscribe(
+      message => { let data = message['reimport_msg'];
+        this.notifysuccess(data) },
+      error => this.notify(error)
+    );
+  }
   notifysuccess(message) {
     console.log(message)
     this.toastr.successToastr(message);
   }
-
-
   public auto_close_claim() {
     console.log(this.autoclose_claim.value['file']);
     let file_name = this.autoclose_claim.value['file'];
@@ -582,12 +679,16 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     );
   }
 
-
-
   public clear() {
     this.formGroup.controls.file.reset();
     this.formGroup.controls.notes.reset();
     this.formGroup.controls.report_date.reset();
+  }
+
+  public clear_reimport() {
+    this.reimport_formGroup.controls.file.reset();
+    this.reimport_formGroup.controls.notes.reset();
+    this.reimport_formGroup.controls.report_date.reset();
   }
 
   public saveclaims() {
@@ -3383,6 +3484,14 @@ closedclaims_filter;
     }
 
   }
+  load_reimport_data(page){
+    this.reimport_page = page;
+    let page_count = 15;
+      this.Jarwis.get_reimport_table_page(this.reimport_page, page_count).subscribe(
+        data => this.handleResponse_reimport(data),
+        error => this.handleError(error)
+      );
+  }
 
 
   public unCheck() {
@@ -3784,6 +3893,12 @@ closedclaims_filter;
     //   ])
     // });
 
+    this.reimport_formGroup = this.formBuilder.group({
+      report_date: ['', Validators.required],
+      file: ['', Validators.required],
+      notes: ['', Validators.required]
+    });
+
     this.closedClaimsFind = this.formBuilder.group({
       dos: [],
       age_filter:[],
@@ -4017,6 +4132,7 @@ console.log(this.age_options);
 
   get f() { return this.formGroup.controls; }
   get auto_cc() { return this.autoclose_claim.controls; }
+  get rf(){return this.reimport_formGroup.controls;}
 
   formValidators() {
     this.formGroup = this.formBuilder.group({
@@ -4474,6 +4590,15 @@ public process_codes(data:any)
     }
   }
 
+  reimport_template(){
+    this.Jarwis.reimport_template().subscribe((response: any) => {
+      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      FileSaver.saveAs(blob, 'reimport_template.xlsx');
+    });
+  }
+  reimport_pageChange(page){
+    this.reimport_page = page;
+  }
   //For ReallocateClaim
   /* reallocateclaimSearchOnKeyUp(event) {
     let input = event.target.value;
