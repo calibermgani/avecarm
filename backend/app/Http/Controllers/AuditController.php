@@ -103,6 +103,8 @@ class AuditController extends Controller
       $search_denial_code = $aignSearchValue['denial_code'];
       $search_bill_submit_date = $aignSearchValue['bill_submit_date'];
       $search_responsibility = $aignSearchValue['responsibility'];
+      $search_date = $aignSearchValue['date'];
+      $search_age = $aignSearchValue['age_filter'];
     }
 
     //search_claim_no
@@ -907,6 +909,61 @@ class AuditController extends Controller
             $claim_count->where('total_ar', '=', $search_total_ar);
 
             $selected_claim_data->where('total_ar', '=', $search_total_ar);
+          }
+        }
+
+        if (!empty($search_date) && $search_date['startDate'] != null) {
+          $closed_sart_date = date('Y-m-d', strtotime($search_date['startDate']));
+          $closed_end_date = date('Y-m-d', strtotime($search_date['endDate']));
+
+          if ($closed_sart_date == $closed_end_date) {
+            $created_start_date = date('Y-m-d', strtotime($search_date['startDate'] . "+ 1 day"));
+            $created_end_date = date('Y-m-d', strtotime($search_date['endDate'] . "+ 1 day"));
+          } elseif ($closed_sart_date != $closed_end_date) {
+            $created_start_date = date('Y-m-d', strtotime($search_date['startDate'] . "+ 1 day"));
+            $created_end_date = date('Y-m-d', strtotime($search_date['endDate']));
+          }
+
+          if ($sort_type == null && $sort_data == null && empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          }
+
+          if ($sorting_method == true && $sort_data == null && $search == 'search' && $sort_type == null && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          } else if ($sorting_method == false && $sort_data == null && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
           }
         }
 
@@ -2256,6 +2313,61 @@ class AuditController extends Controller
           }
         }
 
+        if (!empty($search_date) && $search_date['startDate'] != null) {
+          $closed_sart_date = date('Y-m-d', strtotime($search_date['startDate']));
+          $closed_end_date = date('Y-m-d', strtotime($search_date['endDate']));
+
+          if ($closed_sart_date == $closed_end_date) {
+            $created_start_date = date('Y-m-d', strtotime($search_date['startDate'] . "+ 1 day"));
+            $created_end_date = date('Y-m-d', strtotime($search_date['endDate'] . "+ 1 day"));
+          } elseif ($closed_sart_date != $closed_end_date) {
+            $created_start_date = date('Y-m-d', strtotime($search_date['startDate'] . "+ 1 day"));
+            $created_end_date = date('Y-m-d', strtotime($search_date['endDate']));
+          }
+
+          if ($sort_type == null && $sort_data == null) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          } else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          }
+
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && $sort_type == 'null' && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          } else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            $claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+            $claim_count->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+            $selected_claim_data->where(DB::raw('DATE(claim_histories.created_ats)'), '>=', $created_start_date)->where(DB::raw('DATE(claim_histories.created_ats)'), '<=', $created_end_date);
+          }
+        }
+
         if (!empty($search_total_ar)) {
           $OriginalString = trim($search_total_ar);
           $tot_ar = explode("-",$OriginalString);
@@ -2416,6 +2528,403 @@ class AuditController extends Controller
             $claim_count->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
 
             $selected_claim_data->where('claims_notes', 'LIKE', '%' . $search_claim_note . '%');
+          }
+        }
+
+        if (!empty($search_age)) {
+          if ($sort_type == null && $sort_data == null) {
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+          }
+
+          if ($sort_data == 'null' && $sort_type == 'null' && empty($sorting_name)) {
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+          }
+
+          if ($sort_data == true && $search == null && $sorting_name == 'null') {
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+          }else if ($sort_data == false && $search == null  && $sorting_name == 'null') {
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+          }
+
+          if ($sort_data == true && $search == 'search' && $sort_data != null && $sort_type != 'null' && $sort_type != null) {
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+          } else if ($sort_data == false && $search == 'search'  && $sort_type != null) {
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sort_type, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+          }
+
+          if ($sorting_method == true && $sort_data == 'null' && $search == 'search' && $sort_type == 'null' && !empty($sorting_name)) {
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+          }else if ($sorting_method == false && $sort_data == 'null' && $search == 'search' && !empty($sorting_name)) {
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end);
+              $claim_count->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+              $selected_claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+
           }
         }
 
