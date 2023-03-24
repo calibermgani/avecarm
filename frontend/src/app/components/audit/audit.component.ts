@@ -59,6 +59,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
   select_date: any;
   assigned_select_date: any;
   closed_select_date: any;
+  selectedAudit: any;
   selectedReAssigin: any;
   selectedAssigin: any;
   selectedClosed: any;
@@ -114,9 +115,8 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
       this.update_monitor=this.notes_hadler.refresh_update().subscribe(message => {
         this.getclaim_details(this.pages,'refresh','null','null','null','null',null,null,null,null,null);
         console.log(this.update_monitor);
-
-    });
-    this.alwaysShowCalendars = true;
+      });
+    this.alwaysShowCalendars = true;    
     }
 
     public root_cause_list=[];
@@ -231,23 +231,26 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
     }
   }
 
+  auditclaims_filter;
   public audit_claims_filter(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search){
-    this.search = search;
-    console.log(this.search);
+    this.auditclaims_filter = search;
+    console.log(this.auditclaims_filter);
     this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search);
   }
 
+  assignedclaims_filter;
   public assigned_claims_filter(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search){
-    this.search = search;
-    console.log(this.search);
+    this.assignedclaims_filter = search;
+    console.log(this.assignedclaims_filter);
     this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,search);
   }
 
+  closedclaims_filter;
   public closed_claims_filter(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,searchdata){
-    this.search = searchdata;
-    console.log(searchdata);
+    this.closedclaims_filter = searchdata;
+    console.log(this.closedclaims_filter);
     console.log(type);
-    this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,this.search);
+    this.getclaim_details(page,type,sort_data,sort_type,sorting_name,sorting_method,assign_claim_searh,reassign_claim_searh,closed_claim_searh,audit_claim_search,searchdata);
   }
 
 
@@ -268,11 +271,60 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
 
     if(type == 'wo')
     {
-      this.search = search;
       console.log(searchs);
       this.pages=page;
       this.current_claim_type='wo';
+
+      let auditSearch_notNull = [];
+      let nullVal:boolean = false;
+      let auditClaims_searchValue = [this.auditClaimsFind.value];
+        if (typeof auditClaims_searchValue === 'object' && auditClaims_searchValue !== null) {
+          Object.keys(auditClaims_searchValue).forEach(key => {
+            if (typeof auditClaims_searchValue[key] === 'object' && auditClaims_searchValue[key] !== null) {
+              Object.keys(auditClaims_searchValue[key]).forEach(val => {
+                if(typeof auditClaims_searchValue[key][val] === 'object' && auditClaims_searchValue[key][val] !== null) {
+                  Object.keys(auditClaims_searchValue[key][val]).forEach(data => {
+                    if(auditClaims_searchValue[key][val][data] === null){
+                      nullVal = false;                  
+                    }
+                    else{
+                      nullVal = true;                 
+                    }
+                  });
+                  auditSearch_notNull.push(nullVal);              
+                }
+                else if (typeof auditClaims_searchValue[key][val] !== 'object' && auditClaims_searchValue[key][val] !== null && auditClaims_searchValue[key][val] != ''){
+                  nullVal = true;
+                  auditSearch_notNull.push(nullVal);
+                }
+                else if (typeof auditClaims_searchValue[key][val] !== 'object' && auditClaims_searchValue[key][val] !== null && auditClaims_searchValue[key][val] == ''){
+                  nullVal = false;
+                  auditSearch_notNull.push(nullVal);
+                }
+              });
+            }          
+          });      
+        }
+        if(auditSearch_notNull.some(x => x === true)){
+          this.search = this.auditclaims_filter;        
+          search = this.search;
+          sort_data = null;
+          sort_type = null;
+          sorting_name = 'null';
+          sorting_method = 'null';
+        }
+        else{
+          this.search=null;
+          sort_data = 'null';
+          sort_type = 'null';
+          sorting_name = 'null';
+          sorting_method = 'null';        
+          search = this.search;
+        }
+        searchs = this.search;
+
       if(sorting_name == 'null' && searchs != 'search'){
+        this.search = search;
         this.Jarwis.get_audit_table_page(sort_data,page,page_count,sort_type,sorting_name,sorting_method,null,null,null,null,search).subscribe(
           data  => this.assign_page_data(data),
           error => this.handleError(error)
@@ -281,25 +333,26 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
         console.log(this.auditClaimsFind.value);
         console.log(this.sorting_name);
 
-        if (this.auditClaimsFind.value.dos != null && this.auditClaimsFind.value.dos != null) {
+        if (this.auditClaimsFind.value.dos.startDate != null && this.auditClaimsFind.value.dos.endDate != null) {
           console.log(this.auditClaimsFind.controls.dos.value);
-          this.auditClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
-          this.auditClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');          
+          this.auditClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.dos.startDate), 'yyyy-MM-dd');
+          this.auditClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.dos.endDate), 'yyyy-MM-dd');          
         }
-        if (this.auditClaimsFind.value.date != null && this.auditClaimsFind.value.date != null){
-          //console.log(this.auditClaimsFind.controls.date.value);
-          this.auditClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
-          this.auditClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');          
+        if (this.auditClaimsFind.value.date.startDate != null && this.auditClaimsFind.value.date.endDate != null){
+          console.log(this.auditClaimsFind.controls.date.value);
+          this.auditClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.date.startDate), 'yyyy-MM-dd');
+          this.auditClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.date.endDate), 'yyyy-MM-dd');          
         }
-        if (this.auditClaimsFind.value.bill_submit_date != null && this.auditClaimsFind.value.bill_submit_date != null){
-          this.auditClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
-          this.auditClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');          
+        if (this.auditClaimsFind.value.bill_submit_date.startDate != null && this.auditClaimsFind.value.bill_submit_date.endDate != null){
+          this.auditClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.bill_submit_date.startDate), 'yyyy-MM-dd');
+          this.auditClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.auditClaimsFind.value.bill_submit_date.endDate), 'yyyy-MM-dd');          
         }
         this.Jarwis.get_audit_table_page(sort_data,page,page_count,sort_type,this.sorting_name,this.sortByAsc,null,null,null,this.auditClaimsFind.value,this.search).subscribe(
           data  => this.assign_page_data(data),
           error => this.handleError(error)
         );
       }else{
+        this.search = search;
         this.Jarwis.get_audit_table_page(sort_data,page,page_count,sort_type,this.sorting_name,this.sortByAsc,null,null,null,null,this.search).subscribe(
           data  => this.assign_page_data(data),
           error => this.handleError(error)
@@ -311,6 +364,51 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
       console.log(searchs);
       this.comp_pages=page;
       this.current_claim_type='completed';
+
+      let closedSearch_notNull = [];
+    let nullVal:boolean = false;
+    let closedClaims_searchValue = [this.closedClaimsFind.value];
+    if (typeof closedClaims_searchValue === 'object' && closedClaims_searchValue !== null) {
+      Object.keys(closedClaims_searchValue).forEach(key => {
+        if (typeof closedClaims_searchValue[key] === 'object' && closedClaims_searchValue[key] !== null) {
+          Object.keys(closedClaims_searchValue[key]).forEach(val => {
+            if(typeof closedClaims_searchValue[key][val] === 'object' && closedClaims_searchValue[key][val] !== null) {
+              Object.keys(closedClaims_searchValue[key][val]).forEach(data => {
+                if(closedClaims_searchValue[key][val][data] === null){
+                  nullVal = false;                  
+                }
+                else{
+                  nullVal = true;                 
+                }
+              });
+              closedSearch_notNull.push(nullVal);              
+            }
+            else if (typeof closedClaims_searchValue[key][val] !== 'object' && closedClaims_searchValue[key][val] !== null && closedClaims_searchValue[key][val] != ''){
+              nullVal = true;
+              closedSearch_notNull.push(nullVal);
+            }
+            else if (typeof closedClaims_searchValue[key][val] !== 'object' && closedClaims_searchValue[key][val] !== null && closedClaims_searchValue[key][val] == ''){
+              nullVal = false;
+              closedSearch_notNull.push(nullVal);
+            }
+          });
+        }          
+      });      
+    }
+    if(closedSearch_notNull.some(x => x === true)){
+      this.search = this.closedclaims_filter;        
+      search = this.search;
+    }
+    else{
+      this.search=null;
+      sort_data = 'null';
+      sort_type = 'null';
+      sorting_name = 'null';
+      sorting_method = 'null';        
+      search = this.search;
+    }
+      searchs = this.search;
+
       if(sorting_name == 'null' && searchs != 'search'){
         this.Jarwis.get_audit_claim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,null,search).subscribe(
           data  => this.form_table(data,type,form_type),
@@ -318,19 +416,19 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
         );
       }else if(searchs == 'search'){
 
-        if (this.closedClaimsFind.value.dos != null && this.closedClaimsFind.value.dos != null) {
+        if (this.closedClaimsFind.value.dos.startDate != null && this.closedClaimsFind.value.dos.endDate != null) {
           console.log(this.closedClaimsFind.controls.dos.value);
-          this.closedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
-          this.closedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.startDate), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.endDate), 'yyyy-MM-dd');
         }
-        if (this.closedClaimsFind.value.date != null && this.closedClaimsFind.value.date != null){
+        if (this.closedClaimsFind.value.date.startDate != null && this.closedClaimsFind.value.date.endDate != null){
           console.log(this.closedClaimsFind.controls.date.value);
-          this.closedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
-          this.closedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.startDate), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.endDate), 'yyyy-MM-dd');
         }
-        if (this.closedClaimsFind.value.bill_submit_date != null && this.closedClaimsFind.value.bill_submit_date != null){
-          this.closedClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
-          this.closedClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+        if (this.closedClaimsFind.value.bill_submit_date.startDate != null && this.closedClaimsFind.value.bill_submit_date.endDate != null){
+          this.closedClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.bill_submit_date.startDate), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.bill_submit_date.endDate), 'yyyy-MM-dd');
         }
 
         this.Jarwis.get_audit_claim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,this.closed_sorting_name,this.sortByAsc,null,null,this.closedClaimsFind.value,null,this.search).subscribe(
@@ -351,6 +449,53 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
       this.alloc_pages=page;
       this.current_claim_type='allocated';
 
+      let assignedSearch_notNull = [];
+    let nullVal:boolean = false;
+	  let assignedClaims_searchValue = [this.assignedClaimsFind.value];
+      if (typeof assignedClaims_searchValue === 'object' && assignedClaims_searchValue !== null) {
+        Object.keys(assignedClaims_searchValue).forEach(key => {
+          if (typeof assignedClaims_searchValue[key] === 'object' && assignedClaims_searchValue[key] !== null) {
+            Object.keys(assignedClaims_searchValue[key]).forEach(val => {
+              if(typeof assignedClaims_searchValue[key][val] === 'object' && assignedClaims_searchValue[key][val] !== null) {
+                Object.keys(assignedClaims_searchValue[key][val]).forEach(data => {
+                  if(assignedClaims_searchValue[key][val][data] === null){
+                    nullVal = false;                  
+                  }
+                  else{
+                    nullVal = true;                 
+                  }
+                });
+                assignedSearch_notNull.push(nullVal);              
+              }
+              else if (typeof assignedClaims_searchValue[key][val] !== 'object' && assignedClaims_searchValue[key][val] !== null && assignedClaims_searchValue[key][val] != ''){
+                nullVal = true;
+                assignedSearch_notNull.push(nullVal);
+              }
+              else if (typeof assignedClaims_searchValue[key][val] !== 'object' && assignedClaims_searchValue[key][val] !== null && assignedClaims_searchValue[key][val] == ''){
+                nullVal = false;
+                assignedSearch_notNull.push(nullVal);
+              }
+            });
+          }          
+        });      
+      }
+      if(assignedSearch_notNull.some(x => x === true)){
+        this.search = this.assignedclaims_filter;        
+        search = this.search;
+        sort_data = null;
+        sort_type = null;
+      }
+      else{
+        this.search=null;
+		    sort_data = 'null';
+        sort_type = 'null';
+		    sorting_name = 'null';
+        sorting_method = 'null';        
+        search = this.search;
+      }
+
+      searchs = this.search;
+
       if(sorting_name == 'null' && searchs != 'search'){
         this.Jarwis.get_audit_claim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,null,search).subscribe(
           data  => this.form_table(data,type,form_type),
@@ -359,19 +504,19 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
       }else if(searchs == 'search'){
         console.log(this.assigned_sorting_name);
 
-        if (this.assignedClaimsFind.value.dos != null && this.assignedClaimsFind.value.dos != null) {
+        if (this.assignedClaimsFind.value.dos.startDate != null && this.assignedClaimsFind.value.dos.endDate != null) {
           console.log(this.assignedClaimsFind.controls.dos.value);
-          this.assignedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
-          this.assignedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+          this.assignedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.dos.startDate), 'yyyy-MM-dd');
+          this.assignedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.dos.endDate), 'yyyy-MM-dd');
         }
-        if (this.assignedClaimsFind.value.date != null && this.assignedClaimsFind.value.date != null){
+        if (this.assignedClaimsFind.value.date.startDate != null && this.assignedClaimsFind.value.date.endDate != null){
           console.log(this.assignedClaimsFind.controls.date.value);
-          this.assignedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
-          this.assignedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+          this.assignedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.date.startDate), 'yyyy-MM-dd');
+          this.assignedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.date.endDate), 'yyyy-MM-dd');
         }
-        if (this.assignedClaimsFind.value.bill_submit_date != null && this.assignedClaimsFind.value.bill_submit_date != null){
-          this.assignedClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
-          this.assignedClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+        if (this.assignedClaimsFind.value.bill_submit_date.startDate != null && this.assignedClaimsFind.value.bill_submit_date.endDate != null){
+          this.assignedClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.bill_submit_date.startDate), 'yyyy-MM-dd');
+          this.assignedClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.assignedClaimsFind.value.bill_submit_date.endDate), 'yyyy-MM-dd');
         }
 
         console.log('target');
@@ -2834,10 +2979,8 @@ graphStatus()
 
   ngOnInit() {
     this.user_role_maintainer();
-    this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null,null);
-    // this.get_auditors();
-
-    this.auditClaimsFind = this.formBuilder.group({
+    this.get_statuscodes();
+   this.auditClaimsFind = this.formBuilder.group({
       dos: [],
       age_filter: [],
       claim_no: [],
@@ -2850,6 +2993,7 @@ graphStatus()
       rendering_provider:[],
       responsibility: [],
       date:[],
+      payer_name: [],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -2875,6 +3019,7 @@ graphStatus()
       rendering_provider:[],
       responsibility: [],
       date:[],
+      payer_name: [],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -2900,6 +3045,8 @@ graphStatus()
       sub_status_code: [],
       rendering_provider:[],
       responsibility: [],
+      date:[],
+      payer_name: [],
       claim_note: [],
       insurance: [],
       prim_ins_name: [],
@@ -2964,6 +3111,12 @@ ngAfterViewInit()
   this.get_audit_codes();
   this.get_error_param_codes();
   this.get_error_sub_param_codes();
+  this.Jarwis.get_audit_table_page('null',1,15,'null','null','null',null,null,null,null,null).subscribe(
+    data  => this.assign_page_data(data),
+    error => this.handleError(error)
+  );
+  this.getclaim_details(1,'wo','null','null','null','null',null,null,null,null,null);
+
   //this.sortallocated();
   if(this.touch_count == undefined)
   {

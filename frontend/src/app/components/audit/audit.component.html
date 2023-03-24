@@ -17,7 +17,7 @@
                   <li *ngIf="user_role == 1" [ngClass]="class_change.tab1" ><a href="#tab_4" data-toggle="tab" aria-expanded="true"><i class="fa fa-dashboard" (click)="graphStatus()"></i> Analytics <span class="tab-divider">|</span></a> </li>
                   <!-- <li *ngIf="user_role == 1"><a href="#tab_2" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-file-text"></i> Assigned Claims <span class="tab-divider">|</span></a></li>-->
                   <!-- <li class="hide"><a href="#tab_5" data-toggle="tab"><i class="fa fa-file-text-o"></i> Work Order <span class="tab-divider">|</span></a> </li> -->
-                  <li *ngIf="user_role == 2" [ngClass]="class_change.tab2"><a href="#tab_2" data-toggle="tab" style="padding-left: 0px;" (click)="get_statuscodes()"><i class="fa fa-file-text"></i> Audit Que <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="user_role == 2" [ngClass]="class_change.tab2"><a href="#tab_2" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'wo','null','null','null','null',null,null,null,null,null);get_statuscodes()"><i class="fa fa-file-text"></i> Audit Que <span class="tab-divider">|</span></a></li>
                   <li *ngIf="user_role == 2" class=""><a href="#tab_3" data-toggle="tab" style="padding-left: 0px;" aria-expanded="false" (click)="get_workorder(null,null,null,2,wo_page_number,null,null,'null','null')"><i class="fa fa-list"></i> Work Orders <span class="tab-divider">|</span></a></li>
                   <li *ngIf="(user_role == 2 || user_role == 1 || user_role == 12)"><a href="#tab_5" data-toggle="tab" style="padding-left: 0px;" (click)="getclaim_details(1,'allocated','null','null','null','null');get_statuscodes()"><i class="fa fa-share"></i>Assigned Claims<span class="tab-divider">|</span></a></li>
                   <!--   <li><a href="#tab_6" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-drivers-license"></i> Reports</a></li> -->
@@ -1189,23 +1189,18 @@
                                     <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
                                        <h3 class="box-title list-heading"><i class="fa fa-filter ar-blue"></i> Filters</h3>
                                        <div class="box-tools pull-right">
-                                          <button class="btn btn-box-tool collapsed" data-target="#audit_search" data-toggle="collapse" data-widget="collapse" type="button" aria-expanded="false" aria-controls="audit_search">
-                                             <i class="fa fa-plus"></i>
+                                          <button type="button" class="btn btn-box-tool collapsed" style="margin-left:10px;" data-widget="collapse" data-toggle="collapse" data-target="#audit_Search">
+                                          <i class="fa fa-plus"></i>
                                           </button>
-                                          <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                          </button>                                                                                                 -->
                                        </div>
-                                       <!-- <div class="box-tools pull-right">
-                                          <input type="text" class="form-control pull-right" [formControl]="search_data" placeholder="Search.." style="width:300px;margin-top:1px;font-weight:normal;">
-                                       </div> -->
                                     </div>
-                                    <div id="audit_search" class="collapse">
-                                       <form [formGroup]="auditClaimsFind" (ngSubmit)="audit_claims_filter(1,'wo',null,null,null,null,null,null,null,'search')">
+                                    <div id="audit_Search" class="collapse">
+                                       <form [formGroup]="auditClaimsFind" (ngSubmit)="audit_claims_filter(1,'wo',null,null,null,null,null,null,null,null,'search')">
                                           <div class="box-body no-padding" style="margin-top:20px;">
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                    <label>DOS</label>
-                                                   <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="dos"  [(ngModel)]="selecteds" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                   <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="dos"  [(ngModel)]="selectedAudit" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                    <label>Age</label>
@@ -1250,7 +1245,7 @@
                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Date</label>
-                                                   <input type="text" class="form-control" ngxDaterangepickerMd   formControlName="date"  [(ngModel)]="select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
+                                                   <input type="text" class="form-control" ngxDaterangepickerMd formControlName="date" [(ngModel)]="select_date" [alwaysShowCalendars]="true" [linkedCalendars]="false"  [showClearButton]="true" readonly >
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Status Code</label>
@@ -1282,7 +1277,7 @@
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-12">
                                                    <label>Payer Name</label>
-                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="selected_val" (keyup)="auditQueueSearchOnKeyUp($event)" list="SearchResults">
+                                                   <input class="form-control" type="text" formControlName="payer_name" placeholder="Search Payer" [(ngModel)]="auditQueue_selected_val" (keyup)="auditQueueSearchOnKeyUp($event)" list="SearchResults">
                                                    <div *ngIf="(auditQueueSelected == false) && (auditQueue_selected_val != '')">
                                                       <div *ngFor="let res of auditQueue_results">
                                                           <a (click)="auditQueueSelectvalue(res)">{{res}}</a>
