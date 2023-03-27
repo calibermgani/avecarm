@@ -2670,11 +2670,13 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
         this.search = this.createclaims_filter;        
         search = this.search;
         sort_data = 'null';
-        sort_type = 'null';    
+        sort_type = 'null';
+        sorting_name = null;
       }
       else{
         this.search=null;        
         search = this.search;
+        sort_type = null;
       }
       
       searchs = this.search;
@@ -2695,13 +2697,13 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
         }
         if (this.createClaimsFind.value.date.startDate != null && this.createClaimsFind.value.date.endDate != null) {
           console.log(this.createClaimsFind.controls.date.value);
-          this.createClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
-          this.createClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+          this.createClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.date.startDate), 'yyyy-MM-dd');
+          this.createClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.date.endDate), 'yyyy-MM-dd');
         }
         if (this.createClaimsFind.value.bill_submit_date.startDate != null && this.createClaimsFind.value.bill_submit_date.endDate != null) {
           // console.log(this.createClaimsFind.controls.bill_submit_date.value);
-          this.createClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
-          this.createClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
+          this.createClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.createClaimsFind.value.bill_submit_date.startDate), 'yyyy-MM-dd');
+          this.createClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.createClaimsFind.value.bill_submit_date.endDate), 'yyyy-MM-dd');
         }
         this.Jarwis.get_table_page(sort_data, page, page_count, sort_type, sorting_name, this.sortByAsc,this.createClaimsFind.value, this.search).subscribe(
           data => this.assign_page_data(data),
@@ -3156,7 +3158,6 @@ workorder_filter;
         Object.keys(closedClaims_searchValue).forEach(key => {
           if (typeof closedClaims_searchValue[key] === 'object' && closedClaims_searchValue[key] !== null) {
             Object.keys(closedClaims_searchValue[key]).forEach(val => {
-              console.log(closedClaims_searchValue[key][val]);
               if(typeof closedClaims_searchValue[key][val] === 'object' && closedClaims_searchValue[key][val] !== null) {
                 Object.keys(closedClaims_searchValue[key][val]).forEach(data => {
                   if(closedClaims_searchValue[key][val][data] === null){
@@ -3201,16 +3202,15 @@ workorder_filter;
           error => this.error_handler(error)
         );
       } else if (searchs == 'search') {
-        console.log(this.closedClaimsFind.value);
         if (this.closedClaimsFind.value.dos.startDate != null && this.closedClaimsFind.value.dos.endDate != null) {
           console.log(this.closedClaimsFind.controls.dos.value);
-          this.closedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.startDate._d), 'yyyy-MM-dd');
-          this.closedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.endDate._d), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.startDate), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.dos.endDate), 'yyyy-MM-dd');
         }
         if (this.closedClaimsFind.value.date.startDate != null && this.closedClaimsFind.value.date.endDate != null) {
           console.log(this.closedClaimsFind.controls.date.value);
-          this.closedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.startDate._d), 'yyyy-MM-dd');
-          this.closedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.endDate._d), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.date.startDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.startDate), 'yyyy-MM-dd');
+          this.closedClaimsFind.value.date.endDate = this.datepipe.transform(new Date(this.closedClaimsFind.value.date.endDate), 'yyyy-MM-dd');
         }
 
         this.Jarwis.get_workorder(filter, 0, 0, 1, page, sort_type, sort_data, this.closed_sorting_name, this.sortByAsc, this.closedClaimsFind.value, null, this.search).subscribe(
@@ -4078,7 +4078,7 @@ closedclaims_filter;
     //   Validators.required
     // ])
     // });
-console.log(this.age_options);
+    console.log(this.age_options);
 
 
     const debouncetime = pipe(debounceTime(700));
@@ -4098,7 +4098,7 @@ console.log(this.age_options);
       this.touch_count = message
     });
     this.user_name = this.setus.getname();
-    this.get_graph_stats();
+    //this.get_graph_stats();
     this.file_count();
 
   }

@@ -3102,7 +3102,7 @@ this.filter_option.valueChanges
 );
 this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
   this.touch_count = message });
-  this.graphStatus();
+  //this.graphStatus();
 }
 
 ngAfterViewInit()
