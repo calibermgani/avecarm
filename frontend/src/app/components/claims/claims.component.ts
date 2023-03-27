@@ -651,8 +651,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     this.formdata.append('user_id', this.setus.getId());
     this.formdata.append('report_date', report_date.day + '-' + report_date.month + '-' + report_date.year);
     this.formdata.append('notes', this.reimport_formGroup.value.notes);
-    this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));
-    console.log(JSON.stringify(this.formdata));
+    this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));    
     this.Jarwis.file_reimport(this.formdata).subscribe(
       message => { let data = message['reimport_msg'];
         this.notifysuccess(data), this.load_reimport_data(1) },
