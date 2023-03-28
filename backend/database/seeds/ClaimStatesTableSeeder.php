@@ -80,6 +80,13 @@ class ClaimStatesTableSeeder extends Seeder
                 'created_at' => '2019-07-11 15:50:50',
                 'updated_at' => '0000-00-00 00:00:00',
             ),
+            9 => 
+            array (
+                'id' => 10,
+                'name' => 'Reimport',
+                'created_at' => '2023-03-24 15:50:50',
+                'updated_at' => '0000-00-00 00:00:00',
+            ),
         ));
         
         
