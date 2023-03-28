@@ -19,5 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ClaimStatesTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(StatusTableSeeder::class);
+        $this->call(ErrorTypesTableSeeder::class);
+        $this->call(ParentParametersTableSeeder::class);
+        $this->call(SubParametersTableSeeder::class);
     }
 }
