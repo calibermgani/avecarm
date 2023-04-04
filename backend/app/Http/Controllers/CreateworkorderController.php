@@ -3344,123 +3344,133 @@ class CreateworkorderController extends Controller
 
       }
     } else if ($claim_type == "reallocated") {
-      $count = $claim_data = [];
-      foreach ($Claim_history as $key => $active) {
-        $query = DB::table('claim_histories')
-          ->select(DB::raw("COUNT(claim_id) count, claim_id, id"))
-          ->where('claim_id', $active['claim_id'])
-          ->where('assigned_to', $user_id)
-          ->havingRaw("COUNT(claim_id) != 1")
-          ->get()->toArray();
-        $count[$key] = (isset($query[0])) ? $query[0]->claim_id : 0;
-      }
+      // $count = $claim_data = [];
+      // foreach ($Claim_history as $key => $active) {
+      //   $query = DB::table('claim_histories')
+      //     ->select(DB::raw("COUNT(claim_id) count, claim_id, id"))
+      //     ->where('claim_id', $active['claim_id'])
+      //     ->where('assigned_to', $user_id)
+      //     ->havingRaw("COUNT(claim_id) != 1")
+      //     ->get()->toArray();
+      //   $count[$key] = (isset($query[0])) ? $query[0]->claim_id : 0;
+      // }
 
 
-      foreach ($count as $values) {
-        // DB::enableQueryLog();
-        $claim_data[] = Import_field::leftJoin('qc_notes', function ($join) {
-          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
-        })->where('qc_notes.deleted_at', '=', NULL)->whereIn('qc_notes.error_type', ['[2]', '[3]'])->where('claim_no',  $values)->where('followup_associate', $user_id)->whereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
-        // $claim_data[] = DB::table('import_fields')->leftJoin('qc_notes', 'qc_notes.claim_id', '=', 'import_fields.claim_no')->WhereIn('qc_notes.error_type', ['[2]','[3]'])->where('claim_no',  $values)->where('assigned_to', $user_id)->WhereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
-        // $quries = DB::getQueryLog();
-        // dd($quries);
-      }
-      // log::debug($quries);
+      // foreach ($count as $values) {
+      //   $claim_data[] = Import_field::leftJoin('qc_notes', function ($join) {
+      //     $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+      //   })->where('qc_notes.deleted_at', '=', NULL)->whereIn('qc_notes.error_type', ['[2]', '[3]'])->where('claim_no',  $values)->where('followup_associate', $user_id)->whereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
+      // // $claim_data[] = DB::table('import_fields')->leftJoin('qc_notes', 'qc_notes.claim_id', '=', 'import_fields.claim_no')->WhereIn('qc_notes.error_type', ['[2]','[3]'])->where('claim_no',  $values)->where('assigned_to', $user_id)->WhereIn('claim_status', ['Assigned', 'Client Assistance'])->get()->toArray();
+      // }
       // log::debug(print_r($claim_data, true));
-      $claim_array = array_filter(array_map('array_filter', $claim_data));
-      $multi_claim_data = $claim_array;
+      // $claim_array = array_filter(array_map('array_filter', $claim_data));
+      // $multi_claim_data = $claim_array;
 
-      $merge_claim_data = array_reduce($multi_claim_data, 'array_merge', array());
+      // $merge_claim_data = array_reduce($multi_claim_data, 'array_merge', array());
 
-      $reassign = array_column($merge_claim_data, 'claim_no');
+      // $reassign = array_column($merge_claim_data, 'claim_no');
 
 
       if ($reassignSearchValue == null) {
 
+        $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                              claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                            AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          })->leftjoin(DB::raw("(SELECT
+                              claim_histories.claim_id,claim_histories.created_at as created_ats
+                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+                            ) as claim_histories"), function ($join) {
+            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          })->leftJoin('qc_notes', function ($join) {
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->whereIn('claim_status', ['Assigned', 'Client Assistance'])->where('followup_associate', $user_id)->whereIn('qc_notes.error_type', ['[2]', '[3]'])->whereNotNull('followup_date');
+
         if ($claim_type == "reallocated" && $sort_type == 'null' && $sorting_name == 'null') {
 
-          $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                              claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                            AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
-            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-          })->leftjoin(DB::raw("(SELECT
-                              claim_histories.claim_id,claim_histories.created_at as created_ats
-                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                            ) as claim_histories"), function ($join) {
-            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-          })->whereIN('claim_no', $reassign)->offset($skip)->limit($end)->get();
+          // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+          //                     claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+          //                   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+          //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          // })->leftjoin(DB::raw("(SELECT
+          //                     claim_histories.claim_id,claim_histories.created_at as created_ats
+          //                   FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+          //                   ) as claim_histories"), function ($join) {
+          //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          // })->whereIN('claim_no', $reassign)->offset($skip)->limit($end)->get();
+          $claim_data = $claim_data->offset($skip)->limit($end)->get();
           $current_total = $claim_data->count();
         } elseif ($claim_type == "reallocated" && $sort_type == null && $sorting_name == null && $sorting_method == null) {
-
-          $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                              claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                            AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
-            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-          })->leftjoin(DB::raw("(SELECT
-                              claim_histories.claim_id,claim_histories.created_at as created_ats
-                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                            ) as claim_histories"), function ($join) {
-            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-          })->whereIN('claim_no', $reassign)->offset($skip)->limit($end)->get();
+          $claim_data = $claim_data->offset($skip)->limit($end)->get();
           $current_total = $claim_data->count();
+          // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+          //                     claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+          //                   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+          //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          // })->leftjoin(DB::raw("(SELECT
+          //                     claim_histories.claim_id,claim_histories.created_at as created_ats
+          //                   FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+          //                   ) as claim_histories"), function ($join) {
+          //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          // })->whereIN('claim_no', $reassign)->offset($skip)->limit($end)->get();
         } elseif ($claim_type == "reallocated" && $sort_type == null && $sorting_name == 'null') {
-
-          $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                              claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                            AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
-            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-          })->leftjoin(DB::raw("(SELECT
-                              claim_histories.claim_id,claim_histories.created_at as created_ats
-                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                            ) as claim_histories"), function ($join) {
-            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-          })->whereIN('claim_no', $reassign)->offset($skip)->limit($end)->get();
+          $claim_data = $claim_data->offset($skip)->limit($end)->get();
           $current_total = $claim_data->count();
+          // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+          //                     claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+          //                   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+          //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          // })->leftjoin(DB::raw("(SELECT
+          //                     claim_histories.claim_id,claim_histories.created_at as created_ats
+          //                   FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+          //                   ) as claim_histories"), function ($join) {
+          //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          // })->whereIN('claim_no', $reassign)->offset($skip)->limit($end)->get();
         } elseif ($claim_type == "reallocated" && $sort_type == 'null' && empty($sorting_name)) {
-
-          $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                              claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                            AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
-            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-          })->leftjoin(DB::raw("(SELECT
-                              claim_histories.claim_id,claim_histories.created_at as created_ats
-                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                            ) as claim_histories"), function ($join) {
-            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-          })->whereIN('claim_no', $reassign)->offset($skip)->limit($end)->get();
+          $claim_data = $claim_data->offset($skip)->limit($end)->get();
           $current_total = $claim_data->count();
+          // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+          //                     claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+          //                   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+          //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          // })->leftjoin(DB::raw("(SELECT
+          //                     claim_histories.claim_id,claim_histories.created_at as created_ats
+          //                   FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+          //                   ) as claim_histories"), function ($join) {
+          //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          // })->whereIN('claim_no', $reassign)->offset($skip)->limit($end)->get();
         } elseif ($claim_type == "reallocated" && $sort_type == 'null' && !empty($sorting_name) && !empty($sorting_method)) {
-
+  
           if ($sorting_method == true) {
-            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes
-                              FROM claim_notes WHERE claim_notes.deleted_at IS NULL
-                              AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id
-                              ) as claim_notes"), function ($join) {
-              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin(DB::raw("(SELECT
-                              claim_histories.claim_id,claim_histories.created_at as created_ats
-                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                            ) as claim_histories"), function ($join) {
-              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->get();
+            $claim_data = $claim_data->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->get();
             $current_total = $claim_data->count();
+            // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+            //               claim_notes.claim_id,claim_notes.content as claims_notes
+            //                   FROM claim_notes WHERE claim_notes.deleted_at IS NULL
+            //                   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id
+            //                   ) as claim_notes"), function ($join) {
+            //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            // })->leftjoin(DB::raw("(SELECT
+            //                   claim_histories.claim_id,claim_histories.created_at as created_ats
+            //                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+            //                 ) as claim_histories"), function ($join) {
+            //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            // })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->get();
           } else if ($sorting_method == false) {
-
-            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                            claim_notes.claim_id,claim_notes.content as claims_notes
-                            FROM claim_notes WHERE claim_notes.deleted_at IS NULL
-                            AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id
-                            ) as claim_notes"), function ($join) {
-              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin(DB::raw("(SELECT
-                              claim_histories.claim_id,claim_histories.created_at as created_ats
-                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                            ) as claim_histories"), function ($join) {
-              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
-
+            $claim_data = $claim_data->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
             $current_total = $claim_data->count();
+            // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+            //                 claim_notes.claim_id,claim_notes.content as claims_notes
+            //                 FROM claim_notes WHERE claim_notes.deleted_at IS NULL
+            //                 AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id
+            //                 ) as claim_notes"), function ($join) {
+            //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            // })->leftjoin(DB::raw("(SELECT
+            //                   claim_histories.claim_id,claim_histories.created_at as created_ats
+            //                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+            //                 ) as claim_histories"), function ($join) {
+            //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            // })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
           }
 
           // $current_total = $claim_data->count();
@@ -3468,65 +3478,85 @@ class CreateworkorderController extends Controller
         } elseif ($claim_type == "reallocated" && $sort_type == 'null' && $sorting_name != 'null' && $sorting_method != 'null') {
 
           if ($sorting_method == true) {
-            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                          claim_notes.claim_id,claim_notes.content as claims_notes
-                              FROM claim_notes WHERE claim_notes.deleted_at IS NULL
-                              AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id
-                              ) as claim_notes"), function ($join) {
-              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin(DB::raw("(SELECT
-                              claim_histories.claim_id,claim_histories.created_at as created_ats
-                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                            ) as claim_histories"), function ($join) {
-              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->get();
+            $claim_data = $claim_data->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->get();
             $current_total = $claim_data->count();
+            // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+            //               claim_notes.claim_id,claim_notes.content as claims_notes
+            //                   FROM claim_notes WHERE claim_notes.deleted_at IS NULL
+            //                   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id
+            //                   ) as claim_notes"), function ($join) {
+            //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            // })->leftjoin(DB::raw("(SELECT
+            //                   claim_histories.claim_id,claim_histories.created_at as created_ats
+            //                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+            //                 ) as claim_histories"), function ($join) {
+            //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            // })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'desc')->offset($skip)->limit($end)->get();
           } else if ($sorting_method == false) {
-            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                                claim_notes.claim_id,claim_notes.content as claims_notes
-                              FROM claim_notes WHERE claim_notes.deleted_at IS NULL
-                              AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id
-                              ) as claim_notes"), function ($join) {
-              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin(DB::raw("(SELECT
+            $claim_data = $claim_data->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
+            $current_total = $claim_data->count();
+            // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+            //                     claim_notes.claim_id,claim_notes.content as claims_notes
+            //                   FROM claim_notes WHERE claim_notes.deleted_at IS NULL
+            //                   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id
+            //                   ) as claim_notes"), function ($join) {
+            //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            // })->leftjoin(DB::raw("(SELECT
+            //                   claim_histories.claim_id,claim_histories.created_at as created_ats
+            //                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+            //                 ) as claim_histories"), function ($join) {
+            //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            // })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
+          }
+          // $current_total = $claim_data->count();
+        }
+        
+        $selected_claim_data = Import_field::leftjoin(DB::raw("(SELECT
+                              claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                            AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+            $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+          })->leftjoin(DB::raw("(SELECT
                               claim_histories.claim_id,claim_histories.created_at as created_ats
                             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                             ) as claim_histories"), function ($join) {
-              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sorting_name, 'asc')->offset($skip)->limit($end)->get();
-            $current_total = $claim_data->count();
-          }
-          $current_total = $claim_data->count();
-        }
+            $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+          })->leftJoin('qc_notes', function ($join) {
+            $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+          })->whereIn('claim_status', ['Assigned', 'Client Assistance'])->where('followup_associate', $user_id)->whereIn('qc_notes.error_type', ['[2]', '[3]'])->whereNotNull('followup_date')->get();
+          
+        $claim_count = $selected_claim_data->count();
 
-        $claim_count = Import_field::whereIN('claim_no', $reassign)->count();
-        $selected_claim_data = Import_field::whereIN('claim_no', $reassign)->get();
+        // $claim_count = Import_field::whereIN('claim_no', $reassign)->count();
+        // $selected_claim_data = Import_field::whereIN('claim_no', $reassign)->get();
 
         if ($sort_type != 'null' && $sorting_method == 'null') {
           if ($sort_data == true) {
-            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                                claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                              AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
-              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin(DB::raw("(SELECT
-                              claim_histories.claim_id,claim_histories.created_at as created_ats
-                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                            ) as claim_histories"), function ($join) {
-              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->get();
+            $claim_data = $claim_data->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->get();
             $current_total = $claim_data->count();
+            // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+            //                     claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+            //                   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+            //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            // })->leftjoin(DB::raw("(SELECT
+            //                   claim_histories.claim_id,claim_histories.created_at as created_ats
+            //                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+            //                 ) as claim_histories"), function ($join) {
+            //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            // })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sort_type, 'desc')->offset($skip)->limit($end)->get();
           } else if ($sort_data == false) {
-            $claim_data = Import_field::leftjoin(DB::raw("(SELECT
-                                claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
-                              AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
-              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-            })->leftjoin(DB::raw("(SELECT
-                              claim_histories.claim_id,claim_histories.created_at as created_ats
-                            FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
-                            ) as claim_histories"), function ($join) {
-              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-            })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->get();
+            $claim_data = $claim_data->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->get();
             $current_total = $claim_data->count();
+            // $claim_data = Import_field::leftjoin(DB::raw("(SELECT
+            //                     claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+            //                   AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+            //   $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+            // })->leftjoin(DB::raw("(SELECT
+            //                   claim_histories.claim_id,claim_histories.created_at as created_ats
+            //                 FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
+            //                 ) as claim_histories"), function ($join) {
+            //   $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+            // })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id)->orderBy($sort_type, 'asc')->offset($skip)->limit($end)->get();
+            // $current_total = $claim_data->count();
           }
         }
       } elseif ($reassignSearchValue != null) {
@@ -3540,7 +3570,9 @@ class CreateworkorderController extends Controller
                             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                             ) as claim_histories"), function ($join) {
           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-        })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id);
+        })->leftJoin('qc_notes', function ($join) {
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->whereIn('claim_status', ['Assigned', 'Client Assistance'])->where('followup_associate', $user_id)->whereIn('qc_notes.error_type', ['[2]', '[3]'])->whereNotNull('followup_date');
 
         $claim_count = Import_field::leftjoin(DB::raw("(SELECT
                         claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
@@ -3551,7 +3583,9 @@ class CreateworkorderController extends Controller
                             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                             ) as claim_histories"), function ($join) {
           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-        })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id);
+        })->leftJoin('qc_notes', function ($join) {
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->whereIn('claim_status', ['Assigned', 'Client Assistance'])->where('followup_associate', $user_id)->whereIn('qc_notes.error_type', ['[2]', '[3]'])->whereNotNull('followup_date');
 
         $selected_claim_data = Import_field::leftjoin(DB::raw("(SELECT
                         claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
@@ -3562,7 +3596,9 @@ class CreateworkorderController extends Controller
                             FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                             ) as claim_histories"), function ($join) {
           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-        })->whereIN('claim_no', $reassign)->where('assigned_to', $user_id);
+        })->leftJoin('qc_notes', function ($join) {
+          $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+        })->whereIn('claim_status', ['Assigned', 'Client Assistance'])->where('followup_associate', $user_id)->whereIn('qc_notes.error_type', ['[2]', '[3]'])->whereNotNull('followup_date');
 
         if (!empty($search_claim_no)) {
 
