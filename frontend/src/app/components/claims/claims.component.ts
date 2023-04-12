@@ -82,6 +82,8 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   closed_selected_val:any = null;
   allclaimSelected:boolean = false;
   allclaim_selected_val:any = null;
+
+  getUserList: any[] = [];
   // reallocateSelected:boolean = false;
   // reallocate_selected_val:any = null;
 
@@ -162,8 +164,16 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   autoclose_claim: FormGroup;
   reassignedClaimsFind:FormGroup;
   reimport_formGroup: FormGroup;
+  changeExecutive: FormGroup;
   // formGroup: FormGroup;
   submitted = false;
+  submitUser = false;
+  userEnabled = false;
+  auditClaimsEnabled = false;
+  dependentUserOptions: any[] = [];
+  checkAuditClaims: any[] = [];
+  selectedUserId: any;
+  checkboxAuditClaims: any;
   modalform: FormGroup;
   get v() { return this.qcNotes.controls; }
   public tabdat = ['date', 'file_name', 'claims', 'newclaims', 'uploaded'];
@@ -651,7 +661,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     this.formdata.append('user_id', this.setus.getId());
     this.formdata.append('report_date', report_date.day + '-' + report_date.month + '-' + report_date.year);
     this.formdata.append('notes', this.reimport_formGroup.value.notes);
-    this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));    
+    this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));
     this.Jarwis.file_reimport(this.formdata).subscribe(
       message => { let data = message['reimport_msg'];
         this.notifysuccess(data), this.load_reimport_data(1) },
@@ -2646,13 +2656,13 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
               if(typeof createClaims_searchValue[key][val] === 'object' && createClaims_searchValue[key][val] !== null) {
                 Object.keys(createClaims_searchValue[key][val]).forEach(data => {
                   if(createClaims_searchValue[key][val][data] === null){
-                    nullVal = false;                  
+                    nullVal = false;
                   }
                   else{
-                    nullVal = true;                 
+                    nullVal = true;
                   }
                 });
-                createsearch_notNull.push(nullVal);              
+                createsearch_notNull.push(nullVal);
               }
               else if (typeof createClaims_searchValue[key][val] !== 'object' && createClaims_searchValue[key][val] !== null && createClaims_searchValue[key][val] != ''){
                 nullVal = true;
@@ -2663,22 +2673,22 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
                 createsearch_notNull.push(nullVal);
               }
             });
-          }          
-        });      
+          }
+        });
       }
       if(createsearch_notNull.some(x => x === true)){
-        this.search = this.createclaims_filter;        
+        this.search = this.createclaims_filter;
         search = this.search;
         sort_data = 'null';
         sort_type = 'null';
         sorting_name = null;
       }
       else{
-        this.search=null;        
+        this.search=null;
         search = this.search;
         sort_type = null;
       }
-      
+
       searchs = this.search;
       this.pages = page;
       if (sorting_name == null && searchs == null) {
@@ -2688,7 +2698,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
           error => this.handleError(error)
         );
       } else if (searchs == 'search') {
-        
+
         console.log(this.createClaimsFind.value.dos);
         if (this.createClaimsFind.value.dos.startDate != null && this.createClaimsFind.value.dos.endDate != null) {
           console.log(this.createClaimsFind.controls.dos.value);
@@ -2738,7 +2748,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
     /** Developer : Sathish
         Date : 09/01/2023
         Purpose : To get all Calims Table */
-    else if (table == 'all_claim') {      
+    else if (table == 'all_claim') {
       let allclaimsearch_notNull = [];
       let nullVal:boolean = false;
 	    let allClaims_searchValue = [this.allClaimsFind.value];
@@ -2749,13 +2759,13 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
               if(typeof allClaims_searchValue[key][val] === 'object' && allClaims_searchValue[key][val] !== null) {
                 Object.keys(allClaims_searchValue[key][val]).forEach(data => {
                   if(allClaims_searchValue[key][val][data] === null){
-                    nullVal = false;                  
+                    nullVal = false;
                   }
                   else{
-                    nullVal = true;                 
+                    nullVal = true;
                   }
                 });
-                allclaimsearch_notNull.push(nullVal);              
+                allclaimsearch_notNull.push(nullVal);
               }
               else if (typeof allClaims_searchValue[key][val] !== 'object' && allClaims_searchValue[key][val] !== null && allClaims_searchValue[key][val] != ''){
                 nullVal = true;
@@ -2766,15 +2776,15 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
                 allclaimsearch_notNull.push(nullVal);
               }
             });
-          }          
-        });      
+          }
+        });
       }
       if(allclaimsearch_notNull.some(x => x === true)){
-        this.search = this.allclaims_filter;        
+        this.search = this.allclaims_filter;
         sort_data = 'null';
         sort_type = 'null';
         sorting_name='null';
-        search = this.search;		
+        search = this.search;
       }
       else{
         this.search=null;
@@ -2792,11 +2802,11 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
-      } else if (searchs == 'search') {        
+      } else if (searchs == 'search') {
         if (this.allClaimsFind.value.dos.startDate !=null && this.allClaimsFind.value.dos.endDate !=null) {
           console.log(this.allClaimsFind.value);
           this.allClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.startDate), 'yyyy-MM-dd');
-          this.allClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.endDate), 'yyyy-MM-dd');          
+          this.allClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.allClaimsFind.value.dos.endDate), 'yyyy-MM-dd');
         }
         if (this.allClaimsFind.value.date.startDate != null && this.allClaimsFind.value.date.endDate != null) {
           console.log(this.allClaimsFind.controls.date.value);
@@ -2808,19 +2818,19 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
           this.allClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.allClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
           this.allClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.allClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
         }
-        
+
         this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, sorting_name, this.sortByAsc, this.allClaimsFind.value, this.search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
-      } else {     
+      } else {
         this.Jarwis.all_claim_list(sort_data, page, page_count, sort_type, sorting_name,this.sortByAsc, null, this.search).subscribe(
           data => this.assign_page_data(data),
           error => this.handleError(error)
         );
       }
     }
-    /* else if (table == 'reallocate_claims') {      
+    /* else if (table == 'reallocate_claims') {
       console.log(sorting_name);
       let itemnotNull = [];
       let nullVal:boolean = false;
@@ -2832,21 +2842,21 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
               if(typeof reallocate_searchdata[key][val] === 'object' && reallocate_searchdata[key][val] !== null) {
                 Object.keys(reallocate_searchdata[key][val]).forEach(data => {
                   if(reallocate_searchdata[key][val][data] === null){
-                    nullVal = false;                  
+                    nullVal = false;
                   }
                   else{
-                    nullVal = true;                 
+                    nullVal = true;
                   }
                 });
-                itemnotNull.push(nullVal);              
+                itemnotNull.push(nullVal);
               }
               else if (typeof reallocate_searchdata[key][val] !== 'object' && reallocate_searchdata[key][val] !== null){
                 nullVal = true;
                 itemnotNull.push(nullVal);
-              }                        
+              }
             });
           }
-        });      
+        });
       }
       if(itemnotNull.some(x => x === true)){
         console.log('val changed');
@@ -2854,7 +2864,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
         sort_data = 'null';
         sort_type = 'null';
         sorting_name='null';
-        search = this.search;        
+        search = this.search;
       }
       else{
         console.log('val not changed');
@@ -2873,11 +2883,11 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
           data => this.reallocate_page_data(data),
           error => this.handleError(error)
         );
-      } else if (searchs == 'search') {        
+      } else if (searchs == 'search') {
         if (this.reallocateClaimsFind.value.dos.startDate !=null && this.reallocateClaimsFind.value.dos.endDate !=null) {
           console.log(this.reallocateClaimsFind.value);
           this.reallocateClaimsFind.value.dos.startDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.dos.startDate), 'yyyy-MM-dd');
-          this.reallocateClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.dos.endDate), 'yyyy-MM-dd');          
+          this.reallocateClaimsFind.value.dos.endDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.dos.endDate), 'yyyy-MM-dd');
         }
         if (this.reallocateClaimsFind.value.date.startDate != null && this.reallocateClaimsFind.value.date.endDate != null) {
           console.log(this.reallocateClaimsFind.controls.date.value);
@@ -2889,12 +2899,12 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
           this.reallocateClaimsFind.value.bill_submit_date.startDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.bill_submit_date.startDate._d), 'yyyy-MM-dd');
           this.reallocateClaimsFind.value.bill_submit_date.endDate = this.datepipe.transform(new Date(this.reallocateClaimsFind.value.bill_submit_date.endDate._d), 'yyyy-MM-dd');
         }
-        
+
         this.Jarwis.reallocation_list(sort_data, page, page_count, sort_type, sorting_name, this.sortByAsc, this.reallocateClaimsFind.value, this.search).subscribe(
           data => this.reallocate_page_data(data),
           error => this.handleError(error)
         );
-      } else {     
+      } else {
         this.Jarwis.reallocation_list(sort_data, page, page_count, sort_type, sorting_name,this.sortByAsc, null, this.search).subscribe(
           data => this.reallocate_page_data(data),
           error => this.handleError(error)
@@ -3139,7 +3149,7 @@ workorder_filter;
       }
     }
     else if (filter == 'search') {
-      
+
       this.pages = page;
 
       this.Jarwis.get_workorder(filter, from, 0, 1, page, sort_type, sort_data, sorting_name, sorting_method, null, null, search).subscribe(
@@ -3161,13 +3171,13 @@ workorder_filter;
               if(typeof closedClaims_searchValue[key][val] === 'object' && closedClaims_searchValue[key][val] !== null) {
                 Object.keys(closedClaims_searchValue[key][val]).forEach(data => {
                   if(closedClaims_searchValue[key][val][data] === null){
-                    nullVal = false;                  
+                    nullVal = false;
                   }
                   else{
-                    nullVal = true;                 
+                    nullVal = true;
                   }
                 });
-                closedSearch_notNull.push(nullVal);              
+                closedSearch_notNull.push(nullVal);
               }
               else if (typeof closedClaims_searchValue[key][val] !== 'object' && closedClaims_searchValue[key][val] !== null && closedClaims_searchValue[key][val] != ''){
                 nullVal = true;
@@ -3178,11 +3188,11 @@ workorder_filter;
                 closedSearch_notNull.push(nullVal);
               }
             });
-          }          
-        });      
+          }
+        });
       }
       if(closedSearch_notNull.some(x => x === true)){
-        this.search = this.closedclaims_filter;        
+        this.search = this.closedclaims_filter;
         search = this.search;
       }
       else{
@@ -3190,7 +3200,7 @@ workorder_filter;
 		    sort_data = null;
         sort_type = null;
 		    sorting_name = null;
-        sorting_method = null;        
+        sorting_method = null;
         search = this.search;
       }
 
@@ -3874,7 +3884,7 @@ closedclaims_filter;
   ngOnInit() {
 
     // this.getclaims();
-    
+
     this.getSearchResults();
     this.user_role_maintainer();
     this.formValidators();
@@ -3924,7 +3934,7 @@ closedclaims_filter;
       ter_ins_name: [],
       ter_pol_id: [],
     });
-    
+
 
     this.createClaimsFind = this.formBuilder.group({
       file_id: [],
@@ -3953,7 +3963,7 @@ closedclaims_filter;
       bill_submit_date: [],
       denial_code: []
     });
-    
+
     /* this.reallocateClaimsFind = this.formBuilder.group({
       dos: [],
       age_filter:[],
@@ -3993,7 +4003,7 @@ closedclaims_filter;
       status_code: [],
       sub_status_code: [],
     });
-    
+
 
     this.reassignedClaimsFind = this.formBuilder.group({
       dos: [],
@@ -4010,7 +4020,7 @@ closedclaims_filter;
       date:[],
       status_code: [],
       sub_status_code: [],
-      payer_name:[],      
+      payer_name:[],
     });
 
     this.workOrderFind = this.formBuilder.group({
@@ -4019,7 +4029,18 @@ closedclaims_filter;
       work_order_name: [],
       priority: [],
     });
-    
+
+    this.changeExecutive = this.formBuilder.group({
+      user_id: new FormControl('', [
+        Validators.required
+      ]),
+      new_user_id: new FormControl('', [
+        Validators.required
+      ]),
+      audit_status_claims: new FormControl('', [
+        Validators.required
+      ])
+    });
 
     this.processNotes = new FormGroup({
       processnotes: new FormControl('', [
@@ -4253,7 +4274,7 @@ public process_codes(data:any)
     if(event.value!=undefined)
     {
       let sub_status=this.sub_status_codes_data[event.value.id];
-      let sub_status_option=[];      
+      let sub_status_option=[];
       console.log('sub_status_option');
       if(sub_status == undefined || sub_status =='' )
       {
@@ -4292,7 +4313,7 @@ public process_codes(data:any)
     if(event.value!=undefined)
     {
       let sub_status=this.sub_status_codes_data[event.value.id];
-      let sub_status_option=[];      
+      let sub_status_option=[];
       console.log('sub_status_option');
       if(sub_status == undefined || sub_status =='' )
       {
@@ -4366,7 +4387,7 @@ public process_codes(data:any)
       // this.modified_stats.push(event);
     }
   }
-  
+
   public reassignedClaims_status_code_changed(event:any)
   {
     if(event.value!=undefined)
@@ -4491,7 +4512,7 @@ public process_codes(data:any)
     this.Jarwis.get_payer_name().subscribe(sr => {
       this.searchResults = sr['payer_names'];
     });
-  }  
+  }
   searchFromArray(arr, regex) {
     let matches = [], i;
     for (i = 0; i < arr.length; i++) {
@@ -4510,7 +4531,7 @@ public process_codes(data:any)
     else{
       this.selected_val = null;
       this.isValueSelected = false;
-    }    
+    }
   }
   onselectvalue(value) {
     if(value !='' || value !=null){
@@ -4518,7 +4539,7 @@ public process_codes(data:any)
       this.selected_val = value;
     }
     else{
-      this.selected_val = null;      
+      this.selected_val = null;
       this.isValueSelected = false;
     }
   }
@@ -4532,7 +4553,7 @@ public process_codes(data:any)
     else{
       this.reassign_selected_val = null;
       this.reassignSelected = false;
-    }    
+    }
   }
   reassignedSelectvalue(value) {
     if(value !='' || value !=null){
@@ -4540,7 +4561,7 @@ public process_codes(data:any)
       this.reassign_selected_val = value;
     }
     else{
-      this.reassign_selected_val = null;      
+      this.reassign_selected_val = null;
       this.reassignSelected = false;
     }
   }
@@ -4554,7 +4575,7 @@ public process_codes(data:any)
     else{
       this.closed_selected_val = null;
       this.closedSelected = false;
-    }    
+    }
   }
   closedSelectvalue(value) {
     if(value !='' || value !=null){
@@ -4562,7 +4583,7 @@ public process_codes(data:any)
     this.closed_selected_val = value;
     }
     else{
-      this.closed_selected_val = null;      
+      this.closed_selected_val = null;
       this.closedSelected = false;
     }
   }
@@ -4576,7 +4597,7 @@ public process_codes(data:any)
     else{
       this.allclaim_selected_val = null;
       this.allclaimSelected = false;
-    }    
+    }
   }
   allclaimSelectvalue(value) {
     if(value !='' || value !=null){
@@ -4584,7 +4605,7 @@ public process_codes(data:any)
     this.allclaim_selected_val = value;
     }
     else{
-      this.allclaim_selected_val = null;      
+      this.allclaim_selected_val = null;
       this.allclaimSelected = false;
     }
   }
@@ -4607,7 +4628,7 @@ public process_codes(data:any)
     else{
       this.reallocate_selected_val = null;
       this.reallocateSelected = false;
-    }    
+    }
   }
   reallocateclaimSelectvalue(value) {
     if(value !='' || value !=null){
@@ -4615,8 +4636,83 @@ public process_codes(data:any)
     this.reallocate_selected_val = value;
     }
     else{
-      this.reallocate_selected_val = null;      
+      this.reallocate_selected_val = null;
       this.reallocateSelected = false;
     }
   } */
+
+  get_userlist(){
+    this.Jarwis.getExecutiveList().subscribe((response: any[]) => {
+      this.getUserList = response['user_list'];
+    });
+  }
+
+  forms() {
+    return this.changeExecutive.controls;
+  }
+
+  move_create_work_order() {
+    this.submitUser = true;
+    // stop here if form is invalid
+    if (this.changeExecutive.invalid) {
+      return;
+    }
+    console.log(this.changeExecutive.value);
+
+    let user_id = this.changeExecutive.value.user_id;
+    let audit_status_claims = this.changeExecutive.value.audit_status_claims;
+    this.formdata.append('user_id', user_id);
+    this.formdata.append('audit_status_claims', audit_status_claims);
+    this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));
+    this.Jarwis.move_create_work_orders(this.formdata).subscribe(
+      message => { let data = message['reimport_msg'];
+        this.notifysuccess(data) },
+        error => this.notification(error)
+    );
+  }
+
+  notification(error) {
+    this.toastr.errorToastr('Error Change Executive.');
+  }
+
+
+  onSelectedOptionChange() {
+    this.dependentUserOptions = [];
+    this.checkAuditClaims = [];
+    this.formdata.append('selected_u_id', this.selectedUserId);
+    // this.formdata.append('audit_claims_check_box', this.checkboxAuditClaims);
+    this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));
+    // Make API call to retrieve dependent options
+    this.Jarwis.getReassignedUsers(this.formdata).subscribe(
+      (userIds: string[]) => {
+        this.dependentUserOptions = userIds['status'];
+        if(userIds['status'] == 200){
+          this.userEnabled = true;
+        }else{
+          this.userEnabled = false;
+        }
+
+      },
+      (error: any) => {
+        console.error('Error retrieving dependent options:', error);
+      }
+    );
+    this.Jarwis.audit_claims_found_user(this.formdata).subscribe(
+      (claimId: string[]) => {
+        this.checkAuditClaims = claimId['status'];
+        console.log(claimId['status']);
+        if(claimId['status'] == 200) {
+          this.auditClaimsEnabled = true;
+        }else{
+          this.auditClaimsEnabled = false;
+        }
+      },
+      (error: any) => {
+        console.error('Error retrieving check box options:', error);
+      }
+    );
+  }
+
+
+
 }

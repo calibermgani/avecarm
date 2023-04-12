@@ -242,5 +242,9 @@ Route::group([
     Route::post('file_reimport', 'ImportController@reImport');
     Route::post('get_reimport_table_page', 'ImportController@get_reimport_table_page');
     Route::post('reimport_template', 'ImportController@reimport_template');
+    Route::post('get_executive_list', 'CreateworkorderController@getExecutiveList');
+    Route::post('move_create_work_order', 'ImportController@move_create_work_order');
+    Route::post('get_reassigned_users', 'ImportController@get_reassigned_users');
+    Route::post('audit_claims_found_user', 'ImportController@audit_claims_found_user');
 
 });

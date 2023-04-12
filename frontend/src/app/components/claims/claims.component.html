@@ -16,7 +16,8 @@
                   <!-- <li *ngIf="(user_role == 1 || user_role == 2 || user_role == 16)" class=""><a href="#tab_7" (click)="get_statuscodes();pageChange(1,'reallocate_claims',null,null,null,null,null,null);" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> Reallocate Claims</a></li> -->
                   <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#tab_3" (click)="reload_datas(1);clear()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-upload"></i> Import <span class="tab-divider">|</span></a></li>
                   <li *ngIf="(user_role == 1 || user_role == 2  || !user_role == 16)"><a href="#reimport" (click)="load_reimport_data(1);clear()" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-upload"></i> ReImport <span class="tab-divider">|</span></a></li>
-                  <li *ngIf="(user_role == 1 || user_role == 2 || user_role == 16)" class=""><a href="#tab_6" (click)="get_statuscodes();pageChange(1,'all_claim',null,null,null,null,null,null);" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> All Claims</a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2 || user_role == 16)" class=""><a href="#tab_6" (click)="get_statuscodes();pageChange(1,'all_claim',null,null,null,null,null,null);" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-user"></i> All Claims <span class="tab-divider">|</span></a></li>
+                  <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)" class=""><a href="#tab_8" (click)="get_userlist();" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-users"></i>Revoke Claims</a></li>
 
                </ul>
                <div class="tab-content no-padding">
@@ -215,7 +216,7 @@
                                                 </div>
                                              </div>
                                           </div>
-                                       </form>                                       
+                                       </form>
                                     </div>
                                  </div>
                               </div>
@@ -1537,6 +1538,49 @@
                                        </div>
                                     </div>
                                  </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="tab-pane" id="tab_8">
+                     <div class="box no-shadow no-border no-bottom">
+                        <div class="box-body no-padding mb-4">
+                           <div class="box no-shadow no-bottom" style="border:1px solid #d8dbe4">
+                              <div class="box-header" style="border-bottom: 1px solid #e9ecf3;">
+                                 <h3 class="box-title list-heading"><i class="fa fa-bars ar-blue"></i> Executive List</h3>
+                              </div>
+                              <div class="box-body" style="margin: 5px 0 8px 0;">
+                                 <form [formGroup]="changeExecutive" (ngSubmit)="move_create_work_order()">
+                                    <div class="row">
+                                       <div class="col-md-3">
+                                          <label for="select1">Select User:</label>
+                                          <select class="form-control" formControlName="user_id" [(ngModel)]="selectedUserId" (change)="onSelectedOptionChange()" >
+                                             <option value="">--Select User--</option>
+                                             <option *ngFor="let user of getUserList;" [value]="user.id">{{ user.user_name }} </option>
+                                          </select>
+                                       </div>
+                                       <div class="col-md-3" *ngIf="userEnabled">
+                                          <label for="select2">Select New User:</label>
+                                          <select  class="form-control" formControlName="new_user_id" >
+                                             <option value="">--Select New User--</option>
+                                             <option *ngFor="let user of getUserList;" [value]="user.id">{{ user.user_name }} </option>
+                                          </select>
+                                       </div>
+                                       <div class="col-md-2" *ngIf="auditClaimsEnabled" style="margin-top:25px">
+                                          <div class="form-check">
+                                             <input class="form-check-input" type="checkbox" style="margin-right:5px" [(ngModel)]="checkboxAuditClaims" formControlName="audit_status_claims">
+                                             <label class="form-check-label" for="checkbox">Claim Found in Audit Status</label>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-2" style="margin-top:20px">
+                                          <button type="submit" class="btn btn-primary">Submit</button>
+                                       </div>
+                                       <div class="col-md-2">
+                                       </div>
+                                    </div>
+                                 </form>
                               </div>
                            </div>
                         </div>
@@ -3213,7 +3257,7 @@
                                                 <label>Denial Code</label>
                                                 <input type="text" class="form-control" formControlName="denial_code">
                                               </div>
-                                              </div>                                             
+                                              </div>
                                              <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 no-padding">
                                               <div class="form-group col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right">
                                                  <input type="button" class="pull-right btn btn-search" value="Search" (click)="reallocateClaims_search(1,'reallocate_claims',null,null,null,null,null,'search')">

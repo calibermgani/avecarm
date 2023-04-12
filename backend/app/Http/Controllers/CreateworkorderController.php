@@ -43,7 +43,7 @@ class CreateworkorderController extends Controller
 
   public function __construct()
   {
-    $this->middleware('auth:api', ['except' => ['getclaim_details', 'process_note', 'getnotes', 'claim_note', 'qc_note', 'create_followup', 'get_followup', 'get_associates', 'create_workorder', 'check_claims', 'get_workorder', 'get_workorder_details', 'client_note', 'get_client_notes', 'fetch_wo_export_data', 'fetch_export_data', 'followup_process_notes_delete', 'audit_process_notes_delete', 'closed_followup_process_notes_delete', 'reasigned_followup_process_notes_delete', 'closed_audit_process_notes_delete', 'getclaim_details_order_list', 'team_claims', 'get_associate_name']]);
+    $this->middleware('auth:api', ['except' => ['getclaim_details', 'process_note', 'getnotes', 'claim_note', 'qc_note', 'create_followup', 'get_followup', 'get_associates', 'create_workorder', 'check_claims', 'get_workorder', 'get_workorder_details', 'client_note', 'get_client_notes', 'fetch_wo_export_data', 'fetch_export_data', 'followup_process_notes_delete', 'audit_process_notes_delete', 'closed_followup_process_notes_delete', 'reasigned_followup_process_notes_delete', 'closed_audit_process_notes_delete', 'getclaim_details_order_list', 'team_claims', 'get_associate_name', 'getExecutiveList']]);
   }
 
   public function getclaim_details(LoginRequest $request)
@@ -1740,9 +1740,9 @@ class CreateworkorderController extends Controller
                         FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id
                         ) as claim_histories"), function ($join) {
                           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                        })->where('claim_status', 'Assigned')->where('assigned_to', $user_id)->where('followup_date', Null);
+                        })->where('claim_Status', 'Assigned')->where('assigned_to', $user_id)->where('followup_date', Null);
 
-          $claim_count = Import_field::where('claim_status', 'Assigned')->where('assigned_to', $user_id)->where('followup_date', Null)->count();
+          $claim_count = Import_field::where('claim_Status', 'Assigned')->where('assigned_to', $user_id)->where('followup_date', Null)->count();
 
 
         if ($claim_type == "allocated" && $sort_type == 'null' && $sorting_name == 'null') {
@@ -7844,13 +7844,32 @@ class CreateworkorderController extends Controller
 
   public function team_claims(LoginRequest $request)
   {
-
-
-
-
     return response()->json([
       'value_return' => "Get All claim response",
 
     ]);
+  }
+
+
+  public function getExecutiveList(LoginRequest $request)
+  {
+    try{
+      $practice_dbid = $request->get('practice_dbid');
+      $users = User::select('id', 'user_name', 'firstname', 'lastname')->where('role_id', 1)->get();
+      if($users){
+        return response()->json([
+          'status' => 200,
+          'user_list' => $users
+        ]);
+      }else{
+        return response()->json([
+          'status' => 204,  //No Content
+          'user_list' => []
+        ]);
+      }
+      
+    }catch(Exception $e){
+      log::debug('executive list error : ' . $e->getMessage());
+    }
   }
 }
