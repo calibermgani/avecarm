@@ -173,7 +173,7 @@ export class ClaimsComponent implements OnInit,OnDestroy,AfterViewInit {
   dependentUserOptions: any[] = [];
   checkAuditClaims: any[] = [];
   selectedUserId: any;
-  checkboxAuditClaims: any;
+  // checkboxAuditClaims: any;
   modalform: FormGroup;
   get v() { return this.qcNotes.controls; }
   public tabdat = ['date', 'file_name', 'claims', 'newclaims', 'uploaded'];
@@ -4031,15 +4031,11 @@ closedclaims_filter;
     });
 
     this.changeExecutive = this.formBuilder.group({
-      user_id: new FormControl('', [
-        Validators.required
-      ]),
-      new_user_id: new FormControl('', [
-        Validators.required
-      ]),
-      audit_status_claims: new FormControl('', [
-        Validators.required
-      ])
+      user_id: [null, Validators.required],
+
+      new_user_id: [null],
+
+      audit_status_claims: [null],
     });
 
     this.processNotes = new FormGroup({

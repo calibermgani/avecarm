@@ -1555,29 +1555,36 @@
                                  <form [formGroup]="changeExecutive" (ngSubmit)="move_create_work_order()">
                                     <div class="row">
                                        <div class="col-md-3">
-                                          <label for="select1">Select User:</label>
+                                          <label for="select1">Revoke Claims from:</label>
                                           <select class="form-control" formControlName="user_id" [(ngModel)]="selectedUserId" (change)="onSelectedOptionChange()" >
                                              <option value="">--Select User--</option>
                                              <option *ngFor="let user of getUserList;" [value]="user.id">{{ user.user_name }} </option>
                                           </select>
                                        </div>
                                        <div class="col-md-3" *ngIf="userEnabled">
-                                          <label for="select2">Select New User:</label>
+                                          <label for="select2">Claims in Rework Bucket:</label>
                                           <select  class="form-control" formControlName="new_user_id" >
-                                             <option value="">--Select New User--</option>
+                                             <option value="">--Select User--</option>
                                              <option *ngFor="let user of getUserList;" [value]="user.id">{{ user.user_name }} </option>
                                           </select>
                                        </div>
-                                       <div class="col-md-2" *ngIf="auditClaimsEnabled" style="margin-top:25px">
+                                       <!-- <div class="col-md-2" *ngIf="auditClaimsEnabled" style="margin-top:25px">
                                           <div class="form-check">
                                              <input class="form-check-input" type="checkbox" style="margin-right:5px" [(ngModel)]="checkboxAuditClaims" formControlName="audit_status_claims">
                                              <label class="form-check-label" for="checkbox">Claim Found in Audit Status</label>
                                           </div>
+                                       </div> -->
+                                       <div class="col-md-3" *ngIf="auditClaimsEnabled">
+                                        <label for="select2">Claim Found in Audit Status:</label>
+                                        <select  class="form-control" formControlName="audit_status_claims" >
+                                           <option value="">--Select User--</option>
+                                           <option *ngFor="let user of getUserList;" [value]="user.id">{{ user.user_name }} </option>
+                                        </select>
                                        </div>
                                        <div class="col-md-2" style="margin-top:20px">
                                           <button type="submit" class="btn btn-primary">Submit</button>
                                        </div>
-                                       <div class="col-md-2">
+                                       <div class="col-md-1">
                                        </div>
                                     </div>
                                  </form>

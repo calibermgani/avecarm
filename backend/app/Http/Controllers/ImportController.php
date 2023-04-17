@@ -7014,7 +7014,7 @@ class ImportController extends Controller
     try{
       $user_id = $request->get('user_id');
       $new_user_id = $request->get('new_user_id');
-      $audit_claim_checkbox = $request->get('audit_status_claims');
+      $audit_claim_user_id = $request->get('audit_status_claims');
 
       $claim_datas = Import_field::leftjoin(DB::raw("(SELECT claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE claim_notes.deleted_at IS NULL
                     AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
@@ -7024,7 +7024,7 @@ class ImportController extends Controller
                     ) as claim_histories"), function ($join) {
                       $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->where('claim_status', 'Assigned')->where('assigned_to', $user_id)->where('followup_date', Null)->get();
-      if($claim_datas)
+      if(count($claim_datas) > 0)
       {
         foreach($claim_datas as $claim_data)
         {
@@ -7079,10 +7079,10 @@ class ImportController extends Controller
                     })->whereIn('claim_status', ['Assigned', 'Client Assistance'])->where('followup_associate', $user_id)
                     ->whereIn('qc_notes.error_type', ['[2]', '[3]'])->whereNotNull('followup_date')->get();
       
-      if($reassigned_claims)
+      if(count($reassigned_claims) > 0)
       {
         foreach($reassigned_claims as $reassigned_claim){
-          $import_fields = Import_field::where('claim_id', $reassigned_claim['claim_no'])->where('followup_associate', $user_id)->update(['followup_associate' => $new_user_id]);
+          $import_fields = Import_field::where('claim_no', $reassigned_claim['claim_no'])->where('followup_associate', $user_id)->update(['followup_associate' => $new_user_id]);
           $actions = Action::where('claim_id', $reassigned_claim['claim_no'])->where('assigned_to', $user_id)->update([
             'assigned_to'       => $new_user_id ]);
           $Claim_history = Claim_history::where('claim_id', $reassigned_claim['claim_no'])->where('assigned_to', $user_id)->whereIn('claim_state', ['6','7'])->update([
@@ -7099,21 +7099,20 @@ class ImportController extends Controller
                     ->whereIn('claim_Status', ['Audit', 'Auditing'])
                     ->where('followup_associate', $user_id)
                     ->where('claim_closing', '<>', 1)->get();
-      if($audit_claim_checkbox == true){
-        if($audit_datas){
+      if($audit_claim_user_id){
+        if(count($audit_datas) > 0){
           foreach($audit_datas as $audit_data){
-            $import_fields = Import_field::where('claim_id', $audit_data['claim_no'])->where('followup_associate', $user_id)->update(['followup_associate' => $new_user_id]);
+            $import_fields = Import_field::where('claim_no', $audit_data['claim_no'])->where('followup_associate', $user_id)->update(['followup_associate' => $audit_claim_user_id]);
             $actions = Action::where('claim_id', $audit_data['claim_no'])->where('assigned_to', $user_id)->update([
-              'assigned_to'       => $new_user_id ]);
+              'assigned_to'       => $audit_claim_user_id ]);
             $Claim_history = Claim_history::where('claim_id', $audit_data['claim_no'])->where('assigned_to', $user_id)->whereIn('claim_state', ['5','6'])->update([
-              'assigned_to'       => $new_user_id,
+              'assigned_to'       => $audit_claim_user_id,
             ]);
           }
         }
       }
 
-      if(count($claim_datas) > 0 && count($reassigned_claims) > 0 && count($audit_datas) > 0)
-      {
+      if(count($claim_datas) > 0 && count($reassigned_claims) > 0 && count($audit_datas) > 0){
         return response()->json([
                   'reimport_msg'  => "Claims has been revoked from user"
                 ]);
@@ -7129,7 +7128,16 @@ class ImportController extends Controller
         return response()->json([
           'reimport_msg'  => "Claims has been revoked from user"
         ]);
-      }else{
+      }else if(count($claim_datas) == 0 && count($reassigned_claims) > 0 && count($audit_datas) > 0){
+        return response()->json([
+          'reimport_msg'  => "Claims has been revoked from user"
+        ]);
+      }else if(count($claim_datas) == 0 && count($reassigned_claims) == 0 && count($audit_datas) > 0){
+        return response()->json([
+          'reimport_msg'  => "Claims has been revoked from user"
+        ]);
+      }
+      else{
         return response()->json(['reimport_msg' => 'Something Went Wrong']);
       }
       
@@ -7162,7 +7170,7 @@ class ImportController extends Controller
   //     if($reassigned_claims)
   //     {
   //       foreach($reassigned_claims as $reassigned_claim){
-  //         $import_fields = Import_field::where('claim_id', $reassigned_claim['claim_no'])->where('followup_associate', $exist_user_id)->update(['followup_associate' => $new_user_id]);
+  //         $import_fields = Import_field::where('claim_no', $reassigned_claim['claim_no'])->where('followup_associate', $exist_user_id)->update(['followup_associate' => $new_user_id]);
   //         $actions = Action::where('claim_id', $reassigned_claim['claim_no'])->where('assigned_to', $exist_user_id)->update([
   //           'assigned_to'       => $new_user_id ]);
   //         $Claim_history = Claim_history::where('claim_id', $reassigned_claim['claim_no'])->where('assigned_to', $exist_user_id)->whereIn('claim_state', ['6','7'])->update([
