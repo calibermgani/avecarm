@@ -7016,7 +7016,8 @@ class ImportController extends Controller
       $new_user_id = $request->get('new_user_id');
       $audit_claim_user_id = $request->get('audit_status_claims');
 
-      $claim_datas = Import_field::leftjoin(DB::raw("(SELECT claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE claim_notes.deleted_at IS NULL
+      if(isset($user_id) && $user_id != "null"){
+        $claim_datas = Import_field::leftjoin(DB::raw("(SELECT claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE claim_notes.deleted_at IS NULL
                     AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
                       $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
                     })->leftjoin(DB::raw("(SELECT claim_histories.claim_id,claim_histories.created_at as created_ats
@@ -7024,82 +7025,88 @@ class ImportController extends Controller
                     ) as claim_histories"), function ($join) {
                       $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
                     })->where('claim_status', 'Assigned')->where('assigned_to', $user_id)->where('followup_date', Null)->get();
-      if(count($claim_datas) > 0)
-      {
-        foreach($claim_datas as $claim_data)
+        // Log::info('first claim datas'. print_r($claim_datas, true));
+        if(count($claim_datas) > 0)
         {
-          $Claim_history = Claim_history::create([
-            'claim_id'          => $claim_data['claim_no'],
-            'claim_state'       => 10,
-            'assigned_to'       => NULL,
-            'assigned_by'       => $user_id,
-            'created_at'        => date('Y-m-d H:i:s')
-          ]);
-
-          Action::where('claim_id', $claim_data['claim_no'])->delete();
-
-          $update = array('claim_Status' => NULL, 'followup_associate' => NULL, 'followup_work_order' => NULL, 'assigned_to' => NULL, 'reimport_status' => 'Reimport');
-          $status_update = Import_field::where('claim_no', $claim_data['claim_no'])->where('claim_Status', 'Assigned')->where('followup_date', NULL)->update($update);
-
-          $assignedWOs = Workorder_user_field::select('cliam_no')->where('cliam_no', '<>', '[]')->orderBy('id', 'DESC')->get();
-
-          foreach($assignedWOs as $assignedWO)
+          foreach($claim_datas as $claim_data)
           {
-            $decodes =  json_decode($assignedWO['cliam_no'], true);
-            if(in_array($claim_data['claim_no'], $decodes))
-            {
-              $pos = array_search($claim_data['claim_no'], $decodes, true);
-              $splice = array_splice($decodes, $pos, 1);
-              $encoded = json_encode($decodes);
+            $Claim_history = Claim_history::create([
+              'claim_id'          => $claim_data['claim_no'],
+              'claim_state'       => 10,
+              'assigned_to'       => NULL,
+              'assigned_by'       => $user_id,
+              'created_at'        => date('Y-m-d H:i:s')
+            ]);
 
-              $max_length = 4294967295; // maximum length of a longtext column
-              if (strlen($encoded) > $max_length) {
-                $chunks = str_split($encoded, $max_length);
-                foreach ($chunks as $chunk) {
+            Action::where('claim_id', $claim_data['claim_no'])->delete();
+
+            $update = array('claim_Status' => NULL, 'followup_associate' => NULL, 'followup_work_order' => NULL, 'assigned_to' => NULL, 'reimport_status' => 'Reimport');
+            $status_update = Import_field::where('claim_no', $claim_data['claim_no'])->where('claim_Status', 'Assigned')->where('followup_date', NULL)->update($update);
+
+            $assignedWOs = Workorder_user_field::select('cliam_no')->where('cliam_no', '<>', '[]')->orderBy('id', 'DESC')->get();
+
+            foreach($assignedWOs as $assignedWO)
+            {
+              $decodes =  json_decode($assignedWO['cliam_no'], true);
+              if(in_array($claim_data['claim_no'], $decodes))
+              {
+                $pos = array_search($claim_data['claim_no'], $decodes, true);
+                $splice = array_splice($decodes, $pos, 1);
+                $encoded = json_encode($decodes);
+
+                $max_length = 4294967295; // maximum length of a longtext column
+                if (strlen($encoded) > $max_length) {
+                  $chunks = str_split($encoded, $max_length);
+                  foreach ($chunks as $chunk) {
+                      $encode_update = Workorder_user_field::where('cliam_no', $assignedWO['cliam_no'])
+                          ->update(['cliam_no' => $chunk]);
+                  }
+                } else {
                     $encode_update = Workorder_user_field::where('cliam_no', $assignedWO['cliam_no'])
-                        ->update(['cliam_no' => $chunk]);
+                        ->update(['cliam_no' => $encoded]);
                 }
-              } else {
-                  $encode_update = Workorder_user_field::where('cliam_no', $assignedWO['cliam_no'])
-                      ->update(['cliam_no' => $encoded]);
               }
             }
+                  
           }
-                
         }
       }
-          
-      $reassigned_claims = Import_field::select('claim_no','followup_associate','claim_closing')->leftjoin(DB::raw("(SELECT claim_notes.claim_id FROM claim_notes WHERE claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
-                      $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                    })->leftjoin(DB::raw("(SELECT claim_histories.claim_id FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) 
-                    GROUP BY claim_histories.claim_id) as claim_histories"), function ($join) {
-                      $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->leftJoin('qc_notes', function ($join) {
-                      $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
-                    })->whereIn('claim_status', ['Assigned', 'Client Assistance'])->where('followup_associate', $user_id)
-                    ->whereIn('qc_notes.error_type', ['[2]', '[3]'])->whereNotNull('followup_date')->get();
       
-      if(count($reassigned_claims) > 0)
-      {
-        foreach($reassigned_claims as $reassigned_claim){
-          $import_fields = Import_field::where('claim_no', $reassigned_claim['claim_no'])->where('followup_associate', $user_id)->update(['followup_associate' => $new_user_id]);
-          $actions = Action::where('claim_id', $reassigned_claim['claim_no'])->where('assigned_to', $user_id)->update([
+      if(isset($new_user_id) && $new_user_id != "null"){
+        $reassigned_claims = Import_field::select('claim_no','followup_associate','claim_closing')->leftjoin(DB::raw("(SELECT claim_notes.claim_id FROM claim_notes WHERE claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+                              $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+                            })->leftjoin(DB::raw("(SELECT claim_histories.claim_id FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories GROUP BY claim_histories.claim_id) 
+                            GROUP BY claim_histories.claim_id) as claim_histories"), function ($join) {
+                              $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+                            })->leftJoin('qc_notes', function ($join) {
+                              $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
+                            })->whereIn('claim_status', ['Assigned', 'Client Assistance'])->where('followup_associate', $user_id)
+                            ->whereIn('qc_notes.error_type', ['[2]', '[3]'])->whereNotNull('followup_date')->get();
+
+        if(count($reassigned_claims) > 0)
+        {
+          foreach($reassigned_claims as $reassigned_claim){
+            $import_fields = Import_field::where('claim_no', $reassigned_claim['claim_no'])->where('followup_associate', $user_id)->update(['followup_associate' => $new_user_id]);
+            $actions = Action::where('claim_id', $reassigned_claim['claim_no'])->where('assigned_to', $user_id)->update([
             'assigned_to'       => $new_user_id ]);
-          $Claim_history = Claim_history::where('claim_id', $reassigned_claim['claim_no'])->where('assigned_to', $user_id)->whereIn('claim_state', ['6','7'])->update([
+            $Claim_history = Claim_history::where('claim_id', $reassigned_claim['claim_no'])->where('assigned_to', $user_id)->whereIn('claim_state', ['6','7'])->update([
             'assigned_to'       => $new_user_id,
-          ]);
+            ]);
+          }
         }
       }
-      $audit_datas = Import_field::select('claim_no')->leftjoin(DB::raw("(SELECT claim_notes.claim_id FROM claim_notes WHERE claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
-                      $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-                    })->leftjoin(DB::raw("(SELECT claim_histories.claim_id,claim_histories.created_at as created_ats FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories 
-                    GROUP BY claim_histories.claim_id) AND `claim_histories`.`claim_state` IN ('4', '5', '6') GROUP BY claim_histories.claim_id) as claim_histories"), function ($join) {
-                      $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
-                    })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')
-                    ->whereIn('claim_Status', ['Audit', 'Auditing'])
-                    ->where('followup_associate', $user_id)
-                    ->where('claim_closing', '<>', 1)->get();
-      if($audit_claim_user_id){
+  
+      if(isset($audit_claim_user_id) && $audit_claim_user_id != "null"){
+        $audit_datas = Import_field::select('claim_no')->leftjoin(DB::raw("(SELECT claim_notes.claim_id FROM claim_notes WHERE claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+                        $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+                      })->leftjoin(DB::raw("(SELECT claim_histories.claim_id,claim_histories.created_at as created_ats FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories 
+                      GROUP BY claim_histories.claim_id) AND `claim_histories`.`claim_state` IN ('4', '5', '6') GROUP BY claim_histories.claim_id) as claim_histories"), function ($join) {
+                        $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+                      })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')
+                      ->whereIn('claim_Status', ['Audit', 'Auditing'])
+                      ->where('followup_associate', $user_id)
+                      ->where('claim_closing', '<>', 1)->get();
+
         if(count($audit_datas) > 0){
           foreach($audit_datas as $audit_data){
             $import_fields = Import_field::where('claim_no', $audit_data['claim_no'])->where('followup_associate', $user_id)->update(['followup_associate' => $audit_claim_user_id]);
@@ -7111,40 +7118,27 @@ class ImportController extends Controller
           }
         }
       }
-
-      if(count($claim_datas) > 0 && count($reassigned_claims) > 0 && count($audit_datas) > 0){
+      
+      if (count($claim_datas) > 0 && ($new_user_id != 'null' || $audit_claim_user_id != 'null')) {
         return response()->json([
-                  'reimport_msg'  => "Claims has been revoked from user"
-                ]);
-      }else if(count($claim_datas) > 0 && count($reassigned_claims) == 0 && count($audit_datas) == 0){
-        return response()->json([
-          'reimport_msg'  => "Claims has been revoked from user"
+          'reimport_msg' => "Claims have been revoked from users"
         ]);
-      }else if(count($claim_datas) > 0 && count($reassigned_claims) > 0 && count($audit_datas) == 0){
+      }else if(count($claim_datas) == 0 && ($new_user_id != 'null' || $audit_claim_user_id != 'null')){
         return response()->json([
-          'reimport_msg'  => "Claims has been revoked from user"
+          'status' => 200,
+          'reimport_msg' => "Claims have been revoked from users"
         ]);
-      }else if(count($claim_datas) > 0 && count($reassigned_claims) == 0 && count($audit_datas) > 0){
+      }else {
         return response()->json([
-          'reimport_msg'  => "Claims has been revoked from user"
+          'status' => 204,
+          'reimport_msg' => "User claims have not been revoked"
         ]);
-      }else if(count($claim_datas) == 0 && count($reassigned_claims) > 0 && count($audit_datas) > 0){
-        return response()->json([
-          'reimport_msg'  => "Claims has been revoked from user"
-        ]);
-      }else if(count($claim_datas) == 0 && count($reassigned_claims) == 0 && count($audit_datas) > 0){
-        return response()->json([
-          'reimport_msg'  => "Claims has been revoked from user"
-        ]);
-      }
-      else{
-        return response()->json(['reimport_msg' => 'Something Went Wrong']);
       }
       
+        
 
-    }catch(Exception $e)
-    {
-      Log::debug('move create work order error:' . $e->getMessage());
+    }catch(Exception $e){
+      Log::debug('Revoke claims work order error:' . $e->getMessage());
     }
     
   }

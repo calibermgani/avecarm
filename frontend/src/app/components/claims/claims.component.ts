@@ -4657,12 +4657,22 @@ public process_codes(data:any)
 
     let user_id = this.changeExecutive.value.user_id;
     let audit_status_claims = this.changeExecutive.value.audit_status_claims;
+    let new_user_id = this.changeExecutive.value.new_user_id;
     this.formdata.append('user_id', user_id);
+    this.formdata.append('new_user_id', new_user_id);
     this.formdata.append('audit_status_claims', audit_status_claims);
     this.formdata.append('practice_dbid', localStorage.getItem('practice_id'));
     this.Jarwis.move_create_work_orders(this.formdata).subscribe(
       message => { let data = message['reimport_msg'];
-        this.notifysuccess(data) },
+        if(message['status'] == 200){
+          this.notifysuccess(data);
+        }else if(message['status'] == 204){
+          this.toastr.errorToastr(data);
+        }
+        this.changeExecutive.reset();
+        this.userEnabled = false;
+        this.auditClaimsEnabled = false;
+        },
         error => this.notification(error)
     );
   }
