@@ -7118,20 +7118,68 @@ class ImportController extends Controller
           }
         }
       }
-      
+
+      // if(count($claim_datas) > 0 && $new_user_id != 'null' && $audit_claim_user_id != 'null')
+      // {
+      //   return response()->json([
+      //     'status' => 200,
+      //     'reimport_msg'  => "Assigned claims has been moved to your work order, Reassigned and Audit Claims has been revoked from user"
+      //   ]);
+      // }else if(count($claim_datas) > 0 && $new_user_id == 'null' && $audit_claim_user_id == 'null')
+      // {
+      //   return response()->json([
+      //     'status' => 200,
+      //     'reimport_msg'  => "Assigned claims has been revoked from user"
+      //   ]);
+      // }else if(count($claim_datas) == 0 && $new_user_id != 'null' && $audit_claim_user_id != 'null')
+      // {
+      //   return response()->json([
+      //     'status' => 200,
+      //     'reimport_msg'  => "Reassigned and Audit Claims has been revoked from user"
+      //   ]);
+      // }else if(count($claim_datas) == 0 && $new_user_id != 'null' && $audit_claim_user_id == 'null')
+      // {
+      //   return response()->json([
+      //     'status' => 200,
+      //     'reimport_msg'  => "Reassigned Claims has been revoked from user"
+      //   ]);
+      // }else if(count($claim_datas) == 0 && $new_user_id == 'null' && $audit_claim_user_id != 'null')
+      // {
+      //   return response()->json([
+      //     'status' => 200,
+      //     'reimport_msg'  => "Audit Claims has been revoked from user"
+      //   ]);
+      // }else if(count($claim_datas) > 0 && $new_user_id != 'null' && $audit_claim_user_id == 'null'){
+      //   return response()->json([
+      //     'status' => 200,
+      //     'reimport_msg'  => "Assigned and Reassigned Claims has been revoked from user"
+      //   ]);
+      // }else if(count($claim_datas) > 0 && $new_user_id == 'null' && $audit_claim_user_id != 'null'){
+      //   return response()->json([
+      //     'status' => 200,
+      //     'reimport_msg'  => "Assigned and Audit Claims has been revoked from user"
+      //   ]);
+      // }else{
+      //   return response()->json([
+      //     'status' => 204,
+      //     'reimport_msg'  => "User claims have not been revoked"
+      //   ]);
+      // }
+
       if (count($claim_datas) > 0 && ($new_user_id != 'null' || $audit_claim_user_id != 'null')) {
         return response()->json([
-          'reimport_msg' => "Claims have been revoked from users"
+          'status' => 200,
+          'reimport_msg' => "Claims Revoked Successfully"
         ]);
       }else if(count($claim_datas) == 0 && ($new_user_id != 'null' || $audit_claim_user_id != 'null')){
         return response()->json([
           'status' => 200,
-          'reimport_msg' => "Claims have been revoked from users"
+          'reimport_msg' => "Claims Revoked Successfully"
         ]);
       }else {
         return response()->json([
           'status' => 204,
-          'reimport_msg' => "User claims have not been revoked"
+          'reimport_msg' => "No claims has been revoked."
         ]);
       }
       
