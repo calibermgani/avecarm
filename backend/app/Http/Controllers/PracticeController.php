@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\DBConnectionController as DBConnectionController;
 use App\Role;
 use App\User_work_profile;
+use Illuminate\Support\Facades\Log;
 use App;
+use App\Import_field;
 use Config;
 use Illuminate\Support\Facades\Session;
 
@@ -93,17 +95,32 @@ public function getPractices(ApiRequest $request)
         $practice_list=Practice::all();
     }
     else{
-        // $get_practice_details=
+
         $practice_assigned=User_work_profile::where('user_id',$user_id)->get();
 
         foreach($practice_assigned as $practice)
         {
-            $practice_data=Practice::where('id',$practice['practice_id'])->get();
+            $practice_data=Practice::where('id',$practice['practice_id'])->first();
+
+            $practiceDbConnection = new DBConnectionController();
+            $practiceDbConnection->connectDB($practice['practice_id']);
+
+            $totalCount =  Import_field::count();
+            $assignedClaims = Import_field::where('claim_Status', 'Assigned')->count();
+            $unaAssignedClaims = Import_field::where('claim_Status', Null)->count();
+            $auditClaims = Import_field::where('claim_Status', 'Audit')->orWhere('claim_Status', 'Auditing')->where('claim_closing', '<>', 1)->count();
+            $closedClaims = Import_field::where('claim_closing', 1)->orWhere('claim_Status', 'Closed')->count();
+            
+            $practice_data['total_count'] = $totalCount;
+            $practice_data['assigned_count'] = $assignedClaims;
+            $practice_data['unassigned_count'] = $unaAssignedClaims;
+            $practice_data['audit_count'] = $auditClaims;
+            $practice_data['closed_count'] = $closedClaims;
 
             if($practice_data != null)
             {
-                array_push($practice_list,$practice_data[0]);
-            }
+                array_push($practice_list,$practice_data);
+            }            
         }
     }
 
@@ -111,7 +128,7 @@ public function getPractices(ApiRequest $request)
     //Practice Calculation done Here
 
     return response()->json([
-        'data' => $practice_list
+        'data' => $practice_list,
         ]);
 }
 

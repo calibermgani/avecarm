@@ -2712,9 +2712,9 @@ label{font-weight: 600; color:#8a8e9f ; margin-bottom:2px; }
 .table > tfoot > tr > td {
     border-top: 1px solid #f4f4f4;
 }
-.table > thead > tr > th {
+/* .table > thead > tr > th {
     border-bottom: 20px solid #fff !important;
-}
+} */
 .table tr td .progress {
     margin-top: 5px;
 }

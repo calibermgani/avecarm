@@ -247,4 +247,6 @@ Route::group([
     Route::post('get_reassigned_users', 'ImportController@get_reassigned_users');
     Route::post('audit_claims_found_user', 'ImportController@audit_claims_found_user');
 
+    Route::post('get_new_claims', 'NewClaimsController@get_new_claims');
+
 });
