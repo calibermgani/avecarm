@@ -245,18 +245,15 @@ class ImportController extends Controller
       );
 
       $check_claim = Import_field::where('claim_no', $value['claim_no'])->count();
+      $check_import_field = Import_field::where('claim_no', $value['claim_no'])->where('claim_Status', 'Closed')->count();
 
 
-      if ($check_claim == 0) {
+      if ($check_claim == 0 || $check_import_field > 0) {
         $import_store = $value;
 
-        //dd($value);
-
-        //foreach($import_store as $value){    
-        // dd($value['acct_no']);
-        // dd($value);
-        //dd($value['pat_ar']);
-
+        if($check_import_field > 0) {
+          Import_field::where('claim_no', $value['claim_no'])->where('claim_Status', 'Closed')->forceDelete();
+        }
 
         $import = Import_field::create(
           [
@@ -367,11 +364,12 @@ class ImportController extends Controller
   {
     $upload_id = $request->get('upload_id');
 
-    // $update_ignore = DB::table('file_uploads')->where('id',$upload_id)->update(
-    //     [
-    //         'total_claims' => 0,
+    $update_ignore = DB::table('file_uploads')->where('id',$upload_id)->update(
+        [
+            // 'total_claims' => 0,
+            'claims_processed' => 1
 
-    //     ]);
+        ]);
 
     return response()->json([
       //'message'=>  $update_ignore,
@@ -4963,9 +4961,10 @@ class ImportController extends Controller
 
         //dd($op_array['claim_no']);
         $check_duplicate = Import_field::where('claim_no', $op_array['claim_no'])->count();
+        $check_closed_claim = Import_field::where('claim_no', $op_array['claim_no'])->where('claim_Status', '!=', 'Closed')->count();
         //dd($check_duplicate);
 
-        if ($check_duplicate != 0) {
+        if ($check_duplicate != 0 && $check_closed_claim != 0) {
           if (!in_array($op_array['claim_no'], $duplicate_filter)) {
             $duplicate_record++;
             $total_records++;
@@ -5503,7 +5502,10 @@ class ImportController extends Controller
           //Update Line Items EOP - 1
         } else {
 
-          if (!in_array($op_array['claim_no'], $new_filter)) {
+          $checkNewData = Import_field::where('claim_no', $op_array['claim_no'])->count();
+
+          if ($checkNewData == 0 && !in_array($op_array['claim_no'], $new_filter)) {
+
             $total_records++;
             $new_record++;
             array_push($new_filter, $op_array['claim_no']);
@@ -5760,15 +5762,9 @@ class ImportController extends Controller
         /*To Change Name from Upload DOC to work name*/
         $name_changed = [];
         $i = 1;
-        // dd($name_jsondec);
+        
         foreach ($name_jsondec as $key => $value) {
           $index_ip = array_filter($index_ip);
-
-          // dd($index_ip);
-          // if($i==3)
-          // {
-          //     dd($value,$index_ip,array_find($value,$index_ip));
-          // }
 
           if (in_array($value, $index_ip)) {
 
@@ -5780,11 +5776,11 @@ class ImportController extends Controller
         $val = $name_changed;
 
         $index_ip = array_keys($val);
-        // dd($index_ip);
+        
         $count_ip = count($index_ip);
-        // dd($count_ip);
+        
         $index_present = array_keys($present_data);
-        // dd($index_present);
+        
 
         for ($i = 0; $i < $count_ip; $i++) {
           //print_r($index_present); echo "</br>";
@@ -5803,9 +5799,8 @@ class ImportController extends Controller
 
         // DO the Process Work HERE**********
 
-        //dd($op_array['claim_no']);
-        $check_duplicate = Import_field::where('claim_no', $op_array['claim_no'])->count();
-        //dd($check_duplicate);
+        // dd($op_array['claim_no']);
+        $check_duplicate = Import_field::where('claim_no', $op_array['claim_no'])->where('claim_Status', '!=', 'Closed')->count();     
 
         if ($check_duplicate != 0) {
           if (!in_array($op_array['claim_no'], $duplicate_filter)) {
@@ -5815,10 +5810,6 @@ class ImportController extends Controller
           }
 
           array_push($duplicate_data, $op_array['claim_no']);
-
-          //dd($duplicate_data);
-
-          //dd($op_array['claim_no']);
 
           $mismatch = Import_field::where('claim_no', $op_array['claim_no'])->first()->toArray();
 
@@ -5917,8 +5908,6 @@ class ImportController extends Controller
               $tableFieldArr[$key] = trim($value);
           }
           
-
-          //dd($op_array);
 
           foreach ($op_array as $key => $value) {
             \Log::info($key . '------' . $value);
@@ -6357,6 +6346,8 @@ class ImportController extends Controller
           $display_data['duplicate_data'] = [];
           $display_data['duplicate_filter'] = [];
         }
+
+
         $display_data['new_data'] =  $new_data;
         $display_data['new_datas'] =  $newdata;
         $display_data['new_filter'] = $new_filter;
