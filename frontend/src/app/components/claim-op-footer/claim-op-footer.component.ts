@@ -18,7 +18,7 @@ import {NgbDatepickerConfig, NgbCalendar, NgbDate, NgbDateStruct,NgbDateParserFo
   encapsulation: ViewEncapsulation.None
 })
 export class ClaimOpFooterComponent implements OnInit, OnDestroy {
-    @Input() tab; //Note you need to import Input from @angular/core  
+    @Input() tab; //Note you need to import Input from @angular/core
 
     //console.log(tab);
 //   @Input() bankName=[];
@@ -71,7 +71,7 @@ export class ClaimOpFooterComponent implements OnInit, OnDestroy {
      const current = new Date();
      this.minDate = {
        year: current.getFullYear(),
-       month: current.getMonth() + 1,
+       month: current.getMonth()+1,
        day: current.getDate()
      };
 
@@ -103,12 +103,12 @@ public get_associate_name(data){
   let data1 = data.associate;
   this.Jarwis.get_associate_name(data1).subscribe(
     data  => this.process_associates_name(data)
-    );  
+    );
 }
 
   //Set Associates Value
 
-  public process_associates_name(data:any){    
+  public process_associates_name(data:any){
     if(data.type == 'Assign')
     {
       let associate = data.associate;
@@ -121,7 +121,7 @@ public get_associate_name(data){
       let associates=data['user_detail'];
     let associate_option_data=[];
     if(associates!=undefined || associates != '')
-    {      
+    {
       associate_option_data.push({id: associates['id'], description: associates['user_name'] })
     }
     this.associates_options=associate_option_data;
@@ -130,7 +130,7 @@ public get_associate_name(data){
         });
     }
 
-    
+
   }
 
   /* public process_associates(data:any)
@@ -172,13 +172,13 @@ public get_associate_name(data){
     }
     else{
       this.err_val = null;
-    }    
+    }
   }
 
   //Set selected claim_details
   public set_status_codes(data:any)
   {
-    
+
     console.log(data);
     this.selected_claim_data=[];
     this.selected_claim_data=data;
@@ -204,7 +204,7 @@ public get_associate_name(data){
         this.note_validation=true;
       }
     }
-        
+
     if(this.selected_claim_data['claim_closing'] == 1)
     {
       if(this.selected_claim_data['claim_closing'] == 1)
@@ -212,10 +212,10 @@ public get_associate_name(data){
         this.formGroup.patchValue({
           closed: 1
           });
-       
+
         //alert(this.selected_claim_data['status_code']);
         if(this.selected_claim_data['status_code'] !='' && this.selected_claim_data['status_code'] != undefined && this.selected_claim_data['status_code'] != null )
-        {  
+        {
           console.log(this.sub_status_codes_data);
           console.log(this.selected_claim_data['status_code']);
           let status_id=this.status_codes_data.find(v => v.id == this.selected_claim_data['status_code']);
@@ -228,7 +228,7 @@ public get_associate_name(data){
           let associate_data={type:'Assign',associate:this.selected_claim_data['followup_associate']};
 
             this.get_associate_name(associate_data);
-          
+
               // this.formGroup.patchValue({
               //   status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
               //   followup_date: {year:this.selected_claim_data['followup_date'][2],month:this.selected_claim_data['followup_date'][1],day:this.selected_claim_data['followup_date'][0]},
@@ -245,7 +245,7 @@ public get_associate_name(data){
                     status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
                     followup_date: '',
                     closed: 1
-                  }); 
+                  });
               }else{
                 this.formGroup.patchValue({
                     status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
@@ -257,11 +257,11 @@ public get_associate_name(data){
               console.log('Not an array');
               console.log(this.selected_claim_data['followup_date']);
               var str = this.selected_claim_data['followup_date'];
-              console.log(str); 
+              console.log(str);
               if(str == null){
-                this.selected_claim_data['followup_date'] = ''; 
+                this.selected_claim_data['followup_date'] = '';
               }else{
-                this.selected_claim_data['followup_date'] = str.split("-"); 
+                this.selected_claim_data['followup_date'] = str.split("-");
               }
               console.log(this.selected_claim_data['followup_date']);
               if(Number(this.selected_claim_data['followup_date'][0]) == 1970){
@@ -276,7 +276,7 @@ public get_associate_name(data){
                     followup_date: {year:Number(this.selected_claim_data['followup_date'][0]),month:Number(this.selected_claim_data['followup_date'][1]),day:Number(this.selected_claim_data['followup_date'][2])},
                     closed: 1
                   });
-                } 
+                }
               }
 
 
@@ -285,7 +285,7 @@ public get_associate_name(data){
 
       }
       this.claim_closed=true;
-      
+
       this.formGroup.controls['status_code'].enable();
       this.formGroup.controls['sub_status_code'].enable();
       this.formGroup.controls['followup_date'].enable();
@@ -333,7 +333,7 @@ public get_associate_name(data){
                   status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
                   followup_date: '',
                   closed: 0
-                }); 
+                });
              }else{
                this.formGroup.patchValue({
                   status_code: {id:status_id['id'],description:status_id['status_code']+'-'+status_id['description']},
@@ -354,12 +354,12 @@ public get_associate_name(data){
             } else {
              console.log('Not an array');
              console.log(this.selected_claim_data['followup_date']);
-             var str = this.selected_claim_data['followup_date']; 
+             var str = this.selected_claim_data['followup_date'];
              console.log(str);
              if(str == null){
-               this.selected_claim_data['followup_date'] = ''; 
+               this.selected_claim_data['followup_date'] = '';
              }else{
-               this.selected_claim_data['followup_date'] = str.split("-"); 
+               this.selected_claim_data['followup_date'] = str.split("-");
              }
              console.log(this.selected_claim_data['followup_date']);
              if(Number(this.selected_claim_data['followup_date'][0]) == 1970){
@@ -384,11 +384,11 @@ public get_associate_name(data){
                 else if(this.minDate.day >= f_date.day){
                   this.followdate_invalid = true;
                 }
-              } 
+              }
             }
 
             // const myArray = ["A", "B", "C"]
-            // console.log(isStringArray(myArray)); 
+            // console.log(isStringArray(myArray));
 
 
             // if(this.selected_claim_data['followup_date']){
@@ -415,7 +415,7 @@ public get_associate_name(data){
 
     }
   }
-  
+
 
   //Process and Display Claim Codes
   public process_codes(data:any)
@@ -575,10 +575,32 @@ public get_associate_name(data){
   }
 
   //Handle Validation of Notes
+  Sample_notes:any;
   public recieve_values(data:any)
   {
     console.log('working');
      console.log("Notse data",data);
+     this.Sample_notes = data;
+     console.log('errorrrr',this.Sample_notes.note.notes_opt.error_types[0]);
+     if(this.Sample_notes.note.notes_opt.error_types[0] !=1){
+      this.formGroup.controls['closed'].disable();
+      this.closed_claim_cdtn = false;
+     }
+     else{
+      this.formGroup.controls['closed'].enable();
+     }
+
+    //  let z = data.note.notes_opt.error_types[0];
+    //  console.log('asasasas',z);
+    //  if(z==1){
+    //    let obj = {
+    //      currentTarget:{
+    //        checked:true
+    //      }
+    //    }
+
+    //    this.closed_event(obj);
+    //  }
     if(this.notes_details.find(x => x.claim_no == this.active_tab))
     {
       let claim=this.notes_details.find(x => x.claim_no == this.active_tab);
@@ -629,6 +651,7 @@ public get_associate_name(data){
       console.log(error);
     }
 
+    closed_claim_cdtn:boolean = false;
   public check_updates()
   {
     if(this.note_validation==true)
@@ -638,8 +661,8 @@ public get_associate_name(data){
         if(this.router.url=='/followup'){
           console.log(this.selected_claim_data['claim_note']);
           let note_val;
-          if(this.selected_claim_data['claim_note'] !='' && this.selected_claim_data['claim_note'] != undefined && this.selected_claim_data['claim_note'] != null){        
-            note_val = this.selected_claim_data['claim_note'];            
+          if(this.selected_claim_data['claim_note'] !='' && this.selected_claim_data['claim_note'] != undefined && this.selected_claim_data['claim_note'] != null){
+            note_val = this.selected_claim_data['claim_note'];
           }
           else if(this.selected_claim_data['claims_notes'] !='' && this.selected_claim_data['claims_notes'] != undefined && this.selected_claim_data['claims_notes'] != null){
             note_val = this.selected_claim_data['claims_notes'];
@@ -648,21 +671,40 @@ public get_associate_name(data){
             //this.notes_details.patchValue({user:user_id,note:notes,claim:claim_id,type:command_type,claim_no:claim_id['claim_no']});
             //this.note_validation=true;
         }
-        console.log(this.notes_details);
-        
+        console.log('Notes_details',this.notes_details);
+
         let selected_details=this.notes_details.find(x => x.claim_no ==  this.active_tab);
         console.log(selected_details);
         let user_notes=selected_details['note'];
         let user=selected_details['user'];
         let input_type=selected_details['type'];
         let claim_details=selected_details['claim'];
-        // if(input_type=='claim_create')
-        //     {
-              this.Jarwis.check_notes_update(claim_details,'all',this.claim_data).subscribe(
+
+        let error_type_value = this.Sample_notes.note.notes_opt.error_types[0];
+        console.log('asasasas',error_type_value);
+
+        let closed_formControl_value = this.formGroup.value.closed;
+        console.log('Closed FormControl Value',closed_formControl_value);
+        if(closed_formControl_value==0 )
+        {
+          this.closed_claim_cdtn= true;
+        }
+        else
+        {
+          console.log('Workingsssssssssss');
+          this.Jarwis.check_notes_update(claim_details,'all',this.claim_data).subscribe(
                 data  => this.set_note_update_val(data),
                 error => this.handleError(error)
                 );
-            // }        
+        }
+
+        // if(input_type=='claim_create')
+        //     {
+              // this.Jarwis.check_notes_update(claim_details,'all',this.claim_data).subscribe(
+              //   data  => this.set_note_update_val(data),
+              //   error => this.handleError(error)
+              //   );
+            // }
       }
 
     }
@@ -816,7 +858,7 @@ public get_associate_name(data){
 
      console.log(selected_details);
      user_data = selected_details['note'];
-     
+
      input_type=selected_details['type'];
      claim_details=selected_details['claim'];
     }
@@ -831,7 +873,7 @@ public get_associate_name(data){
     if (user_data.hasOwnProperty("notes_opt")){
       let er_data = user_data.notes_opt.error_types;
       console.log(er_data);
-      audit_err = er_data.toString();      
+      audit_err = er_data.toString();
       console.log(audit_err);
       claim_details.content = user_data.notes;
     }
@@ -853,7 +895,7 @@ public get_associate_name(data){
         error => this.handleError(error)
         );
     }
-    
+
   }
   public submit_tab_types:Array <any>=[];
   public message:string;
@@ -960,12 +1002,14 @@ claim_closed:boolean=false;
   {
     let checked = event.currentTarget.checked;
 
+    console.log('checked',checked);
     if(checked == true)
     {
+      this.closed_claim_cdtn =false;
       this.claim_closed=true;
       this.formGroup.controls['status_code'].enable();
       this.formGroup.controls['sub_status_code'].enable();
-      this.formGroup.controls['followup_date'].disable();
+      // this.formGroup.controls['followup_date'].disable();
       this.modified_stats.push('closed');
 
       if(this.router.url == '/audit')
@@ -1022,7 +1066,7 @@ errorvalues(){
       data  => {
         this.seterrcode(data);
       }
-    );    
+    );
   }
 }
 public seterrcode(value){
@@ -1032,9 +1076,9 @@ public seterrcode(value){
 }
 
 public disableClaim(){
-  let disableClaim; 
+  let disableClaim;
   if (this.errorCodeValue == 'Error' || this.errorCodeValue == 'FYI' || this.errorCodeValue == 'Clarification'){
-    disableClaim = this.formGroup.controls['closed'].disable();
+    // disableClaim = this.formGroup.controls['closed'].disable();
   }
   this.claim_closed =false;
   return disableClaim;
@@ -1063,7 +1107,7 @@ public disableClaim(){
         ]),
         closed: new FormControl('', [
         ])
-      }); 
+      });
    }else{
       this.formGroup = new FormGroup({
         status_code: new FormControl('', [
@@ -1080,9 +1124,9 @@ public disableClaim(){
         ]),
         closed: new FormControl('', [
         ])
-      });  
+      });
    }
-    
+
 
     //console.log(this.formGroup.value);
 
@@ -1125,6 +1169,7 @@ fclaim() {
     let f_date;
     this.formGroup.get("followup_date").valueChanges.subscribe(selectedValue => {
       setTimeout(() => {
+        console.log('selectedValue',selectedValue);
         f_date =  selectedValue;
         console.log(f_date);
         if (f_date !='' || f_date != null || f_date != undefined){
@@ -1136,15 +1181,16 @@ fclaim() {
             console.log('change month');
             this.followdate_invalid = true;
           }
-          else if(this.minDate.day >= f_date.day){
+          else if(this.minDate.day > f_date.day && this.minDate.month > f_date.month){
             console.log('change date');
             this.followdate_invalid = true;
           }
           else{
             this.followdate_invalid = false;
           }
-        } 
+        }
       })
-    })      
+    })
+
   }
 }

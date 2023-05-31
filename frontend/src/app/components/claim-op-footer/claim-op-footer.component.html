@@ -38,7 +38,7 @@
             <label>Followup Date<span class="ar-red">*</span></label>            <input class="form-control followupDateField" id="myInput" placeholder="MM-DD-YYYY" [disabled]="claimed()"
               formControlName="followup_date" [minDate]="minDate" [(ngModel)]="model" ngbDatepicker
               #followup_date="ngbDatepicker" (click)="followup_date.toggle()"
-              (click)="followup_closed();check_follow_date()" [minDate]="minDate" autocomplete="off"
+              (click)="check_follow_date()" [minDate]="minDate" autocomplete="off"
               [disabled]="claimed() || fclaim()">
             <div class="error" *ngIf="followdate_invalid==true">Please Change followup Date</div>
           </div>
@@ -51,7 +51,9 @@
               [disabled]="disableClaim()"><span>&nbsp;&nbsp;&nbsp;</span>
           </div>
           <div class="claim-closed"><label>Claim Closed</label>
+            <!-- <div class="error" *ngIf="new_cdtn==true">If there is no error, Please check Claim Closed to continue</div> -->
           </div>
+          <div class="error" *ngIf="closed_claim_cdtn==true" style="margin-top:-10px">If there is no error, Please check Claim Closed to continue</div>
         </div>
         <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12 pull-right followup-claim"
           *ngIf="(router.url == '/followup') && (this.selected_claim_data['claim_closing'] == 1)">
