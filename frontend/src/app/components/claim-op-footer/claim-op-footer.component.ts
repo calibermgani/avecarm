@@ -581,6 +581,8 @@ public get_associate_name(data){
     console.log('working');
      console.log("Notse data",data);
      this.Sample_notes = data;
+     if(this.router.url!='/followup')
+     {
      console.log('errorrrr',this.Sample_notes.note.notes_opt.error_types[0]);
      if(this.Sample_notes.note.notes_opt.error_types[0] !=1){
       this.formGroup.controls['closed'].disable();
@@ -589,6 +591,7 @@ public get_associate_name(data){
      else{
       this.formGroup.controls['closed'].enable();
      }
+    }
 
     //  let z = data.note.notes_opt.error_types[0];
     //  console.log('asasasas',z);
@@ -670,6 +673,7 @@ public get_associate_name(data){
           this.notes_details.push({note:note_val,claim:this.selected_claim_data,type:'claimpresent',claim_no:this.selected_claim_data['claim_no']});
             //this.notes_details.patchValue({user:user_id,note:notes,claim:claim_id,type:command_type,claim_no:claim_id['claim_no']});
             //this.note_validation=true;
+
         }
         console.log('Notes_details',this.notes_details);
 
@@ -680,30 +684,34 @@ public get_associate_name(data){
         let input_type=selected_details['type'];
         let claim_details=selected_details['claim'];
 
+        if(this.router.url=='/audit'){
         let error_type_value = this.Sample_notes.note.notes_opt.error_types[0];
         console.log('asasasas',error_type_value);
 
         let closed_formControl_value = this.formGroup.value.closed;
         console.log('Closed FormControl Value',closed_formControl_value);
-        if(closed_formControl_value==0 )
+        if(closed_formControl_value==1 )
         {
-          this.closed_claim_cdtn= true;
-        }
-        else
-        {
+
           console.log('Workingsssssssssss');
           this.Jarwis.check_notes_update(claim_details,'all',this.claim_data).subscribe(
                 data  => this.set_note_update_val(data),
                 error => this.handleError(error)
                 );
         }
+        else
+        {
+          this.closed_claim_cdtn= true;
+        }
+      }
 
         // if(input_type=='claim_create')
         //     {
-              // this.Jarwis.check_notes_update(claim_details,'all',this.claim_data).subscribe(
-              //   data  => this.set_note_update_val(data),
-              //   error => this.handleError(error)
-              //   );
+          if(this.router.url!='/audit')
+              this.Jarwis.check_notes_update(claim_details,'all',this.claim_data).subscribe(
+                data  => this.set_note_update_val(data),
+                error => this.handleError(error)
+                );
             // }
       }
 
