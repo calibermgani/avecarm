@@ -114,7 +114,7 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
       this.response_data=this.notes_hadler.get_response_data('audit').subscribe(message => { this.collect_response(message) });
       this.update_monitor=this.notes_hadler.refresh_update().subscribe(message => {
         this.getclaim_details(this.pages,'refresh','null','null','null','null',null,null,null,null,null);
-        console.log(this.update_monitor);
+        console.log('update_monitor',this.update_monitor);
       });
     this.alwaysShowCalendars = true;
     }

@@ -1501,6 +1501,7 @@ public updatenotes(type){
 
   public collect_response(data)
   {
+    console.log('finalyyyyy');
     if(this.main_tab == true)
     {
       this.check_note_edit_validity(this.claim_clicked);
@@ -1512,7 +1513,10 @@ public updatenotes(type){
     }
     this.display_notes(data,'claimnotes');
     this.getclaim_details(1,'refresh','null','null','null','null',null,null,null,null);
+    console.log('............This is Working fine in Local');
     this.getclaim_details(1,'allocated','null','null','null','null','null','null','null','null');
+
+
     //  console.log("Dta List Brf",this.claim_notes_data_list);
     let index =  this.claim_notes_data_list.indexOf(this.active_claim);
     this.claim_notes_data_list.splice(index, 1);
