@@ -1082,7 +1082,7 @@
                                                                <th (click)="assigned_order_list('allocated','claims_notes','null','null')" class="font600 line-height-24">Claim Note<i class="fa fa-fw fa-sort"></i></th>
 
                                                                <th (click)="assigned_order_list('allocated','executive_work_date','null','null')" class="font600 line-height-24">Executive W.Date<i class="fa fa-fw fa-sort"></i></th>
-                                                               
+
                                                                <th (click)="assigned_order_list('allocated','created_ats','null','null')" class="font600 line-height-24">User | Date<i class="fa fa-fw fa-sort"></i></th>
 
 
@@ -1146,7 +1146,7 @@
                                                                <td (mouseover)="tooltip(x)" class="cur-pointer"><span *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle" aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
 
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="!x.executive_work_date">UA</span><span *ngIf="x.executive_work_date">{{x.executive_work_date | date: 'MM/dd/yyyy'}}</span></td>
-                                                               
+
                                                                <td (mouseover)="tooltip(x)"><span *ngIf="!x.assigned_to ">UA</span><span *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span *ngIf="!x.created_ats ">UA</span><span *ngIf="x.created_ats">{{x.created_ats | date: 'MM/dd/yyyy'}}</span></td>
 
 

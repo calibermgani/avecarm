@@ -445,13 +445,13 @@ types;
             if(typeof closedClaims_searchValue[key][val] === 'object' && closedClaims_searchValue[key][val] !== null) {
               Object.keys(closedClaims_searchValue[key][val]).forEach(data => {
                 if(closedClaims_searchValue[key][val][data] === null){
-                  nullVal = false;                  
+                  nullVal = false;
                 }
                 else{
-                  nullVal = true;                 
+                  nullVal = true;
                 }
               });
-              closedSearch_notNull.push(nullVal);              
+              closedSearch_notNull.push(nullVal);
             }
             else if (typeof closedClaims_searchValue[key][val] !== 'object' && closedClaims_searchValue[key][val] !== null && closedClaims_searchValue[key][val] != ''){
               nullVal = true;
@@ -462,11 +462,11 @@ types;
               closedSearch_notNull.push(nullVal);
             }
           });
-        }          
-      });      
+        }
+      });
     }
     if(closedSearch_notNull.some(x => x === true)){
-      this.search = this.closedclaims_filter;        
+      this.search = this.closedclaims_filter;
       search = this.search;
     }
     else{
@@ -474,7 +474,7 @@ types;
       sort_data = 'null';
       sort_type = 'null';
       sorting_name = 'null';
-      sorting_method = 'null';        
+      sorting_method = 'null';
       search = this.search;
     }
 
@@ -527,13 +527,13 @@ types;
               if(typeof assignedClaims_searchValue[key][val] === 'object' && assignedClaims_searchValue[key][val] !== null) {
                 Object.keys(assignedClaims_searchValue[key][val]).forEach(data => {
                   if(assignedClaims_searchValue[key][val][data] === null){
-                    nullVal = false;                  
+                    nullVal = false;
                   }
                   else{
-                    nullVal = true;                 
+                    nullVal = true;
                   }
                 });
-                assignedSearch_notNull.push(nullVal);              
+                assignedSearch_notNull.push(nullVal);
               }
               else if (typeof assignedClaims_searchValue[key][val] !== 'object' && assignedClaims_searchValue[key][val] !== null && assignedClaims_searchValue[key][val] != ''){
                 nullVal = true;
@@ -544,11 +544,11 @@ types;
                 assignedSearch_notNull.push(nullVal);
               }
             });
-          }          
-        });      
+          }
+        });
       }
       if(assignedSearch_notNull.some(x => x === true)){
-        this.search = this.assignedclaims_filter;        
+        this.search = this.assignedclaims_filter;
         search = this.search;
         sort_data = null;
         sort_type = null;
@@ -558,10 +558,10 @@ types;
 		    sort_data = 'null';
         sort_type = 'null';
 		    sorting_name = 'null';
-        sorting_method = 'null';        
+        sorting_method = 'null';
         search = this.search;
       }
-    
+
     searchs = this.search;
     if(sorting_name == 'null' && searchs != 'search'){
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
@@ -611,13 +611,13 @@ types;
               if(typeof reassignedClaims_searchValue[key][val] === 'object' && reassignedClaims_searchValue[key][val] !== null) {
                 Object.keys(reassignedClaims_searchValue[key][val]).forEach(data => {
                   if(reassignedClaims_searchValue[key][val][data] === null){
-                    nullVal = false;                  
+                    nullVal = false;
                   }
                   else{
-                    nullVal = true;                 
+                    nullVal = true;
                   }
                 });
-                reassignedSearch_notNull.push(nullVal);              
+                reassignedSearch_notNull.push(nullVal);
               }
               else if (typeof reassignedClaims_searchValue[key][val] !== 'object' && reassignedClaims_searchValue[key][val] !== null && reassignedClaims_searchValue[key][val] != ''){
                 nullVal = true;
@@ -628,11 +628,11 @@ types;
                 reassignedSearch_notNull.push(nullVal);
               }
             });
-          }          
-        });      
+          }
+        });
       }
       if(reassignedSearch_notNull.some(x => x === true)){
-        this.search = this.reassignedclaims_filter;        
+        this.search = this.reassignedclaims_filter;
         search = this.search;
         sort_data = null;
         sort_type = null;
@@ -642,15 +642,15 @@ types;
 		    sort_data = 'null';
         sort_type = 'null';
 		    sorting_name = 'null';
-        sorting_method = 'null';        
+        sorting_method = 'null';
         search = this.search;
       }
 
     searchs = this.search;
     if(sorting_name == 'null' && searchs != 'search'){
       console.log(searchs);
-      
-      
+
+
       this.Jarwis.getclaim_details(this.setus.getId(),page,page_count,type,sort_data,sort_type,sorting_name,sorting_method,null,null,null,search).subscribe(
         data  => this.form_table(data,type,form_type),
         error => this.handleError(error)
@@ -1500,7 +1500,7 @@ public updatenotes(type){
   }
 
   public collect_response(data)
-  {    
+  {
     if(this.main_tab == true)
     {
       this.check_note_edit_validity(this.claim_clicked);
@@ -1512,6 +1512,7 @@ public updatenotes(type){
     }
     this.display_notes(data,'claimnotes');
     this.getclaim_details(1,'refresh','null','null','null','null',null,null,null,null);
+    this.getclaim_details(1,'allocated','null','null','null','null','null','null','null','null');
     //  console.log("Dta List Brf",this.claim_notes_data_list);
     let index =  this.claim_notes_data_list.indexOf(this.active_claim);
     this.claim_notes_data_list.splice(index, 1);
