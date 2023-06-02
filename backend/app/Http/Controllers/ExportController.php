@@ -10,13 +10,15 @@ use App\Action;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class ExportController extends Controller
 {
 	public function __construct()
-  	{
-      $this->middleware('auth:api', ['except' => ['fetch_create_claims_export_data', 'fetch_followup_claims_export_data', 'fetch_audit_claims_export_data', 'fetch_billing_claims_export_data', 'fetch_client_claims_export_data','fetch_work_order_export_data','fetch_create_claims_export_data_pdf', 'fetch_followup_claims_export_data_pdf', 'fetch_audit_claims_export_data_pdf', 'fetch_billing_claims_export_data_pdf', 'fetch_client_claims_export_data_pdf', 'fetch_work_order_export_data_pdf']]);
-  	}
+  {
+    $this->middleware('auth:api', ['except' => ['fetch_create_claims_export_data', 'fetch_followup_claims_export_data', 'fetch_audit_claims_export_data', 'fetch_billing_claims_export_data', 'fetch_client_claims_export_data','fetch_work_order_export_data','fetch_create_claims_export_data_pdf', 'fetch_followup_claims_export_data_pdf', 'fetch_audit_claims_export_data_pdf', 'fetch_billing_claims_export_data_pdf', 'fetch_client_claims_export_data_pdf', 'fetch_work_order_export_data_pdf', 'fetch_all_claims_export_data']]);
+  }
     
     public function fetch_create_claims_export_data(LoginRequest $request) {
 
@@ -66,7 +68,7 @@ class ExportController extends Controller
         if(empty($search)){
     		  $claim_data = Import_field::whereNull('followup_work_order');
         }else{
-            $claim_data = Import_field::whereNull('followup_work_order');
+          $claim_data = Import_field::whereNull('followup_work_order');
 
           if(!empty($search_claim_no)){
             $claim_data->where('claim_no', $search_claim_no);
@@ -204,7 +206,7 @@ class ExportController extends Controller
           if(!empty($search_total_charge)) {
             $claim_data->where('total_charge', $search_total_charge);
           }
-            
+
           $claim_data->where('claim_Status', Null);
         }
 
@@ -817,6 +819,181 @@ class ExportController extends Controller
               'data'  => $claim_data,
               'table' => $excel_name
               ]);
+    }
+
+    public function fetch_all_claims_export_data(LoginRequest $request) {
+      try {
+        $user_id = $request->get('user_id');
+        $table_name = $request->get('table_name');
+        $search = $request->get('search');
+        $searchValue = $request->get('searchClaims');
+
+        $excel_Name = 'All Claims-'.$table_name;
+
+        if($searchValue != null ){
+          $search_acc_no = $searchValue['acc_no'];
+          $search_claim_no = $searchValue['claim_no'];
+          $search_claim_note = $searchValue['claim_note'];
+          $search_dos = $searchValue['dos'];
+          $search_patient_name = $searchValue['patient_name'];
+          $search_prim_ins_name = $searchValue['prim_ins_name'];
+          $search_prim_pol_id = $searchValue['prim_pol_id'];
+          $search_sec_ins_name = $searchValue['sec_ins_name'];
+          $search_sec_pol_id = $searchValue['sec_pol_id'];
+          $search_ter_ins_name = $searchValue['ter_ins_name'];
+          $search_ter_pol_id = $searchValue['ter_pol_id'];
+          $search_total_ar = $searchValue['total_ar'];
+          $search_total_charge = $searchValue['total_charge'];
+          $search_responsibility = $searchValue['responsibility'];
+          $search_rendering_provider = $searchValue['rendering_provider'];
+          $search_dates = $searchValue['date'];
+        }
+
+      if ($table_name = 'all_claims_list') {
+        if (empty($search)) {
+          $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
+                        ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
+                        ->groupBy('claim_histories.claim_id')
+                        ->orderByDesc('max_id');
+        } else {
+          $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
+                        ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
+                        ->groupBy('claim_histories.claim_id')
+                        ->orderByDesc('max_id');
+
+          if(!empty($search_claim_no)){
+            $claim_data->where('claim_no', $search_claim_no);
+          }
+          if(!empty($search_acc_no)){
+            $claim_data->where('acct_no', $search_acc_no);
+          }
+          if(!empty($search_claim_note)){
+            $claim_data->where('claim_note', 'LIKE', '%' . $search_claim_note . '%');
+          }
+
+          if(isset($searchValue['dos']) && $searchValue['dos']['startDate'] != null)
+          {
+            $dos_sart_date = Carbon::createFromFormat('Y-m-d', $searchValue['dos']['startDate'])->startOfDay();
+            $dos_end_date = Carbon::createFromFormat('Y-m-d', $searchValue['dos']['endDate'])->endOfDay();
+
+            $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
+          }
+
+          if(!empty($search_patient_name)){
+            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          }
+
+          if(!empty($search_responsibility)){
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+          }
+
+          if(isset($searchValue['age_filter']) && $searchValue['age_filter'] != null)
+          {
+            $search_age = $searchValue['age_filter'];
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+          }
+
+          if(!empty($search_rendering_provider)){
+            $claim_data->where('rendering_provider', 'LIKE', '%' . $search_rendering_provider . '%');
+          }
+
+          if(isset($searchValue['payer_name']) && !empty($searchValue['payer_name']))
+          {
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
+            $claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
+            $claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
+          }
+
+          if(isset($searchValue['date']) && $searchValue['date']['startDate'] != null)
+          {
+            $search_dates = $searchValue['date'];
+            $created_start_date = Carbon::createFromFormat('Y-m-d', $search_dates['startDate'])->startOfDay();
+            $created_end_date = Carbon::createFromFormat('Y-m-d', $search_dates['endDate'])->endOfDay();
+
+            $claim_data->where(DB::raw('DATE(import_fields.created_at)'), '>=', $created_start_date)->where(DB::raw('DATE(import_fields.created_at)'), '<=', $created_end_date);
+          }
+
+          if(isset($searchValue['bill_submit_date']) && $searchValue['bill_submit_date']['startDate'] != null)
+          {
+            $search_submit_date = $searchValue['bill_submit_date'];
+            $bill_start_date = Carbon::createFromFormat('Y-m-d', $search_submit_date['startDate'])->startOfDay();
+            $bill_end_date = Carbon::createFromFormat('Y-m-d', $search_submit_date['endDate'])->endOfDay();
+
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+
+          }
+
+          if(isset($searchValue['denial_code']) && !empty($searchValue['denial_code']))
+          {
+            $claim_data->where('denial_code', $searchValue['denial_code']);
+          }
+
+          if(!empty($search_prim_pol_id)){
+            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          }
+
+          if(!empty($search_sec_pol_id)){
+            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          }
+
+          if(!empty($search_ter_pol_id)){
+            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          }
+
+          if(isset($search_total_ar) && !empty($search_total_ar))
+          {
+            $OriginalString = trim($search_total_ar);
+            $tot_ar = explode("-",$OriginalString);
+            $min_tot_ar = $tot_ar[0] - 1.00;
+            $max_tot_ar = $tot_ar[1];
+
+            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+          }
+
+          if(!empty($search_total_charge)) {
+            $claim_data->where('total_charge', $search_total_charge);
+          }
+        }
+      }
+
+
+      } catch (Exception $e) {
+        Log::debug('all claims export data error :' . $e->getMessage());
+      }
     }
 
     public function fetch_audit_claims_export_data(LoginRequest $request){
