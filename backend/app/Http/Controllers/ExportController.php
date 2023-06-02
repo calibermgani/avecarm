@@ -8,7 +8,8 @@ use App\Workorder_field;
 use App\Claim_history;
 use App\Action;
 use App\User;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ExportController extends Controller
 {
@@ -17,7 +18,7 @@ class ExportController extends Controller
       $this->middleware('auth:api', ['except' => ['fetch_create_claims_export_data', 'fetch_followup_claims_export_data', 'fetch_audit_claims_export_data', 'fetch_billing_claims_export_data', 'fetch_client_claims_export_data','fetch_work_order_export_data','fetch_create_claims_export_data_pdf', 'fetch_followup_claims_export_data_pdf', 'fetch_audit_claims_export_data_pdf', 'fetch_billing_claims_export_data_pdf', 'fetch_client_claims_export_data_pdf', 'fetch_work_order_export_data_pdf']]);
   	}
     
-    public function fetch_create_claims_export_data(LoginRequest $request){
+    public function fetch_create_claims_export_data(LoginRequest $request) {
 
     	$user_id = $request->get('user_id');
     	$table_name = $request->get('table_name');
@@ -41,6 +42,9 @@ class ExportController extends Controller
           $search_ter_pol_id = $searchValue['ter_pol_id'];
           $search_total_ar = $searchValue['total_ar'];
           $search_total_charge = $searchValue['total_charge'];
+          $search_responsibility = $searchValue['responsibility'];
+          $search_rendering_provider = $searchValue['rendering_provider'];
+          $search_dates = $searchValue['date'];
       }
 
       $wo_search = $request->get('workordersearch');
@@ -62,7 +66,6 @@ class ExportController extends Controller
         if(empty($search)){
     		  $claim_data = Import_field::whereNull('followup_work_order');
         }else{
-
             $claim_data = Import_field::whereNull('followup_work_order');
 
           if(!empty($search_claim_no)){
@@ -74,40 +77,132 @@ class ExportController extends Controller
           if(!empty($search_claim_note)){
             $claim_data->where('claim_note', 'LIKE', '%' . $search_claim_note . '%');
           }
-          if(!empty($search_dos)){
 
-            $search_date = explode('-', $search_dos);
-            $dos_sart_date = date('Y-m-d', strtotime($search_date[0]));
-            $dos_end_date = date('Y-m-d', strtotime($search_date[1]));
+          if(isset($searchValue['dos']) && $searchValue['dos']['startDate'] != null)
+          {
+            $dos_sart_date = Carbon::createFromFormat('Y-m-d', $searchValue['dos']['startDate'])->startOfDay();
+            $dos_end_date = Carbon::createFromFormat('Y-m-d', $searchValue['dos']['endDate'])->endOfDay();
 
             $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
           }
+          
           if(!empty($search_patient_name)){
             $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
           }
-          if(!empty($search_prim_ins_name)){
-            $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+
+          if(!empty($search_responsibility)){
+            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
           }
+
+          if(isset($searchValue['age_filter']) && $searchValue['age_filter'] != null)
+          {
+            $search_age = $searchValue['age_filter'];
+            if($search_age['from_age'] == 0 && $search_age['to_age'] == 30)
+            {
+              $last_thirty = Carbon::now()->subDay($search_age['to_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>', $last_thirty);
+            }
+            if($search_age['from_age'] == 31 && $search_age['to_age'] == 60)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 61 && $search_age['to_age'] == 90)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 91 && $search_age['to_age'] == 120)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 121 && $search_age['to_age'] == 180)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+            if($search_age['from_age'] == 181 && $search_age['to_age'] == 365)
+            {
+              $to_age = Carbon::now()->subDay($search_age['to_age']);
+              $from_age = Carbon::now()->subDay($search_age['from_age']);
+              $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $to_age)->where(DB::raw('DATE(import_fields.dos)'), '<=', $from_age);
+            }
+          }
+
+          if(!empty($search_rendering_provider)){
+            $claim_data->where('rendering_provider', 'LIKE', '%' . $search_rendering_provider . '%');
+          }
+
+          if(isset($searchValue['payer_name']) && !empty($searchValue['payer_name']))
+          {
+            $claim_data->where('prim_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
+            $claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
+            $claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
+          }
+
+          if(isset($searchValue['date']) && $searchValue['date']['startDate'] != null)
+          {
+            $search_dates = $searchValue['date'];
+            $created_start_date = Carbon::createFromFormat('Y-m-d', $search_dates['startDate'])->startOfDay();
+            $created_end_date = Carbon::createFromFormat('Y-m-d', $search_dates['endDate'])->endOfDay();
+
+            $claim_data->where(DB::raw('DATE(import_fields.created_at)'), '>=', $created_start_date)->where(DB::raw('DATE(import_fields.created_at)'), '<=', $created_end_date);
+          }
+
+          if(isset($searchValue['bill_submit_date']) && $searchValue['bill_submit_date']['startDate'] != null)
+          {
+            $search_submit_date = $searchValue['bill_submit_date'];
+            $bill_start_date = Carbon::createFromFormat('Y-m-d', $search_submit_date['startDate'])->startOfDay();
+            $bill_end_date = Carbon::createFromFormat('Y-m-d', $search_submit_date['endDate'])->endOfDay();
+
+            $claim_data->where(DB::raw('DATE(import_fields.billed_submit_date)'), '>=', $bill_start_date)->where(DB::raw('DATE(import_fields.billed_submit_date)'), '<=', $bill_end_date);
+
+          }
+
+          if(isset($searchValue['denial_code']) && !empty($searchValue['denial_code']))
+          {
+              $claim_data->where('denial_code', $searchValue['denial_code']);
+          }
+
+          // if(!empty($search_prim_ins_name)){
+          //   $claim_data->where('prim_ins_name', 'LIKE', '%' . $search_prim_ins_name . '%');
+          // }
           if(!empty($search_prim_pol_id)){
             $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
           }
-          if(!empty($search_sec_ins_name)){
-            $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
-          }
+          // if(!empty($search_sec_ins_name)){
+          //   $claim_data->where('sec_ins_name', 'LIKE', '%' . $search_sec_ins_name . '%');
+          // }
           if(!empty($search_sec_pol_id)){
             $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
           }
-          if(!empty($search_ter_ins_name)){
-            $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
-          }
+          // if(!empty($search_ter_ins_name)){
+          //   $claim_data->where('ter_ins_name', 'LIKE', '%' . $search_ter_ins_name . '%');
+          // }
           if(!empty($search_ter_pol_id)){
             $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
           }
-          if(!empty($search_total_ar)){
-            $claim_data->where('total_ar', 'LIKE', '%' . $search_total_ar . '%');
+          // if(!empty($search_total_ar)){
+          //   $claim_data->where('total_ar', 'LIKE', '%' . $search_total_ar . '%');
+          // }
+
+          if(isset($search_total_ar) && !empty($search_total_ar))
+          {
+              $OriginalString = trim($search_total_ar);
+              $tot_ar = explode("-",$OriginalString);
+              $min_tot_ar = $tot_ar[0] - 1.00;
+              $max_tot_ar = $tot_ar[1];
+
+              $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
+
           if(!empty($search_total_charge)){
-            $claim_data->where('total_charge', 'LIKE', '%' . $search_total_charge . '%');
+            $claim_data->where('total_charge', $search_total_charge);
           }
         }
 
@@ -208,130 +303,116 @@ class ExportController extends Controller
         }
     	}
 
-
-
-    	$claim_data->leftjoin(DB::raw("(SELECT
-			process_notes.claim_id,process_notes.content as process_notes
-          FROM process_notes
-          WHERE process_notes.deleted_at IS NULL
-          AND process_notes.id IN (SELECT MAX(id) FROM process_notes GROUP BY process_notes.claim_id)
-          GROUP BY process_notes.claim_id
-          ) as process_notes"), function($join) {
+    	$claim_data->leftjoin(DB::raw("(SELECT process_notes.claim_id,process_notes.content as process_notes FROM process_notes
+          WHERE process_notes.deleted_at IS NULL AND process_notes.id IN (SELECT MAX(id) FROM process_notes GROUP BY process_notes.claim_id)
+          GROUP BY process_notes.claim_id ) as process_notes"), function($join) {
             $join->on('process_notes.claim_id', '=', 'import_fields.claim_no');
         });
 		
-		$claim_data->leftjoin(DB::raw("(SELECT
-			qc_notes.claim_id,qc_notes.content as qc_notes
-          FROM qc_notes
-          WHERE qc_notes.deleted_at IS NULL
-          AND qc_notes.id IN (SELECT MAX(id) FROM qc_notes GROUP BY qc_notes.claim_id)
-          GROUP BY qc_notes.claim_id
-          ) as qc_notes"), function($join) {
+      $claim_data->leftjoin(DB::raw("(SELECT qc_notes.claim_id,qc_notes.content as qc_notes FROM qc_notes
+          WHERE qc_notes.deleted_at IS NULL AND qc_notes.id IN (SELECT MAX(id) FROM qc_notes GROUP BY qc_notes.claim_id)
+          GROUP BY qc_notes.claim_id ) as qc_notes"), function($join) {
             $join->on('qc_notes.claim_id', '=', 'import_fields.claim_no');
         });
-		
-		$claim_data->leftjoin(DB::raw("(SELECT
-			claim_notes.claim_id,claim_notes.content as claims_notes
-          FROM claim_notes
-          WHERE claim_notes.deleted_at IS NULL
+      
+      $claim_data->leftjoin(DB::raw("(SELECT claim_notes.claim_id,claim_notes.content as claims_notes
+          FROM claim_notes WHERE claim_notes.deleted_at IS NULL
           AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id)
-          GROUP BY claim_notes.claim_id
-          ) as claim_notes"), function($join) {
+          GROUP BY claim_notes.claim_id ) as claim_notes"), function($join) {
             $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
         });
 
     	$claim_data = $claim_data->get()->toArray();
 
 	    foreach($claim_data as $key=>$value){
+        $assigned_data=Action::where('claim_id', $claim_data[$key]['claim_no'])->orderBy('created_at', 'desc')->first();
+        
+        if($assigned_data !=null)
+        {
+          $assigned_to= User::where('id', $assigned_data['assigned_to'])->pluck('firstname');
+          $assigned_by= User::where('id', $assigned_data['assigned_by'])->pluck('firstname');
+          $claim_data[$key]['assigned_to_name']=$assigned_to[0];
+          $claim_data[$key]['assigned_by_name']=$assigned_by[0];
+          $claim_data[$key]['assigned_date'] = date('d/m/Y', strtotime($assigned_data['created_at']));
+        }
+        else{
+          $claim_data[$key]['assigned_to_name']='NA';
+          $claim_data[$key]['assigned_by_name']='NA';
+          $claim_data[$key]['assigned_date'] = 'NA';
+        }
 
-              $assigned_data=Action::where('claim_id', $claim_data[$key]['claim_no'])->orderBy('created_at', 'desc')->first();
-              
-              if($assigned_data !=null)
-              {
-                $assigned_to= User::where('id', $assigned_data['assigned_to'])->pluck('firstname');
-                $assigned_by= User::where('id', $assigned_data['assigned_by'])->pluck('firstname');
-                $claim_data[$key]['assigned_to_name']=$assigned_to[0];
-                $claim_data[$key]['assigned_by_name']=$assigned_by[0];
-                $claim_data[$key]['assigned_date'] = date('d/m/Y', strtotime($assigned_data['created_at']));
-              }
-              else{
-                $claim_data[$key]['assigned_to_name']='NA';
-                $claim_data[$key]['assigned_by_name']='NA';
-                $claim_data[$key]['assigned_date'] = 'NA';
-              }
+        $dos = strtotime($claim_data[$key]['dos']);
 
-	            $dos = strtotime($claim_data[$key]['dos']);
+        if(!empty($dos) && $dos != 0000-00-00 && $dos != 1970-01-01){
+          $claim_data[$key]['dos'] = date('m/d/Y',$dos);
+        }
 
-              if(!empty($dos) && $dos != 0000-00-00 && $dos != 1970-01-01){
-                $claim_data[$key]['dos'] = date('m/d/Y',$dos);
-              }
+        if($dos == 0000-00-00){
+          $claim_data[$key]['dos'] = date('m/d/Y',00-00-0000);
+        }
 
-              if($dos == 0000-00-00){
-                $claim_data[$key]['dos'] = date('m/d/Y',00-00-0000);
-              }
+        if($dos == 1970-01-01){
+          $claim_data[$key]['dos'] = date('m/d/Y',01-01-1970);
+        }
 
-              if($dos == 1970-01-01){
-                $claim_data[$key]['dos'] = date('m/d/Y',01-01-1970);
-              }
+        $dob = strtotime($claim_data[$key]['dob']);
 
-              $dob = strtotime($claim_data[$key]['dob']);
+        if(!empty($dob) && $dob != 0000-00-00 && $dob != 1970-01-01){
+          $claim_data[$key]['dob'] = date('m/d/Y',$dob);
+        }
 
-              if(!empty($dob) && $dob != 0000-00-00 && $dob != 1970-01-01){
-                $claim_data[$key]['dob'] = date('m/d/Y',$dob);
-              }
+        if($dob == 0000-00-00){
+          $claim_data[$key]['dob'] = date('m/d/Y',00-00-0000);
+        }
 
-              if($dob == 0000-00-00){
-                $claim_data[$key]['dob'] = date('m/d/Y',00-00-0000);
-              }
+        if($dob == 1970-01-01 ){
+          $claim_data[$key]['dob'] = date('m/d/Y',01-01-1970);
+        }
 
-              if($dob == 1970-01-01 ){
-                $claim_data[$key]['dob'] = date('m/d/Y',01-01-1970);
-              }
+        $admit_date = strtotime($claim_data[$key]['admit_date']);
 
-              $admit_date = strtotime($claim_data[$key]['admit_date']);
+        if(!empty($admit_date) && $admit_date != 0000-00-00 && $admit_date != 1970-01-01){
+          $claim_data[$key]['admit_date'] = date('m/d/Y',$admit_date);
+        }
 
-              if(!empty($admit_date) && $admit_date != 0000-00-00 && $admit_date != 1970-01-01){
-                $claim_data[$key]['admit_date'] = date('m/d/Y',$admit_date);
-              }
+        if($admit_date == 0000-00-00){
+          $claim_data[$key]['admit_date'] = date('m/d/Y',00-00-0000);
+        }
 
-              if($admit_date == 0000-00-00){
-                $claim_data[$key]['admit_date'] = date('m/d/Y',00-00-0000);
-              }
+        if($admit_date == 1970-01-01 ){
+          $claim_data[$key]['admit_date'] = date('m/d/Y',01-01-1970);
+        }
 
-              if($admit_date == 1970-01-01 ){
-                $claim_data[$key]['admit_date'] = date('m/d/Y',01-01-1970);
-              }
+        $discharge_date = strtotime($claim_data[$key]['discharge_date']);
 
-              $discharge_date = strtotime($claim_data[$key]['discharge_date']);
+        if(!empty($discharge_date) && $discharge_date != 0000-00-00 && $discharge_date != 1970-01-01){
 
-              if(!empty($discharge_date) && $discharge_date != 0000-00-00 && $discharge_date != 1970-01-01){
+          $claim_data[$key]['discharge_date'] = date('m/d/Y',$discharge_date);
+        }
 
-                $claim_data[$key]['discharge_date'] = date('m/d/Y',$discharge_date);
-              }
+        if($discharge_date == 0000-00-00){
+          $claim_data[$key]['discharge_date'] = date('m/d/Y',00-00-0000);
+        }
 
-              if($discharge_date == 0000-00-00){
-                $claim_data[$key]['discharge_date'] = date('m/d/Y',00-00-0000);
-              }
+        if($discharge_date == 1970-01-01 ){
+          $claim_data[$key]['discharge_date'] = date('m/d/Y',01-01-1970);
+        }
 
-              if($discharge_date == 1970-01-01 ){
-                $claim_data[$key]['discharge_date'] = date('m/d/Y',01-01-1970);
-              }
+        $total_ar = $claim_data[$key]['total_ar'];
 
-              $total_ar = $claim_data[$key]['total_ar'];
+        $claim_data[$key]['total_ar'] = number_format((float)$total_ar, 2, '.', '');
 
-              $claim_data[$key]['total_ar'] = number_format((float)$total_ar, 2, '.', '');
+        $total_charges = $claim_data[$key]['total_charges'];
 
-              $total_charges = $claim_data[$key]['total_charges'];
+        $claim_data[$key]['total_charges'] = number_format((float)$total_charges, 2, '.', '');
 
-              $claim_data[$key]['total_charges'] = number_format((float)$total_charges, 2, '.', '');
+        $pat_ar = $claim_data[$key]['pat_ar'];
 
-              $pat_ar = $claim_data[$key]['pat_ar'];
+        $claim_data[$key]['pat_ar'] = number_format((float)$pat_ar, 2, '.', '');
 
-              $claim_data[$key]['pat_ar'] = number_format((float)$pat_ar, 2, '.', '');
+        $ins_ar = $claim_data[$key]['ins_ar'];
 
-              $ins_ar = $claim_data[$key]['ins_ar'];
-
-              $claim_data[$key]['ins_ar'] = number_format((float)$ins_ar, 2, '.', '');
+        $claim_data[$key]['ins_ar'] = number_format((float)$ins_ar, 2, '.', '');
 	            
 	    }
 
