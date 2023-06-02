@@ -85,7 +85,7 @@ class ExportController extends Controller
 
             $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
           }
-          
+
           if(!empty($search_patient_name)){
             $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
           }
@@ -201,9 +201,11 @@ class ExportController extends Controller
               $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
-          if(!empty($search_total_charge)){
+          if(!empty($search_total_charge)) {
             $claim_data->where('total_charge', $search_total_charge);
           }
+            
+          $claim_data->where('claim_Status', Null);
         }
 
 
