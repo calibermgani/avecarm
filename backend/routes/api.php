@@ -248,5 +248,6 @@ Route::group([
     Route::post('audit_claims_found_user', 'ImportController@audit_claims_found_user');
 
     Route::post('get_new_claims', 'NewClaimsController@get_new_claims');
+    Route::post('fetch_all_claims_export_data', 'ExportController@fetch_all_claims_export_data');
 
 });
