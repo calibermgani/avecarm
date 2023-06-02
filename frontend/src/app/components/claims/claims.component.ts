@@ -3937,7 +3937,6 @@ closedclaims_filter;
 
 
     this.createClaimsFind = this.formBuilder.group({
-      file_id: [],
       dos: [],
       age_filter:[],
       claim_no: [],

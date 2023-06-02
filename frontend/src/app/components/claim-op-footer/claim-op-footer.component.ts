@@ -692,12 +692,19 @@ public get_associate_name(data){
         console.log('Closed FormControl Value',closed_formControl_value);
         if(closed_formControl_value==1 )
         {
-
-          console.log('Workingsssssssssss');
+          console.log('For No Error Claims');
           this.Jarwis.check_notes_update(claim_details,'all',this.claim_data).subscribe(
                 data  => this.set_note_update_val(data),
                 error => this.handleError(error)
                 );
+        }
+        else if(closed_formControl_value == undefined)
+        {
+          console.log('For Error Claims and other claims');
+          this.Jarwis.check_notes_update(claim_details,'all',this.claim_data).subscribe(
+            data  => this.set_note_update_val(data),
+            error => this.handleError(error)
+            );
         }
         else
         {
