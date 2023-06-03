@@ -982,6 +982,13 @@ export class JarwisService {
     return response;
   }
 
+  fetch_all_claims_export_data(user_id, table_name, search, searchClaims, workordersearch) {
+    let data = { user_id: user_id, table_name: table_name, search: search, searchClaims: searchClaims, workordersearch: workordersearch };
+    let response = this.common_url('fetch_all_claims_export_data', data);
+    return response;
+  }
+
+
   fetch_followup_claims_export_data(user_id, table_name, search, searchClaims) {
     let data = { user_id: user_id, table_name: table_name, search: search, searchClaims: searchClaims };
     let response = this.common_url('fetch_followup_claims_export_data', data);

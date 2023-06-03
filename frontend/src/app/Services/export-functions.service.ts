@@ -23,9 +23,9 @@ export class ExportFunctionsService {
     doc.autoPrint();
   window.open(doc.output('bloburl'), '_blank');
   }
-  
-    public generatePDF(header,data) 
-    { 
+
+    public generatePDF(header,data)
+    {
       let doc: any = new jsPDF('l', 'pt');
       doc.autoTable({
         head: [header],
@@ -34,7 +34,7 @@ export class ExportFunctionsService {
   //     doc.autoPrint();
   // window.open(doc.output('bloburl'), '_blank');
       doc.save('table.pdf');
-    } 
+    }
 
 
 
@@ -54,10 +54,10 @@ export class ExportFunctionsService {
       }
       if(export_type=='excel')
       {
-        
+
       }
     else {
-    
+
     for(let i=0;i<ca_data.length;i++)
     {
            let op_json=[];
@@ -72,15 +72,15 @@ export class ExportFunctionsService {
     op_json.push(ca_data[i]['status_code']);
     op_json.push(ca_data[i]['assigned_to_name']+' / '+ca_data[i]['assigned_by_name']+' / '+ca_data[i]['assigned_date']);
     this.export_data.push(op_json);
-    } 
+    }
     let header=['Acct#','Claim#','Patient Name','DOS','Claim Age','Insurance','Billed','AR Due','Status Code','Assigned To/By/Date'];
      if(export_type == 'PDF'){
-       
+
       this.generatePDF(header,this.export_data);
       }
       else if(export_type == 'print')
       {
-        
+
         this.print_pdf(header,this.export_data);
         }
         }
@@ -92,7 +92,7 @@ export class ExportFunctionsService {
       let ca_data=data.data;
       if(type=='excel')
       {
-        
+
         let op_json={};
         for(let i=0;i<ca_data.length;i++)
         {
@@ -106,12 +106,12 @@ export class ExportFunctionsService {
           op_json['WO Status']=ca_data[i]['status'];
           op_json['Priority']=ca_data[i]['priority'];
           this.export_data.push(op_json);
-    
+
         }
         this.excelService.exportAsExcelFile(this.export_data, 'sample');
       }
     else {
-    
+
     for(let i=0;i<ca_data.length;i++)
     {
            let op_json=[];
@@ -124,10 +124,10 @@ export class ExportFunctionsService {
     op_json.push(ca_data[i]['status']);
     op_json.push(ca_data[i]['priority']);
     this.export_data.push(op_json);
-    } 
+    }
     let header=['Created By/Date','Work Order Name','Claim Count','Due Date','Billed','AR Due','WO Status','Priority'];
      if(type == 'PDF'){
-       
+
       this.generatePDF(header,this.export_data);
       }
       else if(type == 'print')
@@ -151,21 +151,21 @@ export class ExportFunctionsService {
       console.log(this.export_data);
       this.excelService.exportAsExcelFile(this.export_data, 'template');
     }
-	
+
 
 	public report_export_excel(ca_data){
 		let op_json={};
     let export_datas: Array<any> =[];
-		let arr = [];  
-		Object.keys(ca_data).map(function(key){  
-			arr.push({[key]:ca_data[key]})  
-			return arr;  
-		});  
-		
+		let arr = [];
+		Object.keys(ca_data).map(function(key){
+			arr.push({[key]:ca_data[key]})
+			return arr;
+		});
+
 		if(arr[0].data.length != 0){
-		 
+
 			for(let i=0;i<arr[0].data.length;i++)
-			{ 
+			{
 				op_json = [];
 			  op_json['Acc No'] = arr[0].data[i].acct_no;
 			  op_json['Claim No'] = arr[0].data[i].claim_no;
@@ -226,29 +226,30 @@ export class ExportFunctionsService {
 			  op_json['Claim Note'] = arr[0].data[i].claims_notes;
 			  op_json['Qc note'] = arr[0].data[i].qc_notes;
 			  op_json['Process Note'] = arr[0].data[i].process_notes;
-			  
+
 			  export_datas.push(op_json);
-		     } 
+		     }
 			   this.excelService.exportAsExcelFile(export_datas, ca_data.table);
 		}else{
 			this.toastr.errorToastr('No data found', 'Error!');
 		}
-       
+
 	}
 
-  public create_claim_export_excel(ca_data){
-    let op_json={};
+  public create_claim_export_excel(ca_data:any){
+    console.log('Data',ca_data);
+    let op_json:any={};
     let export_datas: Array<any> =[];
-    let arr = [];  
-    Object.keys(ca_data).map(function(key){  
-      arr.push({[key]:ca_data[key]})  
-      return arr;  
-    });  
-    
+    let arr:any = [];
+    Object.keys(ca_data).map(function(key){
+      arr.push({[key]:ca_data[key]})
+      return arr;
+    });
+
     if(arr[0].data.length != 0){
-     
+
       for(let i=0;i<arr[0].data.length;i++)
-      { 
+      {
         op_json = [];
 
         op_json['Acc No'] = arr[0].data[i].acct_no;
@@ -309,34 +310,34 @@ export class ExportFunctionsService {
         op_json['Claim Status'] = arr[0].data[i].claim_Status;
         op_json['Claim Note'] = arr[0].data[i].claims_notes;
         op_json['Assigned To / Assigned By / Created'] = arr[0].data[i].assigned_to_name+' / '+arr[0].data[i].assigned_by_name+' / '+arr[0].data[i].assigned_date;
-        
+
         export_datas.push(op_json);
         console.log(export_datas);
-         } 
+         }
          this.excelService.exportAsExcelFile(export_datas, ca_data.table);
     }else{
       this.toastr.errorToastr('No data found', 'Error!');
     }
-       
+
   }
 
 
   public create_wo_export_excel(ca_data){
 
     let op_json={};
-    
+
     let export_datas: Array<any> =[];
-    let arr = [];  
-    Object.keys(ca_data).map(function(key){  
-      arr.push({[key]:ca_data[key]})  
-      return arr;  
-    });  
-    
+    let arr = [];
+    Object.keys(ca_data).map(function(key){
+      arr.push({[key]:ca_data[key]})
+      return arr;
+    });
+
     console.log(arr[0].data);
 
     if(arr[0].data.length != 0){
         for(let i=0;i<arr[0].data.length;i++)
-      { 
+      {
         op_json = [];
         op_json['Created By / Date'] = arr[0].data[i].created+'-'+arr[0].data[i].created_at;
         op_json['Workorder Name'] = arr[0].data[i].work_order_name;
@@ -347,15 +348,15 @@ export class ExportFunctionsService {
         op_json['Wo Status'] = arr[0].data[i].status;
         op_json['Priority'] = arr[0].data[i].priority;
         op_json['Work Notes'] = arr[0].data[i].work_notes;
-        
+
         export_datas.push(op_json);
-         } 
+         }
          this.excelService.exportAsExcelFile(export_datas, ca_data.table);
     }else{
         this.toastr.errorToastr('No data found', 'Error!');
     }
 
   }
-    
+
 
 }

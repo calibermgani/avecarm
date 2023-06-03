@@ -3319,11 +3319,25 @@ closedclaims_filter;
     } else if (table_name == 'work_orders') {
       this.workordersearch = this.workOrderFind.value;
     }
+    else if(table_name == 'all_claims_list'){
+      this.searchClaims = this.allClaimsFind.value;
+    }
 
+    if(table_name !='all_claims_list')
+    {
     this.Jarwis.fetch_create_claims_export_data(this.setus.getId(), table_name, this.search, this.searchClaims, this.workordersearch).subscribe(
       data => this.export_handler.create_claim_export_excel(data),
       error => this.error_handler(error)
     );
+    }
+    else if(table_name == 'all_claims_list'){
+      this.Jarwis.fetch_all_claims_export_data(this.setus.getId(),table_name,this.search,this.searchClaims,this.workordersearch).subscribe(
+        data => this.export_handler.create_claim_export_excel(data),
+      error => this.error_handler(error)
+      )
+    }
+
+
   }
 
   public export_pdf_files(type, table_name) {
