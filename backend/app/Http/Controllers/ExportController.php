@@ -830,45 +830,48 @@ class ExportController extends Controller
 
         $excel_Name = 'All Claims-'.$table_name;
 
-        if($searchValue != null ){
-          $search_acc_no = $searchValue['acc_no'];
-          $search_claim_no = $searchValue['claim_no'];
-          $search_claim_note = $searchValue['claim_note'];
-          $search_dos = $searchValue['dos'];
-          $search_patient_name = $searchValue['patient_name'];
-          $search_prim_ins_name = $searchValue['prim_ins_name'];
-          $search_prim_pol_id = $searchValue['prim_pol_id'];
-          $search_sec_ins_name = $searchValue['sec_ins_name'];
-          $search_sec_pol_id = $searchValue['sec_pol_id'];
-          $search_ter_ins_name = $searchValue['ter_ins_name'];
-          $search_ter_pol_id = $searchValue['ter_pol_id'];
-          $search_total_ar = $searchValue['total_ar'];
-          $search_total_charge = $searchValue['total_charge'];
-          $search_responsibility = $searchValue['responsibility'];
-          $search_rendering_provider = $searchValue['rendering_provider'];
-          $search_dates = $searchValue['date'];
-        }
+        // if($searchValue != null ){
+        //   $search_acc_no = $searchValue['acc_no'];
+        //   $search_claim_no = $searchValue['claim_no'];
+        //   $search_claim_note = $searchValue['claim_note'];
+        //   $search_dos = $searchValue['dos'];
+        //   $search_patient_name = $searchValue['patient_name'];
+        //   $search_prim_ins_name = $searchValue['prim_ins_name'];
+        //   $search_prim_pol_id = $searchValue['prim_pol_id'];
+        //   $search_sec_ins_name = $searchValue['sec_ins_name'];
+        //   $search_sec_pol_id = $searchValue['sec_pol_id'];
+        //   $search_ter_ins_name = $searchValue['ter_ins_name'];
+        //   $search_ter_pol_id = $searchValue['ter_pol_id'];
+        //   $search_total_ar = $searchValue['total_ar'];
+        //   $search_total_charge = $searchValue['total_charge'];
+        //   $search_responsibility = $searchValue['responsibility'];
+        //   $search_rendering_provider = $searchValue['rendering_provider'];
+        //   $search_dates = $searchValue['date'];
+        // }
 
       if ($table_name = 'all_claims_list') {
-        if (empty($search)) {
+        if ($search == 'null') {
           $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
                         ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
                         ->groupBy('claim_histories.claim_id')
-                        ->orderByDesc('max_id');
+                        ->orderByDesc('max_id')->get()->toArray();
         } else {
           $claim_data = Import_field::leftJoin('claim_histories', 'import_fields.claim_no', '=', 'claim_histories.claim_id')
                         ->select('import_fields.*', 'claim_histories.claim_state', DB::raw('max(claim_histories.id) as max_id'), 'claim_histories.created_at as created_ats')
                         ->groupBy('claim_histories.claim_id')
                         ->orderByDesc('max_id');
 
-          if(!empty($search_claim_no)){
-            $claim_data->where('claim_no', $search_claim_no);
+          if(isset($searchValue['claim_no']) && !empty($searchValue['claim_no']))
+          {
+            $claim_data->where('import_fields.claim_no', $searchValue['claim_no']);
           }
-          if(!empty($search_acc_no)){
-            $claim_data->where('acct_no', $search_acc_no);
+          if(isset($searchValue['acc_no']) && !empty($searchValue['acc_no']))
+          {
+            $claim_data->where('import_fields.acct_no', $searchValue['acc_no']);
           }
-          if(!empty($search_claim_note)){
-            $claim_data->where('claim_note', 'LIKE', '%' . $search_claim_note . '%');
+
+          if(isset($searchValue['claim_note']) && !empty($searchValue['claim_note'])){
+            $claim_data->where('import_fields.claim_note', 'LIKE', '%' . $searchValue['claim_note'] . '%');
           }
 
           if(isset($searchValue['dos']) && $searchValue['dos']['startDate'] != null)
@@ -879,12 +882,12 @@ class ExportController extends Controller
             $claim_data->where(DB::raw('DATE(import_fields.dos)'), '>=', $dos_sart_date)->where(DB::raw('DATE(import_fields.dos)'), '<=', $dos_end_date);
           }
 
-          if(!empty($search_patient_name)){
-            $claim_data->where('patient_name', 'LIKE', '%' . $search_patient_name . '%');
+          if(isset($searchValue['patient_name']) && !empty($searchValue['patient_name'])){
+            $claim_data->where('import_fields.patient_name', 'LIKE', '%' . $searchValue['patient_name'] . '%');
           }
 
-          if(!empty($search_responsibility)){
-            $claim_data->where('responsibility', 'LIKE', '%' . $search_responsibility . '%');
+          if(isset($searchValue['responsibility']) && !empty($searchValue['responsibility'])){
+            $claim_data->where('import_fields.responsibility', 'LIKE', '%' . $searchValue['responsibility'] . '%');
           }
 
           if(isset($searchValue['age_filter']) && $searchValue['age_filter'] != null)
@@ -927,15 +930,15 @@ class ExportController extends Controller
             }
           }
 
-          if(!empty($search_rendering_provider)){
-            $claim_data->where('rendering_provider', 'LIKE', '%' . $search_rendering_provider . '%');
+          if(isset($searchValue['rendering_provider']) && !empty($searchValue['rendering_provider'])){
+            $claim_data->where('import_fields.rendering_provider', 'LIKE', '%' . $searchValue['rendering_provider'] . '%');
           }
 
           if(isset($searchValue['payer_name']) && !empty($searchValue['payer_name']))
           {
-            $claim_data->where('prim_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
-            $claim_data->orWhere('sec_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
-            $claim_data->orWhere('ter_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
+            $claim_data->where('import_fields.prim_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
+            $claim_data->orWhere('import_fields.sec_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
+            $claim_data->orWhere('import_fields.ter_ins_name', 'LIKE', '%' . $searchValue['payer_name'] . '%');
           }
 
           if(isset($searchValue['date']) && $searchValue['date']['startDate'] != null)
@@ -959,36 +962,44 @@ class ExportController extends Controller
 
           if(isset($searchValue['denial_code']) && !empty($searchValue['denial_code']))
           {
-            $claim_data->where('denial_code', $searchValue['denial_code']);
+            $claim_data->where('import_fields.denial_code', $searchValue['denial_code']);
           }
 
-          if(!empty($search_prim_pol_id)){
-            $claim_data->where('prim_pol_id', 'LIKE', '%' . $search_prim_pol_id . '%');
+          if(isset($searchValue['prim_pol_id']) && !empty($searchValue['prim_pol_id'])){
+            $claim_data->where('import_fields.prim_pol_id', 'LIKE', '%' . $searchValue['prim_pol_id'] . '%');
           }
 
-          if(!empty($search_sec_pol_id)){
-            $claim_data->where('sec_pol_id', 'LIKE', '%' . $search_sec_pol_id . '%');
+          if(isset($searchValue['sec_pol_id']) && !empty($searchValue['sec_pol_id'])){
+            $claim_data->where('import_fields.sec_pol_id', 'LIKE', '%' . $searchValue['sec_pol_id'] . '%');
           }
 
-          if(!empty($search_ter_pol_id)){
-            $claim_data->where('ter_pol_id', 'LIKE', '%' . $search_ter_pol_id . '%');
+          if(isset($searchValue['ter_pol_id']) && !empty($searchValue['ter_pol_id'])){
+            $claim_data->where('import_fields.ter_pol_id', 'LIKE', '%' . $searchValue['ter_pol_id'] . '%');
           }
 
-          if(isset($search_total_ar) && !empty($search_total_ar))
+          if(isset($searchValue['total_ar']) && !empty($searchValue['total_ar']))
           {
-            $OriginalString = trim($search_total_ar);
+            $OriginalString = trim($searchValue['total_ar']);
             $tot_ar = explode("-",$OriginalString);
             $min_tot_ar = $tot_ar[0] - 1.00;
             $max_tot_ar = $tot_ar[1];
 
-            $claim_data->whereBetween('total_ar', [$min_tot_ar, $max_tot_ar]);
+            $claim_data->whereBetween('import_fields.total_ar', [$min_tot_ar, $max_tot_ar]);
           }
 
-          if(!empty($search_total_charge)) {
-            $claim_data->where('total_charge', $search_total_charge);
+          if(isset($searchValue['total_charge']) && !empty($searchValue['total_charge'])) {
+            $claim_data->where('import_fields.total_charge', $searchValue['total_charge']);
           }
+          $claim_data = $claim_data->get()->toArray();
+
         }
       }
+
+
+    	return response()->json([
+              'data'  => $claim_data,
+              'table' => $excel_Name
+              ]);
 
 
       } catch (Exception $e) {
