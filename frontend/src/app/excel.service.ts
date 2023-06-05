@@ -96,7 +96,14 @@ export class ExcelService {
       const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
       //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
       this.saveAsExcelFile(excelBuffer, excelFileName);
-    }if(excelFileName == 'template'){
+    }
+    else if(excelFileName == 'All Claims-all_claims_list'){
+      const workbook: XLSX.WorkBook = { Sheets: { 'All Claims': worksheet }, SheetNames: ['All Claims'] };
+      const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+      this.saveAsExcelFile(excelBuffer, excelFileName);
+    }
+    if(excelFileName == 'template'){
       const workbook: XLSX.WorkBook = { Sheets: { 'Template': worksheet }, SheetNames: ['Template'] };
       const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
       //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
