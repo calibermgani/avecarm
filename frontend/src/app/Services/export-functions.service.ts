@@ -312,7 +312,7 @@ export class ExportFunctionsService {
         op_json['Assigned To / Assigned By / Created'] = arr[0].data[i].assigned_to_name+' / '+arr[0].data[i].assigned_by_name+' / '+arr[0].data[i].assigned_date;
 
         export_datas.push(op_json);
-        console.log(export_datas);
+        // console.log(export_datas);
          }
          this.excelService.exportAsExcelFile(export_datas, ca_data.table);
     }else{

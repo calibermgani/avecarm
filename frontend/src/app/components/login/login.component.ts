@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
     user_name: null,
     password:null
   };
+  usernameInputTouched:boolean = false;
+  userpasswordInputTouched:boolean = false;
 
   public error = null;
 
@@ -30,7 +32,7 @@ export class LoginComponent implements OnInit {
     public toastr: ToastrManager,
   ) { }
 
-  onSubmit() { 
+  onSubmit() {
     this.Jarwis.login(this.form).subscribe(
       data => this.handleResponse(data),
       error => this.handleError(error)
@@ -39,9 +41,9 @@ export class LoginComponent implements OnInit {
   }
   handleResponse(data){
     //console.log(data);
-    this.Token.handle(data.access_token); 
-    // this.setus.setId(data.user.id,data.user.firstname,data.role[0],data.user.role_id); 
-    this.setus.setId(data.user.id,data.user.firstname); 
+    this.Token.handle(data.access_token);
+    // this.setus.setId(data.user.id,data.user.firstname,data.role[0],data.user.role_id);
+    this.setus.setId(data.user.id,data.user.firstname);
     this.auth.changeAuthStatus(true);
     if(data.role == 'Admin')
     {
@@ -53,7 +55,7 @@ export class LoginComponent implements OnInit {
     else{
       this.router.navigateByUrl('/practiceList');
     }
-    //console.log("Dat Per",data.permission); 
+    //console.log("Dat Per",data.permission);
     // this.setus.set_type(data.permission);
   }
 
