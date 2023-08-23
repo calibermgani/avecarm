@@ -7,22 +7,22 @@
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+  src: url('../fonts/poppins/Poppins-Regular.ttf');
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
+  src: url('../fonts/poppins/Poppins-Medium.ttf');
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+  src: url('../fonts/poppins/Poppins-Bold.ttf');
 }
 
 @font-face {
   font-family: Poppins-SemiBold;
-  src: url('../fonts/poppins/Poppins-SemiBold.ttf'); 
+  src: url('../fonts/poppins/Poppins-SemiBold.ttf');
 }
 
 
@@ -32,8 +32,8 @@
 [ RESTYLE TAG ]*/
 
 * {
-	margin: 0px; 
-	padding: 0px; 
+	margin: 0px;
+	padding: 0px;
 	box-sizing: border-box;
 }
 
@@ -70,7 +70,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 p {
-	 font-family:'Poppins', sans-serif; 
+	 font-family:'Poppins', sans-serif;
 	font-size: 14px;
 	line-height: 1.7;
 	color: #666666;
@@ -175,7 +175,7 @@ a.txt1 {display:block;line-height: 1.2;}
 }
 
 .container-login100 {
-  width: 100%;  
+  width: 100%;
   min-height: 100vh;
   display: -webkit-box;
   display: -webkit-flex;
@@ -185,12 +185,12 @@ a.txt1 {display:block;line-height: 1.2;}
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
- 
+
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   position: relative;
-  z-index: 1;  
+  z-index: 1;
 }
 
 .container-login100::before {
@@ -234,7 +234,7 @@ a.txt1 {display:block;line-height: 1.2;}
 }
 
 .login100-form-logo {
-  font-size: 60px; 
+  font-size: 60px;
   color: #333333;
 
   display: -webkit-box;
@@ -272,11 +272,11 @@ a.txt1 {display:block;line-height: 1.2;}
   width: 100%;
   position: relative;
   border-bottom: 2px solid #ccc;
-  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .input100 {
-  font-family:'Poppins', sans-serif; 
+  font-family:'Poppins', sans-serif;
   font-size: 16px;
   color: #000000;
   line-height: 1.2;
@@ -289,7 +289,7 @@ a.txt1 {display:block;line-height: 1.2;}
 }
 
 
-/*---------------------------------------------*/ 
+/*---------------------------------------------*/
 .focus-input100 {
   position: absolute;
   display: block;
@@ -396,7 +396,7 @@ a.txt1 {display:block;line-height: 1.2;}
 }
 
 .label-checkbox100 {
-  font-family:'Poppins', sans-serif; 
+  font-family:'Poppins', sans-serif;
   font-size: 13px;
   color: #000;
   line-height: 1.2;
@@ -489,7 +489,7 @@ a.txt1 {display:block;line-height: 1.2;}
   color: #fff !important;
   line-height: 1.2;
 
- 
+
   background: #46a1fc;
 
   position: relative;
@@ -649,7 +649,7 @@ a.txt1 {display:block;line-height: 1.2;}
 a > .ico {
   background-color: grey;
     padding: 10px;
-    
+
 }
 a:hover > .ico {
   background-color: #000;

@@ -3311,7 +3311,7 @@ closedclaims_filter;
   public searchClaims;
   public workordersearch;
   public export_excel_files(type, table_name, search) {
-    console.log(table_name);
+    console.log('Table Name',table_name);
     if (table_name == 'Create_work_order_claims') {
       this.searchClaims = this.createClaimsFind.value;
     } else if (table_name == 'Closed_claims') {
