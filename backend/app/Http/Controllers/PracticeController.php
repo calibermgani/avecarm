@@ -100,7 +100,7 @@ public function getPractices(ApiRequest $request)
 
         foreach($practice_assigned as $practice)
         {
-            $practice_data=Practice::where('id',$practice['practice_id'])->first();
+            $practice_data=Practice::where('id',$practice['practice_id'])->get();
 
             $practiceDbConnection = new DBConnectionController();
             $practiceDbConnection->connectDB($practice['practice_id']);
@@ -119,7 +119,7 @@ public function getPractices(ApiRequest $request)
 
             if($practice_data != null)
             {
-                array_push($practice_list,$practice_data);
+                array_push($practice_list,$practice_data[0]);
             }            
         }
     }
