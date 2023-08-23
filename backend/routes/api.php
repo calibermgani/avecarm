@@ -246,6 +246,7 @@ Route::group([
     Route::post('move_create_work_order', 'ImportController@move_create_work_order');
     Route::post('get_reassigned_users', 'ImportController@get_reassigned_users');
     Route::post('audit_claims_found_user', 'ImportController@audit_claims_found_user');
+    Route::post('get_auditor_list', 'ImportController@get_auditor_list');
 
     Route::post('get_new_claims', 'NewClaimsController@get_new_claims');
     Route::post('fetch_all_claims_export_data', 'ExportController@fetch_all_claims_export_data');

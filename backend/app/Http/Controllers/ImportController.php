@@ -42,7 +42,7 @@ class ImportController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('auth:api', ['except' => ['upload', 'get_upload_table_page', 'getfile', 'template', 'createclaim', 'updatemismatch', 'overwrite', 'overwrite_all', 'get_table_page', 'get_related_calims', 'fetch_export_data', 'get_line_items', 'delete_upload_file', 'process_upload_file', 'get_audit_table_page', 'updateingnore', 'get_file_ready_count', 'updateAutoClose', 'get_payer_name', 'reImport', 'get_reimport_table_page', 'reimport_template','move_create_work_order', 'get_reassigned_users', 'audit_claims_found_user']]);
+    $this->middleware('auth:api', ['except' => ['upload', 'get_upload_table_page', 'getfile', 'template', 'createclaim', 'updatemismatch', 'overwrite', 'overwrite_all', 'get_table_page', 'get_related_calims', 'fetch_export_data', 'get_line_items', 'delete_upload_file', 'process_upload_file', 'get_audit_table_page', 'updateingnore', 'get_file_ready_count', 'updateAutoClose', 'get_payer_name', 'reImport', 'get_reimport_table_page', 'reimport_template','move_create_work_order', 'get_reassigned_users', 'audit_claims_found_user', 'get_auditor_list']]);
   }
 
 
@@ -7180,6 +7180,31 @@ class ImportController extends Controller
       Log::debug('Revoke claims work order error:' . $e->getMessage());
     }
     
+  }
+
+  public function get_auditor_list(LoginRequest $request)
+  {
+
+    try{
+      $practice_dbid = $request->get('practice_dbid');
+      $users = User::where('role_id', 4)->select('id', 'firstname', 'lastname')->get();
+      if($users) {
+        return response()->json([
+          'data' => $users
+          ]);
+      }else {
+        return response()->json([
+          'data' => []
+          ]);
+      }
+      
+
+    }catch(Exception $e) {
+      log::debug('get auditor list error :' .$e->getMessage());
+      throw new Exception('get auditor list error :' .$e->getMessage());
+    }
+    
+
   }
 
   // public function reassign_another_user(LoginRequest $request)
