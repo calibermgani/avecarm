@@ -150,6 +150,8 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
     assignedClaimsFind: FormGroup;
     closedClaimsFind: FormGroup;
     workOrderFind: FormGroup;
+    revokeClaims:FormGroup;
+
 
     qc_notes_data :Array<any> =[];
     qc_notes_data_list=[];
@@ -2919,35 +2921,30 @@ class_change_tab=[];
 user_role_maintainer()
 {
 let role_id=Number(this.setus.get_role_id());
-
+console.log('ROLE_ID',role_id);
   if(role_id == 5 || role_id == 3 || role_id == 2)
   {
     this.user_role=2;
     this.class_change['tab1']='';
     this.class_change['tab2']='active';
-
     this.class_change_tab['tab1']='tab-pane';
     this.class_change_tab['tab2']='tab-pane active'
-
-
-
-
   }
   else if(role_id == 4)
   {
     this.user_role=1;
-
     this.class_change['tab1']='active';
     this.class_change['tab2']='';
-
     this.class_change_tab['tab1']='tab-pane active';
     this.class_change_tab['tab2']='tab-pane'
-
-
   }
-
-
-
+  else if(role_id ==16){
+    this.user_role =16;
+    this.class_change['tab1']='active';
+    this.class_change_tab['tab1']='tab-pane active';
+    this.class_change_tab['tab2']='tab-pane';
+    this.class_change_tab['tab6']='tab-pane';
+  }
 }
 
 graphStatus()
@@ -3090,6 +3087,11 @@ this.workOrder = new FormGroup({
   wo_notes: new FormControl('', [Validators.required])
 });
 
+this.revokeClaims = this.formBuilder.group({
+  from_auditor : ['',Validators.required],
+  to_auditor:['',Validators.required]
+})
+
 const debouncetime = pipe(debounceTime(700));
 this.search_data.valueChanges.pipe(debouncetime)
 .subscribe( result => this.sort_data(result)
@@ -3103,6 +3105,16 @@ this.filter_option.valueChanges
 this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
   this.touch_count = message });
   //this.graphStatus();
+}
+
+selectedUserId:any;
+
+onSelectedOptionChange(){
+
+}
+
+move_To_Other_Auditor(){
+
 }
 
 ngAfterViewInit()

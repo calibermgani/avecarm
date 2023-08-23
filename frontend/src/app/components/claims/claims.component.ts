@@ -4134,17 +4134,23 @@ closedclaims_filter;
   }
 
   user_role: Number = 0;
+  class_change:any = [];
+  class_change_tab:any = [];
   user_role_maintainer() {
     let role_id = Number(this.setus.get_role_id());
-    console.log(role_id);
+    console.log('ROLE_ID',role_id);
     if (role_id == 5 || role_id == 3 || role_id == 2) {
       this.user_role = 2;
+      this.class_change['tab1'] = 'active';
+      this.class_change_tab['tab1'] = 'active';
     }
     else if (role_id == 1) {
       this.user_role = 1;
     }
     else if (role_id == 16){
       this.user_role = 16;
+      this.class_change['tab6']='active'
+      this.class_change_tab['tab6']='active'
     }
     else if (role_id == 11){
       this.user_role = 16;

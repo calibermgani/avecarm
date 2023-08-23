@@ -1,0 +1,1 @@
+{"patient_name":["true","notify"],"primary_group_id":["true","notify"],"primary_insurance_address_line_1":["true","notify"],"denial_code":["true","notify"],"billedlast_submit_date":["true","notify"]}

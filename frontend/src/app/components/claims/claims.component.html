@@ -6,7 +6,7 @@
         <ngx-loading-bar color="#f39c12"></ngx-loading-bar>
         <div class="tabs nav-tabs-custom">
           <ul class="tabs nav nav-tabs" id="myTab">
-            <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)" class="active"><a href="#tab_1"
+            <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)" [ngClass]="class_change.tab1"><a href="#tab_1"
                 (click)="get_graph_stats()" role="tab" data-toggle="tab" style="padding-left: 0px;"><i
                   class="fa fa-file-text"></i> Analytics <span class="tab-divider">|</span></a></li>
             <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)" class=""><a href="#tab_2"
@@ -34,14 +34,14 @@
             <li *ngIf="(user_role == 1 || user_role == 2 || !user_role == 16)" class=""><a href="#tab_8"
                 (click)="get_userlist();" data-toggle="tab" style="padding-left: 0px;"><i class="fa fa-users"></i> Revoke
                 Claims <span class="tab-divider">|</span></a></li>
-            <li *ngIf="(user_role == 1 || user_role == 2 || user_role == 16)" class=""><a href="#tab_6"
+            <li *ngIf="(user_role == 1 || user_role == 2 || user_role == 16)" class="" [ngClass]="class_change.tab6"><a href="#tab_6"
                   (click)="get_statuscodes();pageChange(1,'all_claim',null,null,null,null,null,null);" data-toggle="tab"
                   style="padding-left: 0px;"><i class="fa fa-user"></i> All Claims</a>
             </li>
 
           </ul>
           <div class="tab-content no-padding">
-            <div class="tab-pane active" id="tab_1">
+            <div class="tab-pane" id="tab_1" [ngClass]="class_change_tab['tab1']">
               <h3>Claim Reports</h3>
             </div>
             <div class="tab-pane " id="tab_2">
@@ -1861,7 +1861,6 @@
                         </div>
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -3048,7 +3047,7 @@
                   Date : 07/01/2023
                   Purpose : All Claims report show -->
 
-            <div class="tab-pane " id="tab_6">
+            <div class="tab-pane " id="tab_6" [ngClass]="class_change_tab['tab6']">
               <div class="box no-shadow no-border">
                 <div class="box-body no-padding">
                   <div class="row">
