@@ -4301,6 +4301,7 @@ class AuditController extends Controller
       $user_id = $request->get('user_id');
       $new_user_id = $request->get('new_user_id');
       $audit_mgr_id = $request->get('audit_mgr_id');
+      $practice_dbid = $request->get('practice_dbid');
 
       $assign = [];
 
