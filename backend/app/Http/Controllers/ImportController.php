@@ -7184,27 +7184,22 @@ class ImportController extends Controller
 
   public function get_auditor_list(LoginRequest $request)
   {
-
-    try{
+    try {
       $practice_dbid = $request->get('practice_dbid');
       $users = User::where('role_id', 4)->select('id', 'firstname', 'lastname')->get();
-      if($users) {
+      if ($users) {
         return response()->json([
           'data' => $users
-          ]);
-      }else {
+        ]);
+      } else {
         return response()->json([
           'data' => []
-          ]);
+        ]);
       }
-      
-
-    }catch(Exception $e) {
-      log::debug('get auditor list error :' .$e->getMessage());
-      throw new Exception('get auditor list error :' .$e->getMessage());
+    } catch (Exception $e) {
+      log::debug('get auditor list error :' . $e->getMessage());
+      throw new Exception('get auditor list error :' . $e->getMessage());
     }
-    
-
   }
 
   // public function reassign_another_user(LoginRequest $request)

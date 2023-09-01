@@ -32,6 +32,7 @@ use App\Models\FYIParameter;
 use App\Models\ParentParameter;
 use App\Models\SubParameter;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 
 
@@ -40,7 +41,7 @@ class AuditController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('auth:api', ['except' => ['get_audit_claim_details', 'get_auditors', 'create_audit_workorder', 'fetch_export_data', 'get_audit_codes', 'auto_assign_claims', 'audit_assigned_order_list', 'auto_assigned', 'get_error_param_codes', 'get_fyi_param_codes', 'get_sub_error_param_codes']]);
+    $this->middleware('auth:api', ['except' => ['get_audit_claim_details', 'get_auditors', 'create_audit_workorder', 'fetch_export_data', 'get_audit_codes', 'auto_assign_claims', 'audit_assigned_order_list', 'auto_assigned', 'get_error_param_codes', 'get_fyi_param_codes', 'get_sub_error_param_codes', 'change_auditor']]);
   }
 
   //Get Audit Claim Details
@@ -4293,4 +4294,76 @@ class AuditController extends Controller
       return Response::json(['status' => '400', 'sub_param_datas' => $getSubParamCode]);
     }
   }
-}
+
+  public function change_auditor(LoginRequest $request)
+  {
+    try {
+      $user_id = $request->get('user_id');
+      $new_user_id = $request->get('new_user_id');
+      $audit_mgr_id = $request->get('audit_mgr_id');
+
+      $assign = [];
+
+      $claimInfo = Claim_history::orderBy('id', 'desc')->get()->unique('claim_id')->toArray();
+      $claimQcInfos = Qc_note::where('error_type', '[4]')->orderBy('id', 'desc')->get(['claim_id'])->unique('claim_id')->toArray();
+
+      foreach ($claimInfo as $claimList) {
+        if (isset($claimList) && $claimList['claim_state'] == 5 && $claimList['assigned_to'] == $user_id) {
+          array_push($assign, $claimList['claim_id']);
+        }
+      }
+      foreach ($claimQcInfos as $claimQcInfo) {
+        if (isset($claimQcInfo)) {
+          array_push($assign, $claimQcInfo['claim_id']);
+        }
+      }
+
+
+
+      if (isset($user_id) && $user_id != "null") {
+        // $audit_datas = Import_field::select('claim_no')
+        //                 ->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')
+        //                 ->leftjoin('claim_histories', 'claim_histories.claim_id', '=', 'import_fields.claim_no')
+        //                 ->whereIn('claim_Status', ['Audit', 'Auditing'])
+        //                 ->where('claim_histories.assigned_to', $user_id)
+        //                 ->groupby('claim_histories.claim_id')
+        //                 ->get();
+        $claim_datas = Import_field::leftjoin(DB::raw("(SELECT claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
+                        AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
+          $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
+        })->leftjoin(DB::raw("(SELECT claim_histories.claim_id,claim_histories.created_at as created_ats FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories 
+                        GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id) as claim_histories"), function ($join) {
+          $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
+        })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')
+        ->whereIN('claim_no', $assign)->where('claim_closing', '!=', 1)->get();
+
+        // dd($claim_datas);
+
+        if (isset($new_user_id) && $new_user_id != 'null') {
+          foreach ($claim_datas as $claim_data) {
+            $audit_change = Claim_history::where('assigned_to', $user_id)->update([
+              'assigned_by' => $audit_mgr_id,
+              'assigned_to' => $new_user_id,
+              'previous_auditor_id' => $claim_data['assigned_to'],
+              'previous_audit_mgr_id' => $claim_data['assigned_by'],
+            ]);
+          }
+          return response()->json([
+            'status' => 200,
+            'reimport_msg' => "New Auditor Set Successfully"
+          ]);
+        } else {
+          return response()->json([
+            'status' => 204,
+            'reimport_msg' => "new user id not has been set"
+          ]);
+        }
+      }
+    } catch (Exception $e) {
+      Log::debug('Change Auditor Error : ' . $e->getMessage());
+      throw new Exception('Change Auditor Error : ' . $e->getMessage());
+    }
+  }
+
+} 
+

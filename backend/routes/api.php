@@ -250,5 +250,6 @@ Route::group([
 
     Route::post('get_new_claims', 'NewClaimsController@get_new_claims');
     Route::post('fetch_all_claims_export_data', 'ExportController@fetch_all_claims_export_data');
+    Route::post('change_auditor', 'AuditController@change_auditor');
 
 });
