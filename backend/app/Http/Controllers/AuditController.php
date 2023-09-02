@@ -4332,7 +4332,7 @@ class AuditController extends Controller
         $claim_datas = Import_field::leftjoin(DB::raw("(SELECT claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
                         AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
           $join->on('claim_notes.claim_id', '=', 'import_fields.claim_no');
-        })->leftjoin(DB::raw("(SELECT claim_histories.claim_id,claim_histories.created_at as created_ats FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories 
+        })->leftjoin(DB::raw("(SELECT claim_histories.claim_id, claim_histories.claim_state, claim_histories.assigned_by AS assign_by, claim_histories.assigned_to AS assign_to, claim_histories.created_at as created_ats FROM claim_histories WHERE claim_histories.id IN (SELECT MAX(id) FROM claim_histories 
                         GROUP BY claim_histories.claim_id) GROUP BY claim_histories.claim_id) as claim_histories"), function ($join) {
           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
         })->leftjoin('qc_notes', 'import_fields.claim_no', '=', 'qc_notes.claim_id')
@@ -4345,18 +4345,18 @@ class AuditController extends Controller
             $audit_change = Claim_history::where('assigned_to', $user_id)->update([
               'assigned_by' => $audit_mgr_id,
               'assigned_to' => $new_user_id,
-              'previous_auditor_id' => $claim_data['assigned_to'],
-              'previous_audit_mgr_id' => $claim_data['assigned_by'],
+              'previous_auditor_id' => $claim_data['assign_to'],
+              'previous_audit_mgr_id' => $claim_data['assign_by'],
             ]);
           }
           return response()->json([
             'status' => 200,
-            'reimport_msg' => "New Auditor Set Successfully"
+            'message' => "New Auditor Set Successfully"
           ]);
         } else {
           return response()->json([
             'status' => 204,
-            'reimport_msg' => "new user id not has been set"
+            'message' => "new user id not has been set"
           ]);
         }
       }
