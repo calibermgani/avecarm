@@ -3441,7 +3441,7 @@ closedclaims_filter;
     console.log(this.line_data);
   }
 
-  touch_count: number;
+  touch_count: number = 0;
 
   reload_data(page) {
 
@@ -4207,7 +4207,7 @@ closedclaims_filter;
     this.get_initial_values();
     if (this.touch_count == undefined) {
       this.touch_count = this.notify_service.manual_touch_limit();
-      console.log(this.touch_count);
+      console.log('Touch Count ',this.touch_count);
     }
   }
 

@@ -51,7 +51,7 @@
               "vendorChunk": false,
               "buildOptimizer": true
             },
-            "dev": {
+            "development": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -65,7 +65,7 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.local.ts"
                 }
-              ]              
+              ]
             }
           }
         },
@@ -83,7 +83,7 @@
             },
             "dev": {
               "browserTarget": "frontend:build:dev"
-            }            
+            }
           }
         },
         "extract-i18n": {

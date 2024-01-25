@@ -23,7 +23,7 @@
 
                 <!-- <a class="navbar-brand" routerLink="login" *ngIf="!loggedIn">Login</a> -->
                 <!-- <a class="navbar-brand" routerLink="registration" *ngIf="!loggedIn">Register</a> -->
-                
+
                     <ul class="nav navbar-nav" *ngIf="loggedIn">
                         <!-- Messages: style can be found in dropdown.less-->
 
@@ -36,7 +36,7 @@
                                 <i class="fa fa-bell-o faa-ring animated"></i>
                                 <span class="label label-warning">10</span>
                             </a>
-                            <ul class="dropdown-menu">                                       
+                            <ul class="dropdown-menu">
                                 <li>
                                     <!-- Inner Menu: contains the notifications -->
                                     <ul class="menu">
@@ -57,7 +57,7 @@
                                                 <i class="fa fa-file-text text-green"></i> <b class="text-green">{{pending_claim_count}}</b> Unassigned Claims
                                             </a>
                                         </li>
-                                        
+
                                         <li><!-- start notification -->
                                             <a routerLink="/followup">
                                                 <i class="fa fa-file-text text-danger"></i> <b class="text-danger">27</b> Pending Claims
@@ -67,7 +67,7 @@
                                         <!-- end notification -->
                                     </ul>
                                 </li>
-                                
+
                             </ul>
                         </li>
 
@@ -89,7 +89,7 @@
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
                                     <img src="assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-    
+
                                     <p>
                                         {{user}}
                                         <small>{{user_role}}</small>
@@ -125,8 +125,8 @@
                             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                         </li> -->
                     </ul>
-              
-           
+
+
             </div>
             <!-- /.navbar-custom-menu -->
         </div>
@@ -137,7 +137,7 @@
 
     <nav class="navbar" style="background: #686c7d" *ngIf="loggedIn && practiceLogIn">
         <div class="container" style="padding:0">
-        
+
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse" style="padding:0">
                 <ul class="nav navbar-nav" (change)="monitor_change()">
@@ -147,16 +147,16 @@
                     <li routerLinkActive="active" *ngIf="user_type.includes('claims')"  ><a routerLink="claims" class=""><i class="fa fa-file-text-o p-r-5 text-gray"></i> Claims
                             <span>&nbsp;</span></a></li>
                             <li routerLinkActive="active" *ngIf="user_type.includes('followup')"><a routerLink ="followup" class=""><i class="fa fa-exchange p-r-5 text-gray"></i>  Followup  <span>&nbsp;</span></a></li>
-                   
-                    
+
+
                     <li routerLinkActive="active" *ngIf="user_type.includes('audit')"><a routerLink ="audit" class=""><i class="fa fa-vcard p-r-5 text-gray"></i>  Audit  <span>&nbsp;</span></a></li>
-                    <li routerLinkActive="active" *ngIf="user_type.includes('rcm')"><a routerLink ="rcm" class=""><i class="fa fa-file-text-o p-r-5 text-gray"></i>  Billing  <span>&nbsp;</span></a></li>
+                    <!-- <li routerLinkActive="active" *ngIf="user_type.includes('rcm')"><a routerLink ="rcm" class=""><i class="fa fa-file-text-o p-r-5 text-gray"></i>  Billing  <span>&nbsp;</span></a></li> -->
                     <li routerLinkActive="active" *ngIf="user_type.includes('client_assistance')"><a routerLink ="client_assistance" class=""><i class="fa fa-user p-r-5 text-gray"></i>  Client Assistance  <span>&nbsp;</span></a></li>
-                    <li routerLinkActive="active" *ngIf="user_type.includes('rcm')"><a routerLink ="documents" class=""><i class="fa fa-file-text p-r-5 text-gray"></i>  Documents  <span>&nbsp;</span></a></li>
+                    <!-- <li routerLinkActive="active" *ngIf="user_type.includes('rcm')"><a routerLink ="documents" class=""><i class="fa fa-file-text p-r-5 text-gray"></i>  Documents  <span>&nbsp;</span></a></li> -->
                     <li routerLinkActive="active" *ngIf="user_type.includes('settings')"><a routerLink ="settings" class=""><i class="fa fa-gears p-r-5 text-gray"></i> Settings <span>&nbsp;</span></a></li>
                     <li routerLinkActive="active" *ngIf="user_type.includes('reports')"><a routerLink ="reports" class=""><i class="fa fa-file-text p-r-5 text-gray"></i> Reports <span>&nbsp;</span></a></li>
                     <li routerLinkActive="active" *ngIf="user_type.includes('vendorCreation')"><a routerLink ="vendorCreation" class=""><i class="fa fa-gears p-r-5 text-gray"></i> Vendors <span>&nbsp;</span></a></li>
-                    <li routerLinkActive="active" *ngIf="user_type.includes('practice')"><a routerLink ="practice"><i class="fa fa-medkit p-r-5 text-gray"></i> Practice <span>&nbsp;</span></a></li> 
+                    <li routerLinkActive="active" *ngIf="user_type.includes('practice')"><a routerLink ="practice"><i class="fa fa-medkit p-r-5 text-gray"></i> Practice <span>&nbsp;</span></a></li>
                     <li routerLinkActive="active" *ngIf="user_type.includes('users')"><a routerLink ="users" class=""><i class="fa fa-gears p-r-5 text-gray"></i> Users <span>&nbsp;</span></a></li>
                     <li routerLinkActive="active" *ngIf="user_type.includes('errorlog')"><a routerLink ="errorlog" class=""><i class="fa fa-gears p-r-5 text-gray"></i> Error Log <span>&nbsp;</span></a></li>
                     <li routerLinkActive="active" *ngIf="user_type.includes('medcubics')"><a routerLink ="medcubics" class=""><i class="fa fa-gears p-r-5 text-gray"></i> Medcubics <span>&nbsp;</span></a></li>
@@ -165,7 +165,7 @@
                 </ul>
 
             </div>
-            <div class="navbar-custom-menu" *ngIf="user_type.includes('practiceList')">                
+            <div class="navbar-custom-menu" *ngIf="user_type.includes('practiceList')">
                 <button class="btn btn-info btn-xs btn-flat pull-left" style="margin-top:13px;"><a routerLink ="practiceList" (click)="changePractice()" style="color:#fff;">Change Practice &emsp;</a></button>
                 <div class="pull-right prac-name" data-toggle="tooltip" title="{{practice_name}}" data-placement="bottom">{{practice_name}}</div>
             </div>
@@ -312,18 +312,18 @@
                 <h4 class="font600" style="border-bottom: 1px solid #2f3b40; padding-bottom: 5px;"><span class="ar-blue">New Tasks</span></h4>
                 <p contenteditable="true" style="padding-bottom: 10px;"><i class="fa fa-check-circle" style="color:#72848c;margin-right:5px;"></i> Call Atena by 5pm <span class="pull-right"><i>09/21</i></span></p>
                 <p style="padding-bottom: 10px;"><i class="fa fa-check-circle" style="color:#72848c;margin-right:5px;"></i> Client call <span class="pull-right"><i>09/26</i></span></p>
-                
+
                 <h4 class="font600" style="border-bottom: 1px solid #2f3b40;margin-top:20px; padding-bottom: 5px;"><span class="ar-blue">Today</span></h4>
                 <p style="padding-bottom: 10px; text-decoration: line-through"> Audit the claims <i class="fa fa-check-circle pull-right text-green"></i></p>
                 <p contenteditable="true" style="padding-bottom: 10px;"> Team Meeting <i class="fa fa-check-circle pull-right text-green"></i></p>
                 <p style="padding-bottom: 10px;" class="text-gray"> Client Call <i class="fa fa-check-circle pull-right" style="color:#72848c"></i></p>
                 <p contenteditable="true" style="padding-bottom: 10px;" class="text-gray"> Client Assistance <i class="fa fa-check-circle pull-right" style="color:#72848c"></i></p>
-                
+
                 <h4 class="font600" style="border-bottom: 1px solid #2f3b40; margin-top:20px; padding-bottom: 5px;"><span class="ar-blue">Upcoming Tasks</span></h4>
                 <p style="padding-bottom: 10px;"><i class="fa fa-check-circle" style="color:#72848c;margin-right:5px;"></i> Call Atena by 5pm <span class="pull-right"><i>09/21</i></span></p>
                 <p style="padding-bottom: 10px;"><i class="fa fa-check-circle text-green" style="color:#72848c;margin-right:5px;"></i> Send audit report <span class="pull-right"><i>09/26</i></span></p>
-                
-                
+
+
 
             </div>
             <!-- /.control-sidebar-menu -->
@@ -388,47 +388,47 @@
             </ul>
 
 
-            
+
         </div>
         <!-- /.tab-pane -->
     </div>
 </aside>
 
 <ng-template  #confirm_modal let-modal>
-    
+
     <div class="modal-header" style="border-radius: 8px 8px 0px 0px;">
         <button type="button" class="close mfp-close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
             <span aria-hidden="true" class="mfp-close">×</span></button>
         <h4 class="modal-title list-heading"><i class="fa fa-bell-o faa-ring animated"></i> Notifications</h4>
       </div>
       <div class="modal-body">
-        
-        
-        <div class="col-lg-12 no-padding">                                
+
+
+        <div class="col-lg-12 no-padding">
             <table class="table table-striped1 no-border" style="font-size: 15px;">
-                
+
                 <tbody><tr>
-                    <td class="table-label"><i class="fa fa-file-text text-green"></i>&emsp; {{notify_data.new}} &nbsp; New Claims</td>                                        
+                    <td class="table-label"><i class="fa fa-file-text text-green"></i>&emsp; {{notify_data.new}} &nbsp; New Claims</td>
                 </tr>
-                
+
                 <tr>
-                    <td class="table-label"><i class="fa fa-envelope text-aqua"></i>&emsp; 5 &nbsp; New Messages</td>                                        
+                    <td class="table-label"><i class="fa fa-envelope text-aqua"></i>&emsp; 5 &nbsp; New Messages</td>
                 </tr>
                 <tr>
-                    <td class="table-label"><i class="fa fa-bell text-danger"></i>&emsp; {{notify_data.deadline}} &nbsp; Claims in Deadline</td>                                        
+                    <td class="table-label"><i class="fa fa-bell text-danger"></i>&emsp; {{notify_data.deadline}} &nbsp; Claims in Deadline</td>
                 </tr>
-               
+
             </tbody></table>
-            
+
             <button class="btn btn-info" data-dismiss="modal" aria-label="Close" style="min-width: 100px;" (click)="modal.dismiss()">Ok</button>
-            
+
         </div>
-        
-        
-        
+
+
+
       </div>
       <div class="modal-footer">
-      
+
       </div>
   </ng-template>
 

@@ -1292,7 +1292,7 @@ check_reassign_alloc(claim)
 //     );
 // }
 
-touch_count:number;
+touch_count:number = 0;
 // set_prac_settings(data)
 // {
 //   let prac_data=data.data;
@@ -1648,7 +1648,7 @@ onselectvalue(value) {
   this.selected_val = value;
   }
   else{
-    this.selected_val = null;      
+    this.selected_val = null;
     this.isValueSelected = false;
   }
 }

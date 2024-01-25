@@ -1687,7 +1687,7 @@ public updatenotes(type){
   //     data =>this.set_prac_settings(data)
   //     );
   // }
-  touch_count:number;
+  touch_count:number = 0;
   // set_prac_settings(data)
   // {
   //   let prac_data=data.data;

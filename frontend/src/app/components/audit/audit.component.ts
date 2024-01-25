@@ -14,6 +14,7 @@ import { debounceTime } from 'rxjs/operators';
 import { pipe } from 'rxjs/util/pipe';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-audit',
@@ -39,6 +40,8 @@ export class AuditComponent implements OnInit,OnDestroy,AfterViewInit {
   closed_results: any[] = [];
   auditQueue_results: any[] = [];
   searchResults: any[] = [];
+  getAuditorList:any[]=[];
+  UpdatedAuditorList:any[]=[];
   assignedSelected:boolean = false;
   assigned_selected_val:any = null;
   reassignedSelected:boolean = false;
@@ -596,21 +599,25 @@ total_rows;
 skip_rows;
 current_rows;
 totals;
-audit_claim_data;
+public audit_claim_data = [];
 //Assign Table data and `total values
 public assign_page_data(data)
 {
-  this.table_datas=data.data;
-  this.audit_claim_data = data.audit_claim_data;
-  this.total=data.total;
+  console.log('asasas',data)
+  if(data){
+    this.table_datas=data.data;
+    this.audit_claim_data = data.audit_claim_data;
+    this.total=data.total;
 
-  this.totals=data.total;
-  this.current_totals= data.current_total;
-  this.skips = data.skip + 1;
+    this.totals=data.total;
+    this.current_totals= data.current_total;
+    this.skips = data.skip + 1;
 
-  this.skip_rows = this.skips;
-  this.current_rows = this.skips + this.current_totals - 1;
-  this.total_rows = this.total;
+    this.skip_rows = this.skips;
+    this.current_rows = this.skips + this.current_totals - 1;
+    this.total_rows = this.total;
+
+  }
 
 }
 searchData:string;
@@ -1984,8 +1991,8 @@ assign_sub_error_codes(data){
 
   //Check All function
   public check_all: Array<any> =[];
-  public selected_claims=[];
-  public selected_claim_nos=[];
+  public selected_claims:any=[];
+  public selected_claim_nos:any=[];
   public check_all_assign(page,event)
   {
   if( event.target.checked == true)
@@ -1999,11 +2006,13 @@ assign_sub_error_codes(data){
 
   //Manage Selected claims
   assigned_claim_nos:number=0;
-  public selected(event,claim,index)
+  public selected(event:any,claim:any,index:number)
   {
+    console.log('Claims',claim)
     if(claim == 'all' && event.target.checked == true )
     {
-      let audit_claim_data = this.audit_claim_data;
+      let audit_claim_data :any = []
+      audit_claim_data = this.audit_claim_data;
       let claim_nos=this.selected_claim_nos;
       let claim_data= this.selected_claims;
       audit_claim_data.forEach(function (value) {
@@ -2029,9 +2038,12 @@ assign_sub_error_codes(data){
     }
     else if(event.target.checked == true)
     {
-      this.selected_claims.push(this.audit_claim_data[index]);
-      this.selected_claim_nos.push(claim);
-      console.log(this.selected_claim_nos);
+      console.log('audi',this.audit_claim_data);
+      // if(this.audit_claim_data && index >=0){
+        this.selected_claims.push(this.audit_claim_data[index]);
+        this.selected_claim_nos.push(claim);
+        console.log(this.selected_claim_nos);
+      // }
       }
       else if(event.target.checked == false)
       {
@@ -2739,7 +2751,7 @@ console.log("AA_Op",this.selected_claim_nos);
 //      );
 //  }
 
- touch_count:number;
+ touch_count:number = 0;
 //  set_prac_settings(data)
 //  {
 //    let prac_data=data.data;
@@ -3105,15 +3117,36 @@ this.filter_option.valueChanges
 this.subscription=this.notify_service.fetch_touch_limit().subscribe(message => {
   this.touch_count = message });
   //this.graphStatus();
+
+  this.Jarwis.auditor_list().subscribe({
+    next:(data:any)=>{
+      this.getAuditorList = data.data;
+      console.log('Get Auditor List',this.getAuditorList);
+    },
+    error:(error:any)=>{
+      console.log('Error in Auditor List',error);
+    }
+  })
 }
 
-selectedUserId:any;
+select_from_auditor:any='Select User';
+select_to_auditor:any='Select User';
 
 onSelectedOptionChange(){
-
+  this.UpdatedAuditorList = [];
+  let x = this.revokeClaims.controls['from_auditor'].value;
+  console.log('Auditor Name',x);
+  this.getAuditorList.forEach((data:any)=>{
+    if(data.id != x){
+      this.UpdatedAuditorList.push(data);
+    }
+  });
+  console.log('updated list',this.UpdatedAuditorList);
 }
 
 move_To_Other_Auditor(){
+  console.log('Form Auditor',this.revokeClaims.controls['from_auditor'].value);
+  console.log('TO Auditor',this.revokeClaims.controls['to_auditor'].value);
 
 }
 

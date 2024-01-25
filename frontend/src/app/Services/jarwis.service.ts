@@ -1181,5 +1181,15 @@ export class JarwisService {
     let result = this.http.post(`${this.baseUrl}/audit_claims_found_user`, formdata);
     return result;
   }
+
+  auditor_list(){
+    let data = { practice_dbid: localStorage.getItem('practice_id') };
+    return this.http.post(`${this.baseUrl}/get_auditor_list`,data);
+  }
+
+  move_To_OtherAuditor(user_id:any,new_user_id:any,audit_mgr_id:any){
+    let data = {user_id:'',new_user_id:'',audit_mgr_id:'',practice_dbid: localStorage.getItem('practice_id')};
+    return this.http.post(`${this.baseUrl}/change_auditor`,data);
+  }
 }
 

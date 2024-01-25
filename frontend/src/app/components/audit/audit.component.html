@@ -831,54 +831,40 @@
                                                                </ng-template> -->
 
                                           <td class="cur-pointer"
-                                            (click)="open(claimpage);note_refresh();claimslection(x);"
-                                            (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent"
-                                              content-type="template" tooltip-class="tooltip-feedback"
-                                              [options]="tooltipOptions" tooltip-append-to-body="true"><span
+                                            (click)="open(claimpage);note_refresh();claimslection(x);"><span
                                                 *ngIf="x.claim_no==NULL">-Nil-</span><span
-                                                *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
+                                                *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></td>
 
-                                          <td class="cur-pointer" (mouseover)="tooltip(x)" class="dos-date"><span
-                                              [tooltip]="HtmlContent" content-type="template"
-                                              tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                              tooltip-append-to-body="true"><span *ngIf="x.dos==NULL">-Nil-</span><span
-                                                *ngIf="x.dos!=NULL">{{x.dos | date: 'MM/dd/yyyy'}}</span></span></td>
+                                          <td class="cur-pointer" class="dos-date"><span *ngIf="x.dos==NULL">-Nil-</span><span
+                                                *ngIf="x.dos!=NULL">{{x.dos | date: 'MM/dd/yyyy'}}</span></td>
 
-                                          <td class="cur-pointer" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent"
-                                              content-type="template" tooltip-class="tooltip-feedback"
-                                              [options]="tooltipOptions" tooltip-append-to-body="true"><span
+                                          <td class="cur-pointer"><span
                                                 *ngIf="x.age==NULL">-Nil-</span><span
                                                 *ngIf="x.age!=NULL && x.age > 0">{{x.age}}</span><span
-                                                *ngIf="x.age <= 0">{{x.age}}</span></span></td>
+                                                *ngIf="x.age <= 0">{{x.age}}</span></td>
 
                                           <td class="cur-pointer"
-                                            (click)="open(claimpage);note_refresh();claimslection(x);"
-                                            (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template"
-                                              tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                              tooltip-append-to-body="true"><span
+                                            (click)="open(claimpage);note_refresh();claimslection(x);"><span
                                                 *ngIf="x.acct_no==NULL">-Nil-</span><span
-                                                *ngIf="x.acct_no!=NULL">{{x.acct_no}}</span></span></td>
+                                                *ngIf="x.acct_no!=NULL">{{x.acct_no}}</span></td>
 
                                           <td class="cur-pointer"
-                                            (click)="open(claimpage);note_refresh();claimslection(x);"
-                                            (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template"
-                                              tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                              tooltip-append-to-body="true"><span
+                                            (click)="open(claimpage);note_refresh();claimslection(x);"><span
                                                 *ngIf="x.patient_name==NULL">-Nil-</span><span
-                                                *ngIf="x.patient_name!=NULL">{{x.patient_name}}</span></span></td>
+                                                *ngIf="x.patient_name!=NULL">{{x.patient_name}}</span></td>
 
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td ><span
                                               *ngIf="x.rendering_prov==NULL">-Nil-</span><span
                                               *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
 
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td ><span
                                               *ngIf="x.responsibility==NULL">-Nil-</span><span
                                               *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td ><span
                                               *ngIf="x.billed_submit_date==NULL || x.billed_submit_date==''">-Nil-</span><span
                                               *ngIf="x.billed_submit_date!=NULL || x.billed_submit_date!=''">{{x.billed_submit_date}}</span>
                                           </td>
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td ><span
                                               *ngIf="x.denial_code==NULL || x.denial_code==''">-Nil-</span><span
                                               *ngIf="x.denial_code!=NULL || x.denial_code!=''">{{x.denial_code}}</span>
                                           </td>
@@ -889,20 +875,20 @@
 
                                                                <td (mouseover)="tooltip(x)" class="cur-pointer"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td ><span
                                               *ngIf="x.status_code==NULL">-Nil-</span><span
                                               *ngIf="x.status_code!=NULL">{{x.statuscode}}</span></td>
 
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td ><span
                                               *ngIf="x.substatus_code==NULL">-Nil-</span><span
                                               *ngIf="x.substatus_code!=NULL">{{x.substatuscode}}</span></td>
 
-                                          <td (mouseover)="tooltip(x)" class="cur-pointer"><span
+                                          <td  class="cur-pointer"><span
                                               *ngIf="x.total_charges==NULL">-Nil-</span><span
                                               *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span>
                                           </td>
 
-                                          <td (mouseover)="tooltip(x)" class="cur-pointer ar-total"><span
+                                          <td class="cur-pointer ar-total"><span
                                               [tooltip]="TotalAr" content-type="template"
                                               tooltip-class="tooltip-feedback" [options]="tooltipOptions"
                                               tooltip-append-to-body="true"><span
@@ -910,11 +896,11 @@
                                                 *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span>
                                           </td>
 
-                                          <td (mouseover)="tooltip(x)" class="cur-pointer"><span
+                                          <td class="cur-pointer"><span
                                               *ngIf="x.claim_Status==NULL">-Nil-</span><span
                                               *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
-                                          <td (mouseover)="tooltip(x)" class="cur-pointer"><span
+                                          <td class="cur-pointer"><span
                                               *ngIf="x.claims_notes==NULL">-Nil-</span><span
                                               *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle"
                                                 aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
@@ -1344,59 +1330,44 @@
                                           </ng-template>
 
                                           <td class="cur-pointer"
-                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"
-                                            (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent"
-                                              content-type="template" tooltip-class="tooltip-feedback"
-                                              [options]="tooltipOptions" tooltip-append-to-body="true"><span
+                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"><span
                                                 *ngIf="x.claim_no==NULL">-Nil-</span><span
-                                                *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
+                                                *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></td>
 
                                           <td *ngIf="x.dos != '01/01/1970'" class="cur-pointer dos-date"
-                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"
-                                            (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent"
-                                              content-type="template" tooltip-class="tooltip-feedback"
-                                              [options]="tooltipOptions" tooltip-append-to-body="true"><span
+                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"><span
                                                 *ngIf="x.dos==NULL">-Nil-</span><span *ngIf="x.dos!=NULL">{{x.dos |
-                                                date: 'MM/dd/yyyy'}}</span></span></td>
+                                                date: 'MM/dd/yyyy'}}</span></td>
 
                                           <td class="cur-pointer"
-                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"
-                                            (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent"
-                                              content-type="template" tooltip-class="tooltip-feedback"
-                                              [options]="tooltipOptions" tooltip-append-to-body="true"><span
+                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"><span
                                                 *ngIf="x.age==NULL">-Nil-</span><span
                                                 *ngIf="x.age!=NULL && x.age > 0">{{x.age}}</span><span
-                                                *ngIf="x.age <= 0">0</span></span></td>
+                                                *ngIf="x.age <= 0">0</span></td>
 
                                           <td class="cur-pointer"
-                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"
-                                            (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template"
-                                              tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                              tooltip-append-to-body="true"><span
+                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"><span
                                                 *ngIf="x.acct_no==NULL">-Nil-</span><span
-                                                *ngIf="x.acct_no!=NULL">{{x.acct_no }}</span></span></td>
+                                                *ngIf="x.acct_no!=NULL">{{x.acct_no }}</span></td>
 
                                           <td class="cur-pointer"
-                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"
-                                            (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template"
-                                              tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                              tooltip-append-to-body="true"><span
+                                            (click)="open(claimpage);note_refresh();claimslection(x);check_reassign_alloc();"><span
                                                 *ngIf="x.patient_name==NULL">-Nil-</span><span
-                                                *ngIf="x.patient_name!=NULL">{{x.patient_name }}</span></span></td>
+                                                *ngIf="x.patient_name!=NULL">{{x.patient_name }}</span></td>
 
 
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td><span
                                               *ngIf="x.rendering_prov==NULL">-Nil-</span><span
                                               *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span></td>
 
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td><span
                                               *ngIf="x.responsibility==NULL">-Nil-</span><span
                                               *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span></td>
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td><span
                                               *ngIf="x.billed_submit_date==NULL || x.billed_submit_date==''">-Nil-</span><span
                                               *ngIf="x.billed_submit_date!=NULL || x.billed_submit_date!=''">{{x.billed_submit_date}}</span>
                                           </td>
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td><span
                                               *ngIf="x.denial_code==NULL || x.denial_code==''">-Nil-</span><span
                                               *ngIf="x.denial_code!=NULL || x.denial_code!=''">{{x.denial_code}}</span>
                                           </td>
@@ -1407,41 +1378,38 @@
 
                                                                <td><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL" (mouseover)="tooltip(x)">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td><span
                                               *ngIf="x.status_code==NULL">-Nil-</span><span
                                               *ngIf="x.status_code!=NULL">{{x.statuscode}}</span></td>
 
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td><span
                                               *ngIf="x.substatus_code==NULL">-Nil-</span><span
                                               *ngIf="x.substatus_code!=NULL">{{x.substatuscode}}</span></td>
 
-                                          <td class="cur-pointer" (mouseover)="tooltip(x)"><span
+                                          <td class="cur-pointer"><span
                                               *ngIf="x.total_charges==NULL">-Nil-</span><span
                                               *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span>
                                           </td>
 
-                                          <td class="cur-pointer ar-total" (mouseover)="tooltip(x)"><span
-                                              [tooltip]="TotalAr" content-type="template"
-                                              tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                              tooltip-append-to-body="true"><span
+                                          <td class="cur-pointer ar-total"><span
                                                 *ngIf="x.total_ar==NULL">-Nil-</span><span
-                                                *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span>
+                                                *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span>
                                           </td>
 
-                                          <td (mouseover)="tooltip(x)"><span *ngIf="x.claim_Status==NULL">-Nil-</span>
+                                          <td><span *ngIf="x.claim_Status==NULL">-Nil-</span>
                                             <span *ngIf="x.claim_Status!=NULL"></span>{{x.claim_Status}}</td>
 
-                                          <td (mouseover)="tooltip(x)" class="cur-pointer"><span
+                                          <td class="cur-pointer"><span
                                               *ngIf="x.claims_notes==NULL">-Nil-</span><span
                                               *ngIf="x.claims_notes!=NULL"><i class="fa fa-info-circle"
                                                 aria-hidden="true" title="{{x.claims_notes}}"></i></span></td>
 
-                                          <td (mouseover)="tooltip(x)"><span
+                                          <td><span
                                               *ngIf="!x.executive_work_date">UA</span><span
                                               *ngIf="x.executive_work_date">{{x.executive_work_date | date:
                                               'MM/dd/yyyy'}}</span></td>
 
-                                          <td (mouseover)="tooltip(x)"><span *ngIf="!x.assigned_to ">UA</span><span
+                                          <td><span *ngIf="!x.assigned_to ">UA</span><span
                                               *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span
                                               *ngIf="!x.created_ats ">UA</span><span
                                               *ngIf="x.created_ats">{{x.created_ats | date: 'MM/dd/yyyy'}}</span></td>
@@ -1807,7 +1775,7 @@
                               <tr class="clickable-row cur-pointer"
                                 *ngFor="let x of table_datas | paginate: { id: 'claims',itemsPerPage: 15, currentPage: pages, totalItems:total}; let i = index">
 
-                                <td (mouseover)="tooltip(x)"><input type="checkbox"
+                                <td><input type="checkbox"
                                     [checked]="selected_claim_nos.includes(x.claim_no)" style="margin-top:0px;"
                                     (click)="selected($event,x.claim_no,i)"></td>
 
@@ -1825,50 +1793,40 @@
                                   </ng-template>
                                 </ng-template>
 
-                                <td class="cur-pointer" (click)="get_audit_codes();open(claimpage);claimslection(x);"
-                                  (mouseover)="tooltip(x)"><span tooltip-append-to-body="true" [tooltip]="HtmlContent"
-                                    content-type="template" tooltip-class="tooltip-feedback"
-                                    [options]="tooltipOptions"><span *ngIf="x.claim_no==NULL">-Nil-</span><span
-                                      *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></span></td>
+                                <td class="cur-pointer" (click)="get_audit_codes();open(claimpage);claimslection(x);">
+                                  <span *ngIf="x.claim_no==NULL">-Nil-</span><span
+                                      *ngIf="x.claim_no!=NULL">{{x.claim_no}}</span></td>
 
-                                <td *ngIf="x.dos != '01/01/1970'" class="cur-pointer dos-date" (mouseover)="tooltip(x)">
-                                  <span [tooltip]="HtmlContent" content-type="template" tooltip-class="tooltip-feedback"
-                                    [options]="tooltipOptions" tooltip-append-to-body="true"><span
+                                <td *ngIf="x.dos != '01/01/1970'" class="cur-pointer dos-date">
+                                  <span
                                       *ngIf="x.dos==NULL">-Nil-</span><span *ngIf="x.dos!=NULL">{{x.dos | date:
-                                      'MM/dd/yyyy'}}</span></span></td>
+                                      'MM/dd/yyyy'}}</span></td>
 
-                                <td class="cur-pointer" (mouseover)="tooltip(x)"><span [tooltip]="HtmlContent"
-                                    content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                    tooltip-append-to-body="true"><span *ngIf="x.age==NULL">-Nil-</span><span
+                                <td class="cur-pointer"><span *ngIf="x.age==NULL">-Nil-</span><span
                                       *ngIf="x.age!=NULL && x.age > 0">{{x.age}}</span><span
-                                      *ngIf="x.age <= 0">0</span></span></td>
+                                      *ngIf="x.age <= 0">0</span></td>
 
-                                <td class="cur-pointer" (click)="get_audit_codes();open(claimpage);claimslection(x);"
-                                  (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template"
-                                    tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                    tooltip-append-to-body="true"><span *ngIf="x.acct_no==NULL">-Nil-</span><span
-                                      *ngIf="x.acct_no!=NULL">{{x.acct_no}}</span></span></td>
+                                <td class="cur-pointer" (click)="get_audit_codes();open(claimpage);claimslection(x);">
+                                  <span *ngIf="x.acct_no==NULL">-Nil-</span><span
+                                      *ngIf="x.acct_no!=NULL">{{x.acct_no}}</span></td>
 
-                                <td class="cur-pointer" (click)="get_audit_codes();open(claimpage);claimslection(x);"
-                                  (mouseover)="tooltip(x)"><span [tooltip]="AccNo" content-type="template"
-                                    tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                    tooltip-append-to-body="true"><span *ngIf="x.patient_name==NULL">-Nil-</span><span
-                                      *ngIf="x.patient_name!=NULL">{{x.patient_name}}</span></span></td>
+                                <td class="cur-pointer" (click)="get_audit_codes();open(claimpage);claimslection(x);"><span *ngIf="x.patient_name==NULL">-Nil-</span><span
+                                      *ngIf="x.patient_name!=NULL">{{x.patient_name}}</span></td>
 
                                 <td><span *ngIf="x.rendering_prov==NULL">-Nil-</span><span
-                                    *ngIf="x.rendering_prov!=NULL" (mouseover)="tooltip(x)">{{x.rendering_prov}}</span>
+                                    *ngIf="x.rendering_prov!=NULL">{{x.rendering_prov}}</span>
                                 </td>
 
                                 <td><span *ngIf="x.responsibility==NULL">-Nil-</span><span
-                                    *ngIf="x.responsibility!=NULL" (mouseover)="tooltip(x)">{{x.responsibility}}</span>
+                                    *ngIf="x.responsibility!=NULL">{{x.responsibility}}</span>
                                 </td>
                                 <td><span
                                     *ngIf="x.billed_submit_date==NULL || x.billed_submit_date==''">-Nil-</span><span
                                     *ngIf="x.billed_submit_date!=NULL ||x.billed_submit_date!=''"
-                                    (mouseover)="tooltip(x)">{{x.billed_submit_date}}</span></td>
+                                    >{{x.billed_submit_date}}</span></td>
                                 <td><span *ngIf="x.denial_code==NULL || x.denial_code==''">-Nil-</span><span
                                     *ngIf="x.denial_code!=NULL || x.denial_code!=''"
-                                    (mouseover)="tooltip(x)">{{x.denial_code}}</span></td>
+                                    >{{x.denial_code}}</span></td>
 
                                 <!-- <td (mouseover)="tooltip(x)"><span tooltip-append-to-body="true" [tooltip]="PriInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions"><span *ngIf="x.prim_ins_name==NULL">-Nil-</span><span *ngIf="x.prim_ins_name!=NULL">{{x.prim_ins_name}}</span></span></td>
 
@@ -1877,30 +1835,28 @@
                                                 <td (mouseover)="tooltip(x)"><span [tooltip]="TerInsurance" content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions" tooltip-append-to-body="true"><span *ngIf="x.ter_ins_name==NULL">-Nil-</span><span *ngIf="x.ter_ins_name!=NULL">{{x.ter_ins_name}}</span></span></td> -->
 
                                 <td><span *ngIf="x.status_code==NULL">-Nil-</span><span *ngIf="x.status_code!=NULL"
-                                    (mouseover)="tooltip(x)">{{x.statuscode}}</span></td>
+                                    >{{x.statuscode}}</span></td>
 
                                 <td><span *ngIf="x.substatus_code==NULL">-Nil-</span><span
-                                    *ngIf="x.substatus_code!=NULL" (mouseover)="tooltip(x)">{{x.substatuscode}}</span>
+                                    *ngIf="x.substatus_code!=NULL" >{{x.substatuscode}}</span>
                                 </td>
 
-                                <td class="cur-pointer" (mouseover)="tooltip(x)"><span
+                                <td class="cur-pointer" ><span
                                     *ngIf="x.total_charges==NULL">-Nil-</span><span
                                     *ngIf="x.total_charges!=NULL">{{x.total_charges | number:'1.2-2'}}</span></td>
 
-                                <td class="cur-pointer ar-total" (mouseover)="tooltip(x)"><span [tooltip]="TotalAr"
-                                    content-type="template" tooltip-class="tooltip-feedback" [options]="tooltipOptions"
-                                    tooltip-append-to-body="true"><span *ngIf="x.total_ar==NULL">-Nil-</span><span
-                                      *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></span></td>
+                                <td class="cur-pointer ar-total" ><span *ngIf="x.total_ar==NULL">-Nil-</span><span
+                                      *ngIf="x.total_ar!=NULL">{{x.total_ar | number:'1.2-2'}}</span></td>
 
                                 <td><span *ngIf="x.claim_Status==NULL">-Nil-</span><span
                                     *ngIf="x.claim_Status!=NULL">{{x.claim_Status}}</span></td>
 
-                                <td (mouseover)="tooltip(x)" class="cur-pointer"><span
+                                <td  class="cur-pointer"><span
                                     *ngIf="x.claims_notes==NULL">-Nil-</span><span *ngIf="x.claims_notes!=NULL"><i
                                       class="fa fa-info-circle" aria-hidden="true"
                                       title="{{x.claims_notes}}"></i></span></td>
 
-                                <td (mouseover)="tooltip(x)"><span *ngIf="!x.assigned_to ">UA</span><span
+                                <td ><span *ngIf="!x.assigned_to ">UA</span><span
                                     *ngIf="x.assigned_to">{{x.assigned_to}}</span>|<span
                                     *ngIf="!x.created_ats ">UA</span><span
                                     *ngIf="x.created_ats">{{x.created_ats}}</span></td>
@@ -2085,10 +2041,10 @@
                         <div class="row">
                           <div class="col-md-6">
                             <label>Revoke Claims From :</label>
-                            <select class="form-control" formControlName="from_auditor" [(ngModel)]="selectedUserId"
+                            <select class="form-control" formControlName="from_auditor" [(ngModel)]="select_from_auditor"
                               (change)="onSelectedOptionChange()">
-                              <option value="">--Select User--</option>
-                              <!-- <option *ngFor="let user of getUserList;" [value]="user.id">{{ user.user_name }} </option> -->
+                              <option value="Select User" selected>--Select User--</option>
+                              <option *ngFor="let user of getAuditorList;" [value]="user.id">{{ user.firstname }} </option>
                             </select>
                             <div class="text-muted small">Selected Auditor Claims in Assigned Status will move to
                               another auditors bucket.</div>
@@ -2097,15 +2053,15 @@
                           <div class="row" style="margin-top: 30px;">
                           <div class="col-md-6">
                             <label>Revoke Claims To :</label>
-                            <select class="form-control" formControlName="from_auditor" [(ngModel)]="selectedUserId">
-                              <option value="">--Select User--</option>
-                              <!-- <option *ngFor="let user of getUserList;" [value]="user.id">{{ user.user_name }} </option> -->
+                            <select class="form-control" formControlName="to_auditor" [(ngModel)]="select_to_auditor">
+                              <option value="Select User" selected>--Select User--</option>
+                              <option *ngFor="let user of UpdatedAuditorList;" [value]="user.id">{{ user.firstname }} </option>
                             </select>
                             <div class="text-muted small">Selected Auditor Claims in Assigned Status will move to
                               another auditors bucket.</div>
                           </div>
                         </div>
-                        <button type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit">Submit</button>
                       </form>
                     </div>
                   </div>
