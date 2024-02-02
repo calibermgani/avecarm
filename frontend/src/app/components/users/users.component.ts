@@ -13,7 +13,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 export class UsersComponent implements OnInit {
   userEdit: FormGroup;
   submitted = false;
-  
+
   closeResult:any;
   aims_list = [];
   user_details_list=[];
@@ -35,9 +35,9 @@ export class UsersComponent implements OnInit {
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      }); 
+      });
   }
-  
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -50,6 +50,11 @@ export class UsersComponent implements OnInit {
 
 get_users_list()
 {
+  // this.Jarwis.get_practice_user_list(this.setus.getId()).subscribe(
+  //   data => this.set_user_list(data)
+  //   );
+
+
   this.Jarwis.get_users_list(this.setus.getId()).subscribe(
     data => this.set_user_list(data)
     );
@@ -58,7 +63,7 @@ get_users_list()
 
 get_aimsusers_list()
 {
-  let data={token:'1a32e71a46317b9cc6feb7388238c95d', 
+  let data={token:'1a32e71a46317b9cc6feb7388238c95d',
     department_id:1};
   this.Jarwis.get_aimsusers_list(data).subscribe(
     res => {
@@ -70,18 +75,22 @@ get_aimsusers_list()
 
 set_user_list(data)
 {
-  //console.log(data);
+  console.log('Set User List',data);
   this.user_details_list = data.data;
+  console.log('length',this.user_details_list.length);
+
   this.aims_list = data.data;
   this.user_profile_det = data.profile;
   this.user_address_det = data.address;
   this.user_work_profiles = data.work_profile;
-  // console.log(this.user_details_list);
+  console.log('WorkProfile',this.user_work_profiles);
 }
 
 selected_user=<any>[];
 edit_user_details(user)
 {
+  console.log('Selected User',user);
+
   let practice_details=[];
   //console.log("User",this.user_work_profiles.filter(x => x['user_id'] == user.id));
 this.selected_user['det']=user;
@@ -89,13 +98,16 @@ this.selected_user['det']=user;
 this.selected_user['prof'] =  this.user_profile_det.find(x => x['user_id'] == user.id);
 this.selected_user['addr'] =  this.user_address_det.find(x => x['id'] == this.selected_user['prof']['address_flag_id']);
 this.selected_user['w_p'] = this.user_work_profiles.filter(x => x['user_id'] == user.id);
+console.log('User ID',user.id);
+
 practice_details = this.user_work_profiles.filter(x => x['user_id'] == user.id);
+console.log('practice Details',practice_details);
 
 //console.log(this.selected_user);
   // this.user_update.selected_user(user);
   this.fetchrole();
   // console.log(this.selected_user['prof']['dob']);
- 
+
   // this.selected_user['prof']['dob']
         // console.log(this.selected_user['prof']['dob']);
         this.userEdit.patchValue({
@@ -113,11 +125,11 @@ practice_details = this.user_work_profiles.filter(x => x['user_id'] == user.id);
           // role:user.role_id,
           // assign_limit:this.selected_user['w_p']['claim_assign_limit'],
           // caller_benchmark:this.selected_user['w_p']['caller_benchmark']
-          
+
         });
 
 this.listPractice(practice_details);
-        
+
 
 }
 onBlur()
@@ -126,7 +138,7 @@ onBlur()
 if(this.userEdit.value.username != '' && this.userEdit.value.username != this.selected_user['det']['user_name'] )
 {
 	 this.Jarwis.validateusername(this.userEdit.value).subscribe(
-    
+
       message=> this.handlemessage(message),
       error => this.handleError(error)
     );
@@ -152,7 +164,8 @@ practice.forEach(element => {
   field_name['practice']='practice_' +element.id;
   field_name['assign_lim']='assign_limit_' +element.id;
   field_name['caller_bm']='caller_bm_' +element.id;
-  
+
+  console.log('Field Name',field_name);
   fieldDet.push(field_name);
 });
 this.field_details=fieldDet;
@@ -178,7 +191,7 @@ this.process_fields.removeControl(data.caller_bm);
 
 add_practice()
 {
-  let index=Math.floor(Math.random() * 99) + 1;  
+  let index=Math.floor(Math.random() * 99) + 1;
 this.practice_nos++;
   if(this.practice.length >= this.practice_nos)
   {
@@ -187,14 +200,14 @@ this.practice_nos++;
     this.process_fields.addControl('practice_' +index , new FormControl(null, [Validators.required]));
     this.process_fields.addControl('assign_limit_' +index , new FormControl(null, [Validators.required]));
     this.process_fields.addControl('caller_bm_' +index , new FormControl(null, [Validators.required]));
-  
+
     let fields=[];
     fields['line_id']=index;
     fields['practice']='practice_' +index;
     fields['role']='role_'+index;
     fields['assign_lim']='assign_limit_' +index;
     fields['caller_bm']='caller_bm_' +index;
-  
+
     this.field_details.push(fields);
   }
 
@@ -229,12 +242,12 @@ check_dup_prac()
     this.process_fields.get('caller_bm_'+element.line_id).reset();
   }
 
-    
+
   });
 
 
 
-  
+
 }
 
 public handlemessage(data)
@@ -271,10 +284,10 @@ this.userEdit.value.process_details=prac_settings;
     data =>{ this.get_users_list();
       this.toastr.successToastr('User details Updated successfully.')
     },
-    
+
   );
   }catch (error) {
-   
+
   }
 }
 
@@ -283,7 +296,7 @@ fetchrole()
 {
     this.Jarwis.getrole().subscribe(
       data => this.handleResponse(data),
-    ); 
+    );
 }
 
 getPractices()
@@ -297,7 +310,7 @@ getPractices()
 
 listPractices(data)
 {
-  //console.log("Practices",data);
+  console.log("Practices New ",data);
   this.practice = data.data;
 }
 
@@ -344,7 +357,7 @@ handleResponse(data){
         Validators.required,
         Validators.pattern(/^[0-9-]*$/),
         Validators.minLength(10)
-       
+
       ]),
       address1: new FormControl('', [
         Validators.required
@@ -354,7 +367,7 @@ handleResponse(data){
       ]),
       city: new FormControl('', [
         Validators.required
-      ]),      
+      ]),
       state: new FormControl('', [
         Validators.required
       ]),
@@ -362,7 +375,7 @@ handleResponse(data){
         Validators.required,
          Validators.pattern(/^[0-9-]*$/)
       ]),
-      process_details:this.process_fields,  
+      process_details:this.process_fields,
 });
   }
 

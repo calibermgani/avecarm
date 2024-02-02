@@ -2736,7 +2736,7 @@ class ImportController extends Controller
 
         $claim_count = Import_field::whereIN('claim_no', $audit)->orderBy('id', 'asc')->count();
       } elseif ($action == null  && $sort_data == null && empty($sorting_name)) {
-        //dd('dasdas2');
+        // dd('dasdas2');
         $claim_data = Import_field::leftjoin(DB::raw("(SELECT
                 claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
               AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
@@ -2756,7 +2756,7 @@ class ImportController extends Controller
 
         $claim_count = Import_field::whereIN('claim_no', $audit)->orderBy('id', 'asc')->count();
       } elseif ($action == 'null' && $sorting_name == 'null' && $sort_data == 'null') {
-        //dd('dasdas3');
+        // dd('dasdas3');
         $claim_data = Import_field::leftjoin(DB::raw("(SELECT
                 claim_notes.claim_id,claim_notes.content as claims_notes FROM claim_notes WHERE  claim_notes.deleted_at IS NULL
               AND claim_notes.id IN (SELECT MAX(id) FROM claim_notes GROUP BY claim_notes.claim_id) GROUP BY claim_notes.claim_id ) as claim_notes"), function ($join) {
@@ -2767,7 +2767,7 @@ class ImportController extends Controller
                 ) as claim_histories"), function ($join) {
           $join->on('claim_histories.claim_id', '=', 'import_fields.claim_no');
         })->whereIN('claim_no', $audit)->orderBy('created_at', 'desc')->offset($skip)->limit($end)->get();
-
+        // dd($claim_data);
         $current_total = $claim_data->count();
 
         $audit_claim_data = Import_field::whereIN('claim_no', $audit)->orderBy('created_at', 'desc')->get();
